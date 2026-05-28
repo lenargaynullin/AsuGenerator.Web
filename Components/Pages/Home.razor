@@ -1,0 +1,84 @@
+﻿@page "/"
+@using AsuGenerator.Web.Services
+@using System.IO
+@inject ExcelParserService Parser
+@rendermode InteractiveServer
+
+<PageTitle>Генератор АСУ ТП</PageTitle>
+
+<div class="pa-6">
+    <MudText Typo="Typo.h4" Class="mb-4">Загрузка опросного листа ВентАвтоматика</MudText>
+    <MudText Typo="Typo.body1" Class="mb-6">Загрузите заполненный Excel-файл для автоматической генерации спецификации и схем.</MudText>
+
+    <MudPaper Variant="Variant.Outlined" Class="pa-6 d-flex flex-column align-center justify-center" Style="border-style: dashed; border-width: 2px; min-height: 200px;">
+        <MudIcon Icon="@Icons.Material.Filled.CloudUpload" Style="font-size: 3rem;" Color="Color.Primary" Class="mb-2" />
+
+        <InputFile id="fileInput" OnChange="HandleFileSelected" hidden accept=".xlsx" />
+
+        <MudButton HtmlTag="label" Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.FolderOpen" for="fileInput">
+            Выбрать файл Excel
+        </MudButton>
+    </MudPaper>
+
+    @if (loadedConfig != null)
+    {
+        <MudCard Class="mt-6" Elevation="3">
+            <MudCardHeader>
+                <CardHeaderContent>
+                    <MudText Typo="Typo.h6">Результаты успешного парсинга:</MudText>
+                </CardHeaderContent>
+            </MudCardHeader>
+            <MudCardContent>
+                <MudSimpleTable Style="overflow-x: auto;">
+                    <tbody>
+                        <tr>
+                            <td><b>Заказчик / Компания:</b></td>
+                            <td>@loadedConfig.ClientName (@loadedConfig.CompanyName)</td>
+                        </tr>
+                        <tr>
+                            <td><b>Номер КП:</b></td>
+                            <td>@loadedConfig.KpNumber</td>
+                        </tr>
+                        <tr>
+                            <td><b>Мощность вентилятора:</b></td>
+                            <td>@loadedConfig.SupplyFanPowerKw кВт — Регулирование: @loadedConfig.SupplyFanRegulation</td>
+                        </tr>
+                        <tr>
+                            <td><b>Тип нагревателя:</b></td>
+                            <td>@loadedConfig.Heater1Type (Насос: @loadedConfig.Heater1PumpPowerKw кВт)</td>
+                        </tr>
+                    </tbody>
+                </MudSimpleTable>
+            </MudCardContent>
+            <MudCardActions>
+                <MudButton Variant="Variant.Filled" Color="Color.Success" EndIcon="@Icons.Material.Filled.PlayArrow">
+                    Запустить генерацию проекта
+                </MudButton>
+            </MudCardActions>
+        </MudCard>
+    }
+</div>
+
+@code {
+    private VentAvtomatikaConfig? loadedConfig;
+
+    private async Task HandleFileSelected(InputFileChangeEventArgs e)
+    {
+        try
+        {
+            // Разрешаем файлы до 10 МБ
+            using var stream = e.File.OpenReadStream(maxAllowedSize: 10 * 1024 * 1024);
+            using var memoryStream = new MemoryStream();
+            await stream.CopyToAsync(memoryStream);
+            memoryStream.Position = 0;
+
+            // Вызываем наш сервис парсинга
+            loadedConfig = Parser.ParseVentaFile(memoryStream);
+        }
+        catch (Exception ex)
+        {
+            // Если файл пустой или не того формата, чтобы приложение не упало
+            System.Diagnostics.Debug.WriteLine($"Ошибка парсинга: {ex.Message}");
+        }
+    }
+}
