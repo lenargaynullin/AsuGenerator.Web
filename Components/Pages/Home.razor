@@ -2,6 +2,10 @@
 @using AsuGenerator.Web.Services
 @using System.IO
 @inject ExcelParserService Parser
+@inject CalculationEngine Engine
+@inject DocumentGenerator DocGen
+@inject CadGeneratorService CadGen
+@inject IJSRuntime JS
 @rendermode InteractiveServer
 
 <PageTitle>Генератор АСУ ТП</PageTitle>
@@ -10,7 +14,8 @@
     <MudText Typo="Typo.h4" Class="mb-4">Загрузка опросного листа ВентАвтоматика</MudText>
     <MudText Typo="Typo.body1" Class="mb-6">Загрузите заполненный Excel-файл для автоматической генерации спецификации и схем.</MudText>
 
-    <MudPaper Variant="Variant.Outlined" Class="pa-6 d-flex flex-column align-center justify-center" Style="border-style: dashed; border-width: 2px; min-height: 200px;">
+    <!-- Корректная b2b-зона загрузки без атрибута Variant (исправлено) -->
+    <MudPaper Outlined="true" Class="pa-6 d-flex flex-column align-center justify-center" Style="border-style: dashed; border-width: 2px; min-height: 200px;">
         <MudIcon Icon="@Icons.Material.Filled.CloudUpload" Style="font-size: 3rem;" Color="Color.Primary" Class="mb-2" />
 
         <InputFile id="fileInput" OnChange="HandleFileSelected" hidden accept=".xlsx" />
@@ -25,33 +30,59 @@
         <MudCard Class="mt-6" Elevation="3">
             <MudCardHeader>
                 <CardHeaderContent>
-                    <MudText Typo="Typo.h6">Результаты успешного парсинга:</MudText>
+                    <MudText Typo="Typo.h6">Результаты успешного парсинга ТЗ:</MudText>
                 </CardHeaderContent>
             </MudCardHeader>
             <MudCardContent>
-                <MudSimpleTable Style="overflow-x: auto;">
+                <MudSimpleTable Style="overflow-x: auto;" Class="mb-6">
                     <tbody>
                         <tr>
                             <td><b>Заказчик / Компания:</b></td>
-                            <td>@loadedConfig.ClientName (@loadedConfig.CompanyName)</td>
+                            <td>@string.Format("{0} ({1})", loadedConfig.ClientName, loadedConfig.CompanyName)</td>
                         </tr>
                         <tr>
                             <td><b>Номер КП:</b></td>
                             <td>@loadedConfig.KpNumber</td>
                         </tr>
                         <tr>
-                            <td><b>Мощность вентилятора:</b></td>
-                            <td>@loadedConfig.SupplyFanPowerKw кВт — Регулирование: @loadedConfig.SupplyFanRegulation</td>
+                            <td><b>Тип нагревателя:</b></td>
+                            <td>@loadedConfig.Heater1Type (Мощность ТЭНов: @loadedConfig.HeaterEl1Power кВт)</td>
                         </tr>
                         <tr>
-                            <td><b>Тип нагревателя:</b></td>
-                            <td>@loadedConfig.Heater1Type (Насос: @loadedConfig.Heater1PumpPowerKw кВт)</td>
+                            <td><b>Напряжение калорифера:</b></td>
+                            <td>@loadedConfig.HeaterEl1Voltage</td>
                         </tr>
                     </tbody>
                 </MudSimpleTable>
+
+                @if (matchedComponents != null && matchedComponents.Any())
+                {
+                    <MudText Typo="Typo.subtitle1" Class="mb-2" Color="Color.Primary"><b>Автоматически подобранное b2b-оборудование:</b></MudText>
+                    <MudSimpleTable Dense="true" Hover="true">
+                        <thead>
+                            <tr>
+                                <th>Поз.</th>
+                                <th>Бренд</th>
+                                <th>Артикул</th>
+                                <th>Наименование компонента</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var comp in matchedComponents)
+                            {
+                                <tr>
+                                    <td><MudChip T="string" Color="Color.Info" Size="Size.Small">@comp.Designation</MudChip></td>
+                                    <td>@comp.Vendor</td>
+                                    <td><b>@comp.Article</b></td>
+                                    <td>@comp.Description</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </MudSimpleTable>
+                }
             </MudCardContent>
             <MudCardActions>
-                <MudButton Variant="Variant.Filled" Color="Color.Success" EndIcon="@Icons.Material.Filled.PlayArrow">
+                <MudButton Variant="Variant.Filled" Color="Color.Success" EndIcon="@Icons.Material.Filled.PlayArrow" OnClick="DownloadFile">
                     Запустить генерацию проекта
                 </MudButton>
             </MudCardActions>
@@ -61,24 +92,65 @@
 
 @code {
     private VentAvtomatikaConfig? loadedConfig;
+    private List<SelectedComponent> matchedComponents = new();
 
     private async Task HandleFileSelected(InputFileChangeEventArgs e)
     {
         try
         {
-            // Разрешаем файлы до 10 МБ
             using var stream = e.File.OpenReadStream(maxAllowedSize: 10 * 1024 * 1024);
             using var memoryStream = new MemoryStream();
             await stream.CopyToAsync(memoryStream);
             memoryStream.Position = 0;
 
-            // Вызываем наш сервис парсинга
+            // 1. Шаг: Парсим опросный лист по именованным ячейкам
             loadedConfig = Parser.ParseVentaFile(memoryStream);
+
+            // 2. Шаг: Передаем параметры в комплексное расчетное ядро
+            if (loadedConfig != null)
+            {
+                matchedComponents = Engine.RunB2bLogic(loadedConfig);
+            }
         }
         catch (Exception ex)
         {
-            // Если файл пустой или не того формата, чтобы приложение не упало
-            System.Diagnostics.Debug.WriteLine($"Ошибка парсинга: {ex.Message}");
+            System.Diagnostics.Debug.WriteLine(string.Format("Ошибка при обработке файла: {0}", ex.Message));
+        }
+    }
+
+    private async Task DownloadFile()
+    {
+        if (loadedConfig == null || matchedComponents == null || !matchedComponents.Any()) return;
+
+        try
+        {
+            // 1. Генерируем документы в оперативной памяти сервера
+            byte[] excelBytes = DocGen.GenerateExcelSpecification(matchedComponents, loadedConfig);
+            byte[] dxfBytes = CadGen.GenerateA3Schematic(loadedConfig);
+
+            // 2. Собираем файлы в промышленный ZIP-пакет
+            using var zipStream = new MemoryStream();
+            using (var archive = new System.IO.Compression.ZipArchive(zipStream, System.IO.Compression.ZipArchiveMode.Create, true))
+            {
+                var excelEntry = archive.CreateEntry($"Спецификация_КП{loadedConfig.KpNumber}.xlsx");
+                using (var entryStream = excelEntry.Open()) { entryStream.Write(excelBytes, 0, excelBytes.Length); }
+
+                var dxfEntry = archive.CreateEntry($"Схема_Э3_КП{loadedConfig.KpNumber}.dxf");
+                using (var entryStream = dxfEntry.Open()) { entryStream.Write(dxfBytes, 0, dxfBytes.Length); }
+            }
+            zipStream.Position = 0;
+            byte[] zipBytes = zipStream.ToArray();
+
+            string archiveName = $"Проект_{loadedConfig.CompanyName}_КП{loadedConfig.KpNumber}.zip";
+
+            // 3. Скачиваем ZIP через JavaScript поток в браузере
+            using var fileStream = new MemoryStream(zipBytes);
+            using var streamRef = new DotNetStreamReference(stream: fileStream);
+            await JS.InvokeVoidAsync("downloadFileFromStream", archiveName, streamRef);
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine(string.Format("Ошибка генерации архива: {0}", ex.Message));
         }
     }
 }

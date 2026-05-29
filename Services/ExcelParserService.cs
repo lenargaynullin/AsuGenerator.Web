@@ -1,4 +1,6 @@
 ﻿using OfficeOpenXml;
+using System;
+using System.IO;
 
 namespace AsuGenerator.Web.Services;
 
@@ -6,33 +8,67 @@ public class ExcelParserService
 {
     public VentAvtomatikaConfig ParseVentaFile(Stream fileStream)
     {
-        ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+        // Настройка Community лицензии для EPPlus 8+
+        ExcelPackage.License.SetNonCommercialPersonal("AsuGeneratorSaaS");
+
         var config = new VentAvtomatikaConfig();
 
         using (var package = new ExcelPackage(fileStream))
         {
-            var worksheet = package.Workbook.Worksheets[0]; // Берем первый лист
+            var workbook = package.Workbook;
 
-            // Чтение шапки (Заказчик)
-            config.ClientName = worksheet.Cells["B3"].Value?.ToString() ?? "Не указан";
-            config.CompanyName = worksheet.Cells["B4"].Value?.ToString() ?? "Не указана";
-            config.KpNumber = worksheet.Cells["G5"].Value?.ToString() ?? "";
+            // Хелпер для быстрого и безопасного чтения строк из именованных диапазонов
+            string ReadValue(string name) => workbook.Names.ContainsKey(name) ? workbook.Names[name].Value?.ToString() ?? "" : "";
 
-            // Нагреватель водяной (проверка крестика в ячейке A16)
-            if (worksheet.Cells["A16"].Value?.ToString()?.ToUpper() == "X")
+            // Хелпер для проверки флагов (Да / X / True) — теперь официально используется!
+            bool ReadBool(string name)
             {
-                config.Heater1Type = "Водяной";
-                double.TryParse(worksheet.Cells["C17"].Value?.ToString(), out var pumpPower);
-                config.Heater1PumpPowerKw = pumpPower;
+                var val = ReadValue(name).ToUpper().Trim();
+                return val == "X" || val == "ДА" || val == "TRUE" || val == "1";
             }
 
-            // Вентилятор притока (Мощность в C52)
-            double.TryParse(worksheet.Cells["C52"].Value?.ToString(), out var fanPower);
-            config.SupplyFanPowerKw = fanPower;
+            // Хелпер для чтения числовых b2b-параметров (кВт, А)
+            double ReadDouble(string name)
+            {
+                double.TryParse(ReadValue(name), out var res);
+                return res;
+            }
 
-            // Тип пуска вентилятора
-            if (worksheet.Cells["E54"].Value?.ToString()?.ToUpper() == "X")
-                config.SupplyFanRegulation = "Частотное";
+            // --- 1. ПАРСИНГ ОБЩИХ ДАННЫХ ---
+            config.ProjectNumber = ReadValue("PROJECT_NUMBER");
+            config.CabinetName = ReadValue("CABINET_NAME");
+            config.DocDesignation = ReadValue("DOC_DESIGNATION");
+            config.CompanyName = ReadValue("COMPANY_NAME");
+            config.ClientName = ReadValue("CLIENT_NAME");
+            config.KpNumber = ReadValue("KP_NUMBER");
+
+            // --- 2. ПАРСИНГ ВОЗДУШНОГО КЛАПАНА ПРИТОКА ---
+            config.ValveInVoltage = ReadValue("VALVE_IN_VOLTAGE");
+            config.ValveInSpring = ReadBool("VALVE_IN_SPRING"); // Использование метода ReadBool!
+
+            // --- 3. ПАРСИНГ НАГРЕВАТЕЛЕЙ ---
+            config.HeaterEl1Power = ReadDouble("HEATER_EL1_POWER");
+            config.HeaterEl1Voltage = ReadValue("HEATER_EL1_VOLTAGE");
+
+            // Если в ТЗ указана мощность ТЭНов, софт автоматически активирует электронагрев
+            if (config.HeaterEl1Power > 0)
+            {
+                config.Heater1Type = "Электрический";
+            }
+            else
+            {
+                config.Heater1Type = "Водяной";
+                config.HeaterW1PumpPower = ReadDouble("HEATER_W1_PUMP_POWER");
+            }
+
+            // --- 4. ПАРСИНГ ПРИТОЧНОГО ВЕНТИЛЯТОРА ---
+            config.SupplyFanPowerKw = ReadDouble("FAN_IN_POWER");
+            config.SupplyFanRegulation = ReadValue("FAN_IN_REGULATION"); // Частотное / Прямой пуск
+            config.FanInReserve = ReadBool("FAN_IN_RESERVE"); // Второе использование метода ReadBool!
+
+            // --- 5. ПАРСИНГ ДОПОЛНИТЕЛЬНЫХ ОПЦИЙ ---
+            config.BreakerBrand = ReadValue("BREAKER_BRAND"); // KEAZ / ABB
+            config.EnclosureType = ReadValue("ENCLOSURE_TYPE");
         }
 
         return config;
