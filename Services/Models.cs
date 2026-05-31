@@ -1,6 +1,5 @@
 ﻿namespace AsuGenerator.Web.Services;
 
-// 1. Комплексная модель параметров опросного листа
 public class VentAvtomatikaConfig
 {
     // ОБЩИЕ ДАННЫЕ И ЗАКАЗЧИК
@@ -31,7 +30,7 @@ public class VentAvtomatikaConfig
     public double ValveOutPower { get; set; }
     public double ValveOutCurrent { get; set; }
 
-    // НАГРЕВАТЕЛИ ВОДЯНЫЕ №1 И №2
+    // НАГРЕВАТЕЛИ ВОДЯНЫЕ
     public double HeaterW1PumpPower { get; set; }
     public double HeaterW1PumpCurrent { get; set; }
     public string HeaterW1Voltage { get; set; } = "230 В/1ф";
@@ -44,8 +43,8 @@ public class VentAvtomatikaConfig
     public bool HeaterW2ValveFb { get; set; }
     public string HeaterW2ValveCtrl { get; set; } = "Откр/Закр";
 
-    // НАГРЕВАТЕЛИ ЭЛЕКТРИЧЕСКИЕ №1 И №2
-    public string Heater1Type { get; set; } = "Нет"; // Водяной / Электрический
+    // НАГРЕВАТЕЛИ ЭЛЕКТРИЧЕСКИЕ
+    public string Heater1Type { get; set; } = "Нет";
     public double HeaterEl1Power { get; set; }
     public string HeaterEl1Voltage { get; set; } = "400 В/3ф";
     public string HeaterEl1Control { get; set; } = "Плавное (ШИМ регулятор)";
@@ -139,12 +138,11 @@ public class VentAvtomatikaConfig
     public string NetworkProtocol { get; set; } = "RS-485 (Modbus RTU)";
 }
 
-// 2. Модель подобранного b2b-оборудования
 public class SelectedComponent
 {
-    public string Designation { get; set; } = string.Empty; // QF1, KM1, DD1
-    public string Vendor { get; set; } = string.Empty;      // КЭАЗ, ОВЕН
-    public string Description { get; set; } = string.Empty; // Наименование
-    public string Article { get; set; } = string.Empty;     // Артикул
-    public double Current { get; set; }                     // Ток
+    public string Designation { get; set; } = string.Empty;
+    public string Vendor { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
+    public string Article { get; set; } = string.Empty;
+    public double Current { get; set; }
 }

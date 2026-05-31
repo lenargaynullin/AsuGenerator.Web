@@ -1,94 +1,159 @@
 ﻿using netDxf;
 using netDxf.Entities;
-using netDxf.Header;
 using netDxf.Tables;
 using System.IO;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace AsuGenerator.Web.Services;
 
 public class CadGeneratorService
 {
-    public byte[] GenerateA3Schematic(VentAvtomatikaConfig config)
+    private readonly DxfBlockManager _blockManager;
+
+    public CadGeneratorService(DxfBlockManager blockManager)
     {
-        // 1. Создаем новый DXF документ
-        DxfDocument dxf = new DxfDocument(DxfVersion.AutoCad2007);
+        _blockManager = blockManager;
+    }
 
-        // 2. Создаем b2b-слои с корректными ГОСТ-цветами
-        // В netDxf белый цвет по ГОСТу — это индекс 7 (White/Black при печати)
-        Layer layerBorder = new Layer("0_Рамка") { Color = new AciColor(7) };
-        Layer layerFormat = new Layer("0_Текст_Штамп") { Color = AciColor.Cyan };
-        Layer layerWires = new Layer("1_Провода_Сила") { Color = AciColor.Red };
+    // Главный метод генерации чертежей проекта
+    public Dictionary<string, byte[]> GenerateProjectSchematics(List<SelectedComponent> components, VentAvtomatikaConfig config)
+    {
+        var schematics = new Dictionary<string, byte[]>();
 
-        dxf.Layers.Add(layerBorder);
-        dxf.Layers.Add(layerFormat);
-        dxf.Layers.Add(layerWires);
+        // --- ЛИСТ 1: СИЛОВАЯ ЧАСТЬ (A3_1.dxf) ---
+        DxfDocument sheet1 = _blockManager.GetTemplate("A3_1");
+        FillStamp(sheet1, config, isFirstSheet: true);
 
-        double width = 420;
-        double height = 297;
+        double currentX = 60;
+        double currentY = 210;
 
-        // 3. ЧЕРТИМ ВНЕШНЮЮ ГРАНИЦУ ЛИСТА
-        AddRectangle(dxf, 0, 0, width, height, layerFormat);
-
-        // 4. ЧЕРТИМ ВНУТРЕННЮЮ ГОСТ-РАМКУ (отступы 20, 5, 5, 5)
-        double xMin = 20;
-        double xMax = width - 5;
-        double yMin = 5;
-        double yMax = height - 5;
-
-        AddRectangle(dxf, xMin, yMin, xMax - xMin, yMax - yMin, layerBorder);
-
-        // 5. ЧЕРТИМ ШТАМП ГОСТ (185 х 55 мм)
-        double stampWidth = 185;
-        double stampHeight = 55;
-        double sX = xMax - stampWidth;
-        double sY = yMin;
-
-        AddRectangle(dxf, sX, sY, stampWidth, stampHeight, layerBorder);
-
-        // Чертим разделительную линию внутри штампа
-        Line divisionLine = new Line(new Vector2(sX, sY + 15), new Vector2(xMax, sY + 15)) { Layer = layerBorder };
-        dxf.Entities.Add(divisionLine);
-
-        // 6. НАПОЛНЯЕМ ШТАМП ТЕКСТОМ
-        Text textCompany = new Text(config.CompanyName.ToUpper(), new Vector2(sX + 5, sY + 5), 5)
+        var qf2 = components.Find(c => c.Designation == "QF2");
+        if (qf2 != null)
         {
-            Layer = layerFormat,
-            Color = AciColor.Yellow
-        };
-        dxf.Entities.Add(textCompany);
+            Layer layerWires = sheet1.Layers.Contains("1_Провода_Сила") ? sheet1.Layers["1_Провода_Сила"] : new Layer("1_Провода_Сила");
+            Layer layerFormat = sheet1.Layers.Contains("0_Текст_Штамп") ? sheet1.Layers["0_Текст_Штамп"] : new Layer("0_Текст_Штамп");
 
-        string docTitle = $"ЩУВ. КП № {config.KpNumber}";
-        Text textTitle = new Text(docTitle, new Vector2(sX + 5, sY + 20), 6)
+            DrawVerticalWires(sheet1, currentX, currentY + 40, 40, layerWires);
+            InsertComponentBlock(sheet1, "QF_3P", new Vector2(currentX, currentY), qf2.Designation, qf2.Article, layerWires, layerFormat);
+            DrawVerticalWires(sheet1, currentX, currentY - 15, 40, layerWires);
+        }
+        schematics.Add($"Схема_Лист1_Сила_КП{config.KpNumber}.dxf", SaveToBytes(sheet1));
+
+        // --- ЛИСТ 2: АВТОМАТИКА И ПЛК (A3_2.dxf) ---
+        DxfDocument sheet2 = _blockManager.GetTemplate("A3_2");
+        FillStamp(sheet2, config, isFirstSheet: false);
+        schematics.Add($"Схема_Лист2_Автоматика_КП{config.KpNumber}.dxf", SaveToBytes(sheet2));
+
+        return schematics;
+    }
+
+    // Умный b2b-метод автоматического заполнения штампов по ГОСТу
+    private void FillStamp(DxfDocument dxf, VentAvtomatikaConfig config, bool isFirstSheet)
+    {
+        Layer layerFormat = dxf.Layers.Contains("0_Текст_Штамп")
+            ? dxf.Layers["0_Текст_Штамп"]
+            : new Layer("0_Текст_Штамп");
+
+        double stampEndX = 415;
+        double stampStartY = 5;
+
+        if (isFirstSheet)
         {
-            Layer = layerFormat,
-            Style = TextStyle.Default // Исправлено Font_Style -> Style
-        };
-        dxf.Entities.Add(textTitle);
-
-        Text textDeveloper = new Text("Разработал: AsuGenerator SaaS", new Vector2(sX + 5, sY + 45), 3.5)
+            double stampStartX = stampEndX - 185;
+            dxf.Entities.Add(new netDxf.Entities.Text(config.CompanyName.ToUpper(),
+                new Vector2(stampStartX + 5, stampStartY + 5), 5)
+            { Layer = layerFormat });
+            dxf.Entities.Add(new netDxf.Entities.Text($"ЩУВ. КП № {config.KpNumber}",
+                new Vector2(stampStartX + 5, stampStartY + 20), 5)
+            { Layer = layerFormat });
+            dxf.Entities.Add(new netDxf.Entities.Text("Разработал: AsuGenerator SaaS",
+                new Vector2(stampStartX + 5, stampStartY + 45), 3.5)
+            { Layer = layerFormat });
+            dxf.Entities.Add(new netDxf.Entities.Text("1",
+                new Vector2(stampEndX - 25, stampStartY + 15), 3.5)
+            { Layer = layerFormat });
+        }
+        else
         {
-            Layer = layerFormat
-        };
-        dxf.Entities.Add(textDeveloper);
+            double smallStampStartX = stampEndX - 110;
+            dxf.Entities.Add(new netDxf.Entities.Text($"ЩУВ. КП № {config.KpNumber}",
+                new Vector2(smallStampStartX + 5, stampStartY + 5), 4)
+            { Layer = layerFormat });
+            dxf.Entities.Add(new netDxf.Entities.Text("2",
+                new Vector2(stampEndX - 15, stampStartY + 5), 3.5)
+            { Layer = layerFormat });
+        }
+    }
 
-        // 7. СОХРАНЯЕМ В МАССИВ БАЙТОВ
+    // Универсальный метод вставки сложного b2b УГО-блока из файла .dxf
+    private void InsertComponentBlock(DxfDocument targetDxf, string blockName, Vector2 position,
+    string designation, string article, Layer layerWires, Layer layerFormat)
+    {
+        DxfDocument sourceBlock = _blockManager.GetBlock(blockName);
+
+        foreach (var line in sourceBlock.Entities.Lines)
+        {
+            Vector3 start = new Vector3(
+                line.StartPoint.X + position.X,
+                line.StartPoint.Y + position.Y,
+                0);
+            Vector3 end = new Vector3(
+                line.EndPoint.X + position.X,
+                line.EndPoint.Y + position.Y,
+                0);
+            targetDxf.Entities.Add(new netDxf.Entities.Line(start, end) { Layer = layerWires });
+        }
+
+        foreach (var circle in sourceBlock.Entities.Circles)
+        {
+            Vector3 center = new Vector3(
+                circle.Center.X + position.X,
+                circle.Center.Y + position.Y,
+                0);
+            targetDxf.Entities.Add(new netDxf.Entities.Circle(center, circle.Radius) { Layer = layerWires });
+        }
+
+        targetDxf.Entities.Add(new netDxf.Entities.Text(designation,
+            new Vector2(position.X - 12, position.Y - 5), 3.5)
+        { Layer = layerFormat });
+        targetDxf.Entities.Add(new netDxf.Entities.Text(article,
+            new Vector2(position.X - 12, position.Y - 22), 2.5)
+        { Layer = layerFormat });
+    }
+
+    // Вспомогательный метод прорисовки трех вертикальных силовых проводов 380В
+    private void DrawHorizontalWires(DxfDocument dxf, double xStart, double y, double length, Layer layer)
+    {
+        double phaseStep = 10;
+        for (int i = 0; i < 3; i++)
+        {
+            double cy = y - (i * phaseStep);
+            dxf.Entities.Add(new netDxf.Entities.Line(
+                new Vector3(xStart, cy, 0),
+                new Vector3(xStart + length, cy, 0))
+            { Layer = layer });
+        }
+    }
+    private void DrawVerticalWires(DxfDocument dxf, double xStart, double yStart, double length, Layer layer)
+    {
+        double phaseStep = 10;
+        for (int i = 0; i < 3; i++)
+        {
+            double cx = xStart + (i * phaseStep);
+            dxf.Entities.Add(new netDxf.Entities.Line(
+                new Vector3(cx, yStart, 0),
+                new Vector3(cx, yStart - length, 0))
+            { Layer = layer });
+        }
+    }
+
+    private byte[] SaveToBytes(DxfDocument dxf)
+    {
         using (MemoryStream ms = new MemoryStream())
         {
             dxf.Save(ms);
             return ms.ToArray();
         }
-    }
-
-    private void AddRectangle(DxfDocument dxf, double x, double y, double w, double height, Layer layer)
-    {
-        Vector2 p1 = new Vector2(x, y);
-        Vector2 p2 = new Vector2(x + w, y);
-        Vector2 p3 = new Vector2(x + w, y + height);
-        Vector2 p4 = new Vector2(x, y + height);
-
-        dxf.Entities.Add(new Line(p1, p2) { Layer = layer });
-        dxf.Entities.Add(new Line(p2, p3) { Layer = layer });
-        dxf.Entities.Add(new Line(p3, p4) { Layer = layer });
-        dxf.Entities.Add(new Line(p4, p1) { Layer = layer });
     }
 }

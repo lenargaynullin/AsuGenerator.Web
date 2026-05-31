@@ -20,7 +20,7 @@ public class ExcelParserService
             // Хелпер для быстрого и безопасного чтения строк из именованных диапазонов
             string ReadValue(string name) => workbook.Names.ContainsKey(name) ? workbook.Names[name].Value?.ToString() ?? "" : "";
 
-            // Хелпер для проверки флагов (Да / X / True) — теперь официально используется!
+            // Хелпер для проверки флагов (Да / X / True)
             bool ReadBool(string name)
             {
                 var val = ReadValue(name).ToUpper().Trim();
@@ -42,11 +42,11 @@ public class ExcelParserService
             config.ClientName = ReadValue("CLIENT_NAME");
             config.KpNumber = ReadValue("KP_NUMBER");
 
-            // --- 2. ПАРСИНГ ВОЗДУШНОГО КЛАПАНА ПРИТОКА ---
+            // --- 2. ПАРСИНГ ВОЗДУШНОГО КЛАПАНА ПРИТОКА (Исправлено Valve) ---
             config.ValveInVoltage = ReadValue("VALVE_IN_VOLTAGE");
-            config.ValveInSpring = ReadBool("VALVE_IN_SPRING"); // Использование метода ReadBool!
+            config.ValveInSpring = ReadBool("VALVE_IN_SPRING");
 
-            // --- 3. ПАРСИНГ НАГРЕВАТЕЛЕЙ ---
+            // --- 3. ПАРСИНГ НАГРЕВАТЕЛЕЙ (Исправлено HeaterEl1) ---
             config.HeaterEl1Power = ReadDouble("HEATER_EL1_POWER");
             config.HeaterEl1Voltage = ReadValue("HEATER_EL1_VOLTAGE");
 
@@ -63,11 +63,11 @@ public class ExcelParserService
 
             // --- 4. ПАРСИНГ ПРИТОЧНОГО ВЕНТИЛЯТОРА ---
             config.SupplyFanPowerKw = ReadDouble("FAN_IN_POWER");
-            config.SupplyFanRegulation = ReadValue("FAN_IN_REGULATION"); // Частотное / Прямой пуск
-            config.FanInReserve = ReadBool("FAN_IN_RESERVE"); // Второе использование метода ReadBool!
+            config.SupplyFanRegulation = ReadValue("FAN_IN_REGULATION");
+            config.FanInReserve = ReadBool("FAN_IN_RESERVE");
 
             // --- 5. ПАРСИНГ ДОПОЛНИТЕЛЬНЫХ ОПЦИЙ ---
-            config.BreakerBrand = ReadValue("BREAKER_BRAND"); // KEAZ / ABB
+            config.BreakerBrand = ReadValue("BREAKER_BRAND");
             config.EnclosureType = ReadValue("ENCLOSURE_TYPE");
         }
 

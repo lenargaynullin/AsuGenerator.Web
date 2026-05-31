@@ -124,33 +124,40 @@
 
         try
         {
-            // 1. Генерируем документы в оперативной памяти сервера
+            // 1. Генерируем спецификацию оборудования в Excel
             byte[] excelBytes = DocGen.GenerateExcelSpecification(matchedComponents, loadedConfig);
-            byte[] dxfBytes = CadGen.GenerateA3Schematic(loadedConfig);
 
-            // 2. Собираем файлы в промышленный ZIP-пакет
+            // 2. ИСПРАВЛЕНО: Вызываем новый многолистовой CAD-метод, передавая оба аргумента
+            var dxfSheets = CadGen.GenerateProjectSchematics(matchedComponents, loadedConfig);
+
+            // 3. Собираем все сгенерированные документы в промышленный ZIP-пакет
             using var zipStream = new MemoryStream();
             using (var archive = new System.IO.Compression.ZipArchive(zipStream, System.IO.Compression.ZipArchiveMode.Create, true))
             {
+                // Упаковываем Excel-спецификацию
                 var excelEntry = archive.CreateEntry($"Спецификация_КП{loadedConfig.KpNumber}.xlsx");
                 using (var entryStream = excelEntry.Open()) { entryStream.Write(excelBytes, 0, excelBytes.Length); }
 
-                var dxfEntry = archive.CreateEntry($"Схема_Э3_КП{loadedConfig.KpNumber}.dxf");
-                using (var entryStream = dxfEntry.Open()) { entryStream.Write(dxfBytes, 0, dxfBytes.Length); }
+                // В цикле упаковываем каждый сгенерированный DXF-лист схемы
+                foreach (var sheet in dxfSheets)
+                {
+                    var dxfEntry = archive.CreateEntry(sheet.Key);
+                    using (var entryStream = dxfEntry.Open()) { entryStream.Write(sheet.Value, 0, sheet.Value.Length); }
+                }
             }
             zipStream.Position = 0;
             byte[] zipBytes = zipStream.ToArray();
 
             string archiveName = $"Проект_{loadedConfig.CompanyName}_КП{loadedConfig.KpNumber}.zip";
 
-            // 3. Скачиваем ZIP через JavaScript поток в браузере
+            // 4. Скачиваем готовый ZIP-архив в браузер
             using var fileStream = new MemoryStream(zipBytes);
             using var streamRef = new DotNetStreamReference(stream: fileStream);
             await JS.InvokeVoidAsync("downloadFileFromStream", archiveName, streamRef);
         }
         catch (Exception ex)
         {
-            System.Diagnostics.Debug.WriteLine(string.Format("Ошибка генерации архива: {0}", ex.Message));
+            System.Diagnostics.Debug.WriteLine($"Ошибка генерации архива: {ex.Message}");
         }
     }
 }

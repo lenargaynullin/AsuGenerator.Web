@@ -12,7 +12,7 @@ builder.Services.AddScoped<AsuGenerator.Web.Services.ExcelParserService>();
 builder.Services.AddScoped<AsuGenerator.Web.Services.CalculationEngine>();
 builder.Services.AddScoped<AsuGenerator.Web.Services.DocumentGenerator>();
 builder.Services.AddScoped<AsuGenerator.Web.Services.CadGeneratorService>();
-
+builder.Services.AddSingleton<AsuGenerator.Web.Services.DxfBlockManager>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
