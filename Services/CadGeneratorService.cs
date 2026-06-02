@@ -129,37 +129,70 @@ public class CadGeneratorService
             string safeBlockName = blockName.ToLower().Trim();
             DxfDocument sourceBlock = _blockManager.GetBlock(safeBlockName);
 
-            // (Здесь ваш неизменяемый рабочий код копирования линий, кругов и полилиний из qf_3p.dxf...)
-            foreach (var line in sourceBlock.Entities.Lines) { /* ... */ }
-            foreach (var circle in sourceBlock.Entities.Circles) { /* ... */ }
-            foreach (var polyline in sourceBlock.Entities.Polylines2D) { /* ... */ }
+            // 1. Копируем отрезки (Lines) с их родными слоями из файла блока
+            foreach (var line in sourceBlock.Entities.Lines)
+            {
+                Vector3 startPos = line.StartPoint + new Vector3(position.X, position.Y, 0);
+                Vector3 endPos = line.EndPoint + new Vector3(position.X, position.Y, 0);
+
+                var newLine = new netDxf.Entities.Line(startPos, endPos);
+                // Если слой есть в исходном файле, netDxf перенесет его сам безопасно
+                if (line.Layer != null) newLine.Layer = line.Layer;
+
+                targetDxf.Entities.Add(newLine);
+            }
+
+            // 2. Копируем окружности (Circles)
+            foreach (var circle in sourceBlock.Entities.Circles)
+            {
+                Vector3 centerPos = circle.Center + new Vector3(position.X, position.Y, 0);
+                var newCircle = new netDxf.Entities.Circle(centerPos, circle.Radius);
+                if (circle.Layer != null) newCircle.Layer = circle.Layer;
+                targetDxf.Entities.Add(newCircle);
+            }
+
+            // 3. Копируем полилинии (Polylines2D) — ФИКС: Убрано жесткое переопределение слоя "0"
+            foreach (var polyline in sourceBlock.Entities.Polylines2D)
+            {
+                var clonePoly = (netDxf.Entities.Polyline2D)polyline.Clone();
+                foreach (var vertex in clonePoly.Vertexes)
+                {
+                    vertex.Position = new Vector2(vertex.Position.X + position.X, vertex.Position.Y + position.Y);
+                }
+                // Оставляем родной слой полилинии из файла, чтобы избежать падения в catch
+                targetDxf.Entities.Add(clonePoly);
+            }
         }
         catch (Exception ex)
         {
-            System.Diagnostics.Debug.WriteLine($"Ошибка чтения геометрии: {ex.Message}");
+            // Если блок все-таки упал, чертим ГОСТ-прямоугольник на слое "0", чтобы чертеж не остался пустым
+            System.Diagnostics.Debug.WriteLine($"[AsuSaaS]: Ошибка блока {blockName}: {ex.Message}");
+            double w = 15; double h = 10;
+            targetDxf.Entities.Add(new netDxf.Entities.Line(position, new Vector2(position.X + w, position.Y)) { Layer = layer });
+            targetDxf.Entities.Add(new netDxf.Entities.Line(new Vector2(position.X + w, position.Y), new Vector2(position.X + w, position.Y + h)) { Layer = layer });
+            targetDxf.Entities.Add(new netDxf.Entities.Line(new Vector2(position.X + w, position.Y + h), new Vector2(position.X, position.Y + h)) { Layer = layer });
+            targetDxf.Entities.Add(new netDxf.Entities.Line(new Vector2(position.X, position.Y + h), position) { Layer = layer });
         }
 
-        // --- 2. ВОТ ЗДЕСЬ МЫ НАПРЯМУЮ УКАЗЫВАЕМ ШРИФТ GOST Type BU ДЛЯ МАРКИРОВКИ ---
-
-        // Обозначение аппарата (QF2, QFD1)
+        // --- 4. МАРКИРОВКА ШРИФТОМ GOST Type BU ---
         var textDes = new netDxf.Entities.Text(designation, new Vector2(position.X - 12, position.Y + 2), 3.5)
         {
             Layer = layer,
-            Style = style // <--- ПРИМЕНЯЕМ ГОСТ-ШРИФТ СЮДА!
+            Style = style
         };
         targetDxf.Entities.Add(textDes);
 
-        // Номинал автомата под его именем
         string shortValue = article.Contains("32А") || article.Contains("32A") ? "32А" :
-                           (article.Contains("25А") || article.Contains("25A") ? "25А" : "16А");
+                           (article.Contains("16А") || article.Contains("16A") ? "16А" : "25А");
 
         var textVal = new netDxf.Entities.Text(shortValue, new Vector2(position.X - 12, position.Y - 5), 2.5)
         {
             Layer = layer,
-            Style = style // <--- ПРИМЕНЯЕМ ГОСТ-ШРИФТ СЮДА!
+            Style = style
         };
         targetDxf.Entities.Add(textVal);
     }
+
 
 
 
