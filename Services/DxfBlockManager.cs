@@ -34,7 +34,7 @@ public class DxfBlockManager
         return _blockCache[blockName];
     }
 
-    // Безопасный метод клонирования рамок А3
+    // Безопасный метод клонирования рамок А3 (Ваш рабочий код с b2b-фиксами геометрии)
     public DxfDocument GetTemplate(string templateName)
     {
         string fullPath = Path.Combine(_blocksFolder, $"{templateName}.dxf");
@@ -56,6 +56,19 @@ public class DxfBlockManager
         // Клонируем текст
         foreach (var ent in original.Entities.Texts)
             clone.Entities.Add((netDxf.Entities.Text)ent.Clone());
+
+        // --- ДОБАВЛЕННЫЕ b2b-СТРОКИ ДЛЯ ВОЗВРАТА ГРАНИЦ РАМКИ И ШТАМПА ---
+        // Клонируем полилинии (внешние рамки и таблицы)
+        foreach (var ent in original.Entities.Polylines2D)
+            clone.Entities.Add((netDxf.Entities.Polyline2D)ent.Clone());
+
+        // Клонируем окружности (если есть элементы УГО)
+        foreach (var ent in original.Entities.Circles)
+            clone.Entities.Add((netDxf.Entities.Circle)ent.Clone());
+
+        // Клонируем дуги
+        foreach (var ent in original.Entities.Arcs)
+            clone.Entities.Add((netDxf.Entities.Arc)ent.Clone());
 
         return clone;
     }
