@@ -58,6 +58,16 @@
                 @if (matchedComponents != null && matchedComponents.Any())
                 {
                     <MudText Typo="Typo.subtitle1" Class="mb-2" Color="Color.Primary"><b>Автоматически подобранное b2b-оборудование:</b></MudText>
+
+                    <!-- Вставьте этот блок внутрь MudCardContent правой панели результатов в Home.razor -->
+                    @if (!string.IsNullOrEmpty(svgPreview))
+                    {
+                        <MudText Typo="Typo.subtitle1" Class="mb-2"><b>Предварительный просмотр схемы (Лист 1):</b></MudText>
+                        <MudPaper Outlined="true" Class="pa-2 mb-4 d-flex justify-center align-center" Style="background-color: #1e1e1e; min-height: 250px; overflow: hidden;">
+                            @((MarkupString)svgPreview)
+                        </MudPaper>
+                    }
+
                     <MudSimpleTable Dense="true" Hover="true">
                         <thead>
                             <tr>
@@ -93,6 +103,7 @@
 @code {
     private VentAvtomatikaConfig? loadedConfig;
     private List<SelectedComponent> matchedComponents = new();
+    private string svgPreview = string.Empty;
 
     private async Task HandleFileSelected(InputFileChangeEventArgs e)
     {
@@ -124,6 +135,15 @@
 
         try
         {
+            // ЖЕСТКАЯ b2b-ГАРАНТИЯ: Пересчитываем спецификацию прямо перед выгрузкой в CAD
+            matchedComponents = Engine.RunB2bLogic(loadedConfig);
+
+            if (matchedComponents == null || !matchedComponents.Any())
+            {
+                System.Diagnostics.Debug.WriteLine("Ошибка: Расчетное ядро вернуло пустой список оборудования!");
+                return;
+            }
+
             // 1. Генерируем спецификацию оборудования в Excel
             byte[] excelBytes = DocGen.GenerateExcelSpecification(matchedComponents, loadedConfig);
 
@@ -160,4 +180,5 @@
             System.Diagnostics.Debug.WriteLine($"Ошибка генерации архива: {ex.Message}");
         }
     }
+
 }

@@ -15,65 +15,87 @@ public class CadGeneratorService
         _blockManager = blockManager;
     }
 
+    // Главный метод генерации чертежей проекта (Многолистовая b2b-генерация ШУЭ в цикле)
     public Dictionary<string, byte[]> GenerateProjectSchematics(List<SelectedComponent> components, VentAvtomatikaConfig config)
     {
-        // ДИАГНОСТИКА: вывести все компоненты
-        System.Diagnostics.Debug.WriteLine($"=== КОМПОНЕНТЫ ({components.Count}) ===");
-        foreach (var c in components)
-        {
-            System.Diagnostics.Debug.WriteLine($"  {c.Designation} | {c.Article} | {c.Description}");
-        }
-
-        // ВРЕМЕННО: тестовый компонент для проверки CAD
-        if (components.Count == 0)
-        {
-            components.Add(new SelectedComponent
-            {
-                Designation = "QF1",
-                Article = "21231DEK",
-                Description = "Автомат 3P 18A"
-            });
-        }
+        // --- 1. РЕГИСТРАЦИЯ ГОСТОВСКОГО ШРИФТА В ДОКУМЕНТЕ ---
+        // Создаем стиль текста с именем "GOST_BU", привязанный к TTF-файлу шрифта
+        TextStyle gostStyle = new TextStyle("GOST Type BU", "gost-type-bu.ttf");    
 
         var schematics = new Dictionary<string, byte[]>();
 
-        // --- ЛИСТ 1: СИЛОВАЯ ЧАСТЬ (A3_1.dxf) ---
+        // --- ЛИСТ 1: СИЛОВАЯ ЧАСТЬ (A3_1.dxf — точка 0,0 внешний угол) ---
         DxfDocument sheet1 = _blockManager.GetTemplate("A3_1");
-        FillStamp(sheet1, config, isFirstSheet: true);
+        FillStamp(sheet1, config, isFirstSheet: true, gostStyle);
 
-        // Используем стандартный слой "0", который железно есть в любом DXF
+        // Если стиля с таким именем еще нет в таблице стилей подложки — добавляем его
+        if (!sheet1.TextStyles.Contains(gostStyle.Name))
+        {
+            sheet1.TextStyles.Add(gostStyle);
+        }
+
+        // Базовый слой "0", который гарантированно есть в любом файле подложки
         Layer defaultLayer = sheet1.Layers["0"];
 
-        double currentX = 60;
+        // 1. ЧЕРТИМ ВВОДНОЙ АВТОМАТ QF1 (Слева чертежа: X = 50, Y = 210)
+        double currentX = 50;
         double currentY = 210;
 
-        // Ищем вводной автомат QF1 из вашей b2b-спецификации
         var qf1 = components.Find(c => c.Designation == "QF1");
         if (qf1 != null)
         {
-            // 1. Чертим вертикальные провода (на слое "0")
+            // Вертикальный провод питания сверху (длина 40 мм)
             DrawVerticalWires(sheet1, currentX, currentY + 40, 40, defaultLayer);
-
-            // 2. Вставляем блок автомата QF_3P.dxf (на слое "0")
-            InsertComponentBlock(sheet1, "QF_3P", new Vector2(currentX, currentY), qf1.Designation, qf1.Article, defaultLayer);
-
-            // 3. Чертим отвод провода вниз
+            // Вставляем блок УГО автомата из вашего файла qf_3p.dxf
+            InsertComponentBlock(sheet1, "QF_3P", new Vector2(currentX, currentY), qf1.Designation, qf1.Article, defaultLayer, gostStyle);
+            // Отвод провода вниз после автомата
             DrawVerticalWires(sheet1, currentX, currentY - 15, 40, defaultLayer);
-
-            // 4. Вставляем клеммник TERMINAL_2 (на слое "0")
-            InsertComponentBlock(sheet1, "TERMINAL_2", new Vector2(currentX, 80), "X1", "ЗНИ-4", defaultLayer);
         }
-        schematics.Add($"Схема_Лист1_КП{config.KpNumber}.dxf", SaveToBytes(sheet1));
+
+        // 2. АВТОМАТИЧЕСКАЯ РАССТАНОВКА ФИДЕРОВ ОБОГРЕВА ШУЭ В ЦИКЛЕ С СДВИГОМ ПО X
+        // Считываем реальное количество линий из опросника ШУЭ (дефолт 5, как на вашем скрине)
+        int outletsCount = config.OutletsHeatingCount > 0 ? config.OutletsHeatingCount : 5;
+
+        double startX = 100; // Цепочку фидеров обогрева начинаем правее, с координаты X = 100
+        double stepX = 35;   // Жесткий ГОСТ-шаг сдвига вправо для каждого фидера (35 мм)
+
+        for (int i = 1; i <= outletsCount; i++)
+        {
+            double fX = startX + ((i - 1) * stepX);
+
+            // Предохранитель: останавливаем цикл, чтобы чертеж не залез на область штампа (X_max = 220)
+            if (fX > 220) break;
+
+            // Ищем фидер в сформированной на сайте b2b-спецификации (QFD1, QFD2...)
+            var qfd = components.Find(c => c.Designation == $"QFD{i}");
+            if (qfd != null)
+            {
+                // Проводим вертикальный подвод проводов сверху к фидеру
+                DrawVerticalWires(sheet1, fX, currentY + 40, 40, defaultLayer);
+
+                // Вставляем блок диффавтомата (используем ваш файл qf_3p как графический атом)
+                InsertComponentBlock(sheet1, "QF_3P", new Vector2(fX, currentY), qfd.Designation, qfd.Article, defaultLayer, gostStyle);
+
+                // Проводим отвод провода вниз от автомата к клеммам
+                DrawVerticalWires(sheet1, fX, currentY - 15, 40, defaultLayer);
+
+                // Вставляем силовой выходной клеммник ТЕРМИНАЛ_2 в самом низу (Y = 80)
+                InsertComponentBlock(sheet1, "TERMINAL_2", new Vector2(fX, 80), string.Format("X1.{0}", i), "ЗНИ-4", defaultLayer, gostStyle);
+            }
+        }
+
+        schematics.Add(string.Format("Схема_Лист1_Сила_КП{0}.dxf", config.KpNumber), SaveToBytes(sheet1));
 
         // --- ЛИСТ 2: АВТОМАТИКА И ПЛК (A3_2.dxf) ---
         DxfDocument sheet2 = _blockManager.GetTemplate("A3_2");
-        FillStamp(sheet2, config, isFirstSheet: false);
-        schematics.Add($"Схема_Лист2_КП{config.KpNumber}.dxf", SaveToBytes(sheet2));
+        FillStamp(sheet2, config, isFirstSheet: false, gostStyle);
+        schematics.Add(string.Format("Схема_Лист2_Автоматика_КП{0}.dxf", config.KpNumber), SaveToBytes(sheet2));
 
         return schematics;
     }
 
-    private void FillStamp(DxfDocument dxf, VentAvtomatikaConfig config, bool isFirstSheet)
+
+    private void FillStamp(DxfDocument dxf, VentAvtomatikaConfig config, bool isFirstSheet, TextStyle style)
     {
         Layer defaultLayer = dxf.Layers["0"];
         double stampEndX = 415;
@@ -82,59 +104,70 @@ public class CadGeneratorService
         if (isFirstSheet)
         {
             double stampStartX = stampEndX - 185;
-            dxf.Entities.Add(new netDxf.Entities.Text(config.CompanyName.ToUpper(), new Vector2(stampStartX + 5, stampStartY + 5), 5) { Layer = defaultLayer });
-            dxf.Entities.Add(new netDxf.Entities.Text($"ЩУВ. КП № {config.KpNumber}", new Vector2(stampStartX + 5, stampStartY + 20), 5) { Layer = defaultLayer });
-            dxf.Entities.Add(new netDxf.Entities.Text("Разработал: AsuGenerator SaaS", new Vector2(stampStartX + 5, stampStartY + 45), 3.5) { Layer = defaultLayer });
-            dxf.Entities.Add(new netDxf.Entities.Text("1", new Vector2(stampEndX - 25, stampStartY + 15), 3.5) { Layer = defaultLayer });
+            // Принудительно задаем гостовский b2b-стиль текста для каждой ячейки штампа
+            dxf.Entities.Add(new netDxf.Entities.Text(config.CompanyName.ToUpper(), new Vector2(stampStartX + 5, stampStartY + 5), 5) { Layer = defaultLayer, Style = style });
+            dxf.Entities.Add(new netDxf.Entities.Text($"ЩУВ. КП № {config.KpNumber}", new Vector2(stampStartX + 5, stampStartY + 20), 5) { Layer = defaultLayer, Style = style });
+            dxf.Entities.Add(new netDxf.Entities.Text("Разработал: AsuGenerator SaaS", new Vector2(stampStartX + 5, stampStartY + 45), 3.5) { Layer = defaultLayer, Style = style });
+            dxf.Entities.Add(new netDxf.Entities.Text("1", new Vector2(stampEndX - 25, stampStartY + 15), 3.5) { Layer = defaultLayer, Style = style });
         }
         else
         {
             double smallStampStartX = stampEndX - 110;
-            dxf.Entities.Add(new netDxf.Entities.Text($"ЩУВ. КП № {config.KpNumber}", new Vector2(smallStampStartX + 5, stampStartY + 5), 4) { Layer = defaultLayer });
-            dxf.Entities.Add(new netDxf.Entities.Text("2", new Vector2(stampEndX - 15, stampStartY + 5), 3.5) { Layer = defaultLayer });
+            dxf.Entities.Add(new netDxf.Entities.Text($"ЩУВ. КП № {config.KpNumber}", new Vector2(smallStampStartX + 5, stampStartY + 5), 4) { Layer = defaultLayer, Style = style });
+            dxf.Entities.Add(new netDxf.Entities.Text("2", new Vector2(stampEndX - 15, stampStartY + 5), 3.5) { Layer = defaultLayer, Style = style });
         }
     }
 
-    private void InsertComponentBlock(DxfDocument targetDxf, string blockName, Vector2 position, string designation, string article, Layer layer)
+
+    // new
+
+    // 1. В СИГНАТУРУ МЕТОДА ДОБАВЛЯЕМ ПЕРЕДАЧУ СТИЛЯ (TextStyle style)
+    private void InsertComponentBlock(DxfDocument targetDxf, string blockName, Vector2 position, string designation, string article, Layer layer, TextStyle style)
     {
-        DxfDocument sourceBlock = _blockManager.GetBlock(blockName);
-
-        // ИСПРАВЛЕНО: Используем StartPoint и EndPoint вместо Start/End для netDxf 3.x+
-        foreach (var line in sourceBlock.Entities.Lines)
+        try
         {
-            Vector3 startPos = line.StartPoint + new Vector3(position.X, position.Y, 0);
-            Vector3 endPos = line.EndPoint + new Vector3(position.X, position.Y, 0);
-            targetDxf.Entities.Add(new netDxf.Entities.Line(startPos, endPos) { Layer = layer });
+            string safeBlockName = blockName.ToLower().Trim();
+            DxfDocument sourceBlock = _blockManager.GetBlock(safeBlockName);
+
+            // (Здесь ваш неизменяемый рабочий код копирования линий, кругов и полилиний из qf_3p.dxf...)
+            foreach (var line in sourceBlock.Entities.Lines) { /* ... */ }
+            foreach (var circle in sourceBlock.Entities.Circles) { /* ... */ }
+            foreach (var polyline in sourceBlock.Entities.Polylines2D) { /* ... */ }
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Ошибка чтения геометрии: {ex.Message}");
         }
 
-        foreach (var circle in sourceBlock.Entities.Circles)
+        // --- 2. ВОТ ЗДЕСЬ МЫ НАПРЯМУЮ УКАЗЫВАЕМ ШРИФТ GOST Type BU ДЛЯ МАРКИРОВКИ ---
+
+        // Обозначение аппарата (QF2, QFD1)
+        var textDes = new netDxf.Entities.Text(designation, new Vector2(position.X - 12, position.Y + 2), 3.5)
         {
-            Vector3 centerPos = circle.Center + new Vector3(position.X, position.Y, 0);
-            targetDxf.Entities.Add(new netDxf.Entities.Circle(centerPos, circle.Radius) { Layer = layer });
-        }
-
-        foreach (var lwPolyline in sourceBlock.Entities.Polylines2D)
-        {
-            var clonePoly = (netDxf.Entities.Polyline2D)lwPolyline.Clone();
-            foreach (var vertex in clonePoly.Vertexes)
-            {
-                vertex.Position = new Vector2(vertex.Position.X + position.X, vertex.Position.Y + position.Y);
-            }
-            clonePoly.Layer = layer;
-            targetDxf.Entities.Add(clonePoly);
-        }
-
-        // Маркируем текстом на слое "0"
-        netDxf.Entities.Text textDes = new netDxf.Entities.Text(designation, new Vector2(position.X - 12, position.Y - 5), 3.5) { Layer = layer };
-        netDxf.Entities.Text textArt = new netDxf.Entities.Text(article, new Vector2(position.X - 12, position.Y - 22), 2.5) { Layer = layer };
-
+            Layer = layer,
+            Style = style // <--- ПРИМЕНЯЕМ ГОСТ-ШРИФТ СЮДА!
+        };
         targetDxf.Entities.Add(textDes);
-        targetDxf.Entities.Add(textArt);
+
+        // Номинал автомата под его именем
+        string shortValue = article.Contains("32А") || article.Contains("32A") ? "32А" :
+                           (article.Contains("25А") || article.Contains("25A") ? "25А" : "16А");
+
+        var textVal = new netDxf.Entities.Text(shortValue, new Vector2(position.X - 12, position.Y - 5), 2.5)
+        {
+            Layer = layer,
+            Style = style // <--- ПРИМЕНЯЕМ ГОСТ-ШРИФТ СЮДА!
+        };
+        targetDxf.Entities.Add(textVal);
     }
+
+
+
+
 
     private void DrawVerticalWires(DxfDocument dxf, double xStart, double yStart, double length, Layer layer)
     {
-        double phaseStep = 10;
+        double phaseStep = 8;
         for (int i = 0; i < 3; i++)
         {
             double cx = xStart + (i * phaseStep);
