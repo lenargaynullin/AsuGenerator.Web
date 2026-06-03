@@ -11,6 +11,7 @@
     <PackageReference Include="EPPlus" Version="8.5.4" />
     <PackageReference Include="MudBlazor" Version="9.5.0" />
     <PackageReference Include="netDxf" Version="2023.11.10" />
+    <PackageReference Include="QuestPDF" Version="2026.5.0" />
   </ItemGroup>
 
 </Project>

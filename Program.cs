@@ -1,4 +1,5 @@
 using AsuGenerator.Web.Components;
+using AsuGenerator.Web.Services;
 using MudBlazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +14,8 @@ builder.Services.AddScoped<AsuGenerator.Web.Services.CalculationEngine>();
 builder.Services.AddScoped<AsuGenerator.Web.Services.DocumentGenerator>();
 builder.Services.AddScoped<AsuGenerator.Web.Services.CadGeneratorService>();
 builder.Services.AddSingleton<AsuGenerator.Web.Services.DxfBlockManager>();
+builder.Services.AddScoped<PriceCalculationService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

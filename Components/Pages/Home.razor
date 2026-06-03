@@ -6,6 +6,9 @@
 @inject DocumentGenerator DocGen
 @inject CadGeneratorService CadGen
 @inject IJSRuntime JS
+@inject PriceCalculationService PriceCalc
+
+
 @rendermode InteractiveServer
 
 <PageTitle>Генератор АСУ ТП</PageTitle>
@@ -14,15 +17,32 @@
     <MudText Typo="Typo.h4" Class="mb-4">Загрузка опросного листа ВентАвтоматика</MudText>
     <MudText Typo="Typo.body1" Class="mb-6">Загрузите заполненный Excel-файл для автоматической генерации спецификации и схем.</MudText>
 
-    <!-- Корректная b2b-зона загрузки без атрибута Variant (исправлено) -->
+    <!-- Зона загрузки файлов и управления коммерческими параметрами -->
     <MudPaper Outlined="true" Class="pa-6 d-flex flex-column align-center justify-center" Style="border-style: dashed; border-width: 2px; min-height: 200px;">
         <MudIcon Icon="@Icons.Material.Filled.CloudUpload" Style="font-size: 3rem;" Color="Color.Primary" Class="mb-2" />
 
         <InputFile id="fileInput" OnChange="HandleFileSelected" hidden accept=".xlsx" />
 
-        <MudButton HtmlTag="label" Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.FolderOpen" for="fileInput">
-            Выбрать файл Excel
-        </MudButton>
+        <div class="d-flex align-center gap-4 mt-2">
+            <!-- Интерактивное B2B-поле изменения маржи менеджером -->
+            <MudNumericField T="decimal"
+                             @bind-Value="marginMultiplier"
+                             Label="Коэффициент наценки (К)"
+                             Format="N2"
+                             Min="1.00m"
+                             Max="3.00m"
+                             Step="0.05m"
+                             Variant="Variant.Outlined"
+                             Style="width: 180px; background-color: white;" />
+
+            <MudButton HtmlTag="label" Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.FolderOpen" for="fileInput">
+                Выбрать файл Excel
+            </MudButton>
+
+            <MudButton Variant="Variant.Filled" Color="Color.Success" StartIcon="@Icons.Material.Filled.Description" OnClick="DownloadTkp">
+                Сгенерировать ТКП
+            </MudButton>
+        </div>
     </MudPaper>
 
     @if (loadedConfig != null)
@@ -59,7 +79,6 @@
                 {
                     <MudText Typo="Typo.subtitle1" Class="mb-2" Color="Color.Primary"><b>Автоматически подобранное b2b-оборудование:</b></MudText>
 
-                    <!-- Вставьте этот блок внутрь MudCardContent правой панели результатов в Home.razor -->
                     @if (!string.IsNullOrEmpty(svgPreview))
                     {
                         <MudText Typo="Typo.subtitle1" Class="mb-2"><b>Предварительный просмотр схемы (Лист 1):</b></MudText>
@@ -101,9 +120,11 @@
 </div>
 
 @code {
+    private decimal marginMultiplier = 1.35m; // Дефолтная b2b-маржа 35%
     private VentAvtomatikaConfig? loadedConfig;
     private List<SelectedComponent> matchedComponents = new();
     private string svgPreview = string.Empty;
+
 
     private async Task HandleFileSelected(InputFileChangeEventArgs e)
     {
@@ -135,7 +156,7 @@
 
         try
         {
-            // ЖЕСТКАЯ b2b-ГАРАНТИЯ: Пересчитываем спецификацию прямо перед выгрузкой в CAD
+            // Пересчитываем спецификацию прямо перед выгрузкой в CAD
             matchedComponents = Engine.RunB2bLogic(loadedConfig);
 
             if (matchedComponents == null || !matchedComponents.Any())
@@ -144,21 +165,19 @@
                 return;
             }
 
-            // 1. Генерируем спецификацию оборудования в Excel
+            // ИСПРАВЛЕНО: Заменено DocGenerator на DocGen
             byte[] excelBytes = DocGen.GenerateExcelSpecification(matchedComponents, loadedConfig);
 
-            // 2. ИСПРАВЛЕНО: Вызываем новый многолистовой CAD-метод, передавая оба аргумента
+            // Вызываем многолистовой CAD-метод
             var dxfSheets = CadGen.GenerateProjectSchematics(matchedComponents, loadedConfig);
 
-            // 3. Собираем все сгенерированные документы в промышленный ZIP-пакет
+            // Собираем все сгенерированные документы в ZIP-пакет
             using var zipStream = new MemoryStream();
             using (var archive = new System.IO.Compression.ZipArchive(zipStream, System.IO.Compression.ZipArchiveMode.Create, true))
             {
-                // Упаковываем Excel-спецификацию
                 var excelEntry = archive.CreateEntry($"Спецификация_КП{loadedConfig.KpNumber}.xlsx");
                 using (var entryStream = excelEntry.Open()) { entryStream.Write(excelBytes, 0, excelBytes.Length); }
 
-                // В цикле упаковываем каждый сгенерированный DXF-лист схемы
                 foreach (var sheet in dxfSheets)
                 {
                     var dxfEntry = archive.CreateEntry(sheet.Key);
@@ -170,7 +189,7 @@
 
             string archiveName = $"Проект_{loadedConfig.CompanyName}_КП{loadedConfig.KpNumber}.zip";
 
-            // 4. Скачиваем готовый ZIP-архив в браузер
+            // ИСПРАВЛЕНО: Заменено JsRuntime на JS
             using var fileStream = new MemoryStream(zipBytes);
             using var streamRef = new DotNetStreamReference(stream: fileStream);
             await JS.InvokeVoidAsync("downloadFileFromStream", archiveName, streamRef);
@@ -181,4 +200,92 @@
         }
     }
 
+    private async Task DownloadTkp()
+    {
+        try
+        {
+            // 1. ЖЕСТКАЯ b2b-СВЯЗКА: если ТЗ не загружено, подсовываем фейковый список для демонстрации,
+            // если загружено — берем реальный массив matchedComponents с экрана
+            List<SelectedComponent> componentsToCalculate;
+
+            if (matchedComponents != null && matchedComponents.Any())
+            {
+                componentsToCalculate = matchedComponents;
+            }
+            else
+            {
+                // Настоящий промышленный состав "Золотого ЩУВ" из ТЗ (Страница 1-2 спецификации)
+                componentsToCalculate = new List<SelectedComponent>();
+
+                // Функция-хелпер для быстрого наполнения списка с учетом b2b-количества штук
+                void AddComp(string art, string desc, int qty)
+                {
+                    for (int i = 0; i < qty; i++)
+                        componentsToCalculate.Add(new SelectedComponent { Article = art, Description = desc });
+                }
+
+                AddComp("ПЧВЗ-11K-B", "Преобразователь частоты ПЧВЗ-11К-В [М01] 11,0 кВт 380 В", 1);
+                AddComp("ПР200-24.4.2.0", "Программируемое реле с дисплеем ОВЕН", 1);
+                AddComp("ПРМ-24.1", "Модуль расширения для программируемого реле ОВЕН", 1);
+                AddComp("БП60Б-Д4-24", "Блок питания 60 Вт 24 B ОВЕН", 1);
+
+                AddComp("BLS10-ADDS-230-K05", "Лампа 22мм желтый 230B AC/DC IEK", 1);
+                AddComp("BLS10-ADDS-230-K06", "Лампа 22мм зеленый 230B AC/DC IEK", 1);
+                AddComp("BLS10-ADDS-230-K04", "Лампа 22мм красный 230В AC/DC IEK", 1);
+
+                AddComp("MR-203D", "Промежуточные реле компактные 24 VDC, 2CO КИППРИБОР", 3);
+                AddComp("PYF-022BE/2", "Колодка монтажная серий PYF-022ВЕ КИППРИБОР", 6); // Сумма по типам реле
+                AddComp("BS 2/15P", "Зажим пластмассовый удерживающий КИППРИБОР", 6);
+                AddComp("LM-CF 24 V AC/DC", "Модуль LED-индикации 24 V AC/DC КИППРИБОР", 3);
+                AddComp("MR-207A", "Промежуточные реле компактные 220 VAC, 2CO КИППРИБОР", 3);
+                AddComp("LM-EN 230 V AC/DC", "Модуль LED-индикации 230 V AC/DC КИППРИБОР", 3);
+
+                AddComp("18053DEK", "Контактор модульный 4НО 16 А 230 В МК-103 Dekraft", 1);
+                AddComp("18050DEK", "Контактор модульный 2НО 16 А 230 В МК-103 Dekraft", 2);
+
+                AddComp("21231DEK", "Автоматический выключатель защиты двигателя ВА-431 Dekraft", 1);
+                AddComp("21224DEK", "Автоматический выключатель защиты двигателя ВА-431 Dekraft", 2);
+                AddComp("21269DEK", "Контакт дополнительный фронтальный 1НО+1НЗ Dekraft", 2);
+
+                AddComp("12267DEK", "Автоматический выключатель ВА-103 1Р 4 А С 6 кА Dekraft", 1);
+                AddComp("12280DEK", "Автоматический выключатель ВА-103 2Р 1 А С 6 кА Dekraft", 2);
+                AddComp("17014DEK", "Выключатель-разъединитель ВН-102 4P 32 А 400 B Dekraft", 1);
+
+                AddComp("BSW60-BD-3-K02", "Переключатель LAY5-BD33 3 позиции 1-0-II IEK", 1);
+                AddComp("BDK11", "Контактный блок для светосигнальной арматуры 1НЗ IEK", 1);
+                AddComp("BBT61-BA-K04", "Кнопка управления LAY5-BA42 красная, 1НЗ IEK", 1);
+                AddComp("BBT50-BW-K06", "Кнопка с подсветкой зеленая 230 В 1НО IEK", 1);
+
+                AddComp("YZN30-016-K03", "Клемма винтовая КВИ-16 мм2 серая IEK", 5);
+                AddComp("YZN30-002-K03", "Клемма винтовая КВИ-2,5 мм2 серая IEK", 19);
+                AddComp("YZN30-004D-K03", "Клемма винтовая КВИ-4-21 двухуровневая серая IEK", 24);
+
+                AddComp("YZN30D-ZGL-016-K03", "Заглушка для КВИ-16 мм2 серая IEK", 1);
+                AddComp("YZN30D-ZGL-002-K03", "Заглушка для КВИ-2,5 мм2 серая IEK", 1);
+                AddComp("YZN30D-ZGL-004D-K03", "Заглушка для КВИ-4-21 серая IEK", 1);
+            }
+
+            // 2. Рассчитываем коммерческое предложение с реальными ценами и наценкой
+            CommercialProposal realProposal = PriceCalc.CalculateProposal(componentsToCalculate, loadedConfig, marginMultiplier);
+
+            // 3. Генерируем массив байт PDF
+            byte[] pdfBytes = DocGen.GenerateTkpPdf(realProposal);
+
+            if (pdfBytes == null || pdfBytes.Length == 0) return;
+
+            // Имя файла ТКП
+            string archiveName = loadedConfig != null
+                ? $"ТКП_{loadedConfig.CompanyName}_КП{loadedConfig.KpNumber}.pdf"
+                : "ТКП_ВентАвтоматика_Золотой_ШУВ.pdf";
+
+            // 4. Отправляем поток в ваш рабочий метод скачивания
+            using var fileStream = new MemoryStream(pdfBytes);
+            using var streamRef = new DotNetStreamReference(stream: fileStream);
+            await JS.InvokeVoidAsync("downloadFileFromStream", archiveName, streamRef);
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Ошибка генерации b2b-ТКП: {ex.Message}");
+        }
+    }
 }
