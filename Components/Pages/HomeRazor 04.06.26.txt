@@ -1,4 +1,4 @@
-﻿@page "/"
+@page "/"
 @using AsuGenerator.Web.Services
 @using System.IO
 @inject ExcelParserService Parser

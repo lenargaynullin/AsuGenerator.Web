@@ -15,6 +15,14 @@ builder.Services.AddScoped<AsuGenerator.Web.Services.DocumentGenerator>();
 builder.Services.AddScoped<AsuGenerator.Web.Services.CadGeneratorService>();
 builder.Services.AddSingleton<AsuGenerator.Web.Services.DxfBlockManager>();
 builder.Services.AddScoped<PriceCalculationService>();
+// Регистрация b2b фабрики управления шкафами
+builder.Services.AddScoped<CabinetStrategyFactory>();
+
+// Регистрация стратегий конкретных шкафов
+builder.Services.AddScoped<ICabinetStrategy, ShuvStrategy>();
+
+// Когда добавите ШУН (насосы) — просто допишете ниже:
+// builder.Services.AddScoped<ICabinetStrategy, ShunStrategy>();
 
 var app = builder.Build();
 
