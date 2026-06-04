@@ -122,75 +122,68 @@ public class CadGeneratorService
     // new
 
     // 1. В СИГНАТУРУ МЕТОДА ДОБАВЛЯЕМ ПЕРЕДАЧУ СТИЛЯ (TextStyle style)
-    private void InsertComponentBlock(DxfDocument targetDxf, string blockName, Vector2 position, string designation, string article, Layer layer, TextStyle style, int numberOfComponent)
+    private void InsertComponentBlock(DxfDocument targetDxf, string blockName, Vector2 position,
+    string designation, string article, Layer layer, TextStyle style, int numberOfComponent)
     {
         try
         {
             string safeBlockName = blockName.ToLower().Trim();
+            DxfDocument sourceDxf = _blockManager.GetBlock(safeBlockName);
 
-            // Получаем исходный документ макроса (он содержит примитивы на базовом слое "0")
-            DxfDocument sourceBlockDxf = _blockManager.GetBlock(safeBlockName);
+            // 1. Клонируем определение блока из исходного файла
+            Block blockDef;
 
-            // 1. Ищем или динамически создаем Определение Блока (Block Definition) в целевом файле
-            Block? targetBlockDefinition = targetDxf.Blocks.FirstOrDefault(b => b.Name.Equals(safeBlockName, StringComparison.OrdinalIgnoreCase));
-
-            if (targetBlockDefinition == null)
+            if (sourceDxf.Blocks.Contains(safeBlockName))
             {
-                // Создаем новое b2b-описание блока
-                targetBlockDefinition = new Block(safeBlockName);
-
-                // Клонируем ВСЕ сущности из исходного файла (Линии, Окружности, Дуги, Тексты) внутрь блока
-                foreach (var entity in sourceBlockDxf.Entities.All)
+                // Блок уже определён как Block в исходном DXF
+                blockDef = (Block)sourceDxf.Blocks[safeBlockName].Clone();
+                blockDef.Name = safeBlockName;
+            }
+            else
+            {
+                // Создаём блок из сущностей (как раньше)
+                blockDef = new Block(safeBlockName);
+                foreach (var entity in sourceDxf.Entities.All)
                 {
-                    // Используем оператор приведения типа as и проверку на null
-                    if (entity.Clone() is netDxf.Entities.EntityObject clone)
-                    {
-                        // Принудительно выставляем слой "0", чтобы свойства наследовались от Insert
-                        clone.Layer = targetDxf.Layers.ElementAt(0);
-                        targetBlockDefinition.Entities.Add(clone);
-                    }
+                    if (entity.Clone() is EntityObject clone)
+                        blockDef.Entities.Add(clone);
                 }
-
-                // Регистрируем определение макроса в таблице блоков чертежа
-                targetDxf.Blocks.Add(targetBlockDefinition);
             }
 
-            // 2. ВСТАВЛЯЕМ БЛОК КАК ЕДИНОЕ ЦЕЛОЕ (Insert Reference)
-            // Преобразуем координаты Vector2 в Vector3 (Z = 0)
-            Vector2 insertionPoint = new Vector2(position.X, position.Y);
+            // 2. Добавляем определение блока в целевой документ (если ещё нет)
+            if (!targetDxf.Blocks.Contains(safeBlockName))
+            {
+                targetDxf.Blocks.Add(blockDef);
+            }
+            else
+            {
+                blockDef = targetDxf.Blocks[safeBlockName];
+            }
 
+            // 3. Вставляем блок
             for (int i = 0; i < numberOfComponent; i++)
             {
-                var blockInsertion = new Insert(targetBlockDefinition, insertionPoint)
+                Vector2 insertPoint = new Vector2(position.X + (i * 8), position.Y);
+                var insert = new Insert(blockDef, insertPoint)
                 {
-                    Layer = layer // Блок целиком падает на ваш b2b-слой автоматики
+                    Layer = layer
                 };
-                targetDxf.Entities.Add(blockInsertion);
-                insertionPoint = new Vector2(insertionPoint.X + 8, insertionPoint.Y);
+                targetDxf.Entities.Add(insert);
             }
 
-
-            
+            // 4. Маркировка
+            var textDes = new netDxf.Entities.Text(designation,
+                new Vector2(position.X - 12, position.Y + 2), 3.5)
+            {
+                Layer = layer,
+                Style = style
+            };
+            targetDxf.Entities.Add(textDes);
         }
         catch (Exception ex)
         {
-            System.Diagnostics.Debug.WriteLine($"[AsuSaaS CRITICAL]: Ошибка блочной вставки {blockName}: {ex.Message}");
-
-            // Страховочный ГОСТ-прямоугольник на случай отсутствия DXF-файла на диске
-            double w = 15; double h = 10;
-            targetDxf.Entities.Add(new netDxf.Entities.Line(position, new Vector2(position.X + w, position.Y)) { Layer = layer });
-            targetDxf.Entities.Add(new netDxf.Entities.Line(new Vector2(position.X + w, position.Y), new Vector2(position.X + w, position.Y + h)) { Layer = layer });
-            targetDxf.Entities.Add(new netDxf.Entities.Line(new Vector2(position.X + w, position.Y + h), new Vector2(position.X, position.Y + h)) { Layer = layer });
-            targetDxf.Entities.Add(new netDxf.Entities.Line(new Vector2(position.X, position.Y + h), position) { Layer = layer });
+            System.Diagnostics.Debug.WriteLine($"[AsuSaaS] Ошибка вставки блока {blockName}: {ex.Message}");
         }
-
-        // --- 3. МАРКИРОВКА ШРИФТОМ GOST Type BU (Вне блока) ---
-        var textDes = new netDxf.Entities.Text(designation, new Vector2(position.X - 12, position.Y + 2), 3.5)
-        {
-            Layer = layer,
-            Style = style
-        };
-        targetDxf.Entities.Add(textDes);
     }
 
     private void DrawVerticalWires(DxfDocument dxf, double xStart, double yStart, double length, Layer layer, int numberOfLines)
