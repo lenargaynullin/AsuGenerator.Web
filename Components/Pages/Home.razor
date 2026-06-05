@@ -1,6 +1,7 @@
 ﻿@page "/"
 @using AsuGenerator.Web.Services
 @using System.IO
+@using AsuGenerator.Web.Core.Models
 @inject ExcelParserService Parser
 @inject CalculationEngine Engine
 @inject DocumentGenerator DocGen
@@ -28,24 +29,49 @@
                     <div class="d-flex flex-column gap-4">
                         <MudText Typo="Typo.subtitle1"><b>Параметры конфигурации шкафа:</b></MudText>
                         
+                        <!-- 🔹 ОБЩИЕ СВОЙСТВА (для всех типов шкафов) -->
+                        <MudExpansionPanel Text="Общие параметры шкафа" IsInitiallyExpanded="false" Class="mb-2">
+                            <div class="d-flex flex-column gap-3 pa-2">
+
+                                <MudSelect T="string" Label="Тип монтажа" @bind-Value="baseConfig.MountType"
+                                           Variant="Variant.Outlined" Dense="true">
+                                    <MudSelectItem Value="@("Навесной")">Навесной</MudSelectItem>
+                                    <MudSelectItem Value="@("Напольный")">Напольный</MudSelectItem>
+                                </MudSelect>
+
+                                <MudSelect T="string" Label="Степень защиты" @bind-Value="baseConfig.IpRating"
+                                           Variant="Variant.Outlined" Dense="true">
+                                    <MudSelectItem Value="@("IP31")">IP31</MudSelectItem>
+                                    <MudSelectItem Value="@("IP54")">IP54</MudSelectItem>
+                                    <MudSelectItem Value="@("IP65")">IP65</MudSelectItem>
+                                </MudSelect>
+
+                                <MudRadioGroup T="string" @bind-Value="baseConfig.Voltage" Class="d-flex flex-column gap-1">
+                                    <MudText Typo="Typo.caption">Напряжение питания</MudText>
+                                    <MudRadio Value="@("380")" Color="Color.Primary" Dense="true">380 В</MudRadio>
+                                    <MudRadio Value="@("220")" Color="Color.Primary" Dense="true">220 В</MudRadio>
+                                </MudRadioGroup>
+
+                                <MudNumericField T="int" Label="Ток ввода (А)" @bind-Value="baseConfig.InputCurrent"
+                                                 Variant="Variant.Outlined" Dense="true" />
+
+                                <MudSelect T="string" Label="Контроллер" @bind-Value="baseConfig.PlcType"
+                                           Variant="Variant.Outlined" Dense="true">
+                                    <MudSelectItem Value="@("ПР200")">ПР200</MudSelectItem>
+                                    <MudSelectItem Value="@("ПЛК110")">ПЛК110</MudSelectItem>
+                                    <MudSelectItem Value="@("ПЛК160")">ПЛК160</MudSelectItem>
+                                </MudSelect>
+
+                            </div>
+                        </MudExpansionPanel>
+
                         <!-- Выбор типа шкафа (База для паттерна Стратегия) -->
                         <MudSelect T="string" Label="Тип проектируемого шкафа" @bind-Value="selectedCabinetType" Variant="Variant.Outlined" Dense="true" AnchorOrigin="Origin.BottomCenter">
                             <MudSelectItem Value="@("Шкаф управления вентиляцией (ШУВ)")" />
                             <MudSelectItem Value="@("Шкаф управления насосами (ШУН) - В разработке")" Disabled="true" />
                         </MudSelect>
 
-                        <!-- Конструктив корпуса шкафа -->
-                        <MudSelect T="string" Label="Конструктив оболочки шкафа" @bind-Value="enclosureType" Variant="Variant.Outlined" Dense="true" AnchorOrigin="Origin.BottomCenter">
-                            <MudSelectItem Value="@("Навесной (в стену/на стену)")" />
-                            <MudSelectItem Value="@("Напольный (силовой контур)")" />
-                        </MudSelect>
-
-                        <!-- Напряжение питания сети -->
-                        <MudRadioGroup T="string" @bind-Value="voltageType" Class="d-flex flex-column gap-1">
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">Напряжение питания щита</MudText>
-                            <MudRadio Value="@("380В")" Color="Color.Primary" Dense="true">380 В (Трехфазное, для мощных систем)</MudRadio>
-                            <MudRadio Value="@("230В")" Color="Color.Primary" Dense="true">230 В (Однофазное цепей управления)</MudRadio>
-                        </MudRadioGroup>
+                        
 
                         <!-- Тип нагревателя калорифера вентиляции -->
                         <MudRadioGroup T="string" @bind-Value="heaterType" Class="d-flex flex-column gap-1">
@@ -198,6 +224,8 @@
 </div>
 
 @code {
+
+    private BaseCabinetConfig baseConfig = new();
     // UI-переменные селекторов веб-формы экрана
     private string selectedCabinetType = "Шкаф управления вентиляцией (ШУВ)";
     private string enclosureType = "Навесной (в стену/на стену)";
@@ -218,10 +246,11 @@
         // 1. Формируем b2b-контейнер параметров с экрана
         var input = new UiConfigInput
         {
-            EnclosureType = enclosureType,
-            VoltageType = voltageType,
+            EnclosureType = baseConfig.MountType,
+            VoltageType = baseConfig.Voltage,
             TechnologyType = heaterType,
-            ProjectNumber = "Конфиг-" + DateTime.Now.ToString("ddMM")
+            ProjectNumber = "Конфиг-" + DateTime.Now.ToString("ddMM"),
+            BaseConfig = baseConfig
         };
 
         // Поддерживаем обратную совместимость со свойствами штампа карточки результатов на экране

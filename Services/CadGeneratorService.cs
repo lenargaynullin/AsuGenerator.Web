@@ -25,7 +25,7 @@ public class CadGeneratorService
 
         var schematics = new Dictionary<string, byte[]>();
 
-        // --- ЛИСТ 1: СИЛОВАЯ ЧАСТЬ (A3_1.dxf — точка 0,0 внешний угол) ---
+        // --- ЛИСТ 1
         DxfDocument sheet1 = _blockManager.GetTemplate("A3_1");
         FillStamp(sheet1, config, isFirstSheet: true, gostStyle);
 
@@ -38,37 +38,20 @@ public class CadGeneratorService
         // Базовый слой "0", который гарантированно есть в любом файле подложки
         Layer defaultLayer = sheet1.Layers["0"];
 
+        // === НОВЫЙ КОД: Grid-Based Schematic Builder ===
+        var builder = new DxfSchematicBuilder(_blockManager);
 
-
-
-        // XT1
-        double currentX = 50;
-        double currentY = 250;
-
-        var xt1 = components.Find(c => c.Designation == "XT1");
-        if (xt1 != null)
+        var feederChain = new List<CadFeederItem>
         {
-            // Вставляем блок УГО
-            InsertComponentBlock(sheet1, "terminal", new Vector2(currentX, currentY), xt1.Designation, xt1.Article, defaultLayer, gostStyle, 4);
+            new() { Designation = "XT1", BlockName = "terminal", WireCount = 4, VerticalSpace = 30 },
+            new() { Designation = "QS1", BlockName = "qs_4p",   WireCount = 4, VerticalSpace = 50 },
+            new() { Designation = "QF1", BlockName = "qf_3p",   WireCount = 3, VerticalSpace = 40 },
+            new() { Designation = "KM1", BlockName = "km_3p",   WireCount = 3, VerticalSpace = 40 },
+        };
 
-            // Отвод провода вниз
-            DrawVerticalWires(sheet1, currentX, currentY - 4, 20, defaultLayer, 4);
-        }
-        currentY = currentY - 24;
-
-        // QS1
-        var qs1 = components.Find(c => c.Designation == "QS1");
-        if (qs1 != null)
-        {
-            // Вставляем блок УГО
-            InsertComponentBlock(sheet1, "qs_4p", new Vector2(currentX, currentY), qs1.Designation, qs1.Article, defaultLayer, gostStyle, 1);
-
-            // Отвод провода вниз
-            DrawVerticalWires(sheet1, currentX, currentY - 8, 20, defaultLayer, 4);
-        }
-
-
-        schematics.Add(string.Format("Схема_Лист1_Сила_КП{0}.dxf", config.KpNumber), SaveToBytes(sheet1));
+        builder.BuildVerticalFeeder(sheet1, startX: 60, topY: 250, feederChain, defaultLayer, gostStyle);
+        schematics.Add(string.Format("Схема_Лист1_КП{0}.dxf", config.KpNumber), SaveToBytes(sheet1));
+        
 
         /*
         // --- ЛИСТ 2: АВТОМАТИКА И ПЛК (A3_2.dxf) ---
@@ -120,8 +103,6 @@ public class CadGeneratorService
 
 
     // new
-
-    // 1. В СИГНАТУРУ МЕТОДА ДОБАВЛЯЕМ ПЕРЕДАЧУ СТИЛЯ (TextStyle style)
     private void InsertComponentBlock(DxfDocument targetDxf, string blockName, Vector2 position,
     string designation, string article, Layer layer, TextStyle style, int numberOfComponent)
     {

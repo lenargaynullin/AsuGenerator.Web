@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using AsuGenerator.Web.Core.Models;
+using System.Collections.Generic;
 
 namespace AsuGenerator.Web.Services;
 
@@ -24,4 +25,5 @@ public class UiConfigInput
     public string VoltageType { get; set; } = string.Empty;
     public string TechnologyType { get; set; } = string.Empty; // Тип нагрева калорифера
     public string ProjectNumber { get; set; } = string.Empty;
+    public BaseCabinetConfig? BaseConfig { get; set; }  // ← ДОБАВИТЬ ЭТУ СТРОКУ
 }
