@@ -26,4 +26,8 @@ public class UiConfigInput
     public string TechnologyType { get; set; } = string.Empty; // Тип нагрева калорифера
     public string ProjectNumber { get; set; } = string.Empty;
     public BaseCabinetConfig? BaseConfig { get; set; }  // ← ДОБАВИТЬ ЭТУ СТРОКУ
+    public bool HasHumidifier { get; set; } = false;
+    public bool HasReserveFan { get; set; } = false;
+    public bool HasDispatching { get; set; } = false;
+    public bool HasAdditionalSensors { get; set; } = false;
 }

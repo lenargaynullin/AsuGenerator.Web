@@ -53,7 +53,7 @@ public class DocumentGenerator
                 worksheet.Cells[row, 2].Value = comp.Vendor;
                 worksheet.Cells[row, 3].Value = comp.Description;
                 worksheet.Cells[row, 4].Value = comp.Article;
-                worksheet.Cells[row, 5].Value = 1; // Дефолтное кол-во
+                worksheet.Cells[row, 5].Value = comp.Quantity; // Дефолтное кол-во
 
                 // Сетка для таблицы
                 worksheet.Cells[$"A{row}:E{row}"].Style.Border.Bottom.Style = ExcelBorderStyle.Hair;

@@ -64,27 +64,21 @@ public class PriceCalculationService
             AssemblyPrice = 45000.00m
         };
 
-        var groupedComponents = matchedComponents
-            .GroupBy(c => new { c.Article, c.Description })
-            .Select(g => new { g.Key.Article, g.Key.Description, Count = g.Count() });
-
-        foreach (var comp in groupedComponents)
+        foreach (var comp in matchedComponents)
         {
             if (!PriceDatabase.TryGetValue(comp.Article ?? string.Empty, out decimal basePrice))
             {
-                // Умный поиск по подстроке, если точного артикула нет
                 var matchedKey = PriceDatabase.Keys.FirstOrDefault(k =>
                     (comp.Description ?? string.Empty).Contains(k, StringComparison.OrdinalIgnoreCase));
-
                 basePrice = matchedKey != null ? PriceDatabase[matchedKey] : DefaultBasePrice;
             }
 
             proposal.Items.Add(new ProposalItem
             {
                 Name = comp.Description,
-                Quantity = comp.Count,
+                Quantity = comp.Quantity,  // ← БЕРЁМ НАПРЯМУЮ ИЗ КОМПОНЕНТА
                 BasePrice = basePrice,
-                MarginMultiplier = margin // ИСПРАВЛЕНО: Применяем динамический коэффициент с экрана!
+                MarginMultiplier = margin
             });
         }
 

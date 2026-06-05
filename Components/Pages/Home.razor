@@ -16,7 +16,7 @@
 
 <div class="pa-6">
     <MudText Typo="Typo.h4" Class="mb-2" Color="Color.Primary"><b>Интерактивная платформа генерации АСУ ТП</b></MudText>
-    <MudText Typo="Typo.body1" Class="mb-6">Автоматический подбор оборудования ОВЕН/КЭАЗ, расчет маржинального ТКП в PDF и генерация схем в DXF без EPLAN.</MudText>
+    <MudText Typo="Typo.body1" Class="mb-6">Автоматический подбор оборудования ОВЕН/КЭАЗ, выгрузка спецификации в Excel, расчет маржинального ТКП в PDF.</MudText>
 
     <!-- ГЛАВНЫЙ b2b-ПЕРЕКЛЮЧАТЕЛЬ РЕЖИМОВ РАБОТЫ -->
     <MudTabs Outlined="true" Position="Position.Top" Rounded="true" Border="true" ApplyEffectsToContainer="true" Class="mb-6" PanelClass="pa-6">
@@ -31,38 +31,64 @@
                         
                         <!-- 🔹 ОБЩИЕ СВОЙСТВА (для всех типов шкафов) -->
                         <MudExpansionPanel Text="Общие параметры шкафа" IsInitiallyExpanded="false" Class="mb-2">
-                            <div class="d-flex flex-column gap-3 pa-2">
+                            <MudTabs Outlined="true" Position="Position.Top" Rounded="true" PanelClass="pa-4">
 
-                                <MudSelect T="string" Label="Тип монтажа" @bind-Value="baseConfig.MountType"
-                                           Variant="Variant.Outlined" Dense="true">
-                                    <MudSelectItem Value="@("Навесной")">Навесной</MudSelectItem>
-                                    <MudSelectItem Value="@("Напольный")">Напольный</MudSelectItem>
-                                </MudSelect>
+                                <!-- Вкладка 1: Корпус -->
+                                <MudTabPanel Text="Корпус">
+                                    <div class="d-flex flex-column gap-3">
+                                        <MudSelect T="string" Label="Тип монтажа" @bind-Value="baseConfig.MountType"
+                                                   Variant="Variant.Outlined" Dense="true">
+                                            <MudSelectItem Value="@("Навесной")">Навесной</MudSelectItem>
+                                            <MudSelectItem Value="@("Напольный")">Напольный</MudSelectItem>
+                                        </MudSelect>
 
-                                <MudSelect T="string" Label="Степень защиты" @bind-Value="baseConfig.IpRating"
-                                           Variant="Variant.Outlined" Dense="true">
-                                    <MudSelectItem Value="@("IP31")">IP31</MudSelectItem>
-                                    <MudSelectItem Value="@("IP54")">IP54</MudSelectItem>
-                                    <MudSelectItem Value="@("IP65")">IP65</MudSelectItem>
-                                </MudSelect>
+                                        <MudSelect T="string" Label="Степень защиты" @bind-Value="baseConfig.IpRating"
+                                                   Variant="Variant.Outlined" Dense="true">
+                                            <MudSelectItem Value="@("IP31")">IP31</MudSelectItem>
+                                            <MudSelectItem Value="@("IP54")">IP54</MudSelectItem>
+                                            <MudSelectItem Value="@("IP65")">IP65</MudSelectItem>
+                                        </MudSelect>
 
-                                <MudRadioGroup T="string" @bind-Value="baseConfig.Voltage" Class="d-flex flex-column gap-1">
-                                    <MudText Typo="Typo.caption">Напряжение питания</MudText>
-                                    <MudRadio Value="@("380")" Color="Color.Primary" Dense="true">380 В</MudRadio>
-                                    <MudRadio Value="@("220")" Color="Color.Primary" Dense="true">220 В</MudRadio>
-                                </MudRadioGroup>
+                                        <MudTextField T="string" Label="Габариты (В×Ш×Г)" @bind-Value="baseConfig.Dimensions"
+                                                      Variant="Variant.Outlined" Dense="true" />
 
-                                <MudNumericField T="int" Label="Ток ввода (А)" @bind-Value="baseConfig.InputCurrent"
-                                                 Variant="Variant.Outlined" Dense="true" />
+                                        <MudSwitch T="bool" @bind-Value="baseConfig.HasHeater"
+                                                   Label="Обогрев шкафа" Color="Color.Primary" />
+                                    </div>
+                                </MudTabPanel>
 
-                                <MudSelect T="string" Label="Контроллер" @bind-Value="baseConfig.PlcType"
-                                           Variant="Variant.Outlined" Dense="true">
-                                    <MudSelectItem Value="@("ПР200")">ПР200</MudSelectItem>
-                                    <MudSelectItem Value="@("ПЛК110")">ПЛК110</MudSelectItem>
-                                    <MudSelectItem Value="@("ПЛК160")">ПЛК160</MudSelectItem>
-                                </MudSelect>
+                                <!-- Вкладка 2: Электрика и управление -->
+                                <MudTabPanel Text="Электрика и управление">
+                                    <div class="d-flex flex-column gap-3">
+                                        <MudRadioGroup T="string" @bind-Value="baseConfig.Voltage" Class="d-flex flex-column gap-1">
+                                            <MudText Typo="Typo.caption">Напряжение питания</MudText>
+                                            <MudRadio Value="@("380")" Color="Color.Primary" Dense="true">380 В (трёхфазное)</MudRadio>
+                                            <MudRadio Value="@("220")" Color="Color.Primary" Dense="true">220 В (однофазное)</MudRadio>
+                                        </MudRadioGroup>
 
-                            </div>
+                                        <MudNumericField T="int" Label="Ток ввода (А)" @bind-Value="baseConfig.InputCurrent"
+                                                         Variant="Variant.Outlined" Dense="true" />
+
+                                        <MudSelect T="string" Label="Контроллер" @bind-Value="baseConfig.PlcType"
+                                                   Variant="Variant.Outlined" Dense="true">
+                                            <MudSelectItem Value="@("ПР200")">ПР200</MudSelectItem>
+                                            <MudSelectItem Value="@("ПЛК110")">ПЛК110</MudSelectItem>
+                                            <MudSelectItem Value="@("ПЛК160")">ПЛК160</MudSelectItem>
+                                        </MudSelect>
+
+                                        <MudSelect T="string" Label="Протокол связи" @bind-Value="baseConfig.Protocol"
+                                                   Variant="Variant.Outlined" Dense="true">
+                                            <MudSelectItem Value="@("Modbus RTU")">Modbus RTU</MudSelectItem>
+                                            <MudSelectItem Value="@("Modbus TCP")">Modbus TCP</MudSelectItem>
+                                            <MudSelectItem Value="@("Нет")">Нет</MudSelectItem>
+                                        </MudSelect>
+
+                                        <MudSwitch T="bool" @bind-Value="baseConfig.HasDispatching"
+                                                   Label="Диспетчеризация" Color="Color.Primary" />
+                                    </div>
+                                </MudTabPanel>
+
+                            </MudTabs>
                         </MudExpansionPanel>
 
                         <!-- Выбор типа шкафа (База для паттерна Стратегия) -->
@@ -71,14 +97,20 @@
                             <MudSelectItem Value="@("Шкаф управления насосами (ШУН) - В разработке")" Disabled="true" />
                         </MudSelect>
 
-                        
-
                         <!-- Тип нагревателя калорифера вентиляции -->
                         <MudRadioGroup T="string" @bind-Value="heaterType" Class="d-flex flex-column gap-1">
                             <MudText Typo="Typo.caption" Color="Color.Secondary">Тип калорифера (нагревателя)</MudText>
                             <MudRadio Value="@("Водяной")" Color="Color.Primary" Dense="true">Водяной нагрев (защита от замерзания)</MudRadio>
                             <MudRadio Value="@("Электрический")" Color="Color.Primary" Dense="true">Электрический нагрев (ТЭНы)</MudRadio>
                         </MudRadioGroup>
+
+                        <!-- Дополнительные опции ШУВ -->
+                        <MudText Typo="Typo.caption" Color="Color.Secondary" Class="mt-2">Дополнительные опции</MudText>
+
+                        <MudSwitch T="bool" @bind-Value="hasHumidifier" Label="Увлажнитель" Color="Color.Primary" />
+                        <MudSwitch T="bool" @bind-Value="hasReserveFan" Label="Резервный вентилятор (АВР)" Color="Color.Primary" />
+                        <MudSwitch T="bool" @bind-Value="hasDispatching" Label="Диспетчеризация" Color="Color.Primary" />
+                        <MudSwitch T="bool" @bind-Value="hasAdditionalSensors" Label="Дополнительные датчики" Color="Color.Primary" />
 
                         <!-- Поле изменения маржи -->
                         <MudNumericField T="decimal" 
@@ -104,7 +136,7 @@
                 <!-- ПРАВАЯ ИНСТРУКЦИОННАЯ ЗОНА ВКЛАДКИ -->
                 <MudItem Xs="12" Md="7" Class="d-flex align-center justify-center">
                     <div class="d-flex flex-column justify-center align-center border-2 border-dashed rounded pa-4"
-                         Style="border-style: dashed; height: 180px; width: 100%; background-color: #fafafa;">
+                         Style="border-style: dashed; height: 400px; width: 100%; background-color: #fafafa;">
                         <MudIcon Icon="@Icons.Material.Filled.TouchApp" Style="font-size: 2.5rem;" Color="Color.Primary" Class="mb-1" />
                         <MudText Typo="Typo.body2" Align="Align.Center" Class="px-4">
                             Настройте технические параметры конфигурации слева и нажмите синюю кнопку.<br />
@@ -115,31 +147,7 @@
             </MudGrid>
         </MudTabPanel>
 
-        <!-- ВКЛАДКА 2: КЛАССИЧЕСКАЯ ЗАГРУЗКА EXCEL ОПРОСНИКА -->
-        <MudTabPanel Text="Загрузка опросного листа" Icon="@Icons.Material.Filled.CloudUpload">
-            <MudPaper Outlined="true" Class="pa-6 d-flex flex-column align-center justify-center" Style="border-style: dashed; border-width: 2px; min-height: 200px; background-color: #fafafa;">
-                <MudIcon Icon="@Icons.Material.Filled.CloudUpload" Style="font-size: 3rem;" Color="Color.Primary" Class="mb-2" />
-
-                <InputFile id="fileInput" OnChange="HandleFileSelected" hidden accept=".xlsx" />
-
-                <div class="d-flex align-center gap-4 mt-2">
-                    <MudNumericField T="decimal"
-                                     @bind-Value="marginMultiplier"
-                                     Label="Коэффициент наценки (К)"
-                                     Format="N2"
-                                     Min="1.00m"
-                                     Max="3.00m"
-                                     Step="0.05m"
-                                     Variant="Variant.Outlined"
-                                     Style="width: 150px; background-color: white;"
-                                     Dense="true" />
-
-                    <MudButton HtmlTag="label" Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.FolderOpen" for="fileInput">
-                        Выбрать файл Excel
-                    </MudButton>
-                </div>
-            </MudPaper>
-        </MudTabPanel>
+        
     </MudTabs>
 
     <!-- ЕДИНЫЙ КОРПОРАТИВНЫЙ БЛОК РЕЗУЛЬТАТОВ -->
@@ -216,7 +224,7 @@
             </MudCardContent>
             <MudCardActions Class="pa-4">
                 <MudButton Variant="Variant.Filled" Color="Color.Success" EndIcon="@Icons.Material.Filled.PlayArrow" OnClick="DownloadFile" FullWidth="true" Class="py-3">
-                    Запустить генерацию проекта (Скачать ZIP-архив: DXF + Спецификация Excel)
+                    Скачать ZIP-архив: Спецификация Excel + ТКП PDF
                 </MudButton>
             </MudCardActions>
         </MudCard>
@@ -238,6 +246,11 @@
     private List<SelectedComponent> matchedComponents = new();
     private string svgPreview = string.Empty;
 
+    private bool hasHumidifier = false;
+    private bool hasReserveFan = false;
+    private bool hasDispatching = false;
+    private bool hasAdditionalSensors = false;
+
     /// <summary>
     /// Метод генерации ТЗ на основе интерактивной веб-формы конфигуратора (Паттерн Стратегия)
     /// </summary>
@@ -250,7 +263,11 @@
             VoltageType = baseConfig.Voltage,
             TechnologyType = heaterType,
             ProjectNumber = "Конфиг-" + DateTime.Now.ToString("ddMM"),
-            BaseConfig = baseConfig
+            BaseConfig = baseConfig,
+            HasHumidifier = hasHumidifier,
+            HasReserveFan = hasReserveFan,
+            HasDispatching = hasDispatching,
+            HasAdditionalSensors = hasAdditionalSensors
         };
 
         // Поддерживаем обратную совместимость со свойствами штампа карточки результатов на экране
@@ -308,30 +325,45 @@
         try
         {
             var input = new UiConfigInput { EnclosureType = enclosureType, VoltageType = voltageType, TechnologyType = heaterType, ProjectNumber = loadedConfig.KpNumber };
+
+            // Получаем стратегию шкафа для расчета финансового ТКП
             ICabinetStrategy currentStrategy = StrategyFactory.GetStrategy(selectedCabinetType);
 
-            // Генерируем спецификацию оборудования в Excel
+            // 1. Генерируем спецификацию оборудования в Excel
             byte[] excelBytes = DocGen.GenerateExcelSpecification(matchedComponents, loadedConfig);
-            
-            // Вызываем CAD через архитектурную стратегию шкафа
-            var dxfSheets = currentStrategy.GenerateCadDrawings(matchedComponents, input, CadGen);
+
+            // 2. Рассчитываем коммерческое предложение и генерируем PDF через QuestPDF
+            CommercialProposal realProposal = currentStrategy.CalculateProposal(matchedComponents, input, marginMultiplier, PriceCalc);
+            byte[] pdfBytes = DocGen.GenerateTkpPdf(realProposal);
+
+            // ВРЕМЕННО ОТКЛЮЧЕНО: Генерация CAD-чертежей
+            // var dxfSheets = currentStrategy.GenerateCadDrawings(matchedComponents, input, CadGen);
 
             using var zipStream = new MemoryStream();
             using (var archive = new System.IO.Compression.ZipArchive(zipStream, System.IO.Compression.ZipArchiveMode.Create, true))
             {
-                var excelEntry = archive.CreateEntry($"Спецификация_КП{loadedConfig.KpNumber}.xlsx");
+                // Упаковываем Excel-спецификацию в архив
+                var excelEntry = archive.CreateEntry($"Спецификация_КП_{loadedConfig.KpNumber}.xlsx");
                 using (var entryStream = excelEntry.Open()) { entryStream.Write(excelBytes, 0, excelBytes.Length); }
 
-                foreach (var sheet in dxfSheets)
+                // Упаковываем PDF-ТКП в архив (если массив байт успешно сгенерирован)
+                if (pdfBytes != null && pdfBytes.Length > 0)
                 {
-                    var dxfEntry = archive.CreateEntry(sheet.Key);
-                    using (var entryStream = dxfEntry.Open()) { entryStream.Write(sheet.Value, 0, sheet.Value.Length); }
+                    var pdfEntry = archive.CreateEntry($"ТКП_ШУВ_КП_{loadedConfig.KpNumber}.pdf");
+                    using (var entryStream = pdfEntry.Open()) { entryStream.Write(pdfBytes, 0, pdfBytes.Length); }
                 }
+
+                // ВРЕМЕННО ОТКЛЮЧЕНО: Запись DXF-файлов в ZIP
+                // foreach (var sheet in dxfSheets)
+                // {
+                //     var dxfEntry = archive.CreateEntry(sheet.Key);
+                //     using (var entryStream = dxfEntry.Open()) { entryStream.Write(sheet.Value, 0, sheet.Value.Length); }
+                // }
             }
             zipStream.Position = 0;
             byte[] zipBytes = zipStream.ToArray();
 
-            string archiveName = $"Проект_ШУВ_КП{loadedConfig.KpNumber}.zip";
+            string archiveName = $"Проект_ШУВ_КП_{loadedConfig.KpNumber}.zip";
 
             using var fileStream = new MemoryStream(zipBytes);
             using var streamRef = new DotNetStreamReference(stream: fileStream);
@@ -342,6 +374,8 @@
             System.Diagnostics.Debug.WriteLine($"Ошибка генерации архива: {ex.Message}");
         }
     }
+
+
 
     /// <summary>
     /// Выгрузка финансового ТКП в PDF через QuestPDF и паттерн Стратегия

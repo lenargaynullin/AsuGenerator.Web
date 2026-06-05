@@ -37,12 +37,13 @@ public class SelectedComponent
     public string Description { get; set; } = string.Empty; // Наименование
     public string Article { get; set; } = string.Empty;     // Артикул
     public double Current { get; set; }                     // Ток
+    public int Quantity { get; set; } = 1;                  // Количество
 }
 // ТКП
 public class CommercialProposal
 {
     public string ProjectName { get; set; } = "ШУВ-1 (ПВУ с водяным нагревом)";
-    public string ClientName { get; set; } = "ООО ВентАвтоматика";
+    public string ClientName { get; set; } = "ООО Автоматика";
     public List<ProposalItem> Items { get; set; } = new();
     public decimal AssemblyPrice { get; set; } = 45000.00m;
     public decimal TotalPrice => Items.Sum(i => i.FinalRowPrice) + AssemblyPrice;

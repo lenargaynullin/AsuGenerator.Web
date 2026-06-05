@@ -1,29 +1,26 @@
-# 1. ЭТАП СБОРКИ: Используем контейнер SDK .NET 8
-FROM ://microsoft.com AS build-env
+# Этап сборки
+FROM ://microsoft.com AS build
+WORKDIR /src
+
+# Копируем файлы проектов для восстановления зависимостей
+COPY ["AsuGenerator.Web/AsuGenerator.Web.csproj", "AsuGenerator.Web/"]
+# Если есть отдельные проекты под бизнес-логику (ядро), раскомментируйте строки ниже:
+# COPY ["AsuGenerator.Core/AsuGenerator.Core.csproj", "AsuGenerator.Core/"]
+
+RUN dotnet restore "AsuGenerator.Web/AsuGenerator.Web.csproj"
+
+# Копируем остальные исходные файлы и собираем проект
+COPY . .
+WORKDIR "/src/AsuGenerator.Web"
+RUN dotnet publish "AsuGenerator.Web.csproj" -c Release -o /app/publish /p:UseAppHost=false
+
+# Этап запуска
+FROM ://microsoft.com AS final
 WORKDIR /app
+COPY --from=build /app/publish .
 
-# Копируем файл проекта и восстанавливаем NuGet-зависимости
-COPY *.csproj ./
-RUN dotnet restore
-
-# Копируем всю остальную кодовую базу и компилируем высокопроизводительный b2b-релиз
-COPY . ./
-RUN dotnet publish -c Release -o out
-
-# 2. ЭТАП ЗАПУСКА: Легкий контейнер среды выполнения (Runtime)
-FROM ://microsoft.com
-WORKDIR /app
-
-# Настройка b2b-зависимостей: для генерации чертежей netDxf в Linux-контейнере
-# принудительно ставим базовые шрифты (чтобы не ехал текст)
-RUN apt-get update && apt-get install -y --no-install-recommends fontconfig ttf-mscorefonts-installer && rm -rf /var/lib/apt/lists/*
-
-# Копируем скомпилированное приложение
-COPY --from=build-env /app/out .
-
-# Открываем порт 8080 для связи веб-приложения с интернетом
-EXPOSE 8080
+# Blazor внутри контейнера будет слушать порт 8080
 ENV ASPNETCORE_URLS=http://+:8080
+EXPOSE 8080
 
-# КРИТИЧЕСКИЙ ФИКС: Укажите точное имя вашей выходной DLL-сборки проекта
 ENTRYPOINT ["dotnet", "AsuGenerator.Web.dll"]
