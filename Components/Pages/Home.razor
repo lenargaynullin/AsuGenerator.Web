@@ -16,7 +16,7 @@
 
 <div class="pa-6">
     <MudText Typo="Typo.h4" Class="mb-2" Color="Color.Primary"><b>Интерактивная платформа генерации АСУ ТП</b></MudText>
-    <MudText Typo="Typo.body1" Class="mb-6">Автоматический подбор оборудования ОВЕН/КЭАЗ, выгрузка спецификации в Excel, расчет маржинального ТКП в PDF.</MudText>
+    <MudText Typo="Typo.body1" Class="mb-6">Автоматический подбор оборудования ОВЕН/КЭАЗ, выгрузка спецификации в Excel, ТКП в PDF.</MudText>
 
     <!-- ГЛАВНЫЙ b2b-ПЕРЕКЛЮЧАТЕЛЬ РЕЖИМОВ РАБОТЫ -->
     <MudTabs Outlined="true" Position="Position.Top" Rounded="true" Border="true" ApplyEffectsToContainer="true" Class="mb-6" PanelClass="pa-6">
@@ -95,6 +95,16 @@
                         <MudSelect T="string" Label="Тип проектируемого шкафа" @bind-Value="selectedCabinetType" Variant="Variant.Outlined" Dense="true" AnchorOrigin="Origin.BottomCenter">
                             <MudSelectItem Value="@("Шкаф управления вентиляцией (ШУВ)")" />
                             <MudSelectItem Value="@("Шкаф управления насосами (ШУН) - В разработке")" Disabled="true" />
+                        </MudSelect>
+
+                        <!-- Выбор бренда автоматов -->
+                        <MudSelect T="string" Label="Производитель автоматов" @bind-Value="baseConfig.PreferredBrand"
+                                   Variant="Variant.Outlined" Dense="true">
+                            <MudSelectItem Value="@("KEAZ")">КЭАЗ</MudSelectItem>
+                            <MudSelectItem Value="@("EKF")">EKF</MudSelectItem>
+                            <MudSelectItem Value="@("IEK")">IEK</MudSelectItem>
+                            <MudSelectItem Value="@("Chint")">Chint</MudSelectItem>
+                            <MudSelectItem Value="@("ABB")">ABB</MudSelectItem>
                         </MudSelect>
 
                         <!-- Тип нагревателя калорифера вентиляции -->
@@ -256,36 +266,52 @@
     /// </summary>
     private void ProcessUiCalculation()
     {
-        // 1. Формируем b2b-контейнер параметров с экрана
-        var input = new UiConfigInput
+        try
         {
-            EnclosureType = baseConfig.MountType,
-            VoltageType = baseConfig.Voltage,
-            TechnologyType = heaterType,
-            ProjectNumber = "Конфиг-" + DateTime.Now.ToString("ddMM"),
-            BaseConfig = baseConfig,
-            HasHumidifier = hasHumidifier,
-            HasReserveFan = hasReserveFan,
-            HasDispatching = hasDispatching,
-            HasAdditionalSensors = hasAdditionalSensors
-        };
+            var input = new UiConfigInput
+            {
+                EnclosureType = baseConfig.MountType,
+                VoltageType = baseConfig.Voltage,
+                TechnologyType = heaterType,
+                ProjectNumber = "Конфиг-" + DateTime.Now.ToString("ddMM"),
+                BaseConfig = baseConfig,
+                HasHumidifier = hasHumidifier,
+                HasReserveFan = hasReserveFan,
+                HasDispatching = hasDispatching,
+                HasAdditionalSensors = hasAdditionalSensors
+            };
 
-        // Поддерживаем обратную совместимость со свойствами штампа карточки результатов на экране
-        loadedConfig = new VentAvtomatikaConfig
+            loadedConfig = new VentAvtomatikaConfig
+            {
+                ClientName = "Прямой конфигуратор сайта",
+                CompanyName = "B2B Заказчик",
+                KpNumber = input.ProjectNumber,
+                Heater1Type = $"{heaterType} нагреватель",
+                HeaterEl1Voltage = voltageType
+            };
+
+            ICabinetStrategy currentStrategy = StrategyFactory.GetStrategy(selectedCabinetType);
+            matchedComponents = currentStrategy.CalculateComponents(input);
+
+            // ДИАГНОСТИКА
+            System.Diagnostics.Debug.WriteLine($"[DIAG] matchedComponents count: {matchedComponents?.Count ?? 0}");
+            if (matchedComponents != null)
+            {
+                foreach (var c in matchedComponents)
+                    System.Diagnostics.Debug.WriteLine($"[DIAG]   {c.Designation} | {c.Article} | {c.Description}");
+            }
+        }
+        catch (Exception ex)
         {
-            ClientName = "Прямой конфигуратор сайта",
-            CompanyName = "B2B Заказчик",
-            KpNumber = input.ProjectNumber,
-            Heater1Type = $"{heaterType} нагреватель",
-            HeaterEl1Voltage = voltageType,
-            HeaterEl1Power = heaterType == "Электрический" ? 4.5f : 0f
-        };
-
-        // 2. Получаем нужную стратегию шкафа через фабрику
-        ICabinetStrategy currentStrategy = StrategyFactory.GetStrategy(selectedCabinetType);
-
-        // 3. Делегируем расчет и подбор аппаратуры стратегии Золотого ЩУВ
-        matchedComponents = currentStrategy.CalculateComponents(input);
+            loadedConfig = new VentAvtomatikaConfig
+            {
+                ClientName = "ОШИБКА",
+                CompanyName = ex.GetType().Name,
+                KpNumber = ex.Message,
+                Heater1Type = ex.StackTrace?.Substring(0, Math.Min(200, ex.StackTrace?.Length ?? 0)) ?? ""
+            };
+            matchedComponents = new List<SelectedComponent>();
+        }
     }
 
     /// <summary>

@@ -14,4 +14,14 @@
     <PackageReference Include="QuestPDF" Version="2026.5.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\Configs\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\Configs\shuv-strategy.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

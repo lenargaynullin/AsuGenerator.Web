@@ -30,4 +30,5 @@ public class BaseCabinetConfig
     public string ProjectNumber { get; set; } = "";
     public string ClientName { get; set; } = "";
     public decimal Margin { get; set; } = 1.35m;
+    public string PreferredBrand { get; set; } = "KEAZ"; // КЭАЗ / EKF / IEK / Chint
 }
