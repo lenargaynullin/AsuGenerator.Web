@@ -20,6 +20,15 @@ public class ShuvStrategy : ICabinetStrategy
     {
         try
         {
+            // 1. Защита от null для входного параметра
+            if (input == null)
+            {
+                return new List<SelectedComponent>
+            {
+                new() { Designation = "ERR", Article = "ERR", Description = "Входные данные input равны null", Vendor = "ERR" }
+            };
+            }
+
             var path = System.IO.Path.Combine(
                 System.AppDomain.CurrentDomain.BaseDirectory,
                 "wwwroot", "Configs", "shuv-strategy.json");
@@ -28,20 +37,23 @@ public class ShuvStrategy : ICabinetStrategy
             System.Diagnostics.Debug.WriteLine($"[DIAG] Файл существует: {System.IO.File.Exists(path)}");
 
             var config = _loader.Load(path);
-            System.Diagnostics.Debug.WriteLine($"[DIAG] Config загружен: {config != null}");
-            System.Diagnostics.Debug.WriteLine($"[DIAG] CommonDevices count: {config.CommonDevices?.Count ?? 0}");
-            System.Diagnostics.Debug.WriteLine($"[DIAG] Rules count: {config.Rules?.Count ?? 0}");
-            System.Diagnostics.Debug.WriteLine($"[DIAG] Devices count: {config.Devices?.Count ?? 0}");
 
-            if (config.CommonDevices == null || config.CommonDevices.Count == 0)
+            // 2. Единая строгая проверка конфигурации
+            if (config?.CommonDevices == null || config.CommonDevices.Count == 0)
             {
-                System.Diagnostics.Debug.WriteLine("[DIAG] CommonDevices пуст! Проверьте JSON.");
+                System.Diagnostics.Debug.WriteLine("[DIAG] Config или CommonDevices пуст!");
                 return new List<SelectedComponent>
             {
                 new() { Designation = "ERR", Article = "ERR", Description = "CommonDevices пуст", Vendor = "ERR" }
             };
             }
 
+            System.Diagnostics.Debug.WriteLine($"[DIAG] Config загружен: true");
+            System.Diagnostics.Debug.WriteLine($"[DIAG] CommonDevices count: {config.CommonDevices.Count}");
+            System.Diagnostics.Debug.WriteLine($"[DIAG] Rules count: {config.Rules?.Count ?? 0}");
+            System.Diagnostics.Debug.WriteLine($"[DIAG] Devices count: {config.Devices?.Count ?? 0}");
+
+            // Элементы гарантированно не null благодаря проверке выше
             var selectedDesignations = new HashSet<string>(config.CommonDevices);
             System.Diagnostics.Debug.WriteLine($"[DIAG] selectedDesignations после CommonDevices: {selectedDesignations.Count}");
 
@@ -53,19 +65,27 @@ public class ShuvStrategy : ICabinetStrategy
                 System.Diagnostics.Debug.WriteLine($"[DIAG]   {d}");
 
             var components = new List<SelectedComponent>();
-            foreach (var key in selectedDesignations)
+
+            // 3. Безопасный дефолт для бренда
+            string brand = input.BaseConfig?.PreferredBrand ?? "KEAZ";
+
+            if (config.Devices != null)
             {
-                if (config.Devices.TryGetValue(key, out var device))
+                foreach (var key in selectedDesignations)
                 {
-                    string article = ResolveArticle(device, input.BaseConfig?.PreferredBrand ?? "KEAZ");
-                    components.Add(new SelectedComponent
+                    // Исключаем попадание null-ключей
+                    if (key != null && config.Devices.TryGetValue(key, out var device) && device != null)
                     {
-                        Designation = device.Designation,
-                        Article = article,
-                        Vendor = device.Vendor,
-                        Description = device.Description,
-                        Quantity = device.Quantity
-                    });
+                        string article = ResolveArticle(device, brand);
+                        components.Add(new SelectedComponent
+                        {
+                            Designation = device.Designation,
+                            Article = article,
+                            Vendor = device.Vendor,
+                            Description = device.Description,
+                            Quantity = device.Quantity
+                        });
+                    }
                 }
             }
 
@@ -81,6 +101,7 @@ public class ShuvStrategy : ICabinetStrategy
         };
         }
     }
+
     /*public List<SelectedComponent> CalculateComponents(UiConfigInput input)
     {
         var config = _loader.Load("wwwroot/Configs/shuv-strategy.json");
@@ -142,7 +163,9 @@ public class ShuvStrategy : ICabinetStrategy
                 RatedCurrent = device.Params.RatedCurrent
             });
         }
-        return device.Designation; // Заглушка для не-Breaker
+
+        // Все остальные типы устройств
+        return _supplierDb.FindDeviceArticle(brand, device.DeviceType, device.Params);
     }
 
     // Остальные методы интерфейса — заглушки
