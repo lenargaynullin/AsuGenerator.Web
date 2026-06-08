@@ -43,4 +43,6 @@ public class UiConfigInput
     /// Наличие аварии или сигналов блока кондиционера / увлажнителя
     /// </summary>
     public bool HasCoolerBlock { get; set; }
+    public bool HasAirConditioner { get; set; }
+    public bool Has3WayValve { get; set; }
 }

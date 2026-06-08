@@ -63,11 +63,6 @@
                             </MudTabs>
                         </MudExpansionPanel>
 
-                        <MudSelect T="string" Label="Производитель автоматов" @bind-Value="baseConfig.PreferredBrand" Variant="Variant.Outlined" Dense="true">
-                            <MudSelectItem Value="@("KEAZ")">КЭАЗ</MudSelectItem>
-                            <MudSelectItem Value="@("EKF")">EKF</MudSelectItem>
-                            <MudSelectItem Value="@("IEK")">IEK</MudSelectItem>
-                        </MudSelect>
 
                         <MudSelect T="string" Label="Тип проектируемого шкафа" @bind-Value="selectedCabinetType" Variant="Variant.Outlined" Dense="true">
                             <MudSelectItem Value="@("Шкаф управления вентиляцией (ШУВ)")" />
@@ -79,6 +74,10 @@
                         <MudSwitch T="bool" @bind-Value="hasVfd" Label="Частотный преобразователь (ПЧВ)" Color="Color.Primary" />
                         <MudSwitch T="bool" @bind-Value="hasHeaterPump" Label="Насос калорифера (водяной нагрев)" Color="Color.Primary" />
                         <MudSwitch T="bool" @bind-Value="hasDamper" Label="Привод заслонки" Color="Color.Primary" />
+
+                        <MudSwitch T="bool" @bind-Value="hasHumidifierPump" Label="Насос увлажнителя" Color="Color.Primary" />
+                        <MudSwitch T="bool" @bind-Value="hasAirConditioner" Label="Блок кондиционера (ККБ)" Color="Color.Primary" />
+                        <MudSwitch T="bool" @bind-Value="has3WayValve" Label="3-х ходовой клапан" Color="Color.Primary" />
 
                         <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Build" OnClick="ProcessUiCalculation" Class="py-3 mt-2">
                             Рассчитать
@@ -152,6 +151,9 @@
     private bool hasVfd = false;
     private bool hasHeaterPump = false;
     private bool hasDamper = false;
+    private bool hasHumidifierPump = false;
+    private bool hasAirConditioner = false;
+    private bool has3WayValve = false;
 
     private void ProcessUiCalculation()
     {
