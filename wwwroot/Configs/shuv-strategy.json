@@ -1,304 +1,483 @@
 {
-    "cabinetType": "ШУВ",
-    "description": "Шкаф управления вентиляцией",
-    "devices": [
+    "cabinetType": "ЩУВ",
+    "version": "1.0",
+    "rules": [
         {
-            "key": "QS1",
+            "designation": "QF",
+            "category": "Авт. выключатель",
+            "techParameters": "3P 18A",
+            "condition": "Приточный вентилятор",
+            "defaultSupplier": "Dekraft",
+            "article": "21231DEK",
+            "description": "Автоматический выключатель защиты двигателя 3P 13,0-18,0 A 15 кА ВА-431"
+        },
+        {
+            "designation": "KM",
+            "category": "Контактор",
+            "techParameters": "4НО 16 А 230 В",
+            "condition": "Приточный вентилятор",
+            "defaultSupplier": "Dekraft",
+            "article": "18053DEK",
+            "description": "Контактор модульный 4НО 16 А 230 В МК-103"
+        },
+        {
+            "designation": "UZ",
+            "category": "Преобразователь частоты",
+            "techParameters": "11,0 кВт 380 В",
+            "condition": "Приточный вентилятор",
+            "defaultSupplier": "ОВЕН",
+            "article": "ПЧВ3-11К-В",
+            "description": "Преобразователь частоты ПЧВ3-11К-В [М01] 11,0 кВт 380 В"
+        },
+        {
+            "designation": "XT",
+            "category": "Клемма",
+            "techParameters": "2,5 мм2",
+            "condition": "Приточный вентилятор",
+            "defaultSupplier": "IEK",
+            "article": "YZN30-002-K03",
+            "description": "Клемма винтовая КВИ-2,5 мм² серая"
+        },
+        {
+            "designation": "QF",
+            "category": "Авт. выключатель",
+            "techParameters": "3P 1A",
+            "condition": "Насос калорифера",
+            "defaultSupplier": "Dekraft",
+            "article": "21224DEK",
+            "description": "Автоматический выключатель защиты двигателя 3P 0,63-1,0 A 100 кА ВА-431"
+        },
+        {
+            "designation": "QF",
+            "category": "Доп. Контакт",
+            "techParameters": "1НО+1НЗ",
+            "condition": "Насос калорифера",
+            "defaultSupplier": "Dekraft",
+            "article": "21269DEK",
+            "description": "Контакт дополнительный фронтальный 1НО+1НЗ для ВА-431"
+        },
+        {
+            "designation": "KM",
+            "category": "Контактор",
+            "techParameters": "2НО 16 А 230 В",
+            "condition": "Насос калорифера",
+            "defaultSupplier": "Dekraft",
+            "article": "18050DEK",
+            "description": "Контактор модульный 2НО 16 А 230 В МК-103"
+        },
+        {
+            "designation": "XT",
+            "category": "Клемма",
+            "techParameters": "2,5 мм2",
+            "condition": "Насос калорифера",
+            "defaultSupplier": "IEK",
+            "article": "YZN30-002-K03",
+            "description": "Клемма винтовая КВИ-2,5 мм² серая"
+        },
+        {
+            "designation": "QF",
+            "category": "Авт. выключатель",
+            "techParameters": "3P 1A",
+            "condition": "Насос увлажнителя",
+            "defaultSupplier": "Dekraft",
+            "article": "21224DEK",
+            "description": "Автоматический выключатель защиты двигателя 3P 0,63-1,0 A 100 кА ВА-431"
+        },
+        {
+            "designation": "QF",
+            "category": "Доп. Контакт",
+            "techParameters": "1НО+1НЗ",
+            "condition": "Насос увлажнителя",
+            "defaultSupplier": "Dekraft",
+            "article": "21269DEK",
+            "description": "Контакт дополнительный фронтальный 1НО+1НЗ для ВА-431"
+        },
+        {
+            "designation": "KM",
+            "category": "Контактор",
+            "techParameters": "2НО 16 А 230 В",
+            "condition": "Насос увлажнителя",
+            "defaultSupplier": "Dekraft",
+            "article": "18050DEK",
+            "description": "Контактор модульный 2НО 16 А 230 В МК-103"
+        },
+        {
+            "designation": "XT",
+            "category": "Клемма",
+            "techParameters": "2,5 мм2",
+            "condition": "Насос увлажнителя",
+            "defaultSupplier": "IEK",
+            "article": "YZN30-002-K03",
+            "description": "Клемма винтовая КВИ-2,5 мм² серая"
+        },
+        {
+            "designation": "QF",
+            "category": "Авт. выключатель",
+            "techParameters": "2P 1A",
+            "condition": "Заслонка приточная",
+            "defaultSupplier": "Dekraft",
+            "article": "12280DEK",
+            "description": "Автоматический выключатель ВА-103 2P 1 А C 6 кА"
+        },
+        {
+            "designation": "QF",
+            "category": "Доп. Контакт",
+            "techParameters": "1НО+1НЗ",
+            "condition": "Заслонка приточная",
+            "defaultSupplier": "Dekraft",
+            "article": "21269DEK",
+            "description": "Контакт дополнительный фронтальный 1НО+1НЗ для ВА-431"
+        },
+        {
+            "designation": "KL",
+            "category": "Реле",
+            "techParameters": "220 VAC, 2CO",
+            "condition": "Заслонка приточная",
+            "defaultSupplier": "КИППРИБОР",
+            "article": "MR-207A",
+            "description": "Промежуточные реле в компактном корпусе 220 VAC, 2CO"
+        },
+        {
+            "designation": "KL_Socket",
+            "category": "Колодка монтажная",
+            "techParameters": "Для 2-контактных промежуточных реле",
+            "condition": "Заслонка приточная",
+            "defaultSupplier": "КИППРИБОР",
+            "article": "PYF-022BE/2",
+            "description": "Колодка монтажная серий PYF-022BE"
+        },
+        {
+            "designation": "KL_Clip",
+            "category": "Зажим пластмассовый",
+            "techParameters": "Удерживающий",
+            "condition": "Заслонка приточная",
+            "defaultSupplier": "КИППРИБОР",
+            "article": "BS 2/15P",
+            "description": "Зажим пластмассовый удерживающий"
+        },
+        {
+            "designation": "KL_Led",
+            "category": "Модуль LED-индикации",
+            "techParameters": "230 V AC/DC",
+            "condition": "Заслонка приточная",
+            "defaultSupplier": "КИППРИБОР",
+            "article": "LM-EN 230 V AC/DC",
+            "description": "Модуль LED-индикации 230 V AC/DC"
+        },
+        {
+            "designation": "XT",
+            "category": "Клемма",
+            "techParameters": "2,5 мм2",
+            "condition": "Заслонка приточная",
+            "defaultSupplier": "IEK",
+            "article": "YZN30-002-K03",
+            "description": "Клемма винтовая КВИ-2,5 мм² серая"
+        },
+        {
+            "designation": "XT",
+            "category": "Клемма 4 4 мм2",
+            "techParameters": "Авария увлажнитель",
+            "condition": "Авария увлажнитель",
+            "defaultSupplier": "IEK",
+            "article": "YZN30-004D-K03",
+            "description": "Клемма винтовая КВИ-4-2L двухуровневая 4 мм² серая"
+        },
+        {
+            "designation": "XT",
+            "category": "Клемма 4 4 мм2",
+            "techParameters": "Авария блок кондиционера",
+            "condition": "Авария блок кондиционера",
+            "defaultSupplier": "IEK",
+            "article": "YZN30-004D-K03",
+            "description": "Клемма винтовая КВИ-4-2L двухуровневая 4 мм² серая"
+        },
+        {
+            "designation": "XT",
+            "category": "Клемма 4 4 мм2",
+            "techParameters": "Пуск блок кондиционера",
+            "condition": "Пуск блок кондиционера",
+            "defaultSupplier": "IEK",
+            "article": "YZN30-004D-K03",
+            "description": "Клемма винтовая КВИ-4-2L двухуровневая 4 мм² серая"
+        },
+        {
+            "designation": "XT",
+            "category": "Клемма 4 4 мм2",
+            "techParameters": "Сигнал аварии",
+            "condition": "Сигнал аварии",
+            "defaultSupplier": "IEK",
+            "article": "YZN30-004D-K03",
+            "description": "Клемма винтовая КВИ-4-2L двухуровневая 4 мм² серая"
+        },
+        {
+            "designation": "XT",
+            "category": "Клемма 4 4 мм2",
+            "techParameters": "DI на ЧП ПВ",
+            "condition": "DI на ЧП ПВ",
+            "defaultSupplier": "IEK",
+            "article": "YZN30-004D-K03",
+            "description": "Клемма винтовая КВИ-4-2L двухуровневая 4 мм² серая"
+        },
+        {
+            "designation": "XT",
+            "category": "Клемма 4 4 мм2",
+            "techParameters": "Т наружная",
+            "condition": "Т наружная",
+            "defaultSupplier": "IEK",
+            "article": "YZN30-004D-K03",
+            "description": "Клемма винтовая КВИ-4-2L двухуровневая 4 мм² серая"
+        },
+        {
+            "designation": "XT",
+            "category": "Клемма 4 4 мм2",
+            "techParameters": "Т воды",
+            "condition": "Т воды",
+            "defaultSupplier": "IEK",
+            "article": "YZN30-004D-K03",
+            "description": "Клемма винтовая КВИ-4-2L двухуровневая 4 мм² серая"
+        },
+        {
+            "designation": "XT",
+            "category": "Клемма 4 4 мм2",
+            "techParameters": "ПВТ100",
+            "condition": "ПВТ100",
+            "defaultSupplier": "IEK",
+            "article": "YZN30-004D-K03",
+            "description": "Клемма винтовая КВИ-4-2L двухуровневая 4 мм² серая"
+        },
+        {
+            "designation": "XT",
+            "category": "Клемма 4 4 мм2",
+            "techParameters": "Диспетчеризация",
+            "condition": "Диспетчеризация",
+            "defaultSupplier": "IEK",
+            "article": "YZN30-004D-K03",
+            "description": "Клемма винтовая КВИ-4-2L двухуровневая 4 мм² серая"
+        },
+        {
+            "designation": "QF",
+            "category": "Авт. выключатель",
+            "techParameters": "2P 1A",
+            "condition": "3-х ходовой клапан",
+            "defaultSupplier": "Dekraft",
+            "article": "12280DEK",
+            "description": "Автоматический выключатель ВА-103 2P 1 А C 6 кА"
+        },
+        {
+            "designation": "QF",
+            "category": "Доп. Контакт",
+            "techParameters": "1НО+1НЗ",
+            "condition": "3-х ходовой клапан",
+            "defaultSupplier": "Dekraft",
+            "article": "21269DEK",
+            "description": "Контакт дополнительный фронтальный 1НО+1НЗ для ВА-431"
+        },
+        {
+            "designation": "XT",
+            "category": "Клемма 16 мм2",
+            "techParameters": "Вводные клеммы",
+            "condition": "Всегда",
+            "defaultSupplier": "IEK",
+            "article": "YZN30-016-K03",
+            "description": "Клемма винтовая КВИ-16 мм2 серая"
+        },
+        {
             "designation": "QS",
-            "deviceType": "Breaker",
-            "params": {
-                "poles": 4,
-                "current": 32
-            },
-            "description": "Выключатель-разъединитель 4P 32А",
-            "vendor": "KEAZ",
-            "condition": null
+            "category": "Защитный выключатель",
+            "techParameters": "4P 32A",
+            "condition": "Always",
+            "defaultSupplier": "Dekraft",
+            "article": "17014DEK",
+            "description": "Выключатель-разъединитель ВН-102 4P 32 А 400 В"
         },
         {
-            "key": "QF_PV",
-            "designation": "QF",
-            "deviceType": "Breaker",
-            "params": {
-                "poles": 3,
-                "current": 18
-            },
-            "description": "Автомат защиты двигателя 3P 13-18A",
-            "vendor": "KEAZ",
-            "condition": null
+            "designation": "AS",
+            "category": "Кросс-модуль",
+            "techParameters": "4х15, 125 А",
+            "condition": "Always",
+            "defaultSupplier": "IEK",
+            "article": "YND10-4-15-125",
+            "description": "Кросс-модуль на DIN-рейку 4х15, 125А"
         },
         {
-            "key": "KM1",
-            "designation": "KM",
-            "deviceType": "Contactor",
-            "params": {
-                "poles": 4,
-                "current": 16,
-                "voltage": 230
-            },
-            "description": "Контактор модульный 4НО 16А",
-            "vendor": "KEAZ",
-            "condition": null
-        },
-        {
-            "key": "A1",
             "designation": "A",
-            "deviceType": "PLC",
-            "params": {
-                "voltage": 24,
-                "di": 8,
-                "do": 4,
-                "ai": 2,
-                "interface": "RS485"
-            },
-            "description": "Программируемое реле ПР200",
-            "vendor": "ОВЕН",
-            "condition": null
+            "category": "ПЛК",
+            "techParameters": "ПР200",
+            "condition": "Always",
+            "defaultSupplier": "ОВЕН",
+            "article": "ПР200-24.4.2.0",
+            "description": "Программируемое реле с дисплеем"
         },
         {
-            "key": "G1",
-            "designation": "G",
-            "deviceType": "PowerSupply",
-            "params": {
-                "inputVoltage": 230,
-                "outputVoltage": 24,
-                "current": 2.5,
-                "power": 60
-            },
-            "description": "Блок питания 60Вт 24В",
-            "vendor": "ОВЕН",
-            "condition": null
+            "designation": "A",
+            "category": "ПЛК",
+            "techParameters": "ПРМ-24.1",
+            "condition": "Always",
+            "defaultSupplier": "ОВЕН",
+            "article": "ПРМ-24.1",
+            "description": "Модуль расширения для программируемого реле"
         },
         {
-            "key": "HL_Yellow",
-            "designation": "HL",
-            "deviceType": "Lamp",
-            "params": {
-                "color": "Yellow",
-                "voltage": 230
-            },
-            "description": "Лампа Сеть",
-            "vendor": "IEK",
-            "condition": null
-        },
-        {
-            "key": "HL_Green",
-            "designation": "HL",
-            "deviceType": "Lamp",
-            "params": {
-                "color": "Green",
-                "voltage": 230
-            },
-            "description": "Лампа Работа",
-            "vendor": "IEK",
-            "condition": null
-        },
-        {
-            "key": "HL_Red",
-            "designation": "HL",
-            "deviceType": "Lamp",
-            "params": {
-                "color": "Red",
-                "voltage": 230
-            },
-            "description": "Лампа Авария",
-            "vendor": "IEK",
-            "condition": null
-        },
-        {
-            "key": "SB_Red",
-            "designation": "SB",
-            "deviceType": "Button",
-            "params": {
-                "color": "Red",
-                "type": "NC"
-            },
-            "description": "Кнопка Стоп",
-            "vendor": "IEK",
-            "condition": null
-        },
-        {
-            "key": "SB_Green",
-            "designation": "SB",
-            "deviceType": "Button",
-            "params": {
-                "color": "Green",
-                "type": "NO"
-            },
-            "description": "Кнопка Пуск",
-            "vendor": "IEK",
-            "condition": null
-        },
-        {
-            "key": "SA1",
-            "designation": "SA",
-            "deviceType": "Switch",
-            "params": { "positions": 3 },
-            "description": "Переключатель 3 поз.",
-            "vendor": "IEK",
-            "condition": null
-        },
-        {
-            "key": "KL_24V",
-            "designation": "KL",
-            "deviceType": "Relay",
-            "params": {
-                "voltage": 24,
-                "current": 8,
-                "contacts": "2CO"
-            },
-            "description": "Реле 24V DC",
-            "vendor": "КИППРИБОР",
-            "quantity": 3,
-            "condition": null
-        },
-        {
-            "key": "XT1",
-            "designation": "XT",
-            "deviceType": "Terminal",
-            "params": { "section": 16 },
-            "description": "Клемма 16 мм²",
-            "vendor": "IEK",
-            "quantity": 5,
-            "condition": null
-        },
-        {
-            "key": "XT2",
-            "designation": "XT",
-            "deviceType": "Terminal",
-            "params": { "section": 2.5 },
-            "description": "Клемма 2,5 мм²",
-            "vendor": "IEK",
-            "quantity": 19,
-            "condition": null
-        },
-
-        {
-            "key": "TE1",
-            "designation": "TE",
-            "deviceType": "Sensor",
-            "params": { "type": "PT1000" },
-            "description": "Датчик температуры наружного воздуха",
-            "vendor": "ОВЕН",
-            "condition": {
-                "field": "heaterType",
-                "value": "Водяной"
-            }
-        },
-        {
-            "key": "TE2",
-            "designation": "TE",
-            "deviceType": "Sensor",
-            "params": { "type": "PT1000" },
-            "description": "Датчик температуры обратной воды",
-            "vendor": "ОВЕН",
-            "condition": {
-                "field": "heaterType",
-                "value": "Водяной"
-            }
-        },
-        {
-            "key": "TSA1",
-            "designation": "TSA",
-            "deviceType": "Thermostat",
-            "params": {
-                "type": "NC",
-                "current": 16
-            },
-            "description": "Капиллярный термостат защиты от замерзания",
-            "vendor": "Meyertec",
-            "condition": {
-                "field": "heaterType",
-                "value": "Водяной"
-            }
-        },
-        {
-            "key": "KL_220V",
-            "designation": "KL",
-            "deviceType": "Relay",
-            "params": {
-                "voltage": 220,
-                "current": 8,
-                "contacts": "2CO"
-            },
-            "description": "Реле 220V AC для привода клапана",
-            "vendor": "КИППРИБОР",
-            "condition": {
-                "field": "heaterType",
-                "value": "Водяной"
-            }
-        },
-        {
-            "key": "M2",
-            "designation": "M",
-            "deviceType": "Motor",
-            "params": {},
-            "description": "Циркуляционный насос калорифера",
-            "vendor": "По проекту",
-            "condition": {
-                "field": "heaterType",
-                "value": "Водяной"
-            }
-        },
-
-        {
-            "key": "TT1",
-            "designation": "TT",
-            "deviceType": "SSR",
-            "params": {
-                "current": 40,
-                "voltage": 230
-            },
-            "description": "Твердотельное реле 40А для ШИМ",
-            "vendor": "ОВЕН",
-            "condition": {
-                "field": "heaterType",
-                "value": "Электрический"
-            }
-        },
-        {
-            "key": "KM4",
-            "designation": "KM",
-            "deviceType": "Contactor",
-            "params": {
-                "poles": 4,
-                "current": 16,
-                "voltage": 230
-            },
-            "description": "Контактор ТЭНов",
-            "vendor": "KEAZ",
-            "quantity": 3,
-            "condition": {
-                "field": "heaterType",
-                "value": "Электрический"
-            }
-        },
-        {
-            "key": "QF7",
             "designation": "QF",
-            "deviceType": "Breaker",
-            "params": {
-                "poles": 3,
-                "current": 18
-            },
-            "description": "Автомат защиты ТЭНов",
-            "vendor": "KEAZ",
-            "quantity": 3,
-            "condition": {
-                "field": "heaterType",
-                "value": "Электрический"
-            }
+            "category": "Авт. выключатель",
+            "techParameters": "1P 4A",
+            "condition": "Always",
+            "defaultSupplier": "Dekraft",
+            "article": "12267DEK",
+            "description": "Автоматический выключатель ВА-103 1P 4 А C 6 кА"
         },
         {
-            "key": "TE1_E",
-            "designation": "TE",
-            "deviceType": "Sensor",
-            "params": { "type": "PT1000" },
-            "description": "Датчик температуры приточного воздуха",
-            "vendor": "ОВЕН",
-            "condition": {
-                "field": "heaterType",
-                "value": "Электрический"
-            }
+            "designation": "G",
+            "category": "Блок питания",
+            "techParameters": "60 Вт 24 В",
+            "condition": "Always",
+            "defaultSupplier": "ОВЕН",
+            "article": "БП60Б-Д4-24",
+            "description": "Блок питания 60 Вт 24 В"
+        },
+        {
+            "designation": "HL",
+            "category": "Лампа",
+            "techParameters": "желтый 230 В",
+            "condition": "Always",
+            "defaultSupplier": "IEK",
+            "article": "BLS10-ADDS-230-K05",
+            "description": "Лампа d22 мм желтый 230 В AC/DC"
+        },
+        {
+            "designation": "HL",
+            "category": "Лампа",
+            "techParameters": "зеленый 230 В",
+            "condition": "Always",
+            "defaultSupplier": "IEK",
+            "article": "BLS10-ADDS-230-K06",
+            "description": "Лампа d22 мм зеленый 230 В AC/DC"
+        },
+        {
+            "designation": "HL",
+            "category": "Лампа",
+            "techParameters": "красный 230 В",
+            "condition": "Always",
+            "defaultSupplier": "IEK",
+            "article": "BLS10-ADDS-230-K04",
+            "description": "Лампа d22 мм красный 230 В AC/DC"
+        },
+        {
+            "designation": "KL",
+            "category": "Реле",
+            "techParameters": "24 VDC, 2CO",
+            "condition": "Always",
+            "defaultSupplier": "КИППРИБОР",
+            "article": "MR-203D",
+            "description": "Промежуточные реле в компактном корпусе 24 VDC, 2CO"
+        },
+        {
+            "designation": "KL_Socket",
+            "category": "Колодка монтажная",
+            "techParameters": "Для 2-контактных реле",
+            "condition": "Always",
+            "defaultSupplier": "КИППРИБОР",
+            "article": "PYF-022BE/2",
+            "description": "Колодка монтажная серий PYF-022BE"
+        },
+        {
+            "designation": "KL_Clip",
+            "category": "Зажим пластмассовый",
+            "techParameters": "Удерживающий",
+            "condition": "Always",
+            "defaultSupplier": "КИППРИБОР",
+            "article": "BS 2/15P",
+            "description": "Зажим пластмассовый удерживающий"
+        },
+        {
+            "designation": "KL_Led",
+            "category": "Модуль LED-индикации",
+            "techParameters": "24 V AC/DC",
+            "condition": "Always",
+            "defaultSupplier": "КИППРИБОР",
+            "article": "LM-СF 24 V AC/DC",
+            "description": "Модуль LED-индикации 24 V AC/DC"
+        },
+        {
+            "designation": "XT_End",
+            "category": "Крышка 16 мм2",
+            "techParameters": "Для КВИ-16",
+            "condition": "Always",
+            "defaultSupplier": "IEK",
+            "article": "YZN30D-ZGL-016-K03",
+            "description": "Заглушка для КВИ-16 мм² серая"
+        },
+        {
+            "designation": "XT_End",
+            "category": "Крышка 2,5 мм2",
+            "techParameters": "Для КВИ-2,5",
+            "condition": "Always",
+            "defaultSupplier": "IEK",
+            "article": "YZN30D-ZGL-002-K03",
+            "description": "Заглушка для КВИ-2,5 мм² серая"
+        },
+        {
+            "designation": "XT_End",
+            "category": "Крышка 4 4 мм2",
+            "techParameters": "Для КВИ-4-2L",
+            "condition": "Always",
+            "defaultSupplier": "IEK",
+            "article": "YZN30D-ZGL-004D-K03",
+            "description": "Заглушка для КВИ-4-2L двухуровневой 4 мм² серая"
+        },
+        {
+            "designation": "SA",
+            "category": "Переключатель",
+            "techParameters": "3 позиции I-0-II",
+            "condition": "Always",
+            "defaultSupplier": "IEK",
+            "article": "BSW60-BD-3-K02",
+            "description": "Переключатель LAY5-BD33 3 позиции I-0-II стандартная ручка, с фиксацией"
+        },
+        {
+            "designation": "SA",
+            "category": "Кнопка 1НЗ",
+            "techParameters": "Контактный блок",
+            "condition": "Always",
+            "defaultSupplier": "IEK",
+            "article": "BDK11",
+            "description": "Контактный блок для светосигнальной арматуры 1НЗ"
+        },
+        {
+            "designation": "SB",
+            "category": "Кнопка 1НЗ",
+            "techParameters": "Красная, 1НЗ",
+            "condition": "Always",
+            "defaultSupplier": "IEK",
+            "article": "BBT61-BA-K04",
+            "description": "Кнопка управления LAY5-BA42 без подсветки красная, 1НЗ"
+        },
+        {
+            "designation": "SB",
+            "category": "Кнопка 230 В 1НО",
+            "techParameters": "Зеленая 230 В 1НО",
+            "condition": "Always",
+            "defaultSupplier": "IEK",
+            "article": "BBT50-BW-K06",
+            "description": "Кнопка с подсветкой зеленая 230 В 1НО"
+        },
+        {
+            "designation": "XT",
+            "category": "Клемма 2,5 мм2",
+            "techParameters": "Общие цепи",
+            "condition": "Always",
+            "defaultSupplier": "IEK",
+            "article": "YZN30-002-K03",
+            "description": "Клемма винтовая КВИ-2,5 мм² серая"
+        },
+        {
+            "designation": "XT",
+            "category": "Клемма 4 4 мм2",
+            "techParameters": "Общие цепи",
+            "condition": "Always",
+            "defaultSupplier": "IEK",
+            "article": "YZN30-004D-K03",
+            "description": "Клемма винтовая КВИ-4-2L двухуровневая 4 мм² серая"
         }
     ]
 }

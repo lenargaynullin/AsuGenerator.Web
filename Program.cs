@@ -16,13 +16,10 @@ builder.Services.AddScoped<AsuGenerator.Web.Services.DocumentGenerator>();
 builder.Services.AddScoped<AsuGenerator.Web.Services.CadGeneratorService>();
 builder.Services.AddSingleton<AsuGenerator.Web.Services.DxfBlockManager>();
 builder.Services.AddScoped<PriceCalculationService>();
-
+builder.Services.AddScoped<CabinetStrategyFactory>();
 builder.Services.AddSingleton<ShuvConfigLoader>();
-builder.Services.AddSingleton<SupplierDatabase>();
-builder.Services.AddScoped<ICabinetStrategy, ShuvStrategy>();
 
 // Регистрация b2b фабрики управления шкафами
-builder.Services.AddScoped<CabinetStrategyFactory>();
 
 // Регистрация стратегий конкретных шкафов
 builder.Services.AddScoped<ICabinetStrategy, ShuvStrategy>();

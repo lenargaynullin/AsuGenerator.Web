@@ -25,4 +25,8 @@ public class UiConfigInput
     public bool HasReserveFan { get; set; } = false;
     public bool HasDispatching { get; set; } = false;
     public bool HasAdditionalSensors { get; set; } = false;
+    public bool SupplyFan { get; set; } = true;
+    public bool HasVfd { get; set; }
+    public bool HasHeaterPump { get; set; }
+    public bool HasDamper { get; set; }
 }

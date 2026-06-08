@@ -73,11 +73,12 @@
                             <MudSelectItem Value="@("Шкаф управления вентиляцией (ШУВ)")" />
                         </MudSelect>
 
-                        <MudRadioGroup T="string" @bind-Value="heaterType" Class="d-flex flex-column gap-1">
-                            <MudText Typo="Typo.caption">Тип калорифера</MudText>
-                            <MudRadio Value="@("Водяной")" Color="Color.Primary" Dense="true">Водяной</MudRadio>
-                            <MudRadio Value="@("Электрический")" Color="Color.Primary" Dense="true">Электрический</MudRadio>
-                        </MudRadioGroup>
+                        <MudText Typo="Typo.caption" Color="Color.Secondary" Class="mt-2">Конфигурация ШУВ</MudText>
+
+                        <MudSwitch T="bool" @bind-Value="supplyFan" Label="Приточный вентилятор" Color="Color.Primary" />
+                        <MudSwitch T="bool" @bind-Value="hasVfd" Label="Частотный преобразователь (ПЧВ)" Color="Color.Primary" />
+                        <MudSwitch T="bool" @bind-Value="hasHeaterPump" Label="Насос калорифера (водяной нагрев)" Color="Color.Primary" />
+                        <MudSwitch T="bool" @bind-Value="hasDamper" Label="Привод заслонки" Color="Color.Primary" />
 
                         <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Build" OnClick="ProcessUiCalculation" Class="py-3 mt-2">
                             Рассчитать
@@ -145,6 +146,10 @@
     private string heaterType = "Водяной";
     private VentAvtomatikaConfig? loadedConfig;
     private List<SelectedComponent> matchedComponents = new();
+    private bool supplyFan = true;
+    private bool hasVfd = false;
+    private bool hasHeaterPump = false;
+    private bool hasDamper = false;
 
     private void ProcessUiCalculation()
     {
@@ -152,8 +157,10 @@
         {
             var input = new UiConfigInput
             {
-                EnclosureType = baseConfig.MountType,
-                VoltageType = baseConfig.Voltage,
+                SupplyFan = supplyFan,
+                HasVfd = hasVfd,
+                HasHeaterPump = hasHeaterPump,
+                HasDamper = hasDamper,
                 TechnologyType = heaterType,
                 ProjectNumber = "Конфиг-" + DateTime.Now.ToString("ddMM"),
                 BaseConfig = baseConfig
