@@ -1,20 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using AsuGenerator.Web.Models;
 
 namespace AsuGenerator.Web.Services.Strategies.Implementations;
 
-public class ShuvStrategy : ICabinetStrategy
+/// <summary>
+/// Стратегия подбора шкафа управления вентиляцией (ШУВ).
+/// Использует основной конструктор (Primary Constructor) C# 12+.
+/// </summary>
+public class ShuvStrategy(ShuvConfigLoader loader, SupplierDatabase supplierDb) : ICabinetStrategy
 {
-    private readonly ShuvConfigLoader _loader;
-    private readonly SupplierDatabase _supplierDb;
-
-    public ShuvStrategy(ShuvConfigLoader loader, SupplierDatabase supplierDb)
-    {
-        _loader = loader;
-        _supplierDb = supplierDb;
-    }
-
     public string CabinetType => "Шкаф управления вентиляцией (ШУВ)";
 
     public List<SelectedComponent> CalculateComponents(UiConfigInput input)
@@ -22,13 +18,21 @@ public class ShuvStrategy : ICabinetStrategy
         try
         {
             if (input == null)
-                return new List<SelectedComponent> { new() { Designation = "ERR", Article = "ERR", Description = "input == null", Vendor = "ERR" } };
+                return [new() { Designation = "ERR", Article = "ERR", Description = "input == null", Vendor = "ERR" }];
 
-            var path = System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "wwwroot", "Configs", "shuv-strategy.json");
-            var config = _loader.Load(path);
+            // Кроссплатформенный сборщик путей
+            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "wwwroot", "Configs", "shuv-strategy.json");
+
+            // Защита от регистра имен папок в Linux/Docker окружении
+            if (!File.Exists(path))
+            {
+                path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "wwwroot", "configs", "shuv-strategy.json");
+            }
+
+            var config = loader.Load(path);
 
             if (config?.Devices == null || config.Devices.Count == 0)
-                return new List<SelectedComponent> { new() { Designation = "ERR", Article = "ERR", Description = "Devices пуст", Vendor = "ERR" } };
+                return [new() { Designation = "ERR", Article = "ERR", Description = "Devices пуст", Vendor = "ERR" }];
 
             var components = new List<SelectedComponent>();
             string brand = input.BaseConfig?.PreferredBrand ?? "KEAZ";
@@ -49,7 +53,7 @@ public class ShuvStrategy : ICabinetStrategy
                 {
                     Designation = designation,
                     Article = article,
-                    Vendor = device.Vendor,
+                    Vendor = brand, // Перезаписываем бренд на выбранный пользователем на экране
                     Description = device.Description,
                     Quantity = device.Quantity
                 });
@@ -59,58 +63,74 @@ public class ShuvStrategy : ICabinetStrategy
         }
         catch (Exception ex)
         {
-            return new List<SelectedComponent> { new() { Designation = "ERR", Article = "ERR", Description = ex.Message, Vendor = ex.GetType().Name } };
+            return [new() { Designation = "ERR", Article = "ERR", Description = ex.Message, Vendor = ex.GetType().Name }];
         }
     }
 
-    private bool CheckCondition(DeviceCondition condition, UiConfigInput input)
+    /// <summary>
+    /// Проверка условий включения модулей. Сделана статической для повышения производительности.
+    /// </summary>
+    private static bool CheckCondition(DeviceCondition condition, UiConfigInput input)
     {
-        if (condition.Field == "heaterType")
-            return input.TechnologyType == condition.Value;
-        return false;
+        if (condition == null || string.IsNullOrEmpty(condition.Field)) return true;
+
+        return condition.Field switch
+        {
+            "heaterType" => input.TechnologyType == condition.Value,
+            "hasHumidifier" => input.HasHumidifier == (condition.Value == "true"),
+            "hasReserveFan" => input.HasReserveFan == (condition.Value == "true"),
+            "hasDispatching" => input.HasDispatching == (condition.Value == "true"),
+            "hasAdditionalSensors" => input.HasAdditionalSensors == (condition.Value == "true"),
+            "hasHeater" => (input.BaseConfig?.HasHeater == true) == (condition.Value == "true"),
+            "hasModbus" => (input.BaseConfig?.Protocol?.Contains("Modbus") == true) == (condition.Value == "true"),
+            _ => false
+        };
     }
 
-    private string AutoNumber(string baseDesignation, Dictionary<string, int> counters)
+    /// <summary>
+    /// Автоматическое нумерование позиций по ГОСТ (KM1, KM2...). Помечено как static.
+    /// </summary>
+    private static string AutoNumber(string baseDesignation, Dictionary<string, int> counters)
     {
-        if (!counters.ContainsKey(baseDesignation))
-            counters[baseDesignation] = 0;
-        counters[baseDesignation]++;
-        return $"{baseDesignation}{counters[baseDesignation]}";
+        if (!counters.TryGetValue(baseDesignation, out int value))
+            value = 0;
+
+        value++;
+        counters[baseDesignation] = value;
+        return $"{baseDesignation}{value}";
     }
 
     private string ResolveArticle(DeviceConfig device, string brand)
     {
         if (device.Params == null)
-            return _supplierDb.FindArticle(brand, device.DeviceType, null);
+            return supplierDb.FindArticle(brand, device.DeviceType, null);
 
         var requiredParams = new Dictionary<string, string>();
 
-        if (device.DeviceType == "Breaker")
+        switch (device.DeviceType)
         {
-            if (device.Params.Poles > 0) requiredParams["poles"] = device.Params.Poles.ToString();
-            if (device.Params.RatedCurrent > 0) requiredParams["current"] = device.Params.RatedCurrent.ToString();
-        }
-        else if (device.DeviceType == "Lamp" && !string.IsNullOrEmpty(device.Params.Color))
-        {
-            requiredParams["color"] = device.Params.Color;
-        }
-        else if (device.DeviceType == "Button" && !string.IsNullOrEmpty(device.Params.Color))
-        {
-            requiredParams["color"] = device.Params.Color;
-        }
-        else if (device.DeviceType == "Relay" && device.Params.Voltage > 0)
-        {
-            requiredParams["voltage"] = device.Params.Voltage.ToString();
-        }
-        else if (device.DeviceType == "Terminal" && device.Params.Section > 0)
-        {
-            requiredParams["section"] = device.Params.Section.ToString();
-        }
-        else if (device.DeviceType == "Contactor" && device.Params.Poles > 0)
-        {
-            requiredParams["poles"] = device.Params.Poles.ToString();
+            case "Breaker":
+                if (device.Params.Poles > 0) requiredParams["poles"] = device.Params.Poles.ToString();
+                if (device.Params.RatedCurrent > 0) requiredParams["current"] = device.Params.RatedCurrent.ToString();
+                break;
+
+            case "Lamp" or "Button":
+                if (!string.IsNullOrEmpty(device.Params.Color)) requiredParams["color"] = device.Params.Color;
+                break;
+
+            case "Relay" when device.Params.Voltage > 0:
+                requiredParams["voltage"] = device.Params.Voltage.ToString();
+                break;
+
+            case "Terminal" when device.Params.Section > 0:
+                requiredParams["section"] = device.Params.Section.ToString();
+                break;
+
+            case "Contactor" when device.Params.Poles > 0:
+                requiredParams["poles"] = device.Params.Poles.ToString();
+                break;
         }
 
-        return _supplierDb.FindArticle(brand, device.DeviceType, requiredParams.Count > 0 ? requiredParams : null);
+        return supplierDb.FindArticle(brand, device.DeviceType, requiredParams.Count > 0 ? requiredParams : null);
     }
 }

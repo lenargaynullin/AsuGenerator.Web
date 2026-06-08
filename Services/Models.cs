@@ -1,4 +1,7 @@
-﻿namespace AsuGenerator.Web.Services;
+﻿using System.Collections.Generic;
+using System.Linq;
+
+namespace AsuGenerator.Web.Services;
 
 // 1. Модель параметров опросного листа
 public class VentAvtomatikaConfig
@@ -39,19 +42,22 @@ public class SelectedComponent
     public double Current { get; set; }                     // Ток
     public int Quantity { get; set; } = 1;                  // Количество
 }
-// ТКП
+
+// 3. Модель финансового ТКП
 public class CommercialProposal
 {
     public string ProjectName { get; set; } = "ШУВ-1 (ПВУ с водяным нагревом)";
     public string ClientName { get; set; } = "ООО Автоматика";
-    public List<ProposalItem> Items { get; set; } = new();
+
+    // Оптимизировано: Упрощенная инициализация пустой коллекции [] вместо new()
+    public List<ProposalItem> Items { get; set; } = [];
     public decimal AssemblyPrice { get; set; } = 45000.00m;
     public decimal TotalPrice => Items.Sum(i => i.FinalRowPrice) + AssemblyPrice;
 }
 
 public class ProposalItem
 {
-    public string Name { get; set; } = "";
+    public string Name { get; set; } = string.Empty;
     public int Quantity { get; set; }
     public decimal BasePrice { get; set; }
     public decimal MarginMultiplier { get; set; } = 1.35m;
