@@ -29,4 +29,18 @@ public class UiConfigInput
     public bool HasVfd { get; set; }
     public bool HasHeaterPump { get; set; }
     public bool HasDamper { get; set; }
+    /// <summary>
+    /// Выбранный бренд автоматов защиты из выпадающего списка UI (КЭАЗ, Dekraft и т.д.)
+    /// </summary>
+    public string PreferredBrand { get; set; } = "Dekraft"; // Дефолтное значение для MVP
+
+    /// <summary>
+    /// Наличие насоса увлажнителя
+    /// </summary>
+    public bool HasHumidifierPump { get; set; }
+
+    /// <summary>
+    /// Наличие аварии или сигналов блока кондиционера / увлажнителя
+    /// </summary>
+    public bool HasCoolerBlock { get; set; }
 }
