@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using AsuGenerator.Web.Models;
 
-namespace AsuGenerator.Web.Services;
+namespace AsuGenerator.Web.Services.Strategies.Implementations;
 
 public class ShuvStrategy : ICabinetStrategy
 {
@@ -20,158 +21,96 @@ public class ShuvStrategy : ICabinetStrategy
     {
         try
         {
-            // 1. Защита от null для входного параметра
             if (input == null)
-            {
-                return new List<SelectedComponent>
-            {
-                new() { Designation = "ERR", Article = "ERR", Description = "Входные данные input равны null", Vendor = "ERR" }
-            };
-            }
+                return new List<SelectedComponent> { new() { Designation = "ERR", Article = "ERR", Description = "input == null", Vendor = "ERR" } };
 
-            var path = System.IO.Path.Combine(
-                System.AppDomain.CurrentDomain.BaseDirectory,
-                "wwwroot", "Configs", "shuv-strategy.json");
-
-            System.Diagnostics.Debug.WriteLine($"[DIAG] Путь к JSON: {path}");
-            System.Diagnostics.Debug.WriteLine($"[DIAG] Файл существует: {System.IO.File.Exists(path)}");
-
+            var path = System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "wwwroot", "Configs", "shuv-strategy.json");
             var config = _loader.Load(path);
 
-            // 2. Единая строгая проверка конфигурации
-            if (config?.CommonDevices == null || config.CommonDevices.Count == 0)
-            {
-                System.Diagnostics.Debug.WriteLine("[DIAG] Config или CommonDevices пуст!");
-                return new List<SelectedComponent>
-            {
-                new() { Designation = "ERR", Article = "ERR", Description = "CommonDevices пуст", Vendor = "ERR" }
-            };
-            }
-
-            System.Diagnostics.Debug.WriteLine($"[DIAG] Config загружен: true");
-            System.Diagnostics.Debug.WriteLine($"[DIAG] CommonDevices count: {config.CommonDevices.Count}");
-            System.Diagnostics.Debug.WriteLine($"[DIAG] Rules count: {config.Rules?.Count ?? 0}");
-            System.Diagnostics.Debug.WriteLine($"[DIAG] Devices count: {config.Devices?.Count ?? 0}");
-
-            // Элементы гарантированно не null благодаря проверке выше
-            var selectedDesignations = new HashSet<string>(config.CommonDevices);
-            System.Diagnostics.Debug.WriteLine($"[DIAG] selectedDesignations после CommonDevices: {selectedDesignations.Count}");
-
-            // Применяем правила
-            ApplyRule(selectedDesignations, config, "heaterType", input.TechnologyType ?? "");
-
-            System.Diagnostics.Debug.WriteLine($"[DIAG] selectedDesignations после правил: {selectedDesignations.Count}");
-            foreach (var d in selectedDesignations)
-                System.Diagnostics.Debug.WriteLine($"[DIAG]   {d}");
+            if (config?.Devices == null || config.Devices.Count == 0)
+                return new List<SelectedComponent> { new() { Designation = "ERR", Article = "ERR", Description = "Devices пуст", Vendor = "ERR" } };
 
             var components = new List<SelectedComponent>();
-
-            // 3. Безопасный дефолт для бренда
             string brand = input.BaseConfig?.PreferredBrand ?? "KEAZ";
+            var counters = new Dictionary<string, int>();
 
-            if (config.Devices != null)
+            foreach (var device in config.Devices)
             {
-                foreach (var key in selectedDesignations)
+                if (device.Condition != null)
                 {
-                    // Исключаем попадание null-ключей
-                    if (key != null && config.Devices.TryGetValue(key, out var device) && device != null)
-                    {
-                        string article = ResolveArticle(device, brand);
-                        components.Add(new SelectedComponent
-                        {
-                            Designation = device.Designation,
-                            Article = article,
-                            Vendor = device.Vendor,
-                            Description = device.Description,
-                            Quantity = device.Quantity
-                        });
-                    }
+                    if (!CheckCondition(device.Condition, input))
+                        continue;
                 }
-            }
 
-            System.Diagnostics.Debug.WriteLine($"[DIAG] Итого компонентов: {components.Count}");
-            return components;
-        }
-        catch (Exception ex)
-        {
-            System.Diagnostics.Debug.WriteLine($"[DIAG] ОШИБКА: {ex.Message}");
-            return new List<SelectedComponent>
-        {
-            new() { Designation = "ERR", Article = "ERR", Description = ex.Message, Vendor = ex.GetType().Name }
-        };
-        }
-    }
-
-    /*public List<SelectedComponent> CalculateComponents(UiConfigInput input)
-    {
-        var config = _loader.Load("wwwroot/Configs/shuv-strategy.json");
-        var selectedDesignations = new HashSet<string>(config.CommonDevices);
-
-        // Применяем правила
-        ApplyRule(selectedDesignations, config, "heaterType", input.TechnologyType ?? "");
-        ApplyRule(selectedDesignations, config, "hasHumidifier", BoolToKey(input.HasHumidifier));
-        ApplyRule(selectedDesignations, config, "hasReserveFan", BoolToKey(input.HasReserveFan));
-        ApplyRule(selectedDesignations, config, "hasDispatching", BoolToKey(input.HasDispatching));
-        ApplyRule(selectedDesignations, config, "hasAdditionalSensors", BoolToKey(input.HasAdditionalSensors));
-        ApplyRule(selectedDesignations, config, "hasHeater", BoolToKey(input.BaseConfig?.HasHeater == true));
-        ApplyRule(selectedDesignations, config, "hasModbus", BoolToKey(input.BaseConfig?.Protocol?.Contains("Modbus") == true));
-
-        // Превращаем ключи в компоненты с артикулами
-        var components = new List<SelectedComponent>();
-        foreach (var key in selectedDesignations)
-        {
-            if (config.Devices.TryGetValue(key, out var device))
-            {
-                string article = ResolveArticle(device, input.BaseConfig?.PreferredBrand ?? "KEAZ");
+                string article = ResolveArticle(device, brand);
+                string designation = AutoNumber(device.Designation, counters);
 
                 components.Add(new SelectedComponent
                 {
-                    Designation = device.Designation,
+                    Designation = designation,
                     Article = article,
                     Vendor = device.Vendor,
                     Description = device.Description,
                     Quantity = device.Quantity
                 });
             }
+
+            return components;
         }
-
-        return components;
-    }
-    */
-
-    private void ApplyRule(HashSet<string> target, ShuvConfig config, string ruleKey, string inputValue)
-    {
-        if (string.IsNullOrEmpty(inputValue)) return;
-
-        if (config.Rules.TryGetValue(ruleKey, out var rule) &&
-            rule.TryGetValue(inputValue, out var devices))
+        catch (Exception ex)
         {
-            foreach (var d in devices)
-                target.Add(d);
+            return new List<SelectedComponent> { new() { Designation = "ERR", Article = "ERR", Description = ex.Message, Vendor = ex.GetType().Name } };
         }
     }
 
-    private string BoolToKey(bool value) => value ? "true" : "";
+    private bool CheckCondition(DeviceCondition condition, UiConfigInput input)
+    {
+        if (condition.Field == "heaterType")
+            return input.TechnologyType == condition.Value;
+        return false;
+    }
+
+    private string AutoNumber(string baseDesignation, Dictionary<string, int> counters)
+    {
+        if (!counters.ContainsKey(baseDesignation))
+            counters[baseDesignation] = 0;
+        counters[baseDesignation]++;
+        return $"{baseDesignation}{counters[baseDesignation]}";
+    }
 
     private string ResolveArticle(DeviceConfig device, string brand)
     {
-        if (device.DeviceType == "Breaker" && device.Params != null)
+        if (device.Params == null)
+            return _supplierDb.FindArticle(brand, device.DeviceType, null);
+
+        var requiredParams = new Dictionary<string, string>();
+
+        if (device.DeviceType == "Breaker")
         {
-            return _supplierDb.FindBreakerArticle(brand, new BreakerParams
-            {
-                Poles = device.Params.Poles,
-                RatedCurrent = device.Params.RatedCurrent
-            });
+            if (device.Params.Poles > 0) requiredParams["poles"] = device.Params.Poles.ToString();
+            if (device.Params.RatedCurrent > 0) requiredParams["current"] = device.Params.RatedCurrent.ToString();
+        }
+        else if (device.DeviceType == "Lamp" && !string.IsNullOrEmpty(device.Params.Color))
+        {
+            requiredParams["color"] = device.Params.Color;
+        }
+        else if (device.DeviceType == "Button" && !string.IsNullOrEmpty(device.Params.Color))
+        {
+            requiredParams["color"] = device.Params.Color;
+        }
+        else if (device.DeviceType == "Relay" && device.Params.Voltage > 0)
+        {
+            requiredParams["voltage"] = device.Params.Voltage.ToString();
+        }
+        else if (device.DeviceType == "Terminal" && device.Params.Section > 0)
+        {
+            requiredParams["section"] = device.Params.Section.ToString();
+        }
+        else if (device.DeviceType == "Contactor" && device.Params.Poles > 0)
+        {
+            requiredParams["poles"] = device.Params.Poles.ToString();
         }
 
-        // Все остальные типы устройств
-        return _supplierDb.FindDeviceArticle(brand, device.DeviceType, device.Params);
+        return _supplierDb.FindArticle(brand, device.DeviceType, requiredParams.Count > 0 ? requiredParams : null);
     }
-
-    // Остальные методы интерфейса — заглушки
-    public CommercialProposal CalculateProposal(List<SelectedComponent> components, UiConfigInput input, decimal margin, PriceCalculationService priceCalc)
-        => new() { ProjectName = "ШУВ", ClientName = input.BaseConfig?.ClientName ?? "" };
-
-    public Dictionary<string, byte[]> GenerateCadDrawings(List<SelectedComponent> components, UiConfigInput input, CadGeneratorService cadGen)
-        => new();
 }

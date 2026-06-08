@@ -1,272 +1,304 @@
 {
     "cabinetType": "ШУВ",
     "description": "Шкаф управления вентиляцией",
-    "rules": {
-        "heaterType": {
-            "Водяной": [ "TE1", "TE2", "TSA1", "KL5", "M2" ],
-            "Электрический": [ "TT1", "KM4_3", "QF7_3", "TE1_E" ],
-            "Фреоновый": [ "KM5", "QF9", "KA2", "KA3" ],
-            "Водяной охладитель": [ "M3", "KL6", "QF10", "TE3" ]
-        },
-        "hasHumidifier": {
-            "true": [ "M4", "KM6", "QF11", "ME1" ]
-        },
-        "hasReserveFan": {
-            "true": [ "KM7", "QF12", "KA4", "KA5" ]
-        },
-        "hasDispatching": {
-            "true": [ "A3", "KA6", "KA7", "KA8" ]
-        },
-        "hasAdditionalSensors": {
-            "true": [ "PDS1", "PDS2", "PDS3" ]
-        },
-        "hasHeater": {
-            "true": [ "EK1", "QF8" ]
-        },
-        "hasModbus": {
-            "true": [ "A2" ]
-        }
-    },
-    "commonDevices": [
-        "QS1",
-        "QF1",
-        "KM1",
-        "A1",
-        "G1",
-        "HL1",
-        "HL2",
-        "HL3",
-        "SB1",
-        "SB2",
-        "SA1",
-        "KL1_3",
-        "XT1_5",
-        "XT2_19"
-    ],
-    "devices": {
-        "QS1": {
-            "designation": "QS1",
+    "devices": [
+        {
+            "key": "QS1",
+            "designation": "QS",
             "deviceType": "Breaker",
             "params": {
                 "poles": 4,
-                "ratedCurrent": 32
+                "current": 32
             },
-            "description": "Выключатель-разъединитель ВН-102 4P 32А",
-            "vendor": "Dekraft"
+            "description": "Выключатель-разъединитель 4P 32А",
+            "vendor": "KEAZ",
+            "condition": null
         },
-        "QF1": {
-            "designation": "QF1",
+        {
+            "key": "QF_PV",
+            "designation": "QF",
             "deviceType": "Breaker",
             "params": {
                 "poles": 3,
-                "ratedCurrent": 18,
-                "type": "Motor"
+                "current": 18
             },
             "description": "Автомат защиты двигателя 3P 13-18A",
-            "vendor": "Dekraft"
+            "vendor": "KEAZ",
+            "condition": null
         },
-        "KM1": {
-            "designation": "KM1",
+        {
+            "key": "KM1",
+            "designation": "KM",
             "deviceType": "Contactor",
             "params": {
                 "poles": 4,
-                "ratedCurrent": 16
+                "current": 16,
+                "voltage": 230
             },
             "description": "Контактор модульный 4НО 16А",
-            "vendor": "Dekraft"
+            "vendor": "KEAZ",
+            "condition": null
         },
-        "A1": {
-            "designation": "A1",
+        {
+            "key": "A1",
+            "designation": "A",
             "deviceType": "PLC",
-            "params": { "model": "ПР200-24.4.2.0" },
-            "description": "Программируемое реле",
-            "vendor": "ОВЕН"
-        },
-        "G1": {
-            "designation": "G1",
-            "deviceType": "PowerSupply",
             "params": {
                 "voltage": 24,
+                "di": 8,
+                "do": 4,
+                "ai": 2,
+                "interface": "RS485"
+            },
+            "description": "Программируемое реле ПР200",
+            "vendor": "ОВЕН",
+            "condition": null
+        },
+        {
+            "key": "G1",
+            "designation": "G",
+            "deviceType": "PowerSupply",
+            "params": {
+                "inputVoltage": 230,
+                "outputVoltage": 24,
+                "current": 2.5,
                 "power": 60
             },
             "description": "Блок питания 60Вт 24В",
-            "vendor": "ОВЕН"
+            "vendor": "ОВЕН",
+            "condition": null
         },
-        "HL1": {
-            "designation": "HL1",
+        {
+            "key": "HL_Yellow",
+            "designation": "HL",
             "deviceType": "Lamp",
             "params": {
                 "color": "Yellow",
                 "voltage": 230
             },
             "description": "Лампа Сеть",
-            "vendor": "IEK"
+            "vendor": "IEK",
+            "condition": null
         },
-        "HL2": {
-            "designation": "HL2",
+        {
+            "key": "HL_Green",
+            "designation": "HL",
             "deviceType": "Lamp",
             "params": {
                 "color": "Green",
                 "voltage": 230
             },
             "description": "Лампа Работа",
-            "vendor": "IEK"
+            "vendor": "IEK",
+            "condition": null
         },
-        "HL3": {
-            "designation": "HL3",
+        {
+            "key": "HL_Red",
+            "designation": "HL",
             "deviceType": "Lamp",
             "params": {
                 "color": "Red",
                 "voltage": 230
             },
             "description": "Лампа Авария",
-            "vendor": "IEK"
+            "vendor": "IEK",
+            "condition": null
         },
-        "SB1": {
-            "designation": "SB1",
+        {
+            "key": "SB_Red",
+            "designation": "SB",
             "deviceType": "Button",
             "params": {
                 "color": "Red",
                 "type": "NC"
             },
             "description": "Кнопка Стоп",
-            "vendor": "IEK"
+            "vendor": "IEK",
+            "condition": null
         },
-        "SB2": {
-            "designation": "SB2",
+        {
+            "key": "SB_Green",
+            "designation": "SB",
             "deviceType": "Button",
             "params": {
                 "color": "Green",
                 "type": "NO"
             },
             "description": "Кнопка Пуск",
-            "vendor": "IEK"
+            "vendor": "IEK",
+            "condition": null
         },
-        "SA1": {
-            "designation": "SA1",
+        {
+            "key": "SA1",
+            "designation": "SA",
             "deviceType": "Switch",
             "params": { "positions": 3 },
             "description": "Переключатель 3 поз.",
-            "vendor": "IEK"
+            "vendor": "IEK",
+            "condition": null
         },
-        "KL1_3": {
-            "designation": "KL1",
+        {
+            "key": "KL_24V",
+            "designation": "KL",
             "deviceType": "Relay",
-            "params": { "voltage": 24 },
+            "params": {
+                "voltage": 24,
+                "current": 8,
+                "contacts": "2CO"
+            },
             "description": "Реле 24V DC",
             "vendor": "КИППРИБОР",
-            "quantity": 3
+            "quantity": 3,
+            "condition": null
         },
-        "XT1_5": {
-            "designation": "XT1",
+        {
+            "key": "XT1",
+            "designation": "XT",
             "deviceType": "Terminal",
             "params": { "section": 16 },
             "description": "Клемма 16 мм²",
             "vendor": "IEK",
-            "quantity": 5
+            "quantity": 5,
+            "condition": null
         },
-        "XT2_19": {
-            "designation": "XT2",
+        {
+            "key": "XT2",
+            "designation": "XT",
             "deviceType": "Terminal",
             "params": { "section": 2.5 },
             "description": "Клемма 2,5 мм²",
             "vendor": "IEK",
-            "quantity": 19
+            "quantity": 19,
+            "condition": null
         },
-        "TE1": {
-            "designation": "TE1",
+
+        {
+            "key": "TE1",
+            "designation": "TE",
             "deviceType": "Sensor",
             "params": { "type": "PT1000" },
             "description": "Датчик температуры наружного воздуха",
-            "vendor": "ОВЕН"
+            "vendor": "ОВЕН",
+            "condition": {
+                "field": "heaterType",
+                "value": "Водяной"
+            }
         },
-        "TE2": {
-            "designation": "TE2",
+        {
+            "key": "TE2",
+            "designation": "TE",
             "deviceType": "Sensor",
             "params": { "type": "PT1000" },
             "description": "Датчик температуры обратной воды",
-            "vendor": "ОВЕН"
+            "vendor": "ОВЕН",
+            "condition": {
+                "field": "heaterType",
+                "value": "Водяной"
+            }
         },
-        "TSA1": {
-            "designation": "TSA1",
+        {
+            "key": "TSA1",
+            "designation": "TSA",
             "deviceType": "Thermostat",
-            "params": {},
+            "params": {
+                "type": "NC",
+                "current": 16
+            },
             "description": "Капиллярный термостат защиты от замерзания",
-            "vendor": "Meyertec"
+            "vendor": "Meyertec",
+            "condition": {
+                "field": "heaterType",
+                "value": "Водяной"
+            }
         },
-        "KL5": {
-            "designation": "KL5",
+        {
+            "key": "KL_220V",
+            "designation": "KL",
             "deviceType": "Relay",
-            "params": { "voltage": 220 },
+            "params": {
+                "voltage": 220,
+                "current": 8,
+                "contacts": "2CO"
+            },
             "description": "Реле 220V AC для привода клапана",
-            "vendor": "КИППРИБОР"
+            "vendor": "КИППРИБОР",
+            "condition": {
+                "field": "heaterType",
+                "value": "Водяной"
+            }
         },
-        "M2": {
-            "designation": "M2",
+        {
+            "key": "M2",
+            "designation": "M",
             "deviceType": "Motor",
             "params": {},
             "description": "Циркуляционный насос калорифера",
-            "vendor": "По проекту"
+            "vendor": "По проекту",
+            "condition": {
+                "field": "heaterType",
+                "value": "Водяной"
+            }
         },
-        "TT1": {
-            "designation": "TT1",
+
+        {
+            "key": "TT1",
+            "designation": "TT",
             "deviceType": "SSR",
-            "params": { "current": 40 },
+            "params": {
+                "current": 40,
+                "voltage": 230
+            },
             "description": "Твердотельное реле 40А для ШИМ",
-            "vendor": "ОВЕН"
+            "vendor": "ОВЕН",
+            "condition": {
+                "field": "heaterType",
+                "value": "Электрический"
+            }
         },
-        "KM4_3": {
-            "designation": "KM4",
+        {
+            "key": "KM4",
+            "designation": "KM",
             "deviceType": "Contactor",
             "params": {
                 "poles": 4,
-                "ratedCurrent": 16
+                "current": 16,
+                "voltage": 230
             },
             "description": "Контактор ТЭНов",
-            "vendor": "Dekraft",
-            "quantity": 3
+            "vendor": "KEAZ",
+            "quantity": 3,
+            "condition": {
+                "field": "heaterType",
+                "value": "Электрический"
+            }
         },
-        "QF7_3": {
-            "designation": "QF7",
+        {
+            "key": "QF7",
+            "designation": "QF",
             "deviceType": "Breaker",
             "params": {
                 "poles": 3,
-                "ratedCurrent": 18
+                "current": 18
             },
             "description": "Автомат защиты ТЭНов",
-            "vendor": "Dekraft",
-            "quantity": 3
+            "vendor": "KEAZ",
+            "quantity": 3,
+            "condition": {
+                "field": "heaterType",
+                "value": "Электрический"
+            }
         },
-        "TE1_E": {
-            "designation": "TE1",
+        {
+            "key": "TE1_E",
+            "designation": "TE",
             "deviceType": "Sensor",
             "params": { "type": "PT1000" },
             "description": "Датчик температуры приточного воздуха",
-            "vendor": "ОВЕН"
-        },
-        "A2": {
-            "designation": "A2",
-            "deviceType": "Module",
-            "params": {},
-            "description": "Модуль расширения ПРМ-24.1",
-            "vendor": "ОВЕН"
-        },
-        "EK1": {
-            "designation": "EK1",
-            "deviceType": "Heater",
-            "params": { "power": 50 },
-            "description": "Обогреватель шкафа 50Вт",
-            "vendor": "IEK"
-        },
-        "QF8": {
-            "designation": "QF8",
-            "deviceType": "Breaker",
-            "params": {
-                "poles": 1,
-                "ratedCurrent": 4
-            },
-            "description": "Автомат 1P 4A для обогрева",
-            "vendor": "Dekraft"
+            "vendor": "ОВЕН",
+            "condition": {
+                "field": "heaterType",
+                "value": "Электрический"
+            }
         }
-    }
+    ]
 }

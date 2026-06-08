@@ -1,5 +1,6 @@
 using AsuGenerator.Web.Components;
 using AsuGenerator.Web.Services;
+using AsuGenerator.Web.Services.Strategies.Implementations;
 using MudBlazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);

@@ -51,7 +51,7 @@ public class CommercialProposal
 
 public class ProposalItem
 {
-    public string Name { get; set; }
+    public string Name { get; set; } = "";
     public int Quantity { get; set; }
     public decimal BasePrice { get; set; }
     public decimal MarginMultiplier { get; set; } = 1.35m;
