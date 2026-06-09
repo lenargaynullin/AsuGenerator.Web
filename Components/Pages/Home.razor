@@ -34,12 +34,12 @@
                                         <MudSelect T="string" Label="Степень защиты" @bind-Value="baseConfig.IpRating" Variant="Variant.Outlined" Dense="true">
                                             <MudSelectItem Value="@("IP54")">IP54</MudSelectItem>
                                         </MudSelect>
-                                        <MudText Typo="Typo.caption">Габариты шкафа (мм)</MudText>
-                                        <div class="d-flex gap-2">
-                                            <MudNumericField T="int" Label="Высота" @bind-Value="baseConfig.Height" Variant="Variant.Outlined" Dense="true" />
-                                            <MudNumericField T="int" Label="Ширина" @bind-Value="baseConfig.Width" Variant="Variant.Outlined" Dense="true" />
-                                            <MudNumericField T="int" Label="Глубина" @bind-Value="baseConfig.Depth" Variant="Variant.Outlined" Dense="true" />
-                                        </div>
+                                        <MudSelect T="string" Label="Габариты шкафа (В×Ш×Г)" @bind-Value="selectedDimensions" Variant="Variant.Outlined" Dense="true">
+                                            <MudSelectItem Value="@("600×400×250")">600×400×250 мм</MudSelectItem>
+                                            <MudSelectItem Value="@("800×600×300")">800×600×300 мм</MudSelectItem>
+                                            <MudSelectItem Value="@("1000×800×300")">1000×800×300 мм</MudSelectItem>
+                                            <MudSelectItem Value="@("1200×800×400")">1200×800×400 мм</MudSelectItem>
+                                        </MudSelect>
 
                                         <MudSwitch T="bool" @bind-Value="baseConfig.HasHeater" Label="Обогрев шкафа" Color="Color.Primary" />
                                     </div>
@@ -147,6 +147,7 @@
 
 @code {
     private BaseCabinetConfig baseConfig = new();
+    private string selectedDimensions = "600×400×250";
     private string selectedCabinetType = "Шкаф управления вентиляцией (ШУВ)";
     private string heaterType = "Водяной";
     private VentAvtomatikaConfig? loadedConfig;
@@ -161,6 +162,14 @@
 
     private void ProcessUiCalculation()
     {
+        // Парсим габариты из строки
+        var dims = selectedDimensions.Split('×');
+        if (dims.Length == 3)
+        {
+            baseConfig.Height = int.Parse(dims[0]);
+            baseConfig.Width = int.Parse(dims[1]);
+            baseConfig.Depth = int.Parse(dims[2]);
+        }
         try
         {
             var input = new UiConfigInput
