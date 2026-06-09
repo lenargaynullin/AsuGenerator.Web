@@ -1,7 +1,8 @@
-﻿using AsuGenerator.Web.Core.Models;
+﻿using AsuGenerator.Web.Models;
+using AsuGenerator.Web.Services.Strategies;
 using System.Collections.Generic;
 
-namespace AsuGenerator.Web.Services;
+namespace AsuGenerator.Web.Services.Strategies;
 
 public interface ICabinetStrategy
 {

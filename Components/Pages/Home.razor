@@ -1,7 +1,8 @@
 ﻿@page "/"
 @using AsuGenerator.Web.Services
 @using System.IO
-@using AsuGenerator.Web.Core.Models
+@using AsuGenerator.Web.Models
+@using AsuGenerator.Web.Services.Strategies
 @inject ExcelParserService Parser
 @inject CalculationEngine Engine
 @inject DocumentGenerator DocGen
@@ -29,14 +30,17 @@
                                     <div class="d-flex flex-column gap-3">
                                         <MudSelect T="string" Label="Тип монтажа" @bind-Value="baseConfig.MountType" Variant="Variant.Outlined" Dense="true">
                                             <MudSelectItem Value="@("Навесной")">Навесной</MudSelectItem>
-                                            <MudSelectItem Value="@("Напольный")">Напольный</MudSelectItem>
                                         </MudSelect>
                                         <MudSelect T="string" Label="Степень защиты" @bind-Value="baseConfig.IpRating" Variant="Variant.Outlined" Dense="true">
-                                            <MudSelectItem Value="@("IP31")">IP31</MudSelectItem>
                                             <MudSelectItem Value="@("IP54")">IP54</MudSelectItem>
-                                            <MudSelectItem Value="@("IP65")">IP65</MudSelectItem>
                                         </MudSelect>
-                                        <MudTextField T="string" Label="Габариты (В×Ш×Г)" @bind-Value="baseConfig.Dimensions" Variant="Variant.Outlined" Dense="true" />
+                                        <MudText Typo="Typo.caption">Габариты шкафа (мм)</MudText>
+                                        <div class="d-flex gap-2">
+                                            <MudNumericField T="int" Label="Высота" @bind-Value="baseConfig.Height" Variant="Variant.Outlined" Dense="true" />
+                                            <MudNumericField T="int" Label="Ширина" @bind-Value="baseConfig.Width" Variant="Variant.Outlined" Dense="true" />
+                                            <MudNumericField T="int" Label="Глубина" @bind-Value="baseConfig.Depth" Variant="Variant.Outlined" Dense="true" />
+                                        </div>
+
                                         <MudSwitch T="bool" @bind-Value="baseConfig.HasHeater" Label="Обогрев шкафа" Color="Color.Primary" />
                                     </div>
                                 </MudTabPanel>

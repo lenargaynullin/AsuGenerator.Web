@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using AsuGenerator.Web.Models;
+using AsuGenerator.Web.Services.Strategies; // <-- ДОБАВЛЕНО ДЛЯ СВЯЗИ С ИНТЕРФЕЙСОМ
 
 namespace AsuGenerator.Web.Services.Strategies.Implementations;
 
-public class ShuvStrategy : ICabinetStrategy
+public class ShuvStrategy(ShuvConfigLoader loader) : ICabinetStrategy
 {
-    private readonly ShuvConfigLoader _loader;
-
-    public ShuvStrategy(ShuvConfigLoader loader)
-    {
-        _loader = loader;
-    }
+    private readonly ShuvConfigLoader _loader = loader;
 
     public string CabinetType => "Шкаф управления вентиляцией (ШУВ)";
 
@@ -42,22 +40,32 @@ public class ShuvStrategy : ICabinetStrategy
                 bool isAccessory = raw.Contains('_');
                 string contextKey = $"{baseCode}_{device.Condition}";
 
+                // Инициализируем переменную перед поиском
                 int index;
 
-                if (isAccessory && contextIndexes.ContainsKey(contextKey))
+                // Выполняем поиск ВСЕГО ОДИН РАЗ через TryGetValue
+                if (isAccessory && contextIndexes.TryGetValue(contextKey, out var existingIndex))
                 {
-                    index = contextIndexes[contextKey];
+                    index = existingIndex;
                 }
                 else
                 {
-                    if (!counters.ContainsKey(baseCode))
-                        counters[baseCode] = 0;
-                    counters[baseCode]++;
-                    index = counters[baseCode];
+                    // Оптимизируем счетчики: если ключа нет, TryGetValue вернет false и запишет 0 в currentCounter
+                    if (!counters.TryGetValue(baseCode, out var currentCounter))
+                    {
+                        currentCounter = 0;
+                    }
+
+                    currentCounter++;
+                    counters[baseCode] = currentCounter;
+                    index = currentCounter;
 
                     if (!isAccessory)
+                    {
                         contextIndexes[contextKey] = index;
+                    }
                 }
+
 
                 string designation = FormatDesignation(raw, baseCode, index);
 
@@ -70,7 +78,77 @@ public class ShuvStrategy : ICabinetStrategy
                     Quantity = device.Quantity
                 });
             }
+            // База типоразмеров навесных шкафов
+            var wallMountedCabinets = new Dictionary<(int H, int W, int D), (string Article, string Description)>
+            {
+                { (600, 400, 250), ("MES 60.40.25", "Шкаф компактный распределительный (с монтажной панелью)") },
+                { (800, 600, 300), ("MES 80.60.30", "Шкаф компактный распределительный (с монтажной панелью)") },
+                { (1000, 800, 300), ("MES 100.80.30", "Шкаф компактный распределительный (с монтажной панелью)") },
+                { (1200, 800, 400), ("MES 120.80.40", "Шкаф компактный распределительный (с монтажной панелью)") },
+            };
 
+            // Конструктив шкафа / Общие параметры шкафа
+            if (input.BaseConfig != null)
+            {
+                // 1 Навесной 
+                if (input.BaseConfig.MountType == "Навесной")
+                {
+                    components.Add(new SelectedComponent
+                    {
+                        Designation = "Скобы",
+                        Article = "WB 8",
+                        Vendor = "ПРОВЕНТО",
+                        Description = "Скобы для монтажа на стене",
+                        Quantity = 4
+                    });
+                    components.Add(new SelectedComponent
+                    {
+                        Designation = "DIN - рейка",
+                        Article = "DR 15.2000",
+                        Vendor = "ПРОВЕНТО",
+                        Description = "DIN - рейка, 2 м",
+                        Quantity = 1
+                    });
+                }
+                var key = (input.BaseConfig.Height, input.BaseConfig.Width, input.BaseConfig.Depth);
+
+                if (wallMountedCabinets.TryGetValue(key, out var cabinet))
+                {
+                    components.Add(new SelectedComponent
+                    {
+                        Designation = "Шкаф",
+                        Article = cabinet.Article,
+                        Vendor = "ПРОВЕНТО",
+                        Description = cabinet.Description,
+                        Quantity = 1
+                    });
+                }
+                else
+                {
+                    // Размер не из типовой базы — шкаф по проекту
+                    components.Add(new SelectedComponent
+                    {
+                        Designation = "Шкаф",
+                        Article = "",
+                        Vendor = "По проекту",
+                        Description = $"Шкаф навесной {input.BaseConfig.Height}×{input.BaseConfig.Width}×{input.BaseConfig.Depth} мм {input.BaseConfig.IpRating}",
+                        Quantity = 1
+                    });
+                }
+
+                // Обогреватель
+                if (input.BaseConfig.HasHeater)
+                {
+                    components.Add(new SelectedComponent
+                    {
+                        Designation = "EK",
+                        Article = "YCE-CRE-050-65",
+                        Vendor = "IEK",
+                        Description = "Обогреватель на DIN-рейку 50Вт",
+                        Quantity = 1
+                    });
+                }
+            }
             // Группировка одинаковых артикулов
             var grouped = new List<SelectedComponent>();
 

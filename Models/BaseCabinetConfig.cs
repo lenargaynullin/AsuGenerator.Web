@@ -1,12 +1,14 @@
-﻿namespace AsuGenerator.Web.Core.Models;
+﻿namespace AsuGenerator.Web.Models;
 
 public class BaseCabinetConfig
 {
     // Конструктивные
     public string MountType { get; set; } = "Навесной";
     public string IpRating { get; set; } = "IP54";
+    public int Height { get; set; } = 600;
+    public int Width { get; set; } = 400;
+    public int Depth { get; set; } = 250;
     public string Material { get; set; } = "Металл";
-    public string Dimensions { get; set; } = "600×400×250";
     public bool HasHeater { get; set; } = false;
 
     // Электрические

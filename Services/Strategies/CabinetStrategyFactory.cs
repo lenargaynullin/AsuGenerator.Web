@@ -2,26 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace AsuGenerator.Web.Services;
+namespace AsuGenerator.Web.Services.Strategies;
 
-public class CabinetStrategyFactory
+/// <summary>
+/// Фабрика для динамического подбора стратегии проектирования шкафа.
+/// Использует основной конструктор C# 12+ (Решение IDE0290).
+/// </summary>
+public class CabinetStrategyFactory(IEnumerable<ICabinetStrategy> strategies)
 {
-    private readonly IEnumerable<ICabinetStrategy> _strategies;
-
-    public CabinetStrategyFactory(IEnumerable<ICabinetStrategy> strategies)
-    {
-        _strategies = strategies;
-    }
+    private readonly IEnumerable<ICabinetStrategy> _strategies = strategies;
 
     public ICabinetStrategy GetStrategy(string cabinetType)
     {
-        var strategy = _strategies.FirstOrDefault(s => s.CabinetType.Equals(cabinetType, StringComparison.OrdinalIgnoreCase));
-
-        if (strategy == null)
-        {
-            throw new ArgumentException($"Тип шкафа '{cabinetType}' еще не поддерживается платформой.");
-        }
-
-        return strategy;
+        // Поиск стратегии и упрощенная проверка на null через оператор ?? (Решение IDE0270)
+        return _strategies.FirstOrDefault(s => s.CabinetType.Equals(cabinetType, StringComparison.OrdinalIgnoreCase))
+            ?? throw new ArgumentException($"Тип шкафа '{cabinetType}' еще не поддерживается платформой.");
     }
 }
