@@ -6,9 +6,8 @@ public class ShuvConfig
 {
     public string CabinetType { get; set; } = "";
     public string Version { get; set; } = "";
-    public List<DeviceConfig> Rules { get; set; } = [];  // ← массив, не словарь
+    public List<DeviceConfig> Rules { get; set; } = [];
 }
-
 public class DeviceConfig
 {
     public string Designation { get; set; } = "";
