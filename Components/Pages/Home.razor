@@ -119,7 +119,7 @@
                                             </td>
                                             <td>@line.Designation</td>
                                             <td>
-                                                @if (line.Designation != "Вводной")
+                                                @if (line.Designation != "QF")
                                                 {
                                                     <MudCheckBox @bind-Value="line.HasRCD" Dense="true" />
                                                 }
@@ -165,13 +165,13 @@
                                                 </MudSelect>
                                             </td>
                                             <td>
-                                                @if (line.Designation != "Вводной")
+                                                @if (line.Designation != "QF")
                                                 {
                                                     <MudCheckBox @bind-Value="line.HasContactor" Dense="true" />
                                                 }
                                             </td>
                                             <td>
-                                                @if (line.Designation != "Вводной")
+                                                @if (line.Designation != "QF")
                                                 {
                                                     <MudCheckBox @bind-Value="line.HasThermostat" Dense="true" />
                                                 }
