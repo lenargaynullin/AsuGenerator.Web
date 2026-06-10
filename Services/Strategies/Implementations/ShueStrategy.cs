@@ -288,6 +288,66 @@ public class ShueStrategy(ShuvConfigLoader loader) : ICabinetStrategy
             }
         }
 
+
+        // 5. Сокращение последовательных обозначений по ГОСТ
+        foreach (var comp in grouped)
+        {
+            var parts = comp.Designation.Split(", ", StringSplitOptions.RemoveEmptyEntries);
+            if (parts.Length < 2) continue;
+
+            // Извлекаем базовый префикс (например, "QF" или "HL")
+            var basePrefix = new string(parts.First(p => !string.IsNullOrEmpty(p))
+                .TakeWhile(c => !char.IsDigit(c)).ToArray()).Trim();
+
+            if (string.IsNullOrEmpty(basePrefix)) continue;
+
+            var numbers = new List<int>();
+            bool hasPlainPrefixWithoutDigit = false; // Флаг для поиска одиночного "QF"
+
+            foreach (var p in parts)
+            {
+                if (p == basePrefix)
+                {
+                    hasPlainPrefixWithoutDigit = true; // Нашли автомат без цифры!
+                }
+                else if (p.StartsWith(basePrefix))
+                {
+                    var numStr = new string(p.Substring(basePrefix.Length).TakeWhile(char.IsDigit).ToArray());
+                    if (int.TryParse(numStr, out var n))
+                    {
+                        numbers.Add(n);
+                    }
+                }
+            }
+
+            // Если нашли числовую последовательность из 3 и более приборов
+            if (numbers.Count >= 3)
+            {
+                numbers.Sort();
+
+                // Проверяем непрерывность ряда чисел
+                bool isContinuous = true;
+                for (int i = 1; i < numbers.Count; i++)
+                {
+                    if (numbers[i] != numbers[i - 1] + 1)
+                    {
+                        isContinuous = false;
+                        break;
+                    }
+                }
+
+                if (isContinuous)
+                {
+                    // Формируем сжатый хвост: "QF1...QF10"
+                    string compressedRange = $"{basePrefix}{numbers.First()}...{basePrefix}{numbers.Last()}";
+
+                    // Если в начале был автомат без цифры ("QF"), склеиваем: "QF, QF1...QF10"
+                    comp.Designation = hasPlainPrefixWithoutDigit
+                        ? $"{basePrefix}, {compressedRange}"
+                        : compressedRange;
+                }
+            }
+        }
         return grouped;
     }
 
