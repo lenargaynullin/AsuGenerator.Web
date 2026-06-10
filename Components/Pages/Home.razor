@@ -20,7 +20,7 @@
 
         <MudTabPanel Text="Интерактивный подбор" Icon="@Icons.Material.Filled.SettingsSuggest">
             <MudGrid>
-                <MudItem Xs="12" Md="5">
+                <MudItem Xs="12" Md="12">
                     <div class="d-flex flex-column gap-4">
                         <MudText Typo="Typo.subtitle1"><b>Параметры конфигурации шкафа:</b></MudText>
 
@@ -70,29 +70,103 @@
 
                         <MudSelect T="string" Label="Тип проектируемого шкафа" @bind-Value="selectedCabinetType" Variant="Variant.Outlined" Dense="true">
                             <MudSelectItem Value="@("Шкаф управления вентиляцией (ШУВ)")" />
+                            <MudSelectItem Value="@("Шкаф управления электрообогревом (ШУЭ)")" />
                         </MudSelect>
 
+                        
+                        @if (selectedCabinetType.Contains("ШУВ")) 
+                        {
                         <MudText Typo="Typo.caption" Color="Color.Secondary" Class="mt-2">Конфигурация ШУВ</MudText>
 
                         <MudSwitch T="bool" @bind-Value="supplyFan" Label="Приточный вентилятор" Color="Color.Primary" />
                         <MudSwitch T="bool" @bind-Value="hasVfd" Label="Частотный преобразователь (ПЧВ)" Color="Color.Primary" />
                         <MudSwitch T="bool" @bind-Value="hasHeaterPump" Label="Насос калорифера (водяной нагрев)" Color="Color.Primary" />
                         <MudSwitch T="bool" @bind-Value="hasDamper" Label="Привод заслонки" Color="Color.Primary" />
-
                         <MudSwitch T="bool" @bind-Value="hasHumidifierPump" Label="Насос увлажнителя" Color="Color.Primary" />
                         <MudSwitch T="bool" @bind-Value="hasAirConditioner" Label="Блок кондиционера (ККБ)" Color="Color.Primary" />
                         <MudSwitch T="bool" @bind-Value="has3WayValve" Label="3-х ходовой клапан" Color="Color.Primary" />
+                        }
+
+                        
+                        <MudTable Items="heatingLines" Hover="true" Dense="true">
+                            <HeaderContent>
+                                <MudTh>Вкл</MudTh>
+                                <MudTh>Поз.</MudTh>
+                                <MudTh>Диф.автомат</MudTh>
+                                <MudTh>Полюса</MudTh>
+                                <MudTh>Номинал, А</MudTh>
+                                <MudTh>Хар-ка</MudTh>
+                                <MudTh>кА</MudTh>
+                                <MudTh>Контактор</MudTh>
+                                <MudTh>Терморегулятор</MudTh>
+                            </HeaderContent>
+                            <RowTemplate>
+                                <MudTd><MudCheckBox T="bool" @bind-Checked="context.IsEnabled" Dense="true" /></MudTd>
+                                <MudTd>@context.Designation</MudTd>
+                                <MudTd>
+                                    @if (context.Designation != "Вводной")
+                                    {
+                                        <MudCheckBox T="bool" @bind-Checked="context.HasRCD" Dense="true" />
+                                    }
+                                </MudTd>
+                                <MudTd>
+                                    <MudSelect T="int" @bind-Value="context.Poles" Dense="true" Style="width:70px">
+                                        <MudSelectItem T="int" Value="1">1P</MudSelectItem>
+                                        <MudSelectItem T="int" Value="2">2P</MudSelectItem>
+                                        <MudSelectItem T="int" Value="3">3P</MudSelectItem>
+                                        <MudSelectItem T="int" Value="4">4P</MudSelectItem>
+                                    </MudSelect>
+                                </MudTd>
+                                <MudTd>
+                                    <MudSelect T="int" @bind-Value="context.Current" Dense="true" Style="width:80px">
+                                        <MudSelectItem T="int" Value="1">1 А</MudSelectItem>
+                                        <MudSelectItem T="int" Value="2">2 А</MudSelectItem>
+                                        <MudSelectItem T="int" Value="3">3 А</MudSelectItem>
+                                        <MudSelectItem T="int" Value="4">4 А</MudSelectItem>
+                                        <MudSelectItem T="int" Value="6">6 А</MudSelectItem>
+                                        <MudSelectItem T="int" Value="10">10 А</MudSelectItem>
+                                        <MudSelectItem T="int" Value="16">16 А</MudSelectItem>
+                                        <MudSelectItem T="int" Value="20">20 А</MudSelectItem>
+                                        <MudSelectItem T="int" Value="25">25 А</MudSelectItem>
+                                        <MudSelectItem T="int" Value="32">32 А</MudSelectItem>
+                                        <MudSelectItem T="int" Value="40">40 А</MudSelectItem>
+                                        <MudSelectItem T="int" Value="50">50 А</MudSelectItem>
+                                        <MudSelectItem T="int" Value="63">63 А</MudSelectItem>
+                                    </MudSelect>
+                                </MudTd>
+                                <MudTd>
+                                    <MudSelect T="string" @bind-Value="context.Curve" Dense="true" Style="width:60px">
+                                        <MudSelectItem T="string" Value="@("A")">A</MudSelectItem>
+                                        <MudSelectItem T="string" Value="@("B")">B</MudSelectItem>
+                                        <MudSelectItem T="string" Value="@("C")">C</MudSelectItem>
+                                        <MudSelectItem T="string" Value="@("D")">D</MudSelectItem>
+                                    </MudSelect>
+                                </MudTd>
+                                <MudTd>
+                                    <MudSelect T="double" @bind-Value="context.IkZ" Dense="true" Style="width:70px">
+                                        <MudSelectItem T="double" Value="4.5">4,5</MudSelectItem>
+                                        <MudSelectItem T="double" Value="6">6</MudSelectItem>
+                                        <MudSelectItem T="double" Value="10">10</MudSelectItem>
+                                    </MudSelect>
+                                </MudTd>
+                                <MudTd>
+                                    @if (context.Designation != "Вводной")
+                                    {
+                                        <MudCheckBox T="bool" @bind-Checked="context.HasContactor" Dense="true" />
+                                    }
+                                </MudTd>
+                                <MudTd>
+                                    @if (context.Designation != "Вводной")
+                                    {
+                                        <MudCheckBox T="bool" @bind-Checked="context.HasThermostat" Dense="true" />
+                                    }
+                                </MudTd>
+                            </RowTemplate>
+                        </MudTable>
 
                         <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Build" OnClick="ProcessUiCalculation" Class="py-3 mt-2">
                             Рассчитать
                         </MudButton>
-                    </div>
-                </MudItem>
-
-                <MudItem Xs="12" Md="7" Class="d-flex align-center justify-center">
-                    <div class="d-flex flex-column justify-center align-center border-2 border-dashed rounded pa-4" Style="border-style: dashed; height: 180px; width: 100%; background-color: #fafafa;">
-                        <MudIcon Icon="@Icons.Material.Filled.TouchApp" Style="font-size: 2.5rem;" Color="Color.Primary" Class="mb-1" />
-                        <MudText Typo="Typo.body2" Align="Align.Center">Настройте параметры слева и нажмите «Рассчитать».</MudText>
                     </div>
                 </MudItem>
             </MudGrid>
@@ -171,6 +245,22 @@
     private bool hasHumidifierPump = false;
     private bool hasAirConditioner = false;
     private bool has3WayValve = false;
+    private List<HeatingLine> heatingLines = new()
+    {
+        new() { Designation = "Вводной" },
+        new() { Designation = "QF1" },
+        new() { Designation = "QF2" },
+        new() { Designation = "QF3" },
+        new() { Designation = "QF4" },
+        new() { Designation = "QF5" },
+        new() { Designation = "QF6" },
+        new() { Designation = "QF7" },
+        new() { Designation = "QF8" },
+        new() { Designation = "QF9" },
+        new() { Designation = "QF10" },
+        new() { Designation = "QF11" },
+        new() { Designation = "QF12" },
+    };
 
     private void ProcessUiCalculation()
     {
