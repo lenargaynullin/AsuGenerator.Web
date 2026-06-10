@@ -81,10 +81,11 @@ public class ShuvStrategy(ShuvConfigLoader loader) : ICabinetStrategy
             // База типоразмеров навесных шкафов
             var wallMountedCabinets = new Dictionary<(int H, int W, int D), (string Article, string Description)>
             {
-                { (600, 400, 250), ("MES 60.40.25", "Шкаф компактный распределительный (с монтажной панелью)") },
-                { (800, 600, 300), ("MES 80.60.30", "Шкаф компактный распределительный (с монтажной панелью)") },
-                { (1000, 800, 300), ("MES 100.80.30", "Шкаф компактный распределительный (с монтажной панелью)") },
-                { (1200, 800, 400), ("MES 120.80.40", "Шкаф компактный распределительный (с монтажной панелью)") },
+                { (400, 300, 200), ("MES 40.30.20", "Шкаф компактный распределительный") },
+                { (600, 400, 250), ("MES 60.40.25", "Шкаф компактный распределительный") },
+                { (800, 600, 300), ("MES 80.60.30", "Шкаф компактный распределительный") },
+                { (1000, 800, 300), ("MES 100.80.30", "Шкаф компактный распределительный") },
+                { (1200, 800, 400), ("MES 120.80.40", "Шкаф компактный распределительный") },
             };
 
             // Конструктив шкафа / Общие параметры шкафа
@@ -108,6 +109,14 @@ public class ShuvStrategy(ShuvConfigLoader loader) : ICabinetStrategy
                         Vendor = "ПРОВЕНТО",
                         Description = "DIN - рейка, 2 м",
                         Quantity = 1
+                    });
+                    components.Add(new SelectedComponent
+                    {
+                        Designation = "Кабель-канал",
+                        Article = "CKM50-025-040-1-K03",
+                        Vendor = "IEK",
+                        Description = "Кабель-канал перфорированный 25х40",
+                        Quantity = 2
                     });
                 }
                 var key = (input.BaseConfig.Height, input.BaseConfig.Width, input.BaseConfig.Depth);

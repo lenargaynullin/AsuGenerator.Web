@@ -24,6 +24,7 @@ builder.Services.AddSingleton<ShuvConfigLoader>();
 
 // Регистрация стратегий конкретных шкафов
 builder.Services.AddScoped<ICabinetStrategy, ShuvStrategy>();
+builder.Services.AddScoped<ICabinetStrategy, ShueStrategy>();
 
 // Когда добавите ШУН (насосы) — просто допишете ниже:
 // builder.Services.AddScoped<ICabinetStrategy, ShunStrategy>();

@@ -35,6 +35,7 @@
                                             <MudSelectItem Value="@("IP54")">IP54</MudSelectItem>
                                         </MudSelect>
                                         <MudSelect T="string" Label="Габариты шкафа (В×Ш×Г)" @bind-Value="selectedDimensions" Variant="Variant.Outlined" Dense="true">
+                                            <MudSelectItem Value="@("400×300×200")">400×300×200 мм</MudSelectItem>
                                             <MudSelectItem Value="@("600×400×250")">600×400×250 мм</MudSelectItem>
                                             <MudSelectItem Value="@("800×600×300")">800×600×300 мм</MudSelectItem>
                                             <MudSelectItem Value="@("1000×800×300")">1000×800×300 мм</MudSelectItem>
@@ -88,81 +89,96 @@
                         }
 
                         
-                        <MudTable Items="heatingLines" Hover="true" Dense="true">
-                            <HeaderContent>
-                                <MudTh>Вкл</MudTh>
-                                <MudTh>Поз.</MudTh>
-                                <MudTh>Диф.автомат</MudTh>
-                                <MudTh>Полюса</MudTh>
-                                <MudTh>Номинал, А</MudTh>
-                                <MudTh>Хар-ка</MudTh>
-                                <MudTh>кА</MudTh>
-                                <MudTh>Контактор</MudTh>
-                                <MudTh>Терморегулятор</MudTh>
-                            </HeaderContent>
-                            <RowTemplate>
-                                <MudTd><MudCheckBox T="bool" @bind-Checked="context.IsEnabled" Dense="true" /></MudTd>
-                                <MudTd>@context.Designation</MudTd>
-                                <MudTd>
-                                    @if (context.Designation != "Вводной")
+                        @if (selectedCabinetType.Contains("ШУЭ"))
+                        {
+                            <MudText Typo="Typo.subtitle1" Class="mt-4">Отходящие линии обогрева</MudText>
+
+                            <MudSimpleTable Dense="true" Hover="true" Outlined="true">
+                                <thead>
+                                    <tr>
+                                        <th>Вкл</th>
+                                        <th>Поз.</th>
+                                        <th>Диф.автомат</th>
+                                        <th>Полюса</th>
+                                        <th>Номинал, А</th>
+                                        <th>Хар-ка</th>
+                                        <th>кА</th>
+                                        <th>Контактор</th>
+                                        <th>Терморегулятор</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var line in heatingLines)
                                     {
-                                        <MudCheckBox T="bool" @bind-Checked="context.HasRCD" Dense="true" />
+                                        <tr>
+                                            <td>
+                                                <MudCheckBox @bind-Value="line.IsEnabled" Dense="true" />
+                                            </td>
+                                            <td>@line.Designation</td>
+                                            <td>
+                                                @if (line.Designation != "Вводной")
+                                                {
+                                                    <MudCheckBox @bind-Value="line.HasRCD" Dense="true" />
+                                                }
+                                            </td>
+                                            <td>
+                                                <MudSelect T="int" @bind-Value="line.Poles" Dense="true" Style="width:70px">
+                                                    <MudSelectItem T="int" Value="1">1P</MudSelectItem>
+                                                    <MudSelectItem T="int" Value="2">2P</MudSelectItem>
+                                                    <MudSelectItem T="int" Value="3">3P</MudSelectItem>
+                                                    <MudSelectItem T="int" Value="4">4P</MudSelectItem>
+                                                </MudSelect>
+                                            </td>
+                                            <td>
+                                                <MudSelect T="int" @bind-Value="line.Current" Dense="true" Style="width:80px">
+                                                    <MudSelectItem T="int" Value="1">1 А</MudSelectItem>
+                                                    <MudSelectItem T="int" Value="2">2 А</MudSelectItem>
+                                                    <MudSelectItem T="int" Value="3">3 А</MudSelectItem>
+                                                    <MudSelectItem T="int" Value="4">4 А</MudSelectItem>
+                                                    <MudSelectItem T="int" Value="6">6 А</MudSelectItem>
+                                                    <MudSelectItem T="int" Value="10">10 А</MudSelectItem>
+                                                    <MudSelectItem T="int" Value="16">16 А</MudSelectItem>
+                                                    <MudSelectItem T="int" Value="20">20 А</MudSelectItem>
+                                                    <MudSelectItem T="int" Value="25">25 А</MudSelectItem>
+                                                    <MudSelectItem T="int" Value="32">32 А</MudSelectItem>
+                                                    <MudSelectItem T="int" Value="40">40 А</MudSelectItem>
+                                                    <MudSelectItem T="int" Value="50">50 А</MudSelectItem>
+                                                    <MudSelectItem T="int" Value="63">63 А</MudSelectItem>
+                                                </MudSelect>
+                                            </td>
+                                            <td>
+                                                <MudSelect T="string" @bind-Value="line.Curve" Dense="true" Style="width:60px">
+                                                    <MudSelectItem T="string" Value="@("A")">A</MudSelectItem>
+                                                    <MudSelectItem T="string" Value="@("B")">B</MudSelectItem>
+                                                    <MudSelectItem T="string" Value="@("C")">C</MudSelectItem>
+                                                    <MudSelectItem T="string" Value="@("D")">D</MudSelectItem>
+                                                </MudSelect>
+                                            </td>
+                                            <td>
+                                                <MudSelect T="double" @bind-Value="line.IkZ" Dense="true" Style="width:70px">
+                                                    <MudSelectItem T="double" Value="4.5">4,5</MudSelectItem>
+                                                    <MudSelectItem T="double" Value="6">6</MudSelectItem>
+                                                    <MudSelectItem T="double" Value="10">10</MudSelectItem>
+                                                </MudSelect>
+                                            </td>
+                                            <td>
+                                                @if (line.Designation != "Вводной")
+                                                {
+                                                    <MudCheckBox @bind-Value="line.HasContactor" Dense="true" />
+                                                }
+                                            </td>
+                                            <td>
+                                                @if (line.Designation != "Вводной")
+                                                {
+                                                    <MudCheckBox @bind-Value="line.HasThermostat" Dense="true" />
+                                                }
+                                            </td>
+                                        </tr>
                                     }
-                                </MudTd>
-                                <MudTd>
-                                    <MudSelect T="int" @bind-Value="context.Poles" Dense="true" Style="width:70px">
-                                        <MudSelectItem T="int" Value="1">1P</MudSelectItem>
-                                        <MudSelectItem T="int" Value="2">2P</MudSelectItem>
-                                        <MudSelectItem T="int" Value="3">3P</MudSelectItem>
-                                        <MudSelectItem T="int" Value="4">4P</MudSelectItem>
-                                    </MudSelect>
-                                </MudTd>
-                                <MudTd>
-                                    <MudSelect T="int" @bind-Value="context.Current" Dense="true" Style="width:80px">
-                                        <MudSelectItem T="int" Value="1">1 А</MudSelectItem>
-                                        <MudSelectItem T="int" Value="2">2 А</MudSelectItem>
-                                        <MudSelectItem T="int" Value="3">3 А</MudSelectItem>
-                                        <MudSelectItem T="int" Value="4">4 А</MudSelectItem>
-                                        <MudSelectItem T="int" Value="6">6 А</MudSelectItem>
-                                        <MudSelectItem T="int" Value="10">10 А</MudSelectItem>
-                                        <MudSelectItem T="int" Value="16">16 А</MudSelectItem>
-                                        <MudSelectItem T="int" Value="20">20 А</MudSelectItem>
-                                        <MudSelectItem T="int" Value="25">25 А</MudSelectItem>
-                                        <MudSelectItem T="int" Value="32">32 А</MudSelectItem>
-                                        <MudSelectItem T="int" Value="40">40 А</MudSelectItem>
-                                        <MudSelectItem T="int" Value="50">50 А</MudSelectItem>
-                                        <MudSelectItem T="int" Value="63">63 А</MudSelectItem>
-                                    </MudSelect>
-                                </MudTd>
-                                <MudTd>
-                                    <MudSelect T="string" @bind-Value="context.Curve" Dense="true" Style="width:60px">
-                                        <MudSelectItem T="string" Value="@("A")">A</MudSelectItem>
-                                        <MudSelectItem T="string" Value="@("B")">B</MudSelectItem>
-                                        <MudSelectItem T="string" Value="@("C")">C</MudSelectItem>
-                                        <MudSelectItem T="string" Value="@("D")">D</MudSelectItem>
-                                    </MudSelect>
-                                </MudTd>
-                                <MudTd>
-                                    <MudSelect T="double" @bind-Value="context.IkZ" Dense="true" Style="width:70px">
-                                        <MudSelectItem T="double" Value="4.5">4,5</MudSelectItem>
-                                        <MudSelectItem T="double" Value="6">6</MudSelectItem>
-                                        <MudSelectItem T="double" Value="10">10</MudSelectItem>
-                                    </MudSelect>
-                                </MudTd>
-                                <MudTd>
-                                    @if (context.Designation != "Вводной")
-                                    {
-                                        <MudCheckBox T="bool" @bind-Checked="context.HasContactor" Dense="true" />
-                                    }
-                                </MudTd>
-                                <MudTd>
-                                    @if (context.Designation != "Вводной")
-                                    {
-                                        <MudCheckBox T="bool" @bind-Checked="context.HasThermostat" Dense="true" />
-                                    }
-                                </MudTd>
-                            </RowTemplate>
-                        </MudTable>
+                                </tbody>
+                            </MudSimpleTable>
+                        }
+
 
                         <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Build" OnClick="ProcessUiCalculation" Class="py-3 mt-2">
                             Рассчитать
@@ -264,34 +280,36 @@
 
     private void ProcessUiCalculation()
     {
-        // Парсим габариты из строки
-        var dims = selectedDimensions.Split('×');
-        if (dims.Length == 3)
-        {
-            baseConfig.Height = int.Parse(dims[0]);
-            baseConfig.Width = int.Parse(dims[1]);
-            baseConfig.Depth = int.Parse(dims[2]);
-        }
         try
         {
+            // ДИАГНОСТИКА: проверяем, что галочки работают
+            var enabled = heatingLines.Where(l => l.IsEnabled).ToList();
+            Console.WriteLine($"[DIAG] Всего линий: {heatingLines.Count}");
+            Console.WriteLine($"[DIAG] Включено линий: {enabled.Count}");
+            foreach (var l in heatingLines)
+                Console.WriteLine($"[DIAG]   {l.Designation} IsEnabled={l.IsEnabled}");
+
+
             var input = new UiConfigInput
             {
                 SupplyFan = supplyFan,
                 HasVfd = hasVfd,
                 HasHeaterPump = hasHeaterPump,
                 HasDamper = hasDamper,
+                HasHumidifierPump = hasHumidifierPump,
+                HasAirConditioner = hasAirConditioner,
+                Has3WayValve = has3WayValve,
                 TechnologyType = heaterType,
                 ProjectNumber = "Конфиг-" + DateTime.Now.ToString("ddMM"),
-                BaseConfig = baseConfig
+                BaseConfig = baseConfig,
+                HeatingLines = heatingLines.Where(l => l.IsEnabled).ToList()
             };
 
             loadedConfig = new VentAvtomatikaConfig
             {
                 ClientName = "Конфигуратор",
                 CompanyName = "AsuGenerator",
-                KpNumber = input.ProjectNumber,
-                Heater1Type = $"{heaterType} нагреватель",
-                HeaterEl1Voltage = baseConfig.Voltage
+                KpNumber = input.ProjectNumber
             };
 
             ICabinetStrategy strategy = StrategyFactory.GetStrategy(selectedCabinetType);
@@ -299,12 +317,7 @@
         }
         catch (Exception ex)
         {
-            loadedConfig = new VentAvtomatikaConfig
-            {
-                ClientName = "ОШИБКА",
-                CompanyName = ex.GetType().Name,
-                KpNumber = ex.Message
-            };
+            loadedConfig = new VentAvtomatikaConfig { ClientName = "ОШИБКА", CompanyName = ex.GetType().Name, KpNumber = ex.Message };
             matchedComponents = new();
         }
     }

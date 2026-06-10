@@ -30,6 +30,7 @@ public class UiConfigInput
     public bool HasVfd { get; set; }
     public bool HasHeaterPump { get; set; }
     public bool HasDamper { get; set; }
+    public List<HeatingLine>? HeatingLines { get; set; }
     /// <summary>
     /// Выбранный бренд автоматов защиты из выпадающего списка UI (КЭАЗ, Dekraft и т.д.)
     /// </summary>
