@@ -4,7 +4,11 @@ public class BaseCabinetConfig
 {
     // Конструктивные
     public string MountType { get; set; } = "Навесной";
+    private string _ipRating = "IP54";
     public string IpRating { get; set; } = "IP54";
+
+    // Событие для сброса габаритов
+    public event Action<string>? OnIpRatingChanged;
     public int Height { get; set; } = 600;
     public int Width { get; set; } = 400;
     public int Depth { get; set; } = 250;

@@ -32,18 +32,38 @@
                                         <MudSelect T="string" Label="Тип монтажа" @bind-Value="baseConfig.MountType" Variant="Variant.Outlined" Dense="true">
                                             <MudSelectItem Value="@("Навесной")">Навесной</MudSelectItem>
                                         </MudSelect>
-                                        <MudSelect T="string" Label="Степень защиты" @bind-Value="baseConfig.IpRating" Variant="Variant.Outlined" Dense="true">
+                                        <MudSelect T="string"
+                                                   Label="Степень защиты"
+                                                   Value="baseConfig.IpRating"
+                                                   ValueChanged="OnIpRatingChanged"
+                                                   Variant="Variant.Outlined"
+                                                   Dense="true">
                                             <MudSelectItem Value="@("IP54")">IP54</MudSelectItem>
                                             <MudSelectItem Value="@("IP66")">IP66</MudSelectItem>
                                         </MudSelect>
-                                        <MudSelect T="string" Label="Габариты шкафа (В×Ш×Г)" @bind-Value="selectedDimensions" Variant="Variant.Outlined" Dense="true">
-                                            <MudSelectItem Value="@("400×300×200")">400×300×200 мм</MudSelectItem>
-                                            <MudSelectItem Value="@("600×400×250")">600×400×250 мм</MudSelectItem>
-                                            <MudSelectItem Value="@("800×600×300")">800×600×300 мм</MudSelectItem>
-                                            <MudSelectItem Value="@("1000×800×300")">1000×800×300 мм</MudSelectItem>
-                                            <MudSelectItem Value="@("1200×800×400")">1200×800×400 мм</MudSelectItem>
-                                            <MudSelectItem Value="@("1400×800×300")">1400×800×300 мм</MudSelectItem>
-                                        </MudSelect>
+                                        
+                                            @if (baseConfig.IpRating == "IP54")
+                                            {
+                                                <MudSelect T="string" Label="Габариты шкафа (В×Ш×Г)" @bind-Value="selectedDimensions" Variant="Variant.Outlined" Dense="true">
+                                                <MudSelectItem Value="@("400×300×220")">400×300×220 мм</MudSelectItem>
+                                                <MudSelectItem Value="@("600×600×250")">600×600×250 мм</MudSelectItem>
+                                                <MudSelectItem Value="@("800×650×250")">800×650×250 мм</MudSelectItem>
+                                                <MudSelectItem Value="@("1000×650×285")">1000×650×285 мм</MudSelectItem>
+                                                <MudSelectItem Value="@("1200×750×300")">1200×750×300 мм</MudSelectItem>
+                                                <MudSelectItem Value="@("1400×650×285")">1400×650×285 мм</MudSelectItem>
+                                                </MudSelect>
+                                            }
+                                            else if (baseConfig.IpRating == "IP66")
+                                            {
+                                                <MudSelect T="string" Label="Габариты шкафа (В×Ш×Г)" @bind-Value="selectedDimensions" Variant="Variant.Outlined" Dense="true">
+                                                <MudSelectItem Value="@("400×300×200")">400×300×200 мм</MudSelectItem>
+                                                <MudSelectItem Value="@("600×400×250")">600×400×250 мм</MudSelectItem>
+                                                <MudSelectItem Value="@("800×600×300")">800×600×300 мм</MudSelectItem>
+                                                <MudSelectItem Value="@("1000×800×300")">1000×800×300 мм</MudSelectItem>
+                                                <MudSelectItem Value="@("1200×800×400")">1200×800×400 мм</MudSelectItem>
+                                                <MudSelectItem Value="@("1400×800×300")">1400×800×300 мм</MudSelectItem>
+                                                </MudSelect>
+                                            }
 
                                         <MudSwitch T="bool" @bind-Value="baseConfig.HasHeater" Label="Обогрев шкафа" Color="Color.Primary" />
                                     </div>
@@ -231,8 +251,27 @@
 </div>
 
 @code {
+    @code {
+        private void OnIpRatingChanged(string newIpRating)
+        {
+            // Присваиваем новое значение степени защиты
+            baseConfig.IpRating = newIpRating;
+
+            // Выставляем нижнее (последнее) значение габаритов в зависимости от выбора
+            if (newIpRating == "IP54")
+            {
+                selectedDimensions = "400×300×220";
+            }
+            else if (newIpRating == "IP66")
+            {
+                selectedDimensions = "400×300×200";
+            }
+        }
+    }
+
     private BaseCabinetConfig baseConfig = new();
-    private string selectedDimensions = "600×400×250";
+
+    private string selectedDimensions = "500×400×220";
     private string selectedCabinetType = "Шкаф управления вентиляцией (ШУВ)";
     private string heaterType = "Водяной";
     private VentAvtomatikaConfig? loadedConfig;
@@ -260,11 +299,12 @@
         new() { Designation = "QF11" },
         new() { Designation = "QF12" },
     };
+    private string _previousIp = "IP54";
 
     private void ProcessUiCalculation()
     {
         try
-        {
+        {   
             var dims = selectedDimensions.Split('×');
             if (dims.Length == 3)
             {
