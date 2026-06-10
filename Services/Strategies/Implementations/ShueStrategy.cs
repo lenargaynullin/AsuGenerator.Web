@@ -37,20 +37,29 @@ public class ShueStrategy : ICabinetStrategy
                     Quantity = device.Quantity
                 });
             }
-            // База типоразмеров навесных шкафов
-            var wallMountedCabinets = new Dictionary<(int H, int W, int D), (string Article, string Description)>
+            // База типоразмеров навесных шкафов (H, W, D, IP)
+            var wallMountedCabinets = new Dictionary<(int H, int W, int D, string IP), (string Article, string Description)>
             {
-                { (400, 300, 200), ("TI5-10-N-040-030-020-66", "Корпус металлический ЩМП-40.30.20") },
-                { (600, 400, 250), ("TI5-10-N-060-040-025-66", "Корпус металлический ЩМП-60.40.25") },
-                { (800, 600, 300), ("TI5-10-N-080-060-030-66", "Корпус металлический ЩМП-80.60.30") },
-                { (1000, 800, 300), ("TI5-10-N-100-080-030-66", "Корпус металлический ЩМП-100.80.30") },
-                { (1200, 800, 400), ("TI5-10-N-120-080-040-66", "Корпус металлический ЩМП-120.80.40") },
+                // IP54
+                { (400, 300, 200, "IP54"), ("YKM40-01-54", "Корпус металлический ЩМП-1-0 (400х300х220мм) У2 IP54") },
+                { (600, 600, 250, "IP54"), ("YKM40-662-54", "Корпус металлический ЩМП-6.6.2-0 (600х600х250мм) У2 IP54") },
+                { (800, 650, 250, "IP54"), ("YKM40-04-54", "Корпус металлический ЩМП-4-0 (800х650х250мм) У2 IP54") },
+                { (1000, 650, 285, "IP54"), ("YKM40-05-54", "Корпус металлический ЩМП-5-0 (1000х650х285мм) У2 IP54") },
+                { (1200, 800, 400, "IP54"), ("YKM40-06-54", "Корпус металлический ЩМП-6-0 (1200х750х300мм) У2 IP54") },
+                { (1400, 650, 285, "IP54"), ("YKM40-07-54", "Корпус металлический ЩМП-7-0 (1400х650х285мм) У2 IP54") },
+    
+                // IP65
+                { (400, 300, 200, "IP66"), ("TI5-10-P-040-030-020-66", "TITAN 5 Корпус металлический ЩМП-40.30.20 УХЛ1 IP66") },
+                { (600, 400, 250, "IP66"), ("TI5-10-P-060-040-025-66", "TITAN 5 Корпус металлический ЩМП-60.40.25 УХЛ1 IP66") },
+                { (800, 600, 300, "IP66"), ("TI5-10-P-080-060-030-66", "TITAN 5 Корпус металлический ЩМП-80.60.30 УХЛ1 IP66") },
+                { (1000, 800, 300, "IP66"), ("TI5-10-P-100-080-030-66", "TITAN 5 Корпус металлический ЩМП-100.80.30 УХЛ1 IP66") },
+                { (1200, 800, 400, "IP66"), ("TI5-10-P-120-080-040-66", "TITAN 5 Корпус металлический ЩМП-100.80.30 УХЛ1 IP66") },
+                { (1400, 800, 300, "IP66"), ("TI5-10-N-140-080-030-66", "TITAN 5 Корпус металлический ЩМП-140.80.30 УХЛ1 IP66") },
             };
 
-            // Конструктив шкафа / Общие параметры шкафа
+            // Конструктив шкафа
             if (input.BaseConfig != null)
             {
-                // 1 Навесной 
                 if (input.BaseConfig.MountType == "Навесной")
                 {
                     components.Add(new SelectedComponent
@@ -70,7 +79,8 @@ public class ShueStrategy : ICabinetStrategy
                         Quantity = 2
                     });
                 }
-                var key = (input.BaseConfig.Height, input.BaseConfig.Width, input.BaseConfig.Depth);
+
+                var key = (input.BaseConfig.Height, input.BaseConfig.Width, input.BaseConfig.Depth, input.BaseConfig.IpRating ?? "IP54");
 
                 if (wallMountedCabinets.TryGetValue(key, out var cabinet))
                 {
@@ -85,7 +95,6 @@ public class ShueStrategy : ICabinetStrategy
                 }
                 else
                 {
-                    // Размер не из типовой базы — шкаф по проекту
                     components.Add(new SelectedComponent
                     {
                         Designation = "Шкаф",
@@ -96,7 +105,7 @@ public class ShueStrategy : ICabinetStrategy
                     });
                 }
 
-                // Обогреватель
+                // Обогрев шкафа
                 if (input.BaseConfig.HasHeater)
                 {
                     components.Add(new SelectedComponent

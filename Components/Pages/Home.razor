@@ -28,6 +28,7 @@
                             <MudTabs Outlined="true" Position="Position.Top" Rounded="true" PanelClass="pa-4">
                                 <MudTabPanel Text="Корпус">
                                     <div class="d-flex flex-column gap-3">
+                                        
                                         <MudSelect T="string" Label="Тип монтажа" @bind-Value="baseConfig.MountType" Variant="Variant.Outlined" Dense="true">
                                             <MudSelectItem Value="@("Навесной")">Навесной</MudSelectItem>
                                         </MudSelect>
@@ -41,6 +42,7 @@
                                             <MudSelectItem Value="@("800×600×300")">800×600×300 мм</MudSelectItem>
                                             <MudSelectItem Value="@("1000×800×300")">1000×800×300 мм</MudSelectItem>
                                             <MudSelectItem Value="@("1200×800×400")">1200×800×400 мм</MudSelectItem>
+                                            <MudSelectItem Value="@("1400×800×300")">1400×800×300 мм</MudSelectItem>
                                         </MudSelect>
 
                                         <MudSwitch T="bool" @bind-Value="baseConfig.HasHeater" Label="Обогрев шкафа" Color="Color.Primary" />
