@@ -4,12 +4,8 @@ using AsuGenerator.Web.Models;
 
 namespace AsuGenerator.Web.Services.Strategies.Implementations;
 
-public class ShueStrategy : ICabinetStrategy
+public class ShueStrategy(ShuvConfigLoader loader) : ICabinetStrategy
 {
-    private readonly ShuvConfigLoader _loader;
-
-    public ShueStrategy(ShuvConfigLoader loader) => _loader = loader;
-
     public string CabinetType => "Шкаф управления электрообогревом (ШУЭ)";
 
     public List<SelectedComponent> CalculateComponents(UiConfigInput input)
@@ -18,7 +14,7 @@ public class ShueStrategy : ICabinetStrategy
 
         // 1. Общие компоненты из JSON
         var path = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "wwwroot", "Configs", "shue-strategy.json");
-        var config = _loader.Load(path);
+        var config = loader.Load(path);
 
         if (config?.Rules != null)
         {
