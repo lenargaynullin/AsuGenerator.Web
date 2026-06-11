@@ -1,10 +1,10 @@
 # AsuGenerator 🚀
 > **Коммерческий B2B SaaS-сервис для автоматического проектирования и расчета спецификаций шкафов автоматизации (НКУ / ЩУВ / ШУЭ)**
 
-[![.NET 10](https://shields.io)](https://microsoft.com)
-[![Blazor](https://shields.io)](https://microsoft.com)
-[![Docker](https://shields.io)](https://docker.com)
-[![Nginx](https://shields.io)](https://nginx.org)
+[![.NET 10]](https://microsoft.com)
+[![Blazor]](https://microsoft.com)
+[![Docker]](https://docker.com)
+[![Nginx]](https://nginx.org)
 
 **AsuGenerator** — это высокопроизводительная облачная платформа, разработанная для полной автоматизации рутинного труда инженеров-проектировщиков, сметчиков и тендерных специалистов электрощитовых производств при формировании спецификаций и коммерческих предложений (КП).
 
