@@ -33,7 +33,7 @@ public class ShueStrategy(ShuvConfigLoader loader) : ICabinetStrategy
                     Quantity = device.Quantity
                 });
             }
-            // База типоразмеров навесных шкафов (H, W, D, IP)
+            // База типоразмеров навесных шкафов  (H, W, D, IP)
             var wallMountedCabinets = new Dictionary<(int H, int W, int D, string IP), (string Article, string Description)>
             {
                 // IP54
