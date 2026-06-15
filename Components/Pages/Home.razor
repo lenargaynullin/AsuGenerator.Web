@@ -23,55 +23,85 @@
                 <MudItem Xs="12" Md="12">
                     <div class="d-flex flex-column gap-4">
                         <MudText Typo="Typo.subtitle1"><b>Параметры конфигурации шкафа:</b></MudText>
-
                         <MudExpansionPanel Text="Общие параметры шкафа" IsInitiallyExpanded="false" Class="mb-2">
                             <MudTabs Outlined="true" Position="Position.Top" Rounded="true" PanelClass="pa-4">
-                                <MudTabPanel Text="Корпус">
+
+                                <!-- Вкладка 1: Конструктив -->
+                                <MudTabPanel Text="Конструктив">
                                     <div class="d-flex flex-column gap-3">
-                                        
+                                        <MudSelect T="string" Label="Производитель" @bind-Value="baseConfig.Manufacturer" Variant="Variant.Outlined" Dense="true">
+                                            <MudSelectItem Value="@("IEK")">IEK</MudSelectItem>
+                                            <MudSelectItem Value="@("ПРОВЕНТО")">ПРОВЕНТО</MudSelectItem>
+                                            <MudSelectItem Value="@("По проекту")">По проекту</MudSelectItem>
+                                        </MudSelect>
+
                                         <MudSelect T="string" Label="Тип монтажа" @bind-Value="baseConfig.MountType" Variant="Variant.Outlined" Dense="true">
                                             <MudSelectItem Value="@("Навесной")">Навесной</MudSelectItem>
+                                            <MudSelectItem Value="@("Напольный")">Напольный</MudSelectItem>
                                         </MudSelect>
-                                        <MudSelect T="string"
-                                                   Label="Степень защиты"
-                                                   Value="baseConfig.IpRating"
-                                                   ValueChanged="OnIpRatingChanged"
-                                                   Variant="Variant.Outlined"
-                                                   Dense="true">
+
+                                        <MudSelect T="string" Label="Степень защиты" @bind-Value="baseConfig.IpRating" Variant="Variant.Outlined" Dense="true">
                                             <MudSelectItem Value="@("IP54")">IP54</MudSelectItem>
                                             <MudSelectItem Value="@("IP66")">IP66</MudSelectItem>
                                         </MudSelect>
-                                        
+
+                                        <MudSelect T="string" Label="Габариты (В×Ш×Г)" @bind-Value="selectedDimensions" Variant="Variant.Outlined" Dense="true">
                                             @if (baseConfig.IpRating == "IP54")
                                             {
-                                                <MudSelect T="string" Label="Габариты шкафа (В×Ш×Г)" @bind-Value="selectedDimensions" Variant="Variant.Outlined" Dense="true">
                                                 <MudSelectItem Value="@("400×300×220")">400×300×220 мм</MudSelectItem>
                                                 <MudSelectItem Value="@("600×600×250")">600×600×250 мм</MudSelectItem>
                                                 <MudSelectItem Value="@("800×650×250")">800×650×250 мм</MudSelectItem>
                                                 <MudSelectItem Value="@("1000×650×285")">1000×650×285 мм</MudSelectItem>
                                                 <MudSelectItem Value="@("1200×750×300")">1200×750×300 мм</MudSelectItem>
                                                 <MudSelectItem Value="@("1400×650×285")">1400×650×285 мм</MudSelectItem>
-                                                </MudSelect>
                                             }
                                             else if (baseConfig.IpRating == "IP66")
                                             {
-                                                <MudSelect T="string" Label="Габариты шкафа (В×Ш×Г)" @bind-Value="selectedDimensions" Variant="Variant.Outlined" Dense="true">
                                                 <MudSelectItem Value="@("400×300×200")">400×300×200 мм</MudSelectItem>
                                                 <MudSelectItem Value="@("600×400×250")">600×400×250 мм</MudSelectItem>
                                                 <MudSelectItem Value="@("800×600×300")">800×600×300 мм</MudSelectItem>
                                                 <MudSelectItem Value="@("1000×800×300")">1000×800×300 мм</MudSelectItem>
                                                 <MudSelectItem Value="@("1200×800×400")">1200×800×400 мм</MudSelectItem>
                                                 <MudSelectItem Value="@("1400×800×300")">1400×800×300 мм</MudSelectItem>
-                                                </MudSelect>
                                             }
+                                        </MudSelect>
 
+                                        <MudSwitch T="bool" @bind-Value="baseConfig.HasPocket" Label="Карман для документов" Color="Color.Primary" />
+                                        <MudSwitch T="bool" @bind-Value="baseConfig.HasPlinth" Label="Цоколь" Color="Color.Primary" />
+                                        
+                                    </div>
+                                </MudTabPanel>
+
+                                <!-- Вкладка 2: Оборудование -->
+                                <MudTabPanel Text="Оборудование">
+                                    <div class="d-flex flex-column gap-3">
+                                        <MudSelect T="string" Label="Контроллер" @bind-Value="baseConfig.PlcType" Variant="Variant.Outlined" Dense="true">
+                                            <MudSelectItem Value="@("ПР200")">ПР200</MudSelectItem>
+                                            <MudSelectItem Value="@("ПЛК110")">ПЛК110</MudSelectItem>
+                                            <MudSelectItem Value="@("ПЛК160")">ПЛК160</MudSelectItem>
+                                        </MudSelect>
+
+                                        <MudSelect T="string" Label="Протокол связи" @bind-Value="baseConfig.Protocol" Variant="Variant.Outlined" Dense="true">
+                                            <MudSelectItem Value="@("Modbus RTU")">Modbus RTU</MudSelectItem>
+                                            <MudSelectItem Value="@("Modbus TCP")">Modbus TCP</MudSelectItem>
+                                            <MudSelectItem Value="@("Нет")">Нет</MudSelectItem>
+                                        </MudSelect>
+
+                                        <MudRadioGroup T="string" @bind-Value="baseConfig.Voltage" Class="d-flex flex-column gap-1">
+                                            <MudText Typo="Typo.caption">Напряжение питания</MudText>
+                                            <MudRadio Value="@("380")" Color="Color.Primary" Dense="true">380 В</MudRadio>
+                                            <MudRadio Value="@("220")" Color="Color.Primary" Dense="true">220 В</MudRadio>
+                                        </MudRadioGroup>
+
+                                        <MudNumericField T="int" Label="Ток ввода (А)" @bind-Value="baseConfig.InputCurrent" Variant="Variant.Outlined" Dense="true" />
                                         <MudSwitch T="bool" @bind-Value="baseConfig.HasHeater" Label="Обогрев шкафа" Color="Color.Primary" />
                                     </div>
                                 </MudTabPanel>
+
                             </MudTabs>
                         </MudExpansionPanel>
 
-
+                        
                         <MudSelect T="string" Label="Тип проектируемого шкафа" @bind-Value="selectedCabinetType" Variant="Variant.Outlined" Dense="true">
                             <MudSelectItem Value="@("Шкаф управления вентиляцией (ШУВ)")" />
                             <MudSelectItem Value="@("Шкаф управления электрообогревом (ШУЭ)")" />

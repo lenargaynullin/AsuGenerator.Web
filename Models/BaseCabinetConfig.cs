@@ -6,6 +6,9 @@ public class BaseCabinetConfig
     public string MountType { get; set; } = "Навесной";
     private string _ipRating = "IP54";
     public string IpRating { get; set; } = "IP54";
+    public string Manufacturer { get; set; } = "IEK";
+    public bool HasPocket { get; set; }
+    public bool HasPlinth { get; set; }
 
     // Событие для сброса габаритов
     public event Action<string>? OnIpRatingChanged;
