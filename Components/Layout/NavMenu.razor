@@ -1,13 +1,21 @@
 ﻿@using MudBlazor
 
+@* Брендированная шапка бокового меню *@
 <div class="pa-4 d-flex align-center justify-start mud-theme-primary" style="height: 64px; border-bottom: 1px solid var(--mud-palette-lines-default);">
     <MudIcon Icon="@Icons.Material.Filled.Memory" Color="Color.Inherit" Class="mr-2" Size="Size.Medium" />
     <MudText Typo="Typo.h6" Color="Color.Inherit"><b>AsuGenerator</b></MudText>
 </div>
 
+@* Навигационное меню *@
 <MudNavMenu Bordered="true" Class="pa-2">
-    @* Ссылка на главную страницу (Конфигуратор) *@
-    <MudNavLink href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Build" IconColor="Color.Primary">
+
+    @* Ссылка на главную страницу (Лендинг/Презентация) *@
+    <MudNavLink href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home" IconColor="Color.Default">
+        Главная страница
+    </MudNavLink>
+
+    @* Ссылка на сам рабочий конфигуратор с вкладками Конструктив/Оборудование *@
+    <MudNavLink href="configurator" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Build" IconColor="Color.Primary">
         Конфигуратор шкафа
     </MudNavLink>
 
@@ -16,8 +24,9 @@
         Мои проекты
     </MudNavLink>
 
-    @* Ссылка на коммерческую страницу с тарифами *@
+    @* Ссылка на коммерческую страницу с тарифами и запросом счета по ИНН *@
     <MudNavLink href="pricing" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Payments" IconColor="Color.Success">
         Тарифы и Бизнес
     </MudNavLink>
+
 </MudNavMenu>

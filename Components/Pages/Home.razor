@@ -1,712 +1,142 @@
 ﻿@page "/"
-@using AsuGenerator.Web.Services
-@using System.IO
-@using AsuGenerator.Web.Models
-@using AsuGenerator.Web.Services.Strategies
-@inject ExcelParserService Parser
-@inject CalculationEngine Engine
-@inject DocumentGenerator DocGen
-@inject CabinetStrategyFactory StrategyFactory
-@inject IJSRuntime JS
-@rendermode InteractiveServer
+@using MudBlazor
 
-<PageTitle>Генератор спецификаций шкафов автоматизации</PageTitle>
+<PageTitle>ASU Generator — Облачный конфигуратор шкафов АСУ ТП</PageTitle>
 
-<div class="pa-6">
-    <MudText Typo="Typo.h4" Class="mb-2" Color="Color.Primary"><b>Генератор спецификаций шкафов автоматизации</b></MudText>
-    <MudText Typo="Typo.body1" Class="mb-6">Автоматический подбор оборудования по параметрам. Скачивание спецификации в Excel.</MudText>
-
-    <MudTabs Outlined="true" Position="Position.Top" Rounded="true" Border="true" ApplyEffectsToContainer="true" Class="mb-6" PanelClass="pa-6">
-
-        <!-- Вкладка 1: Конструктив -->
-        <MudTabPanel Text="Конструктив" Icon="@Icons.Material.Filled.SettingsSuggest">
-            <MudGrid>
-                <MudItem Xs="12" Md="12">
-                    <div class="d-flex flex-column gap-4">
-                  
-                                        <MudSelect T="string" Label="Производитель" @bind-Value="baseConfig.Manufacturer" Variant="Variant.Outlined" Dense="true">
-                                            <MudSelectItem Value="@("IEK")">IEK</MudSelectItem>
-                                            <MudSelectItem Value="@("ПРОВЕНТО")">ПРОВЕНТО</MudSelectItem>
-                                            <MudSelectItem Value="@("По проекту")">По проекту</MudSelectItem>
-                                        </MudSelect>
-
-                                        <MudSelect T="string" Label="Тип монтажа" @bind-Value="baseConfig.MountType" Variant="Variant.Outlined" Dense="true">
-                                            <MudSelectItem Value="@("Навесной")">Навесной</MudSelectItem>
-                                            <MudSelectItem Value="@("Напольный")">Напольный</MudSelectItem>
-                                        </MudSelect>
-
-                                        <MudSelect T="string" Label="Степень защиты" @bind-Value="baseConfig.IpRating" Variant="Variant.Outlined" Dense="true">
-                                            <MudSelectItem Value="@("IP54")">IP54</MudSelectItem>
-                                            <MudSelectItem Value="@("IP66")">IP66</MudSelectItem>
-                                        </MudSelect>
-
-                                        <MudSelect T="string" Label="Габариты (В×Ш×Г)" @bind-Value="selectedDimensions" Variant="Variant.Outlined" Dense="true">
-                                            @if (baseConfig.IpRating == "IP54")
-                                            {
-                                                <MudSelectItem Value="@("400×300×220")">400×300×220 мм</MudSelectItem>
-                                                <MudSelectItem Value="@("600×600×250")">600×600×250 мм</MudSelectItem>
-                                                <MudSelectItem Value="@("800×650×250")">800×650×250 мм</MudSelectItem>
-                                                <MudSelectItem Value="@("1000×650×285")">1000×650×285 мм</MudSelectItem>
-                                                <MudSelectItem Value="@("1200×750×300")">1200×750×300 мм</MudSelectItem>
-                                                <MudSelectItem Value="@("1400×650×285")">1400×650×285 мм</MudSelectItem>
-                                            }
-                                            else if (baseConfig.IpRating == "IP66")
-                                            {
-                                                <MudSelectItem Value="@("400×300×200")">400×300×200 мм</MudSelectItem>
-                                                <MudSelectItem Value="@("600×400×250")">600×400×250 мм</MudSelectItem>
-                                                <MudSelectItem Value="@("800×600×300")">800×600×300 мм</MudSelectItem>
-                                                <MudSelectItem Value="@("1000×800×300")">1000×800×300 мм</MudSelectItem>
-                                                <MudSelectItem Value="@("1200×800×400")">1200×800×400 мм</MudSelectItem>
-                                                <MudSelectItem Value="@("1400×800×300")">1400×800×300 мм</MudSelectItem>
-                                            }
-                                        </MudSelect>
-
-                                        <MudSwitch T="bool" @bind-Value="baseConfig.HasPocket" Label="Карман для документов" Color="Color.Primary" />
-                                        <MudSwitch T="bool" @bind-Value="baseConfig.HasPocket" Label="Боковые панели" Color="Color.Primary" />
-                                        <MudSwitch T="bool" @bind-Value="baseConfig.HasPlinth" Label="Ручка двери" Color="Color.Primary" />
-                                        <MudSwitch T="bool" @bind-Value="baseConfig.HasPlinth" Label="Полка" Color="Color.Primary" />
-                                        <MudSelect T="string" Label="Высота цоколя" @bind-Value="baseConfig.IpRating" Variant="Variant.Outlined" Dense="true">
-                                            <MudSelectItem Value="@("100 мм")">IP54</MudSelectItem>
-                                            <MudSelectItem Value="@("200 мм")">IP66</MudSelectItem>
-                                        </MudSelect>
-                                        <MudSelect T="string" Label="Количество сторон шкафа" @bind-Value="baseConfig.IpRating" Variant="Variant.Outlined" Dense="true">
-                                            <MudSelectItem Value="@("1")">1</MudSelectItem>
-                                            <MudSelectItem Value="@("2")">2</MudSelectItem>
-                                        </MudSelect>
-                                        <MudSelect T="string" Label="Вентилятор" @bind-Value="baseConfig.IpRating" Variant="Variant.Outlined" Dense="true">
-                                            <MudSelectItem Value="@("1")">FA 12.230</MudSelectItem>
-                                            <MudSelectItem Value="@("2")">FA 13.230</MudSelectItem>
-                                            <MudSelectItem Value="@("1")">FA 15.230</MudSelectItem>
-                                            <MudSelectItem Value="@("2")">FA 08.230</MudSelectItem>
-                                            <MudSelectItem Value="@("1")">FA 20.230</MudSelectItem>
-                                            <MudSelectItem Value="@("2")">FA 13.230</MudSelectItem>
-                                        </MudSelect>
-                                        <MudSelect T="string" Label="Панель вентиляционная потолочная" @bind-Value="baseConfig.IpRating" Variant="Variant.Outlined" Dense="true">
-                                            <MudSelectItem Value="@("1")">RV 32.23 L</MudSelectItem>
-                                            <MudSelectItem Value="@("2")">RV 38.38 L</MudSelectItem>
-                                        </MudSelect>
-                        <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Build" OnClick="ProcessUiCalculation" Class="py-3 mt-2">
-                            Рассчитать
-                        </MudButton>
-                        </div>
-                </MudItem>
-            </MudGrid>
-        </MudTabPanel>
-
-        <!-- Вкладка 2: Оборудование -->
-        <MudTabPanel Text="Оборудование" Icon="@Icons.Material.Filled.SettingsSuggest">
-            <MudGrid>
-                <MudItem Xs="12" Md="12">
-                    <div class="d-flex flex-column gap-4">
-                        <MudText Typo="Typo.subtitle1"><b>Параметры конфигурации шкафа:</b></MudText>
-                        <MudExpansionPanels MultiExpansion="true">
-                            <MudExpansionPanel Text="Общие параметры шкафа" IsInitiallyExpanded="false" Class="mb-2">
-                                <TitleContent>
-                                    <div class="d-flex align-center">
-                                        <MudIcon Icon="@Icons.Material.Filled.Tune" Color="Color.Primary" Class="mr-2" />
-                                        <MudText Typo="Typo.subtitle1"><b>Общие параметры шкафа (Электротехника и климат)</b></MudText>
-                                    </div>
-                                </TitleContent>
-                                <ChildContent>
-                                    <MudGrid Class="pa-2">
-
-                                        @* Колонка 1: Параметры питания и защиты *@
-                                        <MudItem xs="12" md="4" Class="d-flex flex-column gap-3" Style="border-right: 1px solid var(--mud-palette-lines-inputs); padding-right: 20px;">
-                                            <MudText Typo="Typo.subtitle2" Color="Color.Primary"><b>1. Электропитание и нагрузки</b></MudText>
-
-                                            <div class="d-flex flex-column gap-1">
-                                                <MudText Typo="Typo.caption" Color="Color.Secondary">Номинальное напряжение питания</MudText>
-                                                <MudRadioGroup T="string" @bind-Value="baseConfig.Voltage" Class="d-flex gap-4">
-                                                    <MudRadio Value="@("380")" Color="Color.Primary" Dense="true">~380 В (3 ф.)</MudRadio>
-                                                    <MudRadio Value="@("220")" Color="Color.Primary" Dense="true">~220 В (1 ф.)</MudRadio>
-                                                    <MudRadio Value="@("24")" Color="Color.Primary" Dense="true">=24 В</MudRadio>
-                                                </MudRadioGroup>
-                                            </div>
-
-                                            <MudGrid Spacing="2">
-                                                <MudItem xs="6">
-                                                    <MudNumericField T="int" Label="Ток ввода, А" @bind-Value="baseConfig.InputCurrent" Min="1" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" />
-                                                </MudItem>
-                                                <MudItem xs="6">
-                                                    <MudSelect T="string" Label="Категория надежности" @bind-Value="baseConfig.PowerCategory" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense">
-                                                        <MudSelectItem Value="@("I")">I категория (АВР)</MudSelectItem>
-                                                        <MudSelectItem Value="@("II")">II категория</MudSelectItem>
-                                                        <MudSelectItem Value="@("III")">III категория</MudSelectItem>
-                                                    </MudSelect>
-                                                </MudItem>
-                                            </MudGrid>
-
-                                            <MudSelect T="string" Label="Тип системы заземления" @bind-Value="baseConfig.EarthingSystem" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense">
-                                                <MudSelectItem Value="@("TN-S")">TN-S (раздельные N и PE)</MudSelectItem>
-                                                <MudSelectItem Value="@("TN-C-S")">TN-C-S</MudSelectItem>
-                                                <MudSelectItem Value="@("TN-C")">TN-C (совмещенный PEN)</MudSelectItem>
-                                            </MudSelect>
-                                        </MudItem>
-
-                                        @* Колонка 2: Климат и окружающая среда *@
-                                        <MudItem xs="12" md="4" Class="d-flex flex-column gap-3" Style="border-right: 1px solid var(--mud-palette-lines-inputs); padding-left: 20px; padding-right: 20px;">
-                                            <MudText Typo="Typo.subtitle2" Color="Color.Primary"><b>2. Климатическое исполнение</b></MudText>
-
-                                            <MudSelect T="string" Label="Климатическое исполнение по ГОСТ 15150" @bind-Value="baseConfig.ClimateExecution" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense">
-                                                <MudSelectItem Value="@("УХЛ4")">УХЛ4 (Отапливаемые помещения)</MudSelectItem>
-                                                <MudSelectItem Value="@("УХЛ1")">УХЛ1 (На открытом воздухе)</MudSelectItem>
-                                                <MudSelectItem Value="@("У1")">У1 (Умеренный климат, улица)</MudSelectItem>
-                                                <MudSelectItem Value="@("Т3")">Т3 (Тропический)</MudSelectItem>
-                                            </MudSelect>
-
-                                            <div class="d-flex flex-column gap-1 mt-1">
-                                                <MudSwitch T="bool" @bind-Value="baseConfig.HasHeater" Label="Обогрев шкафа (антиконденсат)" Color="Color.Primary" Dense="true" />
-                                                <MudSwitch T="bool" @bind-Value="baseConfig.HasVentilation" Label="Принудительная вентиляция" Color="Color.Primary" Dense="true" />
-                                                <MudSwitch T="bool" @bind-Value="baseConfig.HasLighting" Label="Внутреннее освещение шкафа" Color="Color.Primary" Dense="true" />
-                                            </div>
-
-                                            @if (baseConfig.HasHeater || baseConfig.HasVentilation)
-                                            {
-                                                <MudText Typo="Typo.caption" Color="Color.Info" Class="font-italic">
-                                                    * Термостаты управления микроклиматом добавятся в спецификацию автоматически.
-                                                </MudText>
-                                            }
-                                        </MudItem>
-
-                                        @* Колонка 3: Конструктивные особенности ввода *@
-                                        <MudItem xs="12" md="4" Class="d-flex flex-column gap-3" Style="padding-left: 20px;">
-                                            <MudText Typo="Typo.subtitle2" Color="Color.Primary"><b>3. Монтаж и кабельный ввод</b></MudText>
-
-                                            <MudSelect T="string" Label="Направление ввода кабелей" @bind-Value="baseConfig.CableEntryDirection" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense">
-                                                <MudSelectItem Value="@("Bottom")">Снизу шкафа (Стандарт)</MudSelectItem>
-                                                <MudSelectItem Value="@("Top")">Сверху шкафа</MudSelectItem>
-                                                <MudSelectItem Value="@("Both")">Комбинированный (Сверху и Снизу)</MudSelectItem>
-                                            </MudSelect>
-
-                                            <MudGrid Spacing="2">
-                                                <MudItem xs="7">
-                                                    <MudSelect T="string" Label="Тип кабельных вводов" @bind-Value="baseConfig.GlandType" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense">
-                                                        <MudSelectItem Value="@("Пластик")">Пластиковые сальники (MG)</MudSelectItem>
-                                                        <MudSelectItem Value="@("Латунь")">Латунные (PG)</MudSelectItem>
-                                                        <MudSelectItem Value="@("Кабельная плата")">Кабельная плата (Провенто)</MudSelectItem>
-                                                    </MudSelect>
-                                                </MudItem>
-                                                <MudItem xs="5">
-                                                    <MudNumericField T="int" Label="Кол-во вводов" @bind-Value="baseConfig.GlandsCount" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" />
-                                                </MudItem>
-                                            </MudGrid>
-
-                                            <MudSelect T="string" Label="Цвет окраски шкафа (RAL)" @bind-Value="baseConfig.RalColor" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense">
-                                                <MudSelectItem Value="@("7035")">RAL 7035 (Светло-серый, стандарт)</MudSelectItem>
-                                                <MudSelectItem Value="@("7021")">RAL 7021 (Темно-серый)</MudSelectItem>
-                                                <MudSelectItem Value="@("7032")">RAL 7032 (Гравийно-серый)</MudSelectItem>
-                                            </MudSelect>
-                                        </MudItem>
-
-                                    </MudGrid>
-                                </ChildContent>
-                            </MudExpansionPanel>
-
-                            <MudExpansionPanel Text="Программируемые контроллеры и модули" MaxHeight="1000">
-                                <TitleContent>
-                                    <div class="d-flex align-center">
-                                        <MudIcon Icon="@Icons.Material.Filled.Memory" Color="Color.Primary" Class="mr-2" />
-                                        <MudText Typo="Typo.subtitle1"><b>Программируемые контроллеры и модули</b></MudText>
-                                    </div>
-                                </TitleContent>
-                                <ChildContent>
-                                    <MudGrid Class="pa-2">
-
-                                        @* Левая колонка: Базовое железо *@
-                                        <MudItem xs="12" md="6" Class="d-flex flex-column gap-3" Style="border-right: 1px solid var(--mud-palette-lines-inputs); padding-right: 24px;">
-                                            <MudText Typo="Typo.subtitle2" Color="Color.Primary"><b>Базовая конфигурация</b></MudText>
-
-                                            <MudGrid Spacing="2">
-                                                <MudItem xs="12" sm="5">
-                                                    <MudSelect T="string" Label="Производитель" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense">
-                                                        <MudSelectItem Value="@("ОВЕН")" />
-                                                        <MudSelectItem Value="@("Segnetics")" />
-                                                    </MudSelect>
-                                                </MudItem>
-                                                <MudItem xs="12" sm="5">
-                                                    <MudSelect T="string" Label="Контроллер" @bind-Value="baseConfig.PlcType" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense">
-                                                        <MudSelectItem Value="@("ПР200")">ПР200</MudSelectItem>
-                                                        <MudSelectItem Value="@("ПЛК110")">ПЛК110</MudSelectItem>
-                                                        <MudSelectItem Value="@("ПЛК160")">ПЛК160</MudSelectItem>
-                                                    </MudSelect>
-                                                </MudItem>
-                                                <MudItem xs="12" sm="2">
-                                                    <MudNumericField T="int" Label="Кол-во" Min="1" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" />
-                                                </MudItem>
-                                            </MudGrid>
-
-                                            <MudSelect T="string" Label="Протокол связи основного ПЛК" @bind-Value="baseConfig.Protocol" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense">
-                                                <MudSelectItem Value="@("Modbus RTU")">Modbus RTU (RS-485)</MudSelectItem>
-                                                <MudSelectItem Value="@("Modbus TCP")">Modbus TCP (Ethernet)</MudSelectItem>
-                                                <MudSelectItem Value="@("Нет")">Без сетевого интерфейса</MudSelectItem>
-                                            </MudSelect>
-
-                                            <div class="mt-auto pt-4">
-                                                <MudAlert Severity="Severity.Info" Dense="true" Class="mud-width-full" Icon="@Icons.Material.Filled.AutoFixHigh">
-                                                    Модули расширения под количество сигналов рассчитаются автоматически.
-                                                </MudAlert>
-                                            </div>
-                                        </MudItem>
-
-                                        @* Правая колонка: Расчет по сигналам *@
-                                        <MudItem xs="12" md="6" Class="d-flex flex-column gap-3" Style="padding-left: 24px;">
-                                            <MudText Typo="Typo.subtitle2" Color="Color.Primary"><b>Ёмкость сигналов ввода-вывода (I/O)</b></MudText>
-
-                                            <MudGrid Spacing="2">
-                                                @* Аналоговые входы *@
-                                                <MudItem xs="6">
-                                                    <MudNumericField T="int" Label="AI (4-20 мА)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" HideSpinButtons="false" />
-                                                </MudItem>
-                                                <MudItem xs="6">
-                                                    <MudNumericField T="int" Label="AI (0-10 В)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" HideSpinButtons="false" />
-                                                </MudItem>
-
-                                                @* Дискретные сигналы *@
-                                                <MudItem xs="6">
-                                                    <MudNumericField T="int" Label="DI (Сухой контакт)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" HideSpinButtons="false" />
-                                                </MudItem>
-                                                <MudItem xs="6">
-                                                    <MudNumericField T="int" Label="DO (Релейные/Транз.)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" HideSpinButtons="false" />
-                                                </MudItem>
-                                            </MudGrid>
-
-                                            <MudText Typo="Typo.caption" Class="mud-text-secondary mt-1">
-                                                * Указывайте общее число физических каналов на объекте. Система заложит необходимый резерв на клеммниках согласно ГОСТ.
-                                            </MudText>
-                                        </MudItem>
-
-                                    </MudGrid>
-                                </ChildContent>
-                            </MudExpansionPanel>
-
-
-                            
-
-                            <!-- Панель 2: Силовая часть -->
-                            <MudExpansionPanel Text="Защита и коммутация (Автоматы, реле, БП)">
-                                <!-- Тут поля для выбора автоматов КЭАЗ и БП Mean Well -->
-                                <MudText Typo="Typo.subtitle1" Class="mt-4">Отходящие линии обогрева</MudText>
-
-                                <MudSimpleTable Dense="true" Hover="true" Bordered="true" Outlined="true" Class="mt-2">
-                                    <thead>
-                                        <tr>
-                                            <th style="width:5%; text-align:center;"><MudIcon Icon="@Icons.Material.Filled.PowerSettingsNew" Size="Size.Small" /></th>
-                                            <th style="width:8%">Поз. ОУ</th>
-                                            <th style="width:12%; text-align:center">Диф. защита</th>
-                                            <th style="width:12%">Полюса</th>
-                                            <th style="width:14%">Номинал, А</th>
-                                            <th style="width:10%">Хар-ка</th>
-                                            <th style="width:12%">Iк.з., кА</th>
-                                            <th style="width:12%; text-align:center">Контактор</th>
-                                            <th style="width:15%; text-align:center">Терморегулятор</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @for (int i = 0; i < heatingLines.Count; i++)
-                                        {
-                                            var line = heatingLines[i];
-                                            var rowStyle = line.IsEnabled ? "" : "opacity: 0.4; background-color: var(--mud-palette-background-grey);";
-                                            <tr style="@rowStyle">
-                                                <td style="text-align:center">
-                                                    <MudCheckBox @bind-Value="line.IsEnabled" Color="Color.Primary" Dense="true" />
-                                                </td>
-                                                <td><MudText Typo="Typo.body2"><b>@line.Designation</b></MudText></td>
-                                                <td style="text-align:center">
-                                                    @if (line.Designation != "QF")
-                                                    {
-                                                        <MudCheckBox @bind-Value="line.HasRCD" Color="Color.Error" Dense="true" Disabled="@(!line.IsEnabled)" />
-                                                    }
-                                                    else
-                                                    {
-                                                        <MudText Typo="Typo.caption" Color="Color.Secondary">Вводной ВА</MudText>
-                                                    }
-                                                </td>
-                                                <td>
-                                                    <MudSelect T="int" @bind-Value="line.Poles" Variant="Variant.Outlined" Margin="Margin.Dense" Dense="true" Disabled="@(!line.IsEnabled)">
-                                                        <MudSelectItem T="int" Value="1">1P</MudSelectItem>
-                                                        <MudSelectItem T="int" Value="2">2P</MudSelectItem>
-                                                        <MudSelectItem T="int" Value="3">3P</MudSelectItem>
-                                                        <MudSelectItem T="int" Value="4">4P</MudSelectItem>
-                                                    </MudSelect>
-                                                </td>
-                                                <td>
-                                                    <MudSelect T="int" @bind-Value="line.Current" Variant="Variant.Outlined" Margin="Margin.Dense" Dense="true" Disabled="@(!line.IsEnabled)">
-                                                        @foreach (var amp in new int[] { 1, 2, 3, 4, 6, 10, 16, 20, 25, 32, 40, 50, 63 })
-                                                        {
-                                                            <MudSelectItem T="int" Value="@amp">@amp А</MudSelectItem>
-                                                        }
-                                                    </MudSelect>
-                                                </td>
-                                                <td>
-                                                    <MudSelect T="string" @bind-Value="line.Curve" Variant="Variant.Outlined" Margin="Margin.Dense" Dense="true" Disabled="@(!line.IsEnabled)">
-                                                        <MudSelectItem T="string" Value="@("A")">A</MudSelectItem>
-                                                        <MudSelectItem T="string" Value="@("B")">B</MudSelectItem>
-                                                        <MudSelectItem T="string" Value="@("C")">C</MudSelectItem>
-                                                        <MudSelectItem T="string" Value="@("D")">D</MudSelectItem>
-                                                    </MudSelect>
-                                                </td>
-                                                <td>
-                                                    <MudSelect T="double" @bind-Value="line.IkZ" Variant="Variant.Outlined" Margin="Margin.Dense" Dense="true" Disabled="@(!line.IsEnabled)">
-                                                        <MudSelectItem T="double" Value="4.5">4.5 кА</MudSelectItem>
-                                                        <MudSelectItem T="double" Value="6">6.0 кА</MudSelectItem>
-                                                        <MudSelectItem T="double" Value="10">10.0 кА</MudSelectItem>
-                                                    </MudSelect>
-                                                </td>
-                                                <td style="text-align:center">
-                                                    @if (line.Designation != "QF")
-                                                    {
-                                                        <MudCheckBox @bind-Value="line.HasContactor" Color="Color.Info" Dense="true" Disabled="@(!line.IsEnabled)" />
-                                                    }
-                                                    else
-                                                    {
-                                                        <MudIcon Icon="@Icons.Material.Filled.Remove" Color="Color.Default" Size="Size.Small" />
-                                                    }
-                                                </td>
-                                                <td style="text-align:center">
-                                                    @if (line.Designation != "QF")
-                                                    {
-                                                        <MudCheckBox @bind-Value="line.HasThermostat" Color="Color.Warning" Dense="true" Disabled="@(!line.IsEnabled)" />
-                                                    }
-                                                    else
-                                                    {
-                                                        <MudIcon Icon="@Icons.Material.Filled.Remove" Color="Color.Default" Size="Size.Small" />
-                                                    }
-                                                </td>
-                                            </tr>
-                                        }
-                                    </tbody>
-                                </MudSimpleTable>
-
-                            </MudExpansionPanel>
-
-                            <!-- Панель 3: Клеммы -->
-                            <MudExpansionPanel Text="Клеммные ряды и монтажные материалы" IsInitiallyExpanded="false" Class="mb-2">
-                                <TitleContent>
-                                    <div class="d-flex align-center">
-                                        <MudIcon Icon="@Icons.Material.Filled.Layers" Color="Color.Primary" Class="mr-2" />
-                                        <MudText Typo="Typo.subtitle1"><b>Клеммные ряды и монтажные материалы (Электромонтаж)</b></MudText>
-                                    </div>
-                                </TitleContent>
-                                <ChildContent>
-                                    <MudGrid Class="pa-2">
-    
-                                @* Левая колонка: Конфигурация клеммных блоков *@
-                                <MudItem xs="12" md="7" Class="d-flex flex-column gap-3">
-                                    <div class="d-flex justify-space-between align-center">
-                                        <MudText Typo="Typo.subtitle2" Color="Color.Primary"><b>1. Конфигурация клеммных блоков</b></MudText>
-                                        <MudButton Variant="Variant.Outlined" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" Size="Size.Small" OnClick="AddTerminalRow">
-                                            ДОБАВИТЬ КЛЕММНИК
-                                        </MudButton>
-                                    </div>
-
-                                    @* Обертка в MudPaper для визуального отделения таблицы *@
-                                    <MudPaper Outlined="true" Class="pa-2" Elevation="0">
-                                        <MudTable Items="@TerminalRows" Dense="true" Bordered="false" Striped="true" Elevation="0">
-                                            <HeaderContent>
-                                                <MudTh Style="width: 20%;">Маркировка</MudTh>
-                                                <MudTh Style="width: 50%;">Тип клеммы</MudTh>
-                                                <MudTh Style="width: 30%;">Сечение, мм²</MudTh>
-                                            </HeaderContent>
-                                            <RowTemplate>
-                                                <MudTd DataLabel="Маркировка">
-                                                    <MudTextField @bind-Value="context.XBlockName" Margin="Margin.Dense" Variant="Variant.Outlined" Dense="true" />
-                                                </MudTd>
-                                                <MudTd DataLabel="Тип клеммы">
-                                                    <MudSelect T="string" @bind-Value="context.TerminalType" Margin="Margin.Dense" Variant="Variant.Outlined" Dense="true">
-                                                        <MudSelectItem Value="@("Проходная винтовая (Фаза/N)")" />
-                                                        <MudSelectItem Value="@("Заземляющая (РЕ, желто-зеленая)")" />
-                                                    </MudSelect>
-                                                </MudTd>
-                                                <MudTd DataLabel="Сечение, мм²">
-                                                    <MudSelect T="string" @bind-Value="context.WireSection" Margin="Margin.Dense" Variant="Variant.Outlined" Dense="true">
-                                                        <MudSelectItem Value="@("2.5 мм² (Стандарт)")" />
-                                                        <MudSelectItem Value="@("4.0 мм²")" />
-                                                    </MudSelect>
-                                                </MudTd>
-                                            </RowTemplate>
-                                        </MudTable>
-                                    </MudPaper>
-        
-                                    <MudAlert Severity="Severity.Info" Dense="true" Class="mt-2" Icon="@Icons.Material.Filled.AutoAwesome">
-                                        Торцевые изоляторы, торцевые фиксаторы (стопоры) и маркировочные пластины под эти ряды С#-код рассчитает и добавит в ГОСТ-спецификацию автоматически.
-                                            </MudAlert>
-                                </MudItem>
-
-                                @* Правая колонка: Расходные материалы и настройки *@
-                                <MudItem xs="12" md="5" Class="d-flex flex-column gap-3" Style="border-left: 1px solid var(--mud-palette-lines-inputs); padding-left: 20px;">
-                                    <MudText Typo="Typo.subtitle2" Color="Color.Primary"><b>2. Расходные материалы и софт-настройки</b></MudText>
-        
-                                    <MudSelect T="string" Label="Производитель клемм и аксессуаров" @bind-Value="baseConfig.TerminalVendor" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense">
-                                        <MudSelectItem Value="@("Klemsan")">Klemsan</MudSelectItem>
-                                        <MudSelectItem Value="@("IEK")">IEK</MudSelectItem>
-                                    </MudSelect>
-
-                                    <MudGrid Spacing="2">
-                                        <MudItem xs="6">
-                                            <MudNumericField T="int" Label="Технологический резерв клемм, %" @bind-Value="baseConfig.TerminalReservePercent" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" />
-                                        </MudItem>
-                                        <MudItem xs="6">
-                                            <MudSelect T="string" Label="Материал DIN-рейки" @bind-Value="baseConfig.DinRailType" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense">
-                                                <MudSelectItem Value="@("Сталь оцинкованная")">Сталь оцинкованная</MudSelectItem>
-                                            </MudSelect>
-                                        </MudItem>
-                                    </MudGrid>
-
-                                    <MudCard Elevation="0" Outlined="true" Class="pa-3 mt-2">
-                                        <MudText Typo="Typo.caption" Color="Color.Error" Class="d-block mb-2"><b>Перфорированные кабель-каналы (Короба)</b></MudText>
-                                        <MudGrid Spacing="2">
-                                            <MudItem xs="6">
-                                                <MudSelect T="string" Label="Типоразмер короба" @bind-Value="baseConfig.TrunkingSize" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense">
-                                                    <MudSelectItem Value="@("60 х 40 мм (Стандарт)")" />
-                                                </MudSelect>
-                                            </MudItem>
-                                            <MudItem xs="6">
-                                                <MudSelect T="string" Label="Материал короба" @bind-Value="baseConfig.TrunkingMaterial" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense">
-                                                    <MudSelectItem Value="@("ПВХ серая (НГ)")" />
-                                                </MudSelect>
-                                            </MudItem>
-                                        </MudGrid>
-                                    </MudCard>
-
-                                    <div class="d-flex flex-column gap-2 mt-2">
-                                        <MudCheckBox T="bool" @bind-Checked="baseConfig.AutoCalculateTrunking" Label="Автоматический расчет метража коробов и DIN-реек по габаритам Провенто" Color="Color.Primary" Dense="true" />
-                                        <MudCheckBox T="bool" @bind-Checked="baseConfig.IncludeWireAndFerrules" Label="Включить в спецификацию монтажный провод (ПуГВ) и наконечники (НШВИ)" Color="Color.Primary" Dense="true" />
-                                    </div>
-                                </MudItem>
-
-                            </MudGrid>
-
-                                </ChildContent>
-                            </MudExpansionPanel>
-                        </MudExpansionPanels>
-
-
-
-                        <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Build" OnClick="ProcessUiCalculation" Class="py-3 mt-2">
-                            Рассчитать
-                        </MudButton>
-                    </div>
-                </MudItem>
-            </MudGrid>
-        </MudTabPanel>
-        
-
-    </MudTabs>
-
-    @if (loadedConfig != null)
-    {
-        <MudCard Class="mt-6" Elevation="3">
-            <MudCardHeader>
-                <CardHeaderContent>
-                    <MudText Typo="Typo.h6">Результаты подбора:</MudText>
-                </CardHeaderContent>
-            </MudCardHeader>
-            <MudCardContent>
-                @if (matchedComponents != null && matchedComponents.Any())
-                {
-                    <MudSimpleTable Dense="true" Hover="true" Outlined="true">
-                        <thead>
-                            <tr>
-                                <th>Поз.</th>
-                                <th>Бренд</th>
-                                <th>Артикул</th>
-                                <th>Наименование</th>
-                                <th>Кол-во</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var comp in matchedComponents)
-                            {
-                                <tr>
-                                    <td><MudChip T="string" Color="Color.Info" Size="Size.Small">@comp.Designation</MudChip></td>
-                                    <td>@comp.Vendor</td>
-                                    <td><b>@comp.Article</b></td>
-                                    <td>@comp.Description</td>
-                                    <td>@comp.Quantity</td>
-                                </tr>
-                            }
-                        </tbody>
-                    </MudSimpleTable>
-                }
-            </MudCardContent>
-            <MudCardActions Class="pa-4">
-                <MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="DownloadFile" FullWidth="true" Class="py-3">
-                    Скачать спецификацию (Excel)
-                </MudButton>
-            </MudCardActions>
-        </MudCard>
-    }
-    <div style="border-top: 1px solid #e0e0e0; padding: 20px; margin-top: 40px; text-align: center; color: #555;">
-        <p><b>AsuGenerator v1.0</b> — Автоматизация проектирования шкафов управления</p>
-        <p>Разработчик: <b>Ленар Гайнуллин</b>, инженер-проектировщик АСУ ТП</p>
-        <p>
-            Telegram: <a href="https://t.me/t5522977" target="_blank">@@t5522977</a> |
-            Email: <a href="mailto:powerman@mail.ru">powerman@mail.ru</a>
-        </p>
-        <p style="font-size: 0.85rem; color: #888;">
-            Готов бесплатно адаптировать алгоритмы и шаблоны выгрузки Excel под стандарты вашего производства. Пишите!
-        </p>
+@* Блок 1: Первый экран (Главное ценностное предложение) *@
+<div class="mud-theme-primary pa-12 text-center d-flex flex-column align-center justify-center style-hero">
+    <MudIcon Icon="@Icons.Material.Filled.AutoMode" Size="Size.Large" Style="font-size: 4rem;" Class="mb-4" />
+    <MudText Typo="Typo.h3" Class="mb-3" Style="font-weight: 800;">
+        Облачный конфигуратор шкафов АСУ ТП
+    </MudText>
+    <MudText Typo="Typo.h5" Class="mb-6 mud-text-secondary" Style="max-width: 800px; opacity: 0.9;">
+        Сборка заказных спецификаций по ГОСТ 21.110 за 10 минут. Автоматический сквозной подбор корпусов Провенто, плат ОВЕН и силовой автоматики КЭАЗ/Dekraft.
+    </MudText>
+    <div class="d-flex gap-4">
+        <MudButton Variant="Variant.Filled" Color="Color.Success" Size="Size.Large" StartIcon="@Icons.Material.Filled.PlayArrow" href="/configurator" Style="font-weight: bold; padding: 12px 32px;">
+            СОБРАТЬ ШКАФ БЕСПЛАТНО
+        </MudButton>
+        <MudButton Variant="Variant.Outlined" Color="Color.Inherit" Size="Size.Large" StartIcon="@Icons.Material.Filled.Payments" href="/pricing">
+            Посмотреть тарифы
+        </MudButton>
     </div>
-
 </div>
 
-@code {
-    @code {
-        private void OnIpRatingChanged(string newIpRating)
-        {
-            // Присваиваем новое значение степени защиты
-            baseConfig.IpRating = newIpRating;
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-12 mb-12">
+    @* Блок 2: Реальные примеры для скачивания (Снятие скепсиса ГИПов) *@
+    <div class="text-center mb-10">
+        <MudText Typo="Typo.h5" Color="Color.Primary" Class="mb-2"><b>Проверьте качество проектной документации</b></MudText>
+        <MudText Typo="Typo.body2" Color="Color.Secondary" Class="mb-6">Скачайте примеры спецификаций, которые система генерирует автоматически строго в соответствии с ГОСТ</MudText>
+        <div class="d-flex justify-center gap-4 flex-wrap">
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary" StartIcon="@Icons.Custom.FileFormats.FileExcel" href="/examples/Specification_SHUV.xlsx" Download="Спецификация_ШУВ_ГОСТ.xlsx">
+                Пример спецификации ШУВ (.xlsx)
+            </MudButton>
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary" StartIcon="@Icons.Custom.FileFormats.FileExcel" href="/examples/Specification_SHR.xlsx" Download="Спецификация_ЩР1_ГОСТ.xlsx">
+                Пример спецификации ЩР-1 (.xlsx)
+            </MudButton>
+        </div>
+    </div>
 
-            // Выставляем нижнее (последнее) значение габаритов в зависимости от выбора
-            if (newIpRating == "IP54")
-            {
-                selectedDimensions = "400×300×220";
+    <MudDivider Class="my-10" />
+
+    @* Блок 3: Excel vs ASU Generator (Обоснование ценности) *@
+    <MudText Typo="Typo.h5" Alignment="Alignment.Center" Color="Color.Primary" Class="mb-8"><b>Почему ASU Generator умнее, чем ваша Excel-таблица?</b></MudText>
+    <MudGrid Class="mb-12">
+        <MudItem xs="12" md="6">
+            <MudCard Outlined="true" Class="pa-4 h-100" Style="border-color: var(--mud-palette-error-lighten) !important;">
+                <div class="d-flex align-center mb-3 text-danger">
+                    <MudIcon Icon="@Icons.Material.Filled.TrendingDown" Color="Color.Error" Class="mr-2" />
+                    <MudText Typo="Typo.h6" Color="Color.Error"><b>Как обычно проектируют в Excel:</b></MudText>
+                </div>
+                <div class="d-flex flex-column gap-3">
+                    <div class="d-flex gap-2"><MudIcon Icon="@Icons.Material.Filled.Close" Color="Color.Error" Size="Size.Small" /> <MudText Typo="Typo.body2"><b>Рутина:</b> Часы на ручной поиск кодов цоколей и панелей Провенто по PDF-каталогам.</MudText></div>
+                    <div class="d-flex gap-2"><MudIcon Icon="@Icons.Material.Filled.Close" Color="Color.Error" Size="Size.Small" /> <MudText Typo="Typo.body2"><b>Ошибки:</b> Случайно затертая формула или опечатка в коде срывают закупку и сборку.</MudText></div>
+                    <div class="d-flex gap-2"><MudIcon Icon="@Icons.Material.Filled.Close" Color="Color.Error" Size="Size.Small" /> <MudText Typo="Typo.body2"><b>Цены:</b> Прайс-листы вендоров постоянно меняются, ТКП приходится пересчитывать руками.</MudText></div>
+                    <div class="d-flex gap-2"><MudIcon Icon="@Icons.Material.Filled.Close" Color="Color.Error" Size="Size.Small" /> <MudText Typo="Typo.body2"><b>Хаос:</b> Каждый инженер считает «мелочевку» (клеммы, стопоры) по своим формулам.</MudText></div>
+                </div>
+            </MudCard>
+        </MudItem>
+        <MudItem xs="12" md="6">
+            <MudCard Outlined="true" Class="pa-4 h-100" Style="border-color: var(--mud-palette-success-lighten) !important; background-color: var(--mud-palette-background-grey);">
+                <div class="d-flex align-center mb-3">
+                    <MudIcon Icon="@Icons.Material.Filled.TrendingUp" Color="Color.Success" Class="mr-2" />
+                    <MudText Typo="Typo.h6" Color="Color.Success"><b>Проектирование на asugenerator.ru:</b></MudText>
+                </div>
+                <div class="d-flex flex-column gap-3">
+                    <div class="d-flex gap-2"><MudIcon Icon="@Icons.Material.Filled.Done" Color="Color.Success" Size="Size.Small" /> <MudText Typo="Typo.body2"><b>Автоматизация:</b> С C#-алгоритмами вы кликаете только габариты — аксессуары подбираются сами.</MudText></div>
+                    <div class="d-flex gap-2"><MudIcon Icon="@Icons.Material.Filled.Done" Color="Color.Success" Size="Size.Small" /> <MudText Typo="Typo.body2"><b>«Защита от дурака»:</b> Жёсткая валидация в коде гарантирует 100% совместимость железа.</MudText></div>
+                    <div class="d-flex gap-2"><MudIcon Icon="@Icons.Material.Filled.Done" Color="Color.Success" Size="Size.Small" /> <MudText Typo="Typo.body2"><b>Актуальность:</b> Единая база данных цен и линеек оборудования в облаке.</MudText></div>
+                    <div class="d-flex gap-2"><MudIcon Icon="@Icons.Material.Filled.Done" Color="Color.Success" Size="Size.Small" /> <MudText Typo="Typo.body2"><b>Стандартизация:</b> Система сама считает клеммные стопоры, заглушки и метраж коробов по ГОСТ.</MudText></div>
+                </div>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+
+    <MudDivider Class="my-10" />
+
+    @* Блок 4: Интеграция и поддерживаемые вендоры *@
+    <div class="text-center mb-10">
+        <MudText Typo="Typo.h5" Color="Color.Primary" Class="mb-4"><b>Поддерживаемые производители оборудования</b></MudText>
+        <MudGrid Justify="Justify.Center" Spacing="4" Class="mt-2">
+            <MudItem xs="4" sm="2"><MudChip T="string" Color="Color.Default" Variant="Variant.Outlined" Size="Size.Large"><b>ПРОВЕНТО</b></MudChip></MudItem>
+            <MudItem xs="4" sm="2"><MudChip T="string" Color="Color.Default" Variant="Variant.Outlined" Size="Size.Large"><b>ОВЕН</b></MudChip></MudItem>
+            <MudItem xs="4" sm="2"><MudChip T="string" Color="Color.Default" Variant="Variant.Outlined" Size="Size.Large"><b>КЭАЗ</b></MudChip></MudItem>
+            <MudItem xs="4" sm="2"><MudChip T="string" Color="Color.Default" Variant="Variant.Outlined" Size="Size.Large"><b>Dekraft</b></MudChip></MudItem>
+            <MudItem xs="4" sm="2"><MudChip T="string" Color="Color.Default" Variant="Variant.Outlined" Size="Size.Large"><b>IEK</b></MudChip></MudItem>
+            <MudItem xs="4" sm="2"><MudChip T="string" Color="Color.Default" Variant="Variant.Outlined" Size="Size.Large"><b>Klemsan</b></MudChip></MudItem>
+        </MudGrid>
+    </div>
+
+    @* Блок 5: Призыв для B2B *@
+    <MudPaper Outlined="true" Class="pa-8 text-center mud-background-gray mt-12">
+        <MudIcon Icon="@Icons.Material.Filled.Business" Size="Size.Large" Color="Color.Primary" Class="mb-2" />
+        <MudText Typo="Typo.h6" Class="mb-2"><b>Готовое решение для проектных отделов и щитовых производств</b></MudText>
+        <MudText Typo="Typo.body2" Color="Color.Secondary" Class="mb-6" Style="max-width: 700px; margin: 0 auto;">
+            Мы работаем с юридическими лицами по безналичному расчету с предоставлением закрывающих документов. Бесплатно добавим уникальные базы ваших корпоративных вендоров и адаптируем шаблоны Excel под стандарты вашей компании.
+        </MudText>
+        <div class="d-flex justify-center gap-4">
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Send" href="https://t.me" Target="_blank">
+                Связаться в Telegram (@@t5522977)
+            </MudButton>
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary" href="/pricing">
+                Тарифы для компаний
+            </MudButton>
+        </div>
+    </MudPaper>
+</MudContainer>
+
+<style>
+    /* Премиальный темно-графитовый фон для главного экрана */
+    .style-hero {
+        background-color: #1e293b !important; /* Строгий Slate-Blue (цвет профессионального софта) */
+        color: #f8fafc !important; /* Чистый мягкий белый текст */
+        min-height: 380px;
+        border-bottom: 4px solid var(--mud-palette-primary); /* Тонкий акцентный маркер снизу */
+    }
+
+        /* Стилизация подзаголовка для лучшей читаемости на темном фоне */
+        .style-hero .mud-text-secondary {
+            color: #94a3b8 !important; /* Мягкий серый цвет для описания */
+        }
+
+        /* Делаем кнопку "Собрать шкаф" более заметной, но строгой */
+        .style-hero .mud-button-filled.mud-button-filled-success {
+            background-color: #10b981 !important; /* Насыщенный изумрудно-зеленый (цвет действия) */
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+
+            .style-hero .mud-button-filled.mud-button-filled-success:hover {
+                background-color: #059669 !important; /* Темнеет при наведении */
             }
-            else if (newIpRating == "IP66")
-            {
-                selectedDimensions = "400×300×200";
-            }
-        }
+</style>
+
+
+@*
+<style>
+    .style-hero {
+        background: linear-gradient(135deg, var(--mud-palette-primary) 0%, var(--mud-palette-primary-darken) 100%);
+        color: white !important;
+        min-height: 400px;
     }
-
-    private BaseCabinetConfig baseConfig = new();
-
-    private string selectedDimensions = "500×400×220";
-    private string selectedCabinetType = "Шкаф управления вентиляцией (ШУВ)";
-    private string heaterType = "Водяной";
-    private VentAvtomatikaConfig? loadedConfig;
-    private List<SelectedComponent> matchedComponents = new();
-    private bool supplyFan = true;
-    private bool hasVfd = false;
-    private bool hasHeaterPump = false;
-    private bool hasDamper = false;
-    private bool hasHumidifierPump = false;
-    private bool hasAirConditioner = false;
-    private bool has3WayValve = false;
-    private List<HeatingLine> heatingLines = new()
-    {
-        new() { Designation = "QF" },
-        new() { Designation = "QF1" },
-        new() { Designation = "QF2" },
-        new() { Designation = "QF3" },
-        new() { Designation = "QF4" },
-        new() { Designation = "QF5" },
-        new() { Designation = "QF6" },
-        new() { Designation = "QF7" },
-        new() { Designation = "QF8" },
-        new() { Designation = "QF9" },
-        new() { Designation = "QF10" },
-        new() { Designation = "QF11" },
-        new() { Designation = "QF12" },
-    };
-    private string _previousIp = "IP54";
-
-    private void ProcessUiCalculation()
-    {
-        try
-        {   
-            var dims = selectedDimensions.Split('×');
-            if (dims.Length == 3)
-            {
-                baseConfig.Height = int.Parse(dims[0]);
-                baseConfig.Width = int.Parse(dims[1]);
-                baseConfig.Depth = int.Parse(dims[2]);
-            }
-
-
-
-            var input = new UiConfigInput
-            {
-                SupplyFan = supplyFan,
-                HasVfd = hasVfd,
-                HasHeaterPump = hasHeaterPump,
-                HasDamper = hasDamper,
-                HasHumidifierPump = hasHumidifierPump,
-                HasAirConditioner = hasAirConditioner,
-                Has3WayValve = has3WayValve,
-                TechnologyType = heaterType,
-                ProjectNumber = "Конфиг-" + DateTime.Now.ToString("ddMM"),
-                BaseConfig = baseConfig,
-                HeatingLines = heatingLines.Where(l => l.IsEnabled).ToList()
-            };
-
-            loadedConfig = new VentAvtomatikaConfig
-            {
-                ClientName = "Конфигуратор",
-                CompanyName = "AsuGenerator",
-                KpNumber = input.ProjectNumber
-            };
-
-            ICabinetStrategy strategy = StrategyFactory.GetStrategy(selectedCabinetType);
-            matchedComponents = strategy.CalculateComponents(input);
-        }
-        catch (Exception ex)
-        {
-            loadedConfig = new VentAvtomatikaConfig { ClientName = "ОШИБКА", CompanyName = ex.GetType().Name, KpNumber = ex.Message };
-            matchedComponents = new();
-        }
-    }
-
-    private async Task DownloadFile()
-    {
-        if (loadedConfig == null || matchedComponents == null || !matchedComponents.Any()) return;
-
-        try
-        {
-            byte[] excelBytes = DocGen.GenerateExcelSpecification(matchedComponents, loadedConfig);
-            string fileName = $"Спецификация_{loadedConfig.KpNumber}.xlsx";
-
-            using var fileStream = new MemoryStream(excelBytes);
-            using var streamRef = new DotNetStreamReference(stream: fileStream);
-            await JS.InvokeVoidAsync("downloadFileFromStream", fileName, streamRef);
-        }
-        catch (Exception ex)
-        {
-            System.Diagnostics.Debug.WriteLine($"Ошибка: {ex.Message}");
-        }
-    }
-    private async Task DownloadEplanXml()
-    {
-        if (matchedComponents == null || !matchedComponents.Any()) return;
-
-        var generator = new EplanXmlGenerator();
-        byte[] xmlBytes = generator.Generate(matchedComponents, loadedConfig?.KpNumber ?? "Проект");
-
-        string fileName = $"Спецификация_EPLAN_{loadedConfig?.KpNumber ?? "Проект"}.xml";
-        using var fileStream = new MemoryStream(xmlBytes);
-        using var streamRef = new DotNetStreamReference(stream: fileStream);
-        await JS.InvokeVoidAsync("downloadFileFromStream", fileName, streamRef);
-    }
-    @code {
-        // Класс строки таблицы клемм
-        public class TerminalRow
-        {
-            public string XBlockName { get; set; } = "XT1";
-            public string TerminalType { get; set; } = "Проходная (Винт)";
-            public string WireSection { get; set; } = "2.5";
-            public int Quantity { get; set; } = 10;
-        }
-
-        // Список клеммных рядов в таблице
-        private List<TerminalRow> TerminalRows { get; set; } = new()
-    {
-        new TerminalRow { XBlockName = "XT1", TerminalType = "Проходная (Винт)", WireSection = "2.5", Quantity = 24 },
-        new TerminalRow { XBlockName = "XT2", TerminalType = "Заземляющая PE", WireSection = "2.5", Quantity = 4 }
-    };
-
-        private void AddTerminalRow()
-        {
-            // Автоматически инкрементируем индекс клеммника для удобства (XT1 -> XT2 -> XT3)
-            string nextBlockName = $"XT{TerminalRows.Count + 1}";
-            TerminalRows.Add(new TerminalRow { XBlockName = nextBlockName });
-        }
-
-        private void RemoveTerminalRow(TerminalRow row)
-        {
-            if (TerminalRows.Count > 1)
-            {
-                TerminalRows.Remove(row);
-            }
-        }
-    }
-}
+</style>
+*@
