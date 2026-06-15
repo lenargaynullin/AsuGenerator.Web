@@ -186,7 +186,7 @@
                         <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Build" OnClick="ProcessUiCalculation" Class="py-3 mt-2">
                             Рассчитать
                         </MudButton>
-                    </div>
+                        </div>
                 </MudItem>
             </MudGrid>
         </MudTabPanel>
@@ -364,5 +364,17 @@
         {
             System.Diagnostics.Debug.WriteLine($"Ошибка: {ex.Message}");
         }
+    }
+    private async Task DownloadEplanXml()
+    {
+        if (matchedComponents == null || !matchedComponents.Any()) return;
+
+        var generator = new EplanXmlGenerator();
+        byte[] xmlBytes = generator.Generate(matchedComponents, loadedConfig?.KpNumber ?? "Проект");
+
+        string fileName = $"Спецификация_EPLAN_{loadedConfig?.KpNumber ?? "Проект"}.xml";
+        using var fileStream = new MemoryStream(xmlBytes);
+        using var streamRef = new DotNetStreamReference(stream: fileStream);
+        await JS.InvokeVoidAsync("downloadFileFromStream", fileName, streamRef);
     }
 }
