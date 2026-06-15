@@ -1,0 +1,113 @@
+﻿@page "/dashboard"
+@using MudBlazor
+
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-6">
+    @* Верхняя панель: Заголовок и кнопка создания *@
+    <div class="d-flex justify-space-between align-center mb-6">
+        <div>
+            <MudText Typo="Typo.h5" Color="Color.Primary"><b>Панель управления проектами</b></MudText>
+            <MudText Typo="Typo.body2" Color="Color.Secondary">Управляйте спецификациями и конфигурациями шкафов автоматизации вашей компании</MudText>
+        </div>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" Size="Size.Large" OnClick="CreateNewProject">
+            Создать новый шкаф
+        </MudButton>
+    </div>
+
+    @* Карточки быстрой статистики *@
+    <MudGrid Class="mb-6">
+        <MudItem xs="12" sm="4">
+            <MudPaper Outlined="true" Class="pa-4 d-flex align-center gap-4">
+                <MudIcon Icon="@Icons.Material.Filled.Folder" Color="Color.Primary" Size="Size.Large" />
+                <div>
+                    <MudText Typo="Typo.subtitle2" Color="Color.Secondary">Всего проектов</MudText>
+                    <MudText Typo="Typo.h5"><b>@_userProjects.Count</b></MudText>
+                </div>
+            </MudPaper>
+        </MudItem>
+        <MudItem xs="12" sm="4">
+            <MudPaper Outlined="true" Class="pa-4 d-flex align-center gap-4">
+                <MudIcon Icon="@Icons.Material.Filled.AccountBalanceWallet" Color="Color.Success" Size="Size.Large" />
+                <div>
+                    <MudText Typo="Typo.subtitle2" Color="Color.Secondary">Доступно выгрузок</MudText>
+                    <MudText Typo="Typo.h5" Color="Color.Success"><b>@_availableDownloads</b></MudText>
+                </div>
+            </MudPaper>
+        </MudItem>
+        <MudItem xs="12" sm="4">
+            <MudPaper Outlined="true" Class="pa-4 d-flex align-center gap-4">
+                <MudIcon Icon="@Icons.Material.Filled.Business" Color="Color.Warning" Size="Size.Large" />
+                <div>
+                    <MudText Typo="Typo.subtitle2" Color="Color.Secondary">Тип лицензии</MudText>
+                    <MudText Typo="Typo.h6" Color="Color.Warning"><b>B2B «Команда»</b></MudText>
+                </div>
+            </MudPaper>
+        </MudItem>
+    </MudGrid>
+
+    @* Основная таблица проектов *@
+    <MudTable Items="@_userProjects" Dense="true" Hover="true" Bordered="true" Striped="true" Outlined="true" Elevation="0" Filter="new Func<ProjectRow, bool>(FilterFunc)">
+        <ToolBarContent>
+            <MudText Typo="Typo.h6"><b>Список шкафов в работе</b></MudText>
+            <MudSpacer />
+            <MudTextField @bind-Value="_searchString" Placeholder="Поиск по шифру или объекту..." Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0" Margin="Margin.Dense" Variant="Variant.Outlined" Style="max-width: 300px;" />
+        </ToolBarContent>
+        <HeaderContent>
+            <MudTh Style="width: 15%;">Шифр проекта</MudTh>
+            <MudTh Style="width: 35%;">Наименование шкафа / Объект</MudTh>
+            <MudTh Style="width: 15%;">Дата изменения</MudTh>
+            <MudTh Style="width: 15%;">Стоимость железа</MudTh>
+            <MudTh Style="width: 20%;" Class="text-center">Действия</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="Шифр проекта"><code>@context.Code</code></MudTd>
+            <MudTd DataLabel="Наименование">
+                <MudText Typo="Typo.body2"><b>@context.Name</b></MudText>
+                <MudText Typo="Typo.caption" Color="Color.Secondary">@context.ObjectLocation</MudText>
+            </MudTd>
+            <MudTd DataLabel="Дата изменения">@context.LastModified.ToString("dd.MM.yyyy HH:mm")</MudTd>
+            <MudTd DataLabel="Стоимость железа">
+                <MudText Color="Color.Success"><b>@context.EstimatedCost.ToString("N0") ₽</b></MudText>
+            </MudTd>
+            <MudTd Class="text-center">
+                <div class="d-flex justify-center gap-1">
+                    <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" Size="Size.Small" Tooltip="Редактировать конфигурацию" OnClick="@(() => EditProject(context.Id))" />
+                    <MudIconButton Icon="@Icons.Material.Filled.FileDownload" Color="Color.Success" Size="Size.Small" Tooltip="Скачать Excel ГОСТ" OnClick="@(() => DownloadExcel(context.Id))" />
+                    <MudIconButton Icon="@Icons.Material.Filled.DeleteOutline" Color="Color.Error" Size="Size.Small" Tooltip="Удалить проект" OnClick="@(() => DeleteProject(context))" />
+                </div>
+            </MudTd>
+        </RowTemplate>
+    </MudTable>
+</MudContainer>
+
+@code {
+    public class ProjectRow
+    {
+        public string Id { get; set; }
+        public string Code { get; set; }
+        public string Name { get; set; }
+        public string ObjectLocation { get; set; }
+        public DateTime LastModified { get; set; }
+        public decimal EstimatedCost { get; set; }
+    }
+
+    private string _searchString = "";
+    private int _availableDownloads = 14;
+
+    private List<ProjectRow> _userProjects = new()
+    {
+        new ProjectRow { Id="1", Code="2026-04-АСУ.ШУВ1", Name="Шкаф управления вентиляцией ШУВ-1", ObjectLocation="Объект: ТЦ 'Атриум', Приточка П1", LastModified=DateTime.Now.AddDays(-2), EstimatedCost=142500 },
+        new ProjectRow { Id="2", Code="08/2026-ЩР", Name="Шкаф распределения питания ЩР-1", ObjectLocation="Объект: НПЗ, Цех №3, АВР КЭАЗ", LastModified=DateTime.Now.AddHours(-4), EstimatedCost=489000 },
+        new ProjectRow { Id="3", Code="АСУ-ТП.042.ШЛК", Name="Шкаф линковки сигналов КИП (100 DI)", ObjectLocation="Объект: Насосная станция 2-го подъема", LastModified=DateTime.Now.AddDays(-10), EstimatedCost=86000 }
+    };
+
+    private bool FilterFunc(ProjectRow element) =>
+        string.IsNullOrWhiteSpace(_searchString) ||
+        element.Code.Contains(_searchString, StringComparison.OrdinalIgnoreCase) ||
+        element.Name.Contains(_searchString, StringComparison.OrdinalIgnoreCase) ||
+        element.ObjectLocation.Contains(_searchString, StringComparison.OrdinalIgnoreCase);
+
+    private void CreateNewProject() { /* Навигация на конфигуратор */ }
+    private void EditProject(string id) { /* Открытие конфигуратора с id */ }
+    private void DownloadExcel(string id) { /* Вызов вашего движка ClosedXML */ }
+    private void DeleteProject(ProjectRow project) => _userProjects.Remove(project);
+}

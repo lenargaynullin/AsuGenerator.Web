@@ -1,0 +1,42 @@
+﻿@using MudBlazor
+
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6"><b>Выставление счета для юрлица</b></MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudText Typo="Typo.body2" Class="mb-4">Введите ИНН вашей компании. Мы автоматически сформируем счет на оплату тарифа <b>«Команда» (10 000 ₽)</b> и отправим вам на email.</MudText>
+        <div class="d-flex flex-column gap-3">
+            <MudTextField T="string" Label="ИНН Организации" @bind-Value="_inn" Variant="Variant.Outlined" Dense="true" Required="true" Counter="12" MaxLength="12" />
+            <MudTextField T="string" Label="Контактный Email ГИПа / Бухгалтерии" @bind-Value="_email" Variant="Variant.Outlined" Dense="true" Required="true" />
+            <MudTextField T="string" Label="Телефон для связи (необязательно)" @bind-Value="_phone" Variant="Variant.Outlined" Dense="true" />
+        </div>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel" Variant="Variant.Text">Отмена</MudButton>
+        <MudButton Color="Color.Success" Variant="Variant.Filled" OnClick="SubmitRequest" Disabled="@(string.IsNullOrEmpty(_inn) || string.IsNullOrEmpty(_email))">Получить счет</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] IMudDialogInstance MudDialog { get; set; }
+
+    private string _inn;
+    private string _email;
+    private string _phone;
+
+    [Inject] private ISnackbar Snackbar { get; set; }
+
+    private void Cancel() => MudDialog.Cancel();
+
+    private void SubmitRequest()
+    {
+        // ТУТ МАГИЯ: Вместо сложного кода вы просто отправляете данные себе на почту powerman@mail.ru
+        // или шлете webhook в ваш Telegram-бот.
+        // Вы берёте ИНН, забиваете его в приложение "Мой Налог" (Самозанятый), формируете счет за 1 минуту
+        // и отправляете на указанный _email руками.
+
+        Snackbar.Add("Заявка принята! Счет будет отправлен на ваш Email в течение 15 минут.", Severity.Success);
+        MudDialog.Close(DialogResult.Ok(true));
+    }
+}

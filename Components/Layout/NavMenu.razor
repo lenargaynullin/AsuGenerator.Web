@@ -1,18 +1,23 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">AsuGenerator.Web</a>
-    </div>
+﻿@using MudBlazor
+
+<div class="pa-4 d-flex align-center justify-start mud-theme-primary" style="height: 64px; border-bottom: 1px solid var(--mud-palette-lines-default);">
+    <MudIcon Icon="@Icons.Material.Filled.Memory" Color="Color.Inherit" Class="mr-2" Size="Size.Medium" />
+    <MudText Typo="Typo.h6" Color="Color.Inherit"><b>AsuGenerator</b></MudText>
 </div>
 
-<input type="checkbox" title="Navigation menu" class="navbar-toggler" />
+<MudNavMenu Bordered="true" Class="pa-2">
+    @* Ссылка на главную страницу (Конфигуратор) *@
+    <MudNavLink href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Build" IconColor="Color.Primary">
+        Конфигуратор шкафа
+    </MudNavLink>
 
-<div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
-    <nav class="nav flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
-            </NavLink>
-        </div>
-    </nav>
-</div>
+    @* Ссылка на панель управления проектами инженера *@
+    <MudNavLink href="dashboard" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Dashboard" IconColor="Color.Info">
+        Мои проекты
+    </MudNavLink>
 
+    @* Ссылка на коммерческую страницу с тарифами *@
+    <MudNavLink href="pricing" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Payments" IconColor="Color.Success">
+        Тарифы и Бизнес
+    </MudNavLink>
+</MudNavMenu>

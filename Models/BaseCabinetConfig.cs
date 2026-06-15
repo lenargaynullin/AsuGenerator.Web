@@ -9,6 +9,24 @@ public class BaseCabinetConfig
     public string Manufacturer { get; set; } = "IEK";
     public bool HasPocket { get; set; }
     public bool HasPlinth { get; set; }
+    public string PowerCategory { get; set; } = "III";
+    public string EarthingSystem { get; set; } = "TN-S";
+    public string ClimateExecution { get; set; } = "УХЛ4";
+    public bool HasVentilation { get; set; } = false;
+    public bool HasLighting { get; set; } = false;
+    public string CableEntryDirection { get; set; } = "Bottom";
+    public string GlandType { get; set; } = "Пластик";
+    public int GlandsCount { get; set; } = 0;
+    public string RalColor { get; set; } = "7035";
+
+    // Оборудование
+    public string TerminalVendor { get; set; } = "Klemsan";
+    public int TerminalReservePercent { get; set; } = 10;
+    public string DinRailType { get; set; } = "Оцинкованная";
+    public string TrunkingSize { get; set; } = "60x40";
+    public string TrunkingMaterial { get; set; } = "ПВХ";
+    public bool AutoCalculateTrunking { get; set; } = true;
+    public bool IncludeWireAndFerrules { get; set; } = false;
 
     // Событие для сброса габаритов
     public event Action<string>? OnIpRatingChanged;
