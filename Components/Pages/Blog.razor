@@ -1,0 +1,87 @@
+﻿@page "/blog"
+@using MudBlazor
+
+<PageTitle>Блог и полезные материалы — ASU Generator</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-10 mb-10">
+    <div class="text-center mb-8">
+        <MudText Typo="Typo.h4" Color="Color.Primary" Class="mb-2"><b>Блог инженера АСУ ТП</b></MudText>
+        <MudText Typo="Typo.subtitle1" Color="Color.Secondary">Полезные статьи, разборы ГОСТов, методики расчетов и автоматизации проектирования</MudText>
+    </div>
+
+    <MudGrid>
+        @foreach (var article in _articles)
+        {
+            <MudItem xs="12" md="4">
+                <MudCard Outlined="true" Class="d-flex flex-column justify-space-between pa-4 h-100" Style="background-color: white; min-height: 280px;">
+                    <MudCardContent>
+                        <MudText Typo="Typo.caption" Color="Color.Secondary">@article.Date.ToString("dd.MM.yyyy") | Чтение: @article.ReadTime</MudText>
+                        <MudText Typo="Typo.h6" Color="Color.Primary" Class="mt-2 mb-2"><b>@article.Title</b></MudText>
+                        <MudText Typo="Typo.body2" Color="Color.Secondary">@article.PreviewText</MudText>
+                    </MudCardContent>
+                    <MudCardActions>
+                        <MudButton Variant="Variant.Text" Color="Color.Primary" EndIcon="@Icons.Material.Filled.ArrowForward" href="@($"/blog/{article.Slug}")">
+                            Читать статью
+                        </MudButton>
+                    </MudCardActions>
+                </MudCard>
+            </MudItem>
+        }
+    </MudGrid>
+</MudContainer>
+
+@code {
+    public class ArticleMeta
+    {
+        public string Slug { get; set; }
+        public string Title { get; set; }
+        public string PreviewText { get; set; }
+        public DateTime Date { get; set; }
+        public string ReadTime { get; set; }
+    }
+
+    // Список ваших статей. Новый текст = просто добавить строку в этот массив и создать HTML-файл.
+    private List<ArticleMeta> _articles = new()
+    {
+        new ArticleMeta
+        {
+            Slug = "gost-21-110-rules",
+            Title = "Спецификация по ГОСТ 21.110-2013: правила оформления и шаблоны",
+            PreviewText = "Разбираем структуру заполнения граф, группировку оборудования, автонумерацию ОУ и частые ошибки проектировщиков при сдаче документации.",
+            Date = new DateTime(2026, 6, 15),
+            ReadTime = "5 мин"
+        },
+        new ArticleMeta
+        {
+            Slug = "provento-accessories-calculation",
+            Title = "Автоматический подбор аксессуаров для шкафов Провенто MPD",
+            PreviewText = "Как безошибочно рассчитать сопутствующие элементы: цоколи, боковые панели, секционирование и рейки под напольные корпуса без PDF-каталогов.",
+            Date = new DateTime(2026, 6, 16),
+            ReadTime = "7 мин"
+        },
+        new ArticleMeta
+        {
+            Slug = "terminals-calculation-rules",
+            Title = "Расчет клеммных рядов КИПиА: маркировка и резерв по ГОСТ",
+            PreviewText = "Инженерные правила проектирования блоков XT. Разбираем учет технологического резерва по РМ 4-59-95 и автоподбор стопоров и торцевых заглушек.",
+            Date = new DateTime(2026, 6, 17),
+            ReadTime = "6 мин"
+        },
+        new ArticleMeta
+        {
+            Slug = "breakers-selection-ratios",
+            Title = "Как выбрать автоматический выключатель для защиты ПЛК",
+            PreviewText = "Правила выбора номиналов, время-токовых кривых и отключающей способности в кА для цепей автоматики и чувствительной электроники КИПиА.",
+            Date = new DateTime(2026, 6, 18),
+            ReadTime = "5 мин"
+        },
+        new ArticleMeta
+        {
+            Slug = "tkp-generation-speedup",
+            Title = "Как инжиниринговой компании ускорить выдачу ТКП в 5 раз",
+            PreviewText = "Бизнес-разбор рутины согласований между продажниками и конструкторским отделом. Методика разгрузки инженеров за счет облачных SaaS-систем.",
+            Date = new DateTime(2026, 6, 19),
+            ReadTime = "6 мин"
+        }
+    };
+}

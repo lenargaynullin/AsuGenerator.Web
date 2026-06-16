@@ -1,0 +1,90 @@
+﻿@page "/blog/{UrlSlug}"
+@using MudBlazor
+@using System.IO
+@inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment Env
+
+<PageTitle>@_title — ASU Generator</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.Medium" Class="mt-10 mb-10">
+    <MudBreadcrumbs Items="_crumbs" />
+
+    <MudPaper Outlined="true" Class="pa-8 mt-4" Style="background-color: white;">
+        @if (_articleFound)
+        {
+            <MudText Typo="Typo.h4" Color="Color.Primary" Class="mb-2"><b>@_title</b></MudText>
+            <MudText Typo="Typo.caption" Color="Color.Secondary" Class="d-block mb-6">Автор: Практикующий инженер АСУ ТП | Проверено на соответствие ПУЭ и ГОСТ</MudText>
+
+            @* Блок вывода HTML-содержимого статьи *@
+            <div class="article-content" style="font-size: 15px; line-height: 1.7; color: var(--mud-palette-text-primary);">
+                @((MarkupString)_htmlContent)
+            </div>
+
+            @* Коммерческий B2B-баннер в конце каждой статьи для конверсии в продажи *@
+            <MudCard Class="mt-10 pa-6" Outlined="true" Style="background-color: var(--mud-palette-background-grey); border-left: 6px solid var(--mud-palette-success) !important;">
+                <MudText Typo="Typo.subtitle1" Color="Color.Success"><b>Надоело собирать спецификации вручную?</b></MudText>
+                <MudText Typo="Typo.body2" Class="mb-4">
+                    ASU Generator автоматически рассчитает клеммные стопоры, торцевые изоляторы, метраж кабель-каналов и выдаст готовую ГОСТ-спецификацию в Excel за 10 минут.
+                </MudText>
+                <MudButton Variant="Variant.Filled" Color="Color.Success" EndIcon="@Icons.Material.Filled.PlayArrow" href="/configurator">
+                    Запустить конфигуратор шкафа
+                </MudButton>
+            </MudCard>
+        }
+        else
+        {
+            <MudAlert Severity="Severity.Error" Class="mt-4">Статья еще не опубликована или адрес указан неверно.</MudAlert>
+            <MudButton href="/blog" Variant="Variant.Text" Color="Color.Primary" StartIcon="@Icons.Material.Filled.ArrowBack" Class="mt-4">Вернуться в блог</MudButton>
+        }
+    </MudPaper>
+</MudContainer>
+
+@code {
+    [Parameter] public string UrlSlug { get; set; }
+
+    private bool _articleFound = false;
+    private string _title = "Загрузка...";
+    private string _htmlContent = "";
+    private List<BreadcrumbItem> _crumbs = new();
+
+    protected override async Task OnParametersSetAsync()
+    {
+        try
+        {
+            // Формируем путь к HTML-файлу внутри папки wwwroot/articles/
+            string folderPath = Path.Combine(Env.WebRootPath, "articles");
+            string filePath = Path.Combine(folderPath, $"{UrlSlug?.ToLower()}.html");
+
+            if (File.Exists(filePath))
+            {
+                // Читаем текст статьи с диска VDS сервера
+                string fileText = await File.ReadAllTextAsync(filePath);
+
+                // Простейший парсинг заголовка: первая строка файла будет названием статьи
+                var lines = fileText.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
+                if (lines.Length > 0)
+                {
+                    _title = lines[0].Replace("<!--", "").Replace("-->", "").Trim();
+                    // Остальной текст — это тело статьи
+                    _htmlContent = string.Join("\n", lines.Skip(1));
+                    _articleFound = true;
+                }
+            }
+            else
+            {
+                _articleFound = false;
+            }
+        }
+        catch
+        {
+            _articleFound = false;
+        }
+
+        // Хлебные крошки для идеального SEO-индексирования поисковиками
+        _crumbs = new List<BreadcrumbItem>
+        {
+            new BreadcrumbItem("Главная", href: "/"),
+            new BreadcrumbItem("Блог", href: "/blog"),
+            new BreadcrumbItem(_title, href: $"/blog/{UrlSlug}", disabled: true)
+        };
+    }
+}
