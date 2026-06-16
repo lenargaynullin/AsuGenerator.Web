@@ -11,7 +11,7 @@ namespace AsuGenerator.Web.Services
     public class EmailNotificationService
     {
         private const string SmtpServer = "smtp.mail.ru";
-        private const int SmtpPort = 465; // SSL порт Mail.ru
+        private const int SmtpPort = 587; // SSL порт Mail.ru
         private const string SenderEmail = "powerman@mail.ru";
 
         // ВАЖНО: Для Mail.ru нужен не обычный пароль от почты, 
@@ -65,8 +65,13 @@ namespace AsuGenerator.Web.Services
             message.Body = new TextPart("plain") { Text = sb.ToString() };
 
             using var client = new SmtpClient();
-            // Подключаемся по защищенному SSL
-            await client.ConnectAsync(SmtpServer, SmtpPort, true);
+            // 1. Игнорируем сетевые проверки сертификатов хостинга на Linux
+            client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+
+            // 2. ИСПРАВЛЕНО: Подключаемся к порту 587 через STARTTLS (заменили true на StartTls)
+            await client.ConnectAsync(SmtpServer, SmtpPort, MailKit.Security.SecureSocketOptions.StartTls);
+
+            // 3. Авторизация и отправка
             await client.AuthenticateAsync(SenderEmail, SenderPassword);
             await client.SendAsync(message);
             await client.DisconnectAsync(true);
