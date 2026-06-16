@@ -1,0 +1,88 @@
+﻿@page "/standards"
+@using MudBlazor
+@rendermode InteractiveServer
+
+<PageTitle>Нормативная база и стандарты — ASU Generator</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-6 mb-10 pb-12">
+    @* Верхний заглавный блок страницы *@
+    <MudPaper Outlined="true" Class="pa-6 mb-6 d-flex align-center gap-4" Style="background-color: #1e293b; color: white;">
+        <MudIcon Icon="@Icons.Material.Filled.Gavel" Color="Color.Warning" Size="Size.Large" />
+        <div>
+            <MudText Typo="Typo.h5"><b>Нормативная база и стандарты расчетов</b></MudText>
+            <MudText Typo="Typo.caption" Style="color: #94a3b8;">Техническое обоснование алгоритмов автоматического проектирования платформы ASU Generator</MudText>
+        </div>
+    </MudPaper>
+
+    <MudGrid Spacing="3">
+        @* Левая колонка: Государственные стандарты (ГОСТ) *@
+        <MudItem xs="12" md="6">
+            <MudCard Outlined="true" Class="pa-4 h-100" Style="background-color: white;">
+                <div class="d-flex align-center gap-2 mb-4" style="border-bottom: 2px solid var(--mud-palette-primary); padding-bottom: 8px;">
+                    <MudIcon Icon="@Icons.Material.Filled.MenuBook" Color="Color.Primary" />
+                    <MudText Typo="Typo.h6" Color="Color.Primary"><b>Соблюдение требований ГОСТ и ПУЭ</b></MudText>
+                </div>
+
+                <MudText Typo="Typo.body2" Class="mb-4" Color="Color.Secondary">
+                    Логика работы покомпонентного конфигуратора, правила автонумерации позиций и структуры документов разработаны в строгом соответствии с нормативно-технической базой РФ:
+                </MudText>
+
+                <div class="d-flex flex-column gap-4">
+                    <div class="d-flex align-start gap-3">
+                        <MudIcon Icon="@Icons.Material.Filled.Verified" Color="Color.Success" Class="mt-1" Size="Size.Small" />
+                        <div>
+                            <MudText Typo="Typo.subtitle2"><b>ГОСТ 21.110-2013</b></MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary" Class="d-block">«СПДС. Правила выполнения спецификации оборудования, изделий и материалов». Выгружаемый Excel-файл имеет строго регламентированную форму из 9 граф, сквозные рамки и шрифты, готовые к печати.</MudText>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-start gap-3">
+                        <MudIcon Icon="@Icons.Material.Filled.Verified" Color="Color.Success" Class="mt-1" Size="Size.Small" />
+                        <div>
+                            <MudText Typo="Typo.subtitle2"><b>ПУЭ (7-е издание)</b></MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary" Class="d-block">«Правила устройства электроустановок». Глава 3.1 и 1.7. На основе требований ПУЭ заложена математика выбора номиналов автоматов защиты КЭАЗ/Dekraft под сечения кабелей и токи короткого замыкания.</MudText>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-start gap-3">
+                        <MudIcon Icon="@Icons.Material.Filled.Verified" Color="Color.Success" Class="mt-1" Size="Size.Small" />
+                        <div>
+                            <MudText Typo="Typo.subtitle2"><b>ГОСТ Р 51321.1-2007</b></MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary" Class="d-block">«Устройства комплектные низковольтные распределения и управления». Стандарт регламентирует правила безопасного разделения силовых цепей питания и слаботочных сигналов КИПиА внутри оболочки.</MudText>
+                        </div>
+                    </div>
+                </div>
+            </MudCard>
+        </MudItem>
+
+        @* Правая колонка: Методики автоматических расчетов под капотом *@
+        <MudItem xs="12" md="6">
+            <MudCard Outlined="true" Class="pa-4 h-100" Style="background-color: white;">
+                <div class="d-flex align-center gap-2 mb-4" style="border-bottom: 2px solid var(--mud-palette-success); padding-bottom: 8px;">
+                    <MudIcon Icon="@Icons.Material.Filled.Memory" Color="Color.Success" />
+                    <MudText Typo="Typo.h6" Color="Color.Success"><b>Алгоритмы автоматизации КИПиА</b></MudText>
+                </div>
+
+                <MudText Typo="Typo.body2" Class="mb-4" Color="Color.Secondary">
+                    Программа исключает ручной человеческий фактор при подборе сопутствующих монтажных материалов и аксессуаров за счет заложенных алгоритмов:
+                </MudText>
+
+                <div class="d-flex flex-column gap-3" style="line-height: 1.6;">
+                    <div class="pa-3 rounded" style="background-color: var(--mud-palette-background-grey); border-left: 4px solid var(--mud-palette-warning);">
+                        <MudText Typo="Typo.subtitle2" Color="Color.Warning"><b>Расчет технологического резерва клемм:</b></MudText>
+                        <MudText Typo="Typo.body2" Class="mt-1" Style="font-size: 13px;">
+                            Согласно методическим указаниям <b>РМ 4-59-95</b>, система автоматически закладывает необходимый процент резервных колодок на ряды XT. На каждый независимый клеммник C#-код жестко прописывает по 2 концевых стопора и 1 торцевую изолирующую заглушку STEZ/IEK.
+                        </MudText>
+                    </div>
+
+                    <div class="pa-3 rounded" style="background-color: var(--mud-palette-background-grey); border-left: 4px solid var(--mud-palette-primary);">
+                        <MudText Typo="Typo.subtitle2" Color="Color.Primary"><b>Матрица совместимости Провенто:</b></MudText>
+                        <MudText Typo="Typo.body2" Class="mt-1" Style="font-size: 13px;">
+                            Конструктив шкафа на Шаге 1 жестко завязан на таблицы совместимости завода-изготовителя. Изменение габаритов высоты, ширины или глубины автоматически пересчитывает артикулы боковых стенок, монтажных реек PPR, цоколей PPL и климатических вентиляторов фильтрации.
+                        </MudText>
+                    </div>
+                </div>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+</MudContainer>
