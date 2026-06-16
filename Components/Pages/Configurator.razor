@@ -7,7 +7,6 @@
 @using AsuGenerator.Web.Models
 @using AsuGenerator.Web.Services.Strategies
 @inject ExcelParserService Parser
-@inject CalculationEngine Engine
 @inject DocumentGenerator DocGen
 @inject CabinetStrategyFactory StrategyFactory
 @inject IJSRuntime JS
@@ -499,7 +498,40 @@
     {
         try
         {
-            // 1. Вызываем новый универсальный движок покомпонентного расчета
+            var activeLines = heatingLines.Where(l => l.IsEnabled).ToList();
+            if (!activeLines.Any())
+            {
+                Snackbar.Add("Включите хотя бы одну линию в таблице силовой части.", Severity.Warning);
+                return;
+            }
+
+            Snackbar.Add("Запуск сквозной генерации спецификации...", Severity.Info);
+
+            // ==========================================================
+            // ИСПРАВЛЕНО ДЛЯ ОТЛАДКИ: Вызываем await напрямую!
+            // Теперь, если почта выдаст ошибку, сайт не промолчит,
+            // а выведет красный текст ошибки в Snackbar в углу экрана.
+            // ==========================================================
+            await EmailService.SendUniversalOrderAsync(baseConfig, selectedDimensions, heatingLines, TerminalRows);
+            // ==========================================================
+
+            // 1. Сбор живых данных из интерфейса в структуру класса
+            var input = new UiConfigInput
+            {
+                ProjectNumber = "АСУ-" + DateTime.Now.ToString("ddMM-HHmm"),
+                BaseConfig = baseConfig,
+                HeatingLines = activeLines
+            };
+
+            var dims = selectedDimensions.Split('×');
+            if (dims.Length == 3)
+            {
+                input.BaseConfig.Height = int.Parse(dims[0]);
+                input.BaseConfig.Width = int.Parse(dims[1]);
+                input.BaseConfig.Depth = int.Parse(dims[2]);
+            }
+
+            // 2. Вызов универсального вычислительного движка
             List<SelectedComponent> finalComponents = CalculationEngine.CalculateSpecification(
                 baseConfig,
                 selectedDimensions,
@@ -507,30 +539,34 @@
                 TerminalRows
             );
 
-            // 2. Формируем штамп ГОСТ
+            // 3. Оформление штампа ГОСТ и генерация EPPlus
             var configMetadata = new VentAvtomatikaConfig
             {
-                ClientName = "B2B Заказчик",
-                CompanyName = "Проектный отдел",
-                KpNumber = "АСУ-" + DateTime.Now.ToString("ddMM-HHmm")
+                ClientName = "Проектный отдел",
+                CompanyName = "B2B Инженер",
+                KpNumber = input.ProjectNumber
             };
 
-            // 3. Генерируем 9-колонный Excel через EPPlus
             byte[] excelBytes = DocGen.GenerateExcelSpecification(finalComponents, configMetadata);
             string fileName = $"Спецификация_{configMetadata.KpNumber}.xlsx";
 
-            // 4. Отдаем файл на автоматическое скачивание у инженера
+            // 4. Отдаем Excel-документ на мгновенную выгрузку в браузер
             using var fileStream = new MemoryStream(excelBytes);
             using var streamRef = new DotNetStreamReference(stream: fileStream);
             await JS.InvokeVoidAsync("downloadFileFromStream", fileName, streamRef);
 
-            Snackbar.Add($"Спецификация {fileName} успешно сформирована по компонентам!", Severity.Success);
+            Snackbar.Add($"Расчет окончен! Файл {fileName} успешно скачан.", Severity.Success);
         }
         catch (Exception ex)
         {
-            Snackbar.Add($"Ошибка расчета: {ex.Message}", Severity.Error);
+            // Сюда прилетит точный текст, почему Mail.ru или хостинг сбросили отправку почты!
+            Snackbar.Add($"Ошибка отправки/расчета: {ex.Message}", Severity.Error);
+            System.Diagnostics.Debug.WriteLine($"[Debug Error]: {ex.ToString()}");
         }
     }
+
+
+
 
 
     private async Task SwitchTab(int index)
