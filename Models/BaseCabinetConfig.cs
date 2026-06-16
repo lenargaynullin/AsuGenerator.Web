@@ -26,7 +26,7 @@ public class BaseCabinetConfig
     public string Manufacturer { get; set; } = "ПРОВЕНТО";
 
     // Оборудование
-    public string TerminalVendor { get; set; } = "Klemsan";
+    public string TerminalVendor { get; set; } = "STEZ";
     public int TerminalReservePercent { get; set; } = 10;
     public string DinRailType { get; set; } = "Оцинкованная";
     public string TrunkingSize { get; set; } = "60x40";

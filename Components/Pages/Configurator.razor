@@ -19,6 +19,7 @@
 
 <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-4 mb-6">
     @* Верхняя статус-панель проекта в стиле Slate-Blue *@
+    @* Верхняя статус-панель проекта в стиле Slate-Blue *@
     <MudPaper Outlined="true" Class="pa-4 mb-4 d-flex justify-space-between align-center" Style="background-color: #1e293b; color: white;">
         <div class="d-flex align-center gap-3">
             <MudIcon Icon="@Icons.Material.Filled.AppRegistration" Color="Color.Success" Size="Size.Large" />
@@ -395,7 +396,7 @@
 
                                 @* Поля выстроены строго по одному на строке *@
                                 <MudSelect T="string" Label="Производитель клемм" @bind-Value="baseConfig.TerminalVendor" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense">
-                                    <MudSelectItem Value="@("Klemsan")">Klemsan</MudSelectItem>
+                                    <MudSelectItem Value="@("STEZ")">STEZ</MudSelectItem>
                                     <MudSelectItem Value="@("IEK")">IEK</MudSelectItem>
                                 </MudSelect>
 
@@ -497,28 +498,85 @@
     {
         try
         {
-            // 1. Отправляем все собранные данные инженера вам на почту powerman@mail.ru
-            await EmailService.SendProjectOrderAsync(baseConfig, selectedDimensions, heatingLines, TerminalRows);
+            // 1. Предварительная валидация: проверяем, что инженер выбрал линии
+            var activeLines = heatingLines.Where(l => l.IsEnabled).ToList();
+            if (!activeLines.Any())
+            {
+                Snackbar.Add("Ошибка: Включите хотя бы одну силовую линию в таблице Шага 3.", Severity.Warning);
+                return;
+            }
 
-            // 2. Показываем красивое модальное окно, что проект ушел на "генерацию"
-            var parameters = new DialogParameters<MudBlazor.DialogOptions>();
-            var options = new DialogOptions { CloseOnEscapeKey = true, MaxWidth = MaxWidth.Small, FullWidth = true };
+            // Инициализируем Snackbar-уведомление о старте процесса
+            Snackbar.Add("Запуск облачной генерации ГОСТ-спецификации...", Severity.Info);
 
-            // Выводим Snackbar-нотификацию в углу экрана
-            Snackbar.Add("Проект успешно отправлен на сервер генерации документации!", Severity.Success);
+            // 2. ФАСАД СТРАТЕГИИ: Сначала отправляем данные вам на почту powerman@mail.ru, чтобы лид не потерялся
+            // Используем Task.Run, чтобы отправка почты не тормозила скачивание файла у пользователя
+            _ = Task.Run(async () =>
+            {
+                try
+                {
+                    await EmailService.SendProjectOrderAsync(baseConfig, selectedDimensions, heatingLines, TerminalRows);
+                }
+                catch { /* Логируем ошибку отправки почты в дебаг, не мешая пользователю */ }
+            });
 
-            // Временно выведем сообщение для пользователя прямо на экран
-            await DialogService.ShowMessageBoxAsync(
-                "Успешная отправка",
-                (MarkupString)"Ваш проект шкафа успешно отправлен на сервер генерации. <br/><br/>В связи с высокой загрузкой облачного процессора, готовый Excel-файл спецификации по ГОСТ 21.110 будет выслан на ваш Email в течение <b>15–30 минут</b>.<br/><br/>Спасибо, что используете asugenerator.ru!",
-                yesText: "ОК"
-            );
+            // 3. ПОДГОТОВКА ДАННЫХ ДЛЯ КЛАССА DOCUMENTGENERATOR
+            // Превращаем UI-таблицу автоматов в массив SelectedComponent для EPPlus
+            var matchedComponents = new List<SelectedComponent>();
+
+            foreach (var line in activeLines)
+            {
+                matchedComponents.Add(new SelectedComponent
+                {
+                    Designation = line.Designation,
+                    Vendor = baseConfig.Manufacturer, // КЭАЗ / Dekraft / IEK из Шага 1
+                    Description = $"Выключатель автоматический {(line.Poles == 1 ? "однополюсный" : "трехполюсный")}, ном. ток {line.Current}А, характеристика {line.Curve}, отключающая способность {line.IkZ}кА. " + (line.HasRCD ? "С дифференциальной защитой (АВДТ)." : ""),
+                    Article = $"{baseConfig.Manufacturer}-BA-{line.Poles}P-{line.Current}A-{line.Curve}", // Имитация артикула, пока база отключена
+                    Quantity = 1
+                });
+            }
+
+            // Добавляем клеммные ряды XT в общую спецификацию
+            foreach (var term in TerminalRows)
+            {
+                matchedComponents.Add(new SelectedComponent
+                {
+                    Designation = term.XBlockName,
+                    Vendor = baseConfig.TerminalVendor, // STEZ / IEK из Шага 4
+                    Description = $"Блок клеммный проходной, тип зажима: {term.TerminalType}, сечение подключаемого провода {term.WireSection}.",
+                    Article = $"{baseConfig.TerminalVendor}-STEZ-{term.WireSection}",
+                    Quantity = term.Quantity
+                });
+            }
+
+            // 4. НАСТРОЙКА МЕТАДАННЫХ ШТАМПА ГОСТ
+            var configMetadata = new VentAvtomatikaConfig
+            {
+                ClientName = "B2B Проектировщик",
+                CompanyName = "Инжиниринг",
+                KpNumber = "ШУЭ-" + DateTime.Now.ToString("ddMM-HHmm")
+            };
+
+            // 5. ВЫЗОВ ВАШЕГО ИСПРАВЛЕННОГО МЕТОДА EPPLUS
+            byte[] excelBytes = DocGen.GenerateExcelSpecification(matchedComponents, configMetadata);
+            string fileName = $"Спецификация_{configMetadata.KpNumber}.xlsx";
+
+            // 6. ПЕРЕДАЧА БАЙТ В БРАУЗЕР ДЛЯ АВТОМАТИЧЕСКОГО СКАЧИВАНИЯ
+            using var fileStream = new MemoryStream(excelBytes);
+            using var streamRef = new DotNetStreamReference(stream: fileStream);
+
+            // Вызываем JS-функцию скачивания из App.razor
+            await JS.InvokeVoidAsync("downloadFileFromStream", fileName, streamRef);
+
+            Snackbar.Add($"Документ {fileName} успешно сгенерирован!", Severity.Success);
         }
         catch (Exception ex)
         {
-            Snackbar.Add($"Ошибка отправки проекта: {ex.Message}", Severity.Error);
+            Snackbar.Add($"Ошибка генерации: {ex.Message}", Severity.Error);
+            System.Diagnostics.Debug.WriteLine($"[Excel Bind Error]: {ex.ToString()}");
         }
     }
+
 
     private async Task SwitchTab(int index)
     {

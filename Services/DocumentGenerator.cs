@@ -1,11 +1,7 @@
 ﻿using OfficeOpenXml;
 using OfficeOpenXml.Style;
-using QuestPDF.Fluent;
-using QuestPDF.Helpers;
-using QuestPDF.Infrastructure;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.IO;
+using System.Drawing;
 
 namespace AsuGenerator.Web.Services;
 
@@ -13,178 +9,101 @@ public class DocumentGenerator
 {
     public byte[] GenerateExcelSpecification(List<SelectedComponent> components, VentAvtomatikaConfig config)
     {
+        // Установка некоммерческой лицензии EPPlus
         ExcelPackage.License.SetNonCommercialPersonal("AsuGeneratorSaaS");
 
         using (var package = new ExcelPackage())
         {
-            var worksheet = package.Workbook.Worksheets.Add("Спецификация оборудования");
+            var worksheet = package.Workbook.Worksheets.Add("Спецификация");
 
-            // --- 1. ОФОРМЛЯЕМ ШАПКУ ГОСТ ДОКУМЕНТА ---
-            worksheet.Cells["A1"].Value = $"СПЕЦИФИКАЦИЯ ОБОРУДОВАНИЯ И МАТЕРИАЛОВ";
-            worksheet.Cells["A1:E1"].Merge = true;
-            worksheet.Cells["A1"].Style.Font.Size = 14;
+            // Включаем отображение сетки таблицы по ГОСТ
+            worksheet.View.ShowGridLines = true;
+
+            // --- 1. ОФОРМЛЕНИЕ ШАПКИ СТРАНИЦЫ ---
+            worksheet.Cells["A1"].Value = "СПЕЦИФИКАЦИЯ ОБОРУДОВАНИЯ, ИЗДЕЛИЙ И МАТЕРИАЛОВ";
+            worksheet.Cells["A1:I1"].Merge = true;
+            worksheet.Cells["A1"].Style.Font.Size = 12;
             worksheet.Cells["A1"].Style.Font.Bold = true;
+            worksheet.Cells["A1"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
 
-            worksheet.Cells["A2"].Value = $"Заказчик: {config.ClientName} ({config.CompanyName}) | КП №: {config.KpNumber}";
-            worksheet.Cells["A2:E2"].Merge = true;
+            worksheet.Cells["A2"].Value = $"Шифр проекта: {config.KpNumber} | Заказчик: {config.ClientName} ({config.CompanyName})";
+            worksheet.Cells["A2:I2"].Merge = true;
             worksheet.Cells["A2"].Style.Font.Italic = true;
 
-            // --- 2. ТАБЛИЦА ЗАГОЛОВКОВ ---
-            worksheet.Cells["A4"].Value = "Поз.";
-            worksheet.Cells["B4"].Value = "Бренд";
-            worksheet.Cells["C4"].Value = "Наименование и техническая характеристика";
-            worksheet.Cells["D4"].Value = "Тип, марка, артикул";
-            worksheet.Cells["E4"].Value = "Кол-во";
+            // --- 2. СОЗДАНИЕ СТРОГИХ ЗАГОЛОВКОВ ГРАФ ПО ГОСТ 21.110-2013 ---
+            string[] headers = {
+                "Поз.",
+                "Наименование и техническая характеристика",
+                "Тип, марка, артикул",
+                "Код оборуд.",
+                "Завод-изг.",
+                "Ед.изм.",
+                "Кол-во",
+                "Масса, кг",
+                "Примечание"
+            };
 
-            using (var range = worksheet.Cells["A4:E4"])
+            for (int i = 0; i < headers.Length; i++)
             {
-                range.Style.Font.Bold = true;
-                range.Style.Fill.PatternType = ExcelFillStyle.Solid;
-                range.Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.LightGray);
-                range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
-                range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
-            }
+                var cell = worksheet.Cells[4, i + 1];
+                cell.Value = headers[i];
+                cell.Style.Font.Bold = true;
+                cell.Style.Font.Size = 10;
+                cell.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                cell.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
 
-            // --- 3. ЗАПОЛНЯЕМ СТРОКИ ИЗ МАССИВА ЯДРА ---
+                // Границы для шапки таблицы
+                cell.Style.Border.BorderAround(ExcelBorderStyle.Thin);
+                cell.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                cell.Style.Fill.BackgroundColor.SetColor(Color.LightGray);
+            }
+            worksheet.Row(4).Height = 28; // Задаем высоту для шапки
+
+            // --- 3. ЦИКЛ ЗАПОЛНЕНИЯ СТРОК ИЗ UI-ТАБЛИЦ ---
             int row = 5;
+            int index = 1;
             foreach (var comp in components)
             {
-                worksheet.Cells[row, 1].Value = comp.Designation;
-                worksheet.Cells[row, 2].Value = comp.Vendor;
-                worksheet.Cells[row, 3].Value = comp.Description;
-                worksheet.Cells[row, 4].Value = comp.Article;
-                worksheet.Cells[row, 5].Value = comp.Quantity; // Дефолтное кол-во
+                worksheet.Cells[row, 1].Value = comp.Designation; // Поз. ОУ (QF1, XT1)
+                worksheet.Cells[row, 2].Value = comp.Description; // Техническое описание
+                worksheet.Cells[row, 3].Value = comp.Article;     // Артикул (Провенто/КЭАЗ)
+                worksheet.Cells[row, 4].Value = "-";              // Код оборудования
+                worksheet.Cells[row, 5].Value = comp.Vendor;      // Производитель
+                worksheet.Cells[row, 6].Value = "шт.";            // Ед. изм.
+                worksheet.Cells[row, 7].Value = comp.Quantity;    // Количество
+                worksheet.Cells[row, 8].Value = "";               // Масса единицы
+                worksheet.Cells[row, 9].Value = "";               // Примечание
 
-                // Сетка для таблицы
-                worksheet.Cells[$"A{row}:E{row}"].Style.Border.Bottom.Style = ExcelBorderStyle.Hair;
+                // Накладываем тонкую сетку на каждую ячейку строки по ГОСТ
+                for (int col = 1; col <= 9; col++)
+                {
+                    var cell = worksheet.Cells[row, col];
+                    cell.Style.Font.Size = 10;
+                    cell.Style.Border.BorderAround(ExcelBorderStyle.Thin);
+                    cell.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
+                    // Центрируем короткие технические данные
+                    if (col == 1 || col == 3 || col == 6 || col == 7)
+                    {
+                        cell.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    }
+                }
+                worksheet.Row(row).Height = 20;
                 row++;
             }
 
-            // Автоподбор ширины столбцов под b2b-текст
-            worksheet.Cells[worksheet.Dimension.Address].AutoFitColumns();
+            // --- 4. ЖЕСТКАЯ КАЛИБРОВКА ШИРИНЫ КОЛОНОК ПОД СТАНДАРТЫ СПДС ---
+            worksheet.Column(1).Width = 10;  // Поз.
+            worksheet.Column(2).Width = 45;  // Наименование (самая широкая графа)
+            worksheet.Column(3).Width = 25;  // Артикул
+            worksheet.Column(4).Width = 12;  // Код
+            worksheet.Column(5).Width = 15;  // Завод
+            worksheet.Column(6).Width = 8;   // Ед. изм.
+            worksheet.Column(7).Width = 10;  // Кол-во
+            worksheet.Column(8).Width = 10;  // Масса
+            worksheet.Column(9).Width = 15;  // Примечание
 
             return package.GetAsByteArray();
         }
     }
-
-    public byte[] GenerateTkpPdf(CommercialProposal proposal)
-    {
-        // Явное указание пространства имён для глобальных настроек лицензии
-        QuestPDF.Settings.License = LicenseType.Community;
-
-        // Иерархия стилей с использованием актуального API QuestPDF (.FontColor)
-        var titleStyle = TextStyle.Default.FontFamily(Fonts.Arial).FontSize(16).Bold().FontColor(Colors.Blue.Darken3);
-        var subtitleStyle = TextStyle.Default.FontFamily(Fonts.Arial).FontSize(12).Bold().FontColor(Colors.Black);
-        var normalStyle = TextStyle.Default.FontFamily(Fonts.Arial).FontSize(10).FontColor(Colors.Black);
-        var italicStyle = TextStyle.Default.FontFamily(Fonts.Arial).FontSize(10).Italic().FontColor(Colors.Grey.Darken3);
-        var footerStyle = TextStyle.Default.FontFamily(Fonts.Arial).FontSize(9).Italic().FontColor(Colors.Grey.Darken1);
-        var totalStyle = TextStyle.Default.FontFamily(Fonts.Arial).FontSize(14).Bold().FontColor(Colors.Green.Darken3);
-
-
-        return QuestPDF.Fluent.Document.Create(container =>
-        {
-            container.Page(page =>
-            {
-                page.Size(PageSizes.A4);
-                page.Margin(2, Unit.Centimetre);
-                page.PageColor(Colors.White);
-                page.DefaultTextStyle(normalStyle);
-
-                // Глобальный Header оставляем пустым, чтобы шапка не дублировалась на странице 2
-                page.Header().Height(0);
-
-                // Содержимое
-                page.Content().PaddingVertical(0.5f, Unit.Centimetre).Column(col =>
-                {
-                    // --- ШАПКА ДОКУМЕНТА (Внутри контента, напечатается ровно 1 раз) ---
-                    col.Item().Row(row =>
-                    {
-                        // Левая часть: Название и описание проекта
-                        row.RelativeItem().Column(column =>
-                        {
-                            column.Item().Text("ТЕХНИКО-КОММЕРЧЕСКОЕ ПРЕДЛОЖЕНИЕ")
-                                .Style(titleStyle);
-
-                            column.Item().Text($"На поставку шкафа автоматизации: {proposal.ProjectName}")
-                                .Style(italicStyle);
-                        });
-
-                        // Правая часть: Увеличенная колонка даты без переносов
-                        row.ConstantItem(130).AlignRight().Column(column =>
-                        {
-                            column.Item().Text($"Дата: {DateTime.Now:dd.MM.yyyy}")
-                                .Style(normalStyle).Bold();
-                        });
-                    });
-
-                    // Разделительная линия под шапкой
-                    col.Item().PaddingTop(10).PaddingBottom(15).Background(Colors.Grey.Lighten2).Height(1);
-
-                    // --- 1. ТЕХНИЧЕСКОЕ ОПИСАНИЕ СИСТЕМЫ ---
-                    col.Item().PaddingBottom(5).Text("1. Техническое описание системы")
-                        .Style(subtitleStyle);
-
-                    col.Item().PaddingBottom(15).Text($"Предлагаемый шкаф управления спроектирован для автоматизации приточно-вытяжной вентиляции заказчика ({proposal.ClientName}).")
-                        .Style(normalStyle);
-
-                    // --- 2. СПЕЦИФИКАЦИЯ ОБОРУДОВАНИЯ И СТОИМОСТЬ ---
-                    col.Item().PaddingBottom(5).Text("2. Спецификация оборудования и стоимость")
-                        .Style(subtitleStyle);
-
-                    col.Item().Table(table =>
-                    {
-                        table.ColumnsDefinition(columns =>
-                        {
-                            columns.ConstantColumn(30); // №
-                            columns.RelativeColumn();   // Наименование
-                            columns.ConstantColumn(40); // Кол-во
-                            columns.ConstantColumn(80); // Цена, руб
-                            columns.ConstantColumn(80); // Сумма, руб
-                        });
-
-                        table.Header(header =>
-                        {
-                            header.Cell().Background(Colors.Grey.Lighten3).Padding(5).Text("№").Bold();
-                            header.Cell().Background(Colors.Grey.Lighten3).Padding(5).Text("Наименование").Bold();
-                            header.Cell().Background(Colors.Grey.Lighten3).Padding(5).Text("Кол-во").Bold();
-                            header.Cell().Background(Colors.Grey.Lighten3).Padding(5).Text("Цена").Bold();
-                            header.Cell().Background(Colors.Grey.Lighten3).Padding(5).Text("Сумма").Bold();
-                        });
-
-                        int index = 1;
-                        foreach (var item in proposal.Items)
-                        {
-                            table.Cell().Padding(5).Text(index.ToString()).Style(normalStyle);
-                            table.Cell().Padding(5).Text(item.Name).Style(normalStyle);
-                            table.Cell().Padding(5).Text(item.Quantity.ToString()).Style(normalStyle);
-                            table.Cell().Padding(5).Text($"{item.FinalUnitPrice:N2}").Style(normalStyle);
-                            table.Cell().Padding(5).Text($"{item.FinalRowPrice:N2}").Style(normalStyle);
-                            index++;
-                        }
-
-                        // Строка сборки
-                        table.Cell().Padding(5).Text(index.ToString()).Style(normalStyle);
-                        table.Cell().Padding(5).Text("Комплект монтажных материалов, сборка шкафа и тестирование").Style(normalStyle);
-                        table.Cell().Padding(5).Text("1").Style(normalStyle);
-                        table.Cell().Padding(5).Text($"{proposal.AssemblyPrice:N2}").Style(normalStyle);
-                        table.Cell().Padding(5).Text($"{proposal.AssemblyPrice:N2}").Style(normalStyle);
-                    });
-
-                    // Итоговая сумма
-                    col.Item().AlignRight().PaddingTop(15).Text($"ИТОГО: {proposal.TotalPrice:N2} руб.")
-                        .Style(totalStyle);
-                });
-
-                // Подвал (Печатается внизу каждого листа)
-                page.Footer().AlignCenter().Column(col =>
-                {
-                    col.Item().Background(Colors.Grey.Lighten2).Height(1);
-
-                    col.Item().PaddingTop(5).Text("В стоимость включена исполнительная документация по ГОСТ в формате DXF/PDF.")
-                        .Style(footerStyle);
-                });
-            });
-        }).GeneratePdf();
-    }
-
 }
