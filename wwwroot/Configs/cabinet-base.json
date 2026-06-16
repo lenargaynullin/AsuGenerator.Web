@@ -1,20 +1,754 @@
 [
     {
+        "Article": "MES 140.60.40",
         "Manufacturer": "ПРОВЕНТО",
         "MountType": "Навесной",
-        "IpRating": "IP54",
-        "Dimensions": "600×600×250",
-        "Article": "MVS 060625",
-        "Name": "Корпус навесной серии MVS (Провенто)",
-        "Price": 12450
+        "IpRating": "IP66",
+        "Name": "Шкаф компактный распределительный",
+        "Dimensions": "1400×600×400"
+    },
+    {
+        "Article": "MES 140.80.30",
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Навесной",
+        "IpRating": "IP66",
+        "Name": "Шкаф компактный распределительный",
+        "Dimensions": "1400×800×300"
+    },
+    {
+        "Article": "MES 140.80.40",
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Навесной",
+        "IpRating": "IP66",
+        "Name": "Шкаф компактный распределительный",
+        "Dimensions": "1400×800×400"
+    },
+    {
+        "Article": "MES 160.40.30",
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Навесной",
+        "IpRating": "IP66",
+        "Name": "Шкаф компактный распределительный",
+        "Dimensions": "1600×400×300"
+    },
+    {
+        "Article": "MES 160.60.40",
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Навесной",
+        "IpRating": "IP66",
+        "Name": "Шкаф компактный распределительный",
+        "Dimensions": "1600×600×400"
+    },
+    {
+        "Article": "MES 20.20.08",
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Навесной",
+        "IpRating": "IP66",
+        "Name": "Шкаф компактный распределительный",
+        "Dimensions": "200×200×80"
+    },
+    {
+        "Article": "MES 20.20.12",
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Навесной",
+        "IpRating": "IP66",
+        "Name": "Шкаф компактный распределительный",
+        "Dimensions": "200×200×120"
+    },
+    {
+        "Article": "MES 30.20.08",
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Навесной",
+        "IpRating": "IP66",
+        "Name": "Шкаф компактный распределительный",
+        "Dimensions": "300×200×80"
+    },
+    {
+        "Article": "MES 30.20.12",
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Навесной",
+        "IpRating": "IP66",
+        "Name": "Шкаф компактный распределительный",
+        "Dimensions": "300×200×120"
+    },
+    {
+        "Article": "MES 30.20.15",
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Навесной",
+        "IpRating": "IP66",
+        "Name": "Шкаф компактный распределительный",
+        "Dimensions": "300×200×150"
+    },
+    {
+        "Article": "MES 30.30.08",
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Навесной",
+        "IpRating": "IP66",
+        "Name": "Шкаф компактный распределительный",
+        "Dimensions": "300×300×80"
+    },
+    {
+        "Article": "MES 30.30.12",
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Навесной",
+        "IpRating": "IP66",
+        "Name": "Шкаф компактный распределительный",
+        "Dimensions": "300×300×120"
+    },
+    {
+        "Article": "MES 30.30.15",
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Навесной",
+        "IpRating": "IP66",
+        "Name": "Шкаф компактный распределительный",
+        "Dimensions": "300×300×150"
+    },
+    {
+        "Article": "MES 30.40.15",
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Навесной",
+        "IpRating": "IP66",
+        "Name": "Шкаф компактный распределительный",
+        "Dimensions": "300×400×150"
+    },
+    {
+        "Article": "MES 40.30.12",
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Навесной",
+        "IpRating": "IP66",
+        "Name": "Шкаф компактный распределительный",
+        "Dimensions": "400×300×120"
+    },
+    {
+        "Article": "MES 40.30.15",
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Навесной",
+        "IpRating": "IP66",
+        "Name": "Шкаф компактный распределительный",
+        "Dimensions": "400×300×150"
+    },
+    {
+        "Article": "MES 40.30.21",
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Навесной",
+        "IpRating": "IP66",
+        "Name": "Шкаф компактный распределительный",
+        "Dimensions": "400×300×210"
+    },
+    {
+        "Article": "MES 40.40.21",
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Навесной",
+        "IpRating": "IP66",
+        "Name": "Шкаф компактный распределительный",
+        "Dimensions": "400×400×210"
+    },
+    {
+        "Article": "MES 40.40.25",
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Навесной",
+        "IpRating": "IP66",
+        "Name": "Шкаф компактный распределительный",
+        "Dimensions": "400×400×250"
+    },
+    {
+        "Article": "MES 40.60.21",
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Навесной",
+        "IpRating": "IP66",
+        "Name": "Шкаф компактный распределительный",
+        "Dimensions": "400×600×210"
+    },
+    {
+        "Article": "MES 50.30.21",
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Навесной",
+        "IpRating": "IP66",
+        "Name": "Шкаф компактный распределительный",
+        "Dimensions": "500×300×210"
+    },
+    {
+        "Article": "MES 50.40.21",
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Навесной",
+        "IpRating": "IP66",
+        "Name": "Шкаф компактный распределительный",
+        "Dimensions": "500×400×210"
+    },
+    {
+        "Article": "MES 50.40.25",
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Навесной",
+        "IpRating": "IP66",
+        "Name": "Шкаф компактный распределительный",
+        "Dimensions": "500×400×250"
+    },
+    {
+        "Article": "MES 50.50.21",
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Навесной",
+        "IpRating": "IP66",
+        "Name": "Шкаф компактный распределительный",
+        "Dimensions": "500×500×210"
+    },
+    {
+        "Article": "MES 50.50.30",
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Навесной",
+        "IpRating": "IP66",
+        "Name": "Шкаф компактный распределительный",
+        "Dimensions": "500×500×300"
+    },
+    {
+        "Article": "MES 60.40.21",
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Навесной",
+        "IpRating": "IP66",
+        "Name": "Шкаф компактный распределительный",
+        "Dimensions": "600×400×210"
+    },
+    {
+        "Article": "MES 60.40.25",
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Навесной",
+        "IpRating": "IP66",
+        "Name": "Шкаф компактный распределительный",
+        "Dimensions": "600×400×250"
+    },
+    {
+        "Article": "MES 60.40.30",
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Навесной",
+        "IpRating": "IP66",
+        "Name": "Шкаф компактный распределительный",
+        "Dimensions": "600×400×300"
+    },
+    {
+        "Article": "MES 60.50.21",
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Навесной",
+        "IpRating": "IP66",
+        "Name": "Шкаф компактный распределительный",
+        "Dimensions": "600×500×210"
+    },
+    {
+        "Article": "MES 60.60.21",
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Навесной",
+        "IpRating": "IP66",
+        "Name": "Шкаф компактный распределительный",
+        "Dimensions": "600×600×210"
+    },
+    {
+        "Article": "MES 60.60.25",
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Навесной",
+        "IpRating": "IP66",
+        "Name": "Шкаф компактный распределительный",
+        "Dimensions": "600×600×250"
+    },
+    {
+        "Article": "MES 60.60.30",
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Навесной",
+        "IpRating": "IP66",
+        "Name": "Шкаф компактный распределительный",
+        "Dimensions": "600×600×300"
+    },
+    {
+        "Article": "MES 60.60.34",
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Навесной",
+        "IpRating": "IP66",
+        "Name": "Шкаф компактный распределительный",
+        "Dimensions": "600×600×340"
+    },
+    {
+        "Article": "MES 70.40.21",
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Навесной",
+        "IpRating": "IP66",
+        "Name": "Шкаф компактный распределительный",
+        "Dimensions": "700×400×210"
+    },
+    {
+        "Article": "MES 70.50.21",
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Навесной",
+        "IpRating": "IP66",
+        "Name": "Шкаф компактный распределительный",
+        "Dimensions": "700×500×210"
+    },
+    {
+        "Article": "MES 70.50.25",
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Навесной",
+        "IpRating": "IP66",
+        "Name": "Шкаф компактный распределительный",
+        "Dimensions": "700×500×250"
+    },
+    {
+        "Article": "MES 70.50.30",
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Навесной",
+        "IpRating": "IP66",
+        "Name": "Шкаф компактный распределительный",
+        "Dimensions": "700×500×300"
+    },
+    {
+        "Article": "MES 70.60.25",
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Навесной",
+        "IpRating": "IP66",
+        "Name": "Шкаф компактный распределительный",
+        "Dimensions": "700×600×250"
+    },
+    {
+        "Article": "MES 80.60.21",
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Навесной",
+        "IpRating": "IP66",
+        "Name": "Шкаф компактный распределительный",
+        "Dimensions": "800×600×210"
+    },
+    {
+        "Article": "MES 80.60.25",
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Навесной",
+        "IpRating": "IP66",
+        "Name": "Шкаф компактный распределительный",
+        "Dimensions": "800×600×250"
+    },
+    {
+        "Article": "MES 80.60.30",
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Навесной",
+        "IpRating": "IP66",
+        "Name": "Шкаф компактный распределительный",
+        "Dimensions": "800×600×300"
+    },
+    {
+        "Article": "MES 80.60.40",
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Навесной",
+        "IpRating": "IP66",
+        "Name": "Шкаф компактный распределительный",
+        "Dimensions": "800×600×400"
+    },
+    {
+        "Article": "MES 80.80.30",
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Навесной",
+        "IpRating": "IP66",
+        "Name": "Шкаф компактный распределительный",
+        "Dimensions": "800×800×300"
+    },
+    {
+        "Article": "MES 80.80.40",
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Навесной",
+        "IpRating": "IP55",
+        "Name": "Шкаф компактный распределительный",
+        "Dimensions": "800×800×400"
+    },
+    {
+        "Article": "MES 100.60.21",
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Навесной",
+        "IpRating": "IP66",
+        "Name": "Шкаф компактный распределительный",
+        "Dimensions": "1000×600×210"
+    },
+    {
+        "Article": "MES 100.60.25",
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Навесной",
+        "IpRating": "IP66",
+        "Name": "Шкаф компактный распределительный",
+        "Dimensions": "1000×600×250"
+    },
+    {
+        "Article": "MES 100.60.30",
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Навесной",
+        "IpRating": "IP66",
+        "Name": "Шкаф компактный распределительный",
+        "Dimensions": "1000×600×300"
+    },
+    {
+        "Article": "MES 100.60.40",
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Навесной",
+        "IpRating": "IP55",
+        "Name": "Шкаф компактный распределительный",
+        "Dimensions": "1000×600×400"
+    },
+    {
+        "Article": "MES 100.80.25",
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Навесной",
+        "IpRating": "IP66",
+        "Name": "Шкаф компактный распределительный",
+        "Dimensions": "1000×800×250"
+    },
+    {
+        "Article": "MES 100.80.30",
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Навесной",
+        "IpRating": "IP66",
+        "Name": "Шкаф компактный распределительный",
+        "Dimensions": "1000×800×300"
+    },
+    {
+        "Article": "MES 100.80.40",
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Навесной",
+        "IpRating": "IP55",
+        "Name": "Шкаф компактный распределительный",
+        "Dimensions": "1000×800×400"
+    },
+    {
+        "Article": "MES 120.60.21",
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Навесной",
+        "IpRating": "IP66",
+        "Name": "Шкаф компактный распределительный",
+        "Dimensions": "1200×600×210"
+    },
+    {
+        "Article": "MES 120.60.30",
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Навесной",
+        "IpRating": "IP66",
+        "Name": "Шкаф компактный распределительный",
+        "Dimensions": "1200×600×300"
+    },
+    {
+        "Article": "MES 120.60.40",
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Навесной",
+        "IpRating": "IP55",
+        "Name": "Шкаф компактный распределительный",
+        "Dimensions": "1200×600×400"
+    },
+    {
+        "Article": "MES 120.80.30",
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Навесной",
+        "IpRating": "IP66",
+        "Name": "Шкаф компактный распределительный",
+        "Dimensions": "1200×800×300"
+    },
+    {
+        "Article": "MES 120.80.40",
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Навесной",
+        "IpRating": "IP55",
+        "Name": "Шкаф компактный распределительный",
+        "Dimensions": "1200×800×400"
     },
     {
         "Manufacturer": "ПРОВЕНТО",
         "MountType": "Напольный",
-        "IpRating": "IP54",
-        "Dimensions": "1200×750×300",
-        "Article": "MPD 120730",
-        "Name": "Корпус напольный сборный серии MPD (Провенто)",
-        "Price": 34800
+        "IpRating": "IP55",
+        "Dimensions": "1200×600×600",
+        "Article": "MPS 120.60.60",
+        "Name": "Шкаф распределительный напольный серии MPS (Провенто)"
+    },
+    {
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Напольный",
+        "IpRating": "IP55",
+        "Dimensions": "1200×600×800",
+        "Article": "MPS 120.60.80",
+        "Name": "Шкаф распределительный напольный серии MPS (Провенто)"
+    },
+    {
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Напольный",
+        "IpRating": "IP55",
+        "Dimensions": "1200×800×400",
+        "Article": "MPS 120.80.40",
+        "Name": "Шкаф распределительный напольный серии MPS (Провенто)"
+    },
+    {
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Напольный",
+        "IpRating": "IP55",
+        "Dimensions": "1200×800×600",
+        "Article": "MPS 120.80.60",
+        "Name": "Шкаф распределительный напольный серии MPS (Провенто)"
+    },
+    {
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Напольный",
+        "IpRating": "IP55",
+        "Dimensions": "1400×600×600",
+        "Article": "MPS 140.60.60",
+        "Name": "Шкаф распределительный напольный серии MPS (Провенто)"
+    },
+    {
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Напольный",
+        "IpRating": "IP55",
+        "Dimensions": "1400×800×600",
+        "Article": "MPS 140.80.60",
+        "Name": "Шкаф распределительный напольный серии MPS (Провенто)"
+    },
+    {
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Напольный",
+        "IpRating": "IP55",
+        "Dimensions": "1600×600×400",
+        "Article": "MPS 160.60.40",
+        "Name": "Шкаф распределительный напольный серии MPS (Провенто)"
+    },
+    {
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Напольный",
+        "IpRating": "IP55",
+        "Dimensions": "1600×600×500",
+        "Article": "MPS 160.60.50",
+        "Name": "Шкаф распределительный напольный серии MPS (Провенто)"
+    },
+    {
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Напольный",
+        "IpRating": "IP55",
+        "Dimensions": "1600×600×600",
+        "Article": "MPS 160.60.60",
+        "Name": "Шкаф распределительный напольный серии MPS (Провенто)"
+    },
+    {
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Напольный",
+        "IpRating": "IP55",
+        "Dimensions": "1600×600×800",
+        "Article": "MPS 160.60.80",
+        "Name": "Шкаф распределительный напольный серии MPS (Провенто)"
+    },
+    {
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Напольный",
+        "IpRating": "IP55",
+        "Dimensions": "1600×800×400",
+        "Article": "MPS 160.80.40",
+        "Name": "Шкаф распределительный напольный серии MPS (Провенто)"
+    },
+    {
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Напольный",
+        "IpRating": "IP55",
+        "Dimensions": "1600×800×500",
+        "Article": "MPS 160.80.50",
+        "Name": "Шкаф распределительный напольный серии MPS (Провенто)"
+    },
+    {
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Напольный",
+        "IpRating": "IP55",
+        "Dimensions": "1600×800×600",
+        "Article": "MPS 160.80.60",
+        "Name": "Шкаф распределительный напольный серии MPS (Провенто)"
+    },
+    {
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Напольный",
+        "IpRating": "IP55",
+        "Dimensions": "1800×400×500",
+        "Article": "MPS 180.40.50",
+        "Name": "Шкаф распределительный напольный серии MPS (Провенто)"
+    },
+    {
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Напольный",
+        "IpRating": "IP55",
+        "Dimensions": "1800×400×600",
+        "Article": "MPS 180.40.60",
+        "Name": "Шкаф распределительный напольный серии MPS (Провенто)"
+    },
+    {
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Напольный",
+        "IpRating": "IP55",
+        "Dimensions": "1800×600×400",
+        "Article": "MPS 180.60.40",
+        "Name": "Шкаф распределительный напольный серии MPS (Провенто)"
+    },
+    {
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Напольный",
+        "IpRating": "IP55",
+        "Dimensions": "1800×600×500",
+        "Article": "MPS 180.60.50",
+        "Name": "Шкаф распределительный напольный серии MPS (Провенто)"
+    },
+    {
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Напольный",
+        "IpRating": "IP55",
+        "Dimensions": "1800×600×600",
+        "Article": "MPS 180.60.60",
+        "Name": "Шкаф распределительный напольный серии MPS (Провенто)"
+    },
+    {
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Напольный",
+        "IpRating": "IP55",
+        "Dimensions": "1800×800×400",
+        "Article": "MPS 180.80.40",
+        "Name": "Шкаф распределительный напольный серии MPS (Провенто)"
+    },
+    {
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Напольный",
+        "IpRating": "IP55",
+        "Dimensions": "1800×800×500",
+        "Article": "MPS 180.80.50",
+        "Name": "Шкаф распределительный напольный серии MPS (Провенто)"
+    },
+    {
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Напольный",
+        "IpRating": "IP55",
+        "Dimensions": "1800×800×600",
+        "Article": "MPS 180.80.60",
+        "Name": "Шкаф распределительный напольный серии MPS (Провенто)"
+    },
+    {
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Напольный",
+        "IpRating": "IP55",
+        "Dimensions": "1800×900×600",
+        "Article": "MPS 180.90.60",
+        "Name": "Шкаф распределительный напольный серии MPS (Провенто)"
+    },
+    {
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Напольный",
+        "IpRating": "IP55",
+        "Dimensions": "2000×400×500",
+        "Article": "MPS 200.40.50",
+        "Name": "Шкаф распределительный напольный серии MPS (Провенто)"
+    },
+    {
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Напольный",
+        "IpRating": "IP55",
+        "Dimensions": "2000×400×600",
+        "Article": "MPS 200.40.60",
+        "Name": "Шкаф распределительный напольный серии MPS (Провенто)"
+    },
+    {
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Напольный",
+        "IpRating": "IP55",
+        "Dimensions": "2000×400×800",
+        "Article": "MPS 200.40.80",
+        "Name": "Шкаф распределительный напольный серии MPS (Провенто)"
+    },
+    {
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Напольный",
+        "IpRating": "IP55",
+        "Dimensions": "2000×600×400",
+        "Article": "MPS 200.60.40",
+        "Name": "Шкаф распределительный напольный серии MPS (Провенто)"
+    },
+    {
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Напольный",
+        "IpRating": "IP55",
+        "Dimensions": "2000×600×500",
+        "Article": "MPS 200.60.50",
+        "Name": "Шкаф распределительный напольный серии MPS (Провенто)"
+    },
+    {
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Напольный",
+        "IpRating": "IP55",
+        "Dimensions": "2000×600×600",
+        "Article": "MPS 200.60.60",
+        "Name": "Шкаф распределительный напольный серии MPS (Провенто)"
+    },
+    {
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Напольный",
+        "IpRating": "IP55",
+        "Dimensions": "2000×600×800",
+        "Article": "MPS 200.60.80",
+        "Name": "Шкаф распределительный напольный серии MPS (Провенто)"
+    },
+    {
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Напольный",
+        "IpRating": "IP55",
+        "Dimensions": "2000×800×400",
+        "Article": "MPS 200.80.40",
+        "Name": "Шкаф распределительный напольный серии MPS (Провенто)"
+    },
+    {
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Напольный",
+        "IpRating": "IP55",
+        "Dimensions": "2000×800×500",
+        "Article": "MPS 200.80.50",
+        "Name": "Шкаф распределительный напольный серии MPS (Провенто)"
+    },
+    {
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Напольный",
+        "IpRating": "IP55",
+        "Dimensions": "2000×800×600",
+        "Article": "MPS 200.80.60",
+        "Name": "Шкаф распределительный напольный серии MPS (Провенто)"
+    },
+    {
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Напольный",
+        "IpRating": "IP55",
+        "Dimensions": "2000×800×800",
+        "Article": "MPS 200.80.80",
+        "Name": "Шкаф распределительный напольный серии MPS (Провенто)"
+    },
+    {
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Напольный",
+        "IpRating": "IP55",
+        "Dimensions": "2200×600×600",
+        "Article": "MPS 220.60.60",
+        "Name": "Шкаф распределительный напольный серии MPS (Провенто)"
+    },
+    {
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Напольный",
+        "IpRating": "IP55",
+        "Dimensions": "2200×600×800",
+        "Article": "MPS 220.60.80",
+        "Name": "Шкаф распределительный напольный серии MPS (Провенто)"
+    },
+    {
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Напольный",
+        "IpRating": "IP55",
+        "Dimensions": "2200×800×400",
+        "Article": "MPS 220.80.40",
+        "Name": "Шкаф распределительный напольный серии MPS (Провенто)"
+    },
+    {
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Напольный",
+        "IpRating": "IP55",
+        "Dimensions": "2200×800×600",
+        "Article": "MPS 220.80.60",
+        "Name": "Шкаф распределительный напольный серии MPS (Провенто)"
+    },
+    {
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Напольный",
+        "IpRating": "IP55",
+        "Dimensions": "2200×800×800",
+        "Article": "MPS 220.80.80",
+        "Name": "Шкаф распределительный напольный серии MPS (Провенто)"
     }
 ]

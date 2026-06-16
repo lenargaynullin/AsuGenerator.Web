@@ -14,6 +14,8 @@
 @inject ISnackbar Snackbar
 @inject IDialogService DialogService
 @inject AsuGenerator.Web.Services.UniversalCalculationEngine CalculationEngine
+@using Microsoft.AspNetCore.Hosting
+@inject IWebHostEnvironment Env
 
 <PageTitle>Конфигуратор шкафа — ASU Generator</PageTitle>
 
@@ -83,29 +85,28 @@
                             <MudItem xs="12" sm="6">
                                 <div class="d-flex flex-column gap-3">
                                     <MudSelect T="string" Label="Производитель корпуса" @bind-Value="baseConfig.Manufacturer" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense">
-                                        <MudSelectItem Value="@("ПРОВЕНТО")">ПРОВЕНТО (Высокое качество)</MudSelectItem>
-                                        <MudSelectItem Value="@("IEK")">IEK (Бюджетный)</MudSelectItem>
-                                        <MudSelectItem Value="@("По проекту")">По проекту (Кастомный)</MudSelectItem>
+                                        <MudSelectItem Value="@("ПРОВЕНТО")">ПРОВЕНТО</MudSelectItem>
                                     </MudSelect>
-                                    <MudSelect T="string" Label="Тип монтажа корпуса" @bind-Value="baseConfig.MountType" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense">
-                                        <MudSelectItem Value="@("Навесной")">Навесной шкаф</MudSelectItem>
-                                        <MudSelectItem Value="@("Напольный")">Напольный сборный шкаф</MudSelectItem>
+                                    @* Пример для типа монтажа *@
+                                    <MudSelect T="string" Label="Тип монтажа" Value="@baseConfig.MountType" ValueChanged="@((string val) => { baseConfig.MountType = val; UpdateAvailableDimensions(); })" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense">
+                                        <MudSelectItem Value="@("Навесной")">Навесной</MudSelectItem>
+                                        <MudSelectItem Value="@("Напольный")">Напольный</MudSelectItem>
                                     </MudSelect>
-                                    <MudSelect T="string" Label="Степень защиты корпуса" @bind-Value="baseConfig.IpRating" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense">
-                                        <MudSelectItem Value="@("IP54")">IP54</MudSelectItem>
+
+                                    @* Пример для степени защиты *@
+                                    <MudSelect T="string" Label="Степень защиты" Value="@baseConfig.IpRating" ValueChanged="@((string val) => { baseConfig.IpRating = val; UpdateAvailableDimensions(); })" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense">
+                                        <MudSelectItem Value="@("IP55")">IP55</MudSelectItem>
                                         <MudSelectItem Value="@("IP66")">IP66</MudSelectItem>
                                     </MudSelect>
-                                    <MudSelect T="string" Label="Габариты оболочки (В×Ш×Г)" @bind-Value="selectedDimensions" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense">
-                                        @if (baseConfig.IpRating == "IP54") {
-                                            <MudSelectItem Value="@("600×600×250")">600×600×250 мм</MudSelectItem>
-                                            <MudSelectItem Value="@("800×650×250")">800×650×250 мм</MudSelectItem>
-                                            <MudSelectItem Value="@("1200×750×300")">1200×750×300 мм</MudSelectItem>
-                                        } else {
-                                            <MudSelectItem Value="@("600×400×250")">600×400×250 мм</MudSelectItem>
-                                            <MudSelectItem Value="@("800×600×300")">800×600×300 мм</MudSelectItem>
-                                            <MudSelectItem Value="@("1200×800×400")">1200×800×400 мм</MudSelectItem>
+                                    @* ИСПРАВЛЕНО: Выпадающий список заполняется автоматически на основе отфильтрованной базы JSON *@
+                                    <MudSelect T="string" Label="Габариты шкафа (ВхШхГ), мм" @bind-Value="selectedDimensions" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Disabled="@(!AvailableDimensions.Any())">
+                                        @foreach (var dim in AvailableDimensions)
+                                        {
+                                            <MudSelectItem Value="@dim">@FormatDimensionsText(dim)</MudSelectItem>
                                         }
                                     </MudSelect>
+
+                                    
                                 </div>
                             </MudItem>
                             <MudItem xs="12" sm="6" Class="d-flex flex-column gap-2">
@@ -446,11 +447,16 @@
     private MudTabs TabsControl;
     private int ActiveTabIndex = 0;
     private decimal EstimatedTotalCost = 184300;
-    private string selectedDimensions = "800×650×250";
+    private string selectedDimensions = "1200×600×600";
 
     // Используем ваш оригинальный класс из архитектуры проекта
-    private BaseCabinetConfig baseConfig = new();
-
+    private BaseCabinetConfig baseConfig = new()
+    {
+    Manufacturer = "ПРОВЕНТО",
+    MountType = "Напольный", // СТАЛО: По умолчанию Напольный
+    IpRating = "IP55",       // СТАЛО: По умолчанию IP55
+    PlinthHeight = "100 мм"
+    };
     // Модель строки для локальной таблицы клеммников
     public class TerminalRow
     {
@@ -617,7 +623,67 @@
             heatingLines.Remove(line);
         }
     }
+    // Свойства для хранения полной базы корпусов и отфильтрованных размеров
+    private List<JsonCabinetItemDto> AllCabinets { get; set; } = new();
+    private List<string> AvailableDimensions { get; set; } = new();
 
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            // Читаем созданную базу cabinet-base.json с диска
+            string jsonPath = Path.Combine(Env.WebRootPath, "Configs", "cabinet-base.json");
+            if (File.Exists(jsonPath))
+            {
+                string jsonText = await File.ReadAllTextAsync(jsonPath);
+                AllCabinets = System.Text.Json.JsonSerializer.Deserialize<List<JsonCabinetItemDto>>(jsonText) ?? new();
+            }
+
+            // Запускаем первичную фильтрацию размеров под дефолтные параметры UI
+            UpdateAvailableDimensions();
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Ошибка загрузки базы корпусов: {ex.Message}", Severity.Error);
+        }
+    }
+
+    // Метод динамического пересчета доступных размеров при изменении типа монтажа или IP
+    private void UpdateAvailableDimensions()
+    {
+        // Фильтруем базу по выбранным в UI производителю, типу монтажа и степени защиты IP
+        AvailableDimensions = AllCabinets
+            .Where(c => c.Manufacturer == baseConfig.Manufacturer &&
+                        c.MountType == baseConfig.MountType &&
+                        c.IpRating == baseConfig.IpRating)
+            .Select(c => c.Dimensions)
+            .Distinct()
+            .ToList();
+
+        // Защита: если текущий выбранный размер исчез из нового списка, сбрасываем на первый доступный
+        if (!AvailableDimensions.Contains(selectedDimensions))
+        {
+            selectedDimensions = AvailableDimensions.FirstOrDefault() ?? "";
+        }
+    }
+
+    // Красивое форматирование строки "2000×800×600" в "2000 х 800 х 600 мм" для пользователя
+    private string FormatDimensionsText(string rawDim)
+    {
+        if (string.IsNullOrEmpty(rawDim)) return "";
+        return rawDim.Replace("×", " х ") + " мм";
+    }
+
+    // Вспомогательный класс-зеркало для парсинга JSON оболочек
+    public class JsonCabinetItemDto
+    {
+        public string Manufacturer { get; set; }
+        public string MountType { get; set; }
+        public string IpRating { get; set; }
+        public string Dimensions { get; set; }
+        public string Article { get; set; }
+        public string Name { get; set; }
+    }
 
 }
 
