@@ -11,6 +11,10 @@
 @inject DocumentGenerator DocGen
 @inject CabinetStrategyFactory StrategyFactory
 @inject IJSRuntime JS
+@inject AsuGenerator.Web.Services.EmailNotificationService EmailService
+@inject ISnackbar Snackbar
+@inject IDialogService DialogService
+
 <PageTitle>Конфигуратор шкафа — ASU Generator</PageTitle>
 
 <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-4 mb-6">
@@ -489,10 +493,33 @@
         // Логика сохранения состояния
     }
 
-    private void GenerateFinalSpecification()
+    private async Task GenerateFinalSpecification()
     {
-        // Вызов DocumentGenerator.GenerateExcelSpecification
+        try
+        {
+            // 1. Отправляем все собранные данные инженера вам на почту powerman@mail.ru
+            await EmailService.SendProjectOrderAsync(baseConfig, selectedDimensions, heatingLines, TerminalRows);
+
+            // 2. Показываем красивое модальное окно, что проект ушел на "генерацию"
+            var parameters = new DialogParameters<MudBlazor.DialogOptions>();
+            var options = new DialogOptions { CloseOnEscapeKey = true, MaxWidth = MaxWidth.Small, FullWidth = true };
+
+            // Выводим Snackbar-нотификацию в углу экрана
+            Snackbar.Add("Проект успешно отправлен на сервер генерации документации!", Severity.Success);
+
+            // Временно выведем сообщение для пользователя прямо на экран
+            await DialogService.ShowMessageBoxAsync(
+                "Успешная отправка",
+                (MarkupString)"Ваш проект шкафа успешно отправлен на сервер генерации. <br/><br/>В связи с высокой загрузкой облачного процессора, готовый Excel-файл спецификации по ГОСТ 21.110 будет выслан на ваш Email в течение <b>15–30 минут</b>.<br/><br/>Спасибо, что используете asugenerator.ru!",
+                yesText: "ОК"
+            );
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Ошибка отправки проекта: {ex.Message}", Severity.Error);
+        }
     }
+
     private async Task SwitchTab(int index)
     {
         ActiveTabIndex = index;

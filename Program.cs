@@ -19,6 +19,8 @@ builder.Services.AddSingleton<AsuGenerator.Web.Services.DxfBlockManager>();
 builder.Services.AddScoped<PriceCalculationService>();
 builder.Services.AddScoped<CabinetStrategyFactory>();
 builder.Services.AddSingleton<ShuvConfigLoader>();
+builder.Services.AddScoped<EmailNotificationService>();
+
 
 // Регистрация b2b фабрики управления шкафами
 
