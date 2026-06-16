@@ -1,0 +1,105 @@
+﻿@page "/contacts"
+@using MudBlazor
+
+<PageTitle>Контакты и реквизиты — ASU Generator</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-10 mb-10">
+    <div class="text-center mb-8">
+        <MudText Typo="Typo.h4" Color="Color.Primary" Class="mb-2"><b>Контакты и реквизиты</b></MudText>
+        <MudText Typo="Typo.subtitle1" Color="Color.Secondary">Официальная информация о сервисе автоматизации проектирования ASU Generator</MudText>
+    </div>
+
+    <MudGrid>
+        @* Левая колонка: Техподдержка и контакты *@
+        <MudItem xs="12" md="6">
+            <MudCard Outlined="true" Class="pa-6 h-100" Style="background-color: white;">
+                <div class="d-flex align-center mb-4">
+                    <MudIcon Icon="@Icons.Material.Filled.SupportAgent" Color="Color.Primary" Class="mr-2" Size="Size.Large" />
+                    <MudText Typo="Typo.h6" Color="Color.Primary"><b>Служба поддержки и связи</b></MudText>
+                </div>
+
+                <MudText Typo="Typo.body2" Class="mb-4">
+                    Если у вас возникли вопросы по работе конфигуратора, выгрузке спецификаций в Excel, или вам требуется добавить уникальную базу оборудования вашего вендора — свяжитесь с нами удобным способом:
+                </MudText>
+
+                <div class="d-flex flex-column gap-3">
+                    <div class="d-flex align-center gap-3">
+                        <MudIcon Icon="@Icons.Custom.Brands.Telegram" Color="Color.Info" />
+                        <div>
+                            <MudText Typo="Typo.body2"><b>Telegram для B2B-запросов:</b></MudText>
+                            <MudLink href="https://t.me" Target="_blank" Underline="Underline.Hover">@@t5522977</MudLink>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-center gap-3">
+                        <MudIcon Icon="@Icons.Material.Filled.Email" Color="Color.Primary" />
+                        <div>
+                            <MudText Typo="Typo.body2"><b>Электронная почта:</b></MudText>
+                            <MudText Typo="Typo.body2"><code>powerman@@mail.ru</code></MudText>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-center gap-3">
+                        <MudIcon Icon="@Icons.Material.Filled.Schedule" Color="Color.Warning" />
+                        <div>
+                            <MudText Typo="Typo.body2"><b>Режим работы поддержки:</b></MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">Ежедневно с 09:00 до 21:00 (по МСК)</MudText>
+                        </div>
+                    </div>
+                </div>
+
+                <MudDivider Class="my-4" />
+                <MudText Typo="Typo.subtitle2" Class="mb-1"><b>Об авторе проекта:</b></MudText>
+                <MudText Typo="Typo.caption" Color="Color.Secondary" Class="d-block">
+                    Платформа разработана Ведущим инженером-проектировщиком АСУ ТП с 5-летним стажем работы в промышленной автоматизации (проектирование систем вентиляции, электрообогрева, шкафов КИПиА). Алгоритмы сопоставления учитывают реальные ГОСТы и требования сборочных цехов.
+                </MudText>
+            </MudCard>
+        </MudItem>
+
+        @* Правая колонка: Реквизиты для бухгалтерии и ЛПР *@
+        <MudItem xs="12" md="6">
+            <MudCard Outlined="true" Class="pa-6 h-100" Style="background-color: white;">
+                <div class="d-flex align-center mb-4">
+                    <MudIcon Icon="@Icons.Material.Filled.Business" Color="Color.Primary" Class="mr-2" Size="Size.Large" />
+                    <MudText Typo="Typo.h6" Color="Color.Primary"><b>Юридическая информация</b></MudText>
+                </div>
+
+                <MudText Typo="Typo.body2" Class="mb-4">
+                    Все финансовые транзакции, безналичные расчеты с проектными институтами и щитовыми производствами осуществляются официально.
+                </MudText>
+
+                @* Плотная инженерная таблица реквизитов (замените данные на свои) *@
+                <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+                    <tbody>
+                        <tr style="border-bottom: 1px solid var(--mud-palette-lines-default); height: 36px;">
+                            <td style="color: var(--mud-palette-text-secondary); width: 40%;"><b>Статус:</b></td>
+                            <td>ИП Гайнуллин Ленар</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--mud-palette-lines-default); height: 36px;">
+                            <td style="color: var(--mud-palette-text-secondary);"><b>ИНН:</b></td>
+                            <td><code>1650XXXXXXXX</code></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--mud-palette-lines-default); height: 36px;">
+                            <td style="color: var(--mud-palette-text-secondary);"><b>Регион регистрации:</b></td>
+                            <td>Республика Татарстан, г. Казань</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--mud-palette-lines-default); height: 36px;">
+                            <td style="color: var(--mud-palette-text-secondary);"><b>Документ-основание:</b></td>
+                            <td>Запись о постановке на учет в ФНС (НПД)</td>
+                        </tr>
+                        <tr style="height: 36px;">
+                            <td style="color: var(--mud-palette-text-secondary); vertical-align: top; padding-top: 8px;"><b>Назначение платежа:</b></td>
+                            <td style="padding-top: 8px;">Предоставление прав на использование ПО asugenerator.ru (Лицензия по счету-оферте). Без НДС.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="mt-4">
+                    <MudAlert Severity="Severity.Success" Dense="true" Icon="@Icons.Material.Filled.FactCheck">
+                        Счета на оплату и закрывающие акты формируются автоматически в электронном виде.
+                    </MudAlert>
+                </div>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+</MudContainer>

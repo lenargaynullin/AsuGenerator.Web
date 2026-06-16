@@ -1,28 +1,64 @@
 ﻿@inherits LayoutComponentBase
+@using MudBlazor
 
-
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
-
-    <main>
-        <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
-        </div>
-
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
-</div>
-
-<div id="blazor-error-ui" data-nosnippet>
-    An unhandled error has occurred.
-    <a href="." class="reload">Reload</a>
-    <span class="dismiss">🗙</span>
-</div>
+@* Обязательные сервис-провайдеры MudBlazor *@
 <MudThemeProvider />
+<MudPopoverProvider />
 <MudDialogProvider />
 <MudSnackbarProvider />
-<MudPopoverProvider />
+
+<MudLayout>
+    @* 1. Верхняя панель (Header) в строгом Slate-Blue стиле *@
+    <MudAppBar Elevation="1" Dense="true" Style="background-color: #1e293b; color: white;">
+        <MudText Typo="Typo.subtitle1" Class="ml-3">
+            <b>ASU Generator</b> <span style="font-size: 11px; opacity: 0.7; padding-left: 8px;">v1.0.0</span>
+        </MudText>
+        <MudSpacer />
+        @* Замена старой ссылки About на аккуратную кнопку документации *@
+        <MudButton Variant="Variant.Text" Color="Color.Inherit" StartIcon="@Icons.Material.Filled.HelpOutline" href="/pricing" Size="Size.Small">
+            Документация
+        </MudButton>
+    </MudAppBar>
+
+    @* 2. Боковая панель навигации (Левое меню) *@
+    <MudDrawer Open="true" ClipMode="DrawerClipMode.Always" Elevation="2" Variant="@DrawerVariant.Persistent" Style="background-color: var(--mud-palette-background-grey);">
+        <NavMenu />
+    </MudDrawer>
+
+    @* 3. Центральная рабочая зона, которая подстраивается под размеры экрана *@
+    <MudMainContent Class="d-flex flex-column" Style="min-height: 100vh; padding-top: 48px;">
+
+        @* Контент текущей открытой страницы *@
+        <div class="flex-grow-1 pa-4">
+            @Body
+        </div>
+
+        @* 4. ЮРИДИЧЕСКИЙ ФУТЕР: Жестко прижат к низу, ссылки ведут на новую Legal.razor *@
+        <footer class="mt-auto pa-4 mud-background-gray d-flex justify-space-between align-center" style="border-top: 1px solid var(--mud-palette-lines-default); background-color: var(--mud-palette-background-grey); font-size: 13px;">
+            <MudText Typo="Typo.caption" Color="Color.Secondary">
+                © @DateTime.Now.Year asugenerator.ru. Все права защищены. Разработано Ведущим инженером АСУ ТП.
+            </MudText>
+            <div class="d-flex gap-4">
+                @* НОВАЯ ССЫЛКА НА КОНТАКТЫ *@
+                <MudLink href="contacts" Color="Color.Secondary" Underline="Underline.Hover" Style="font-size: 12px; font-weight: bold;">
+                    Контакты и реквизиты
+                </MudLink>
+                <MudLink href="legal/privacy" Color="Color.Secondary" Underline="Underline.Hover" Style="font-size: 12px; font-weight: bold;">
+                    Политика конфиденциальности
+                </MudLink>
+                <MudLink href="legal/offer" Color="Color.Secondary" Underline="Underline.Hover" Style="font-size: 12px; font-weight: bold;">
+                    Пользовательское соглашение
+                </MudLink>
+            </div>
+        </footer>
+
+
+    </MudMainContent>
+</MudLayout>
+
+@* Системный блок ошибок Blazor (оставляем без изменений) *@
+<div id="blazor-error-ui" data-nosnippet>
+    Критическая ошибка приложения.
+    <a href="." class="reload">Обновить страницу</a>
+    <span class="dismiss">🗙</span>
+</div>
