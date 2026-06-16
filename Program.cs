@@ -20,6 +20,7 @@ builder.Services.AddScoped<PriceCalculationService>();
 builder.Services.AddScoped<CabinetStrategyFactory>();
 builder.Services.AddSingleton<ShuvConfigLoader>();
 builder.Services.AddScoped<EmailNotificationService>();
+builder.Services.AddScoped<UniversalCalculationEngine>();
 
 
 // Регистрация b2b фабрики управления шкафами

@@ -1,0 +1,20 @@
+[
+    {
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Навесной",
+        "IpRating": "IP54",
+        "Dimensions": "600×600×250",
+        "Article": "MVS 060625",
+        "Name": "Корпус навесной серии MVS (Провенто)",
+        "Price": 12450
+    },
+    {
+        "Manufacturer": "ПРОВЕНТО",
+        "MountType": "Напольный",
+        "IpRating": "IP54",
+        "Dimensions": "1200×750×300",
+        "Article": "MPD 120730",
+        "Name": "Корпус напольный сборный серии MPD (Провенто)",
+        "Price": 34800
+    }
+]

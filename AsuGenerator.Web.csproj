@@ -16,12 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="wwwroot\Configs\shue-strategy.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="wwwroot\Configs\shuv-strategy.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Folder Include="wwwroot\Configs\" />
   </ItemGroup>
 
 </Project>

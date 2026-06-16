@@ -1,0 +1,18 @@
+[
+    {
+        "Vendor": "STEZ",
+        "TerminalType": "Проходная винтовая (Фаза/N)",
+        "WireSection": "2.5 мм²",
+        "Article": "STZ-204120",
+        "Name": "Клемма проходная винтовая серый STEZ-2.5",
+        "Price": 42
+    },
+    {
+        "Vendor": "STEZ",
+        "TerminalType": "Заземляющая (РЕ, желто-зеленая)",
+        "WireSection": "2.5 мм²",
+        "Article": "STZ-204150",
+        "Name": "Клемма заземляющая PE желто-зеленая STEZ-2.5-PE",
+        "Price": 95
+    }
+]

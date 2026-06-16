@@ -14,6 +14,7 @@
 @inject AsuGenerator.Web.Services.EmailNotificationService EmailService
 @inject ISnackbar Snackbar
 @inject IDialogService DialogService
+@inject AsuGenerator.Web.Services.UniversalCalculationEngine CalculationEngine
 
 <PageTitle>Конфигуратор шкафа — ASU Generator</PageTitle>
 
@@ -498,82 +499,36 @@
     {
         try
         {
-            // 1. Предварительная валидация: проверяем, что инженер выбрал линии
-            var activeLines = heatingLines.Where(l => l.IsEnabled).ToList();
-            if (!activeLines.Any())
-            {
-                Snackbar.Add("Ошибка: Включите хотя бы одну силовую линию в таблице Шага 3.", Severity.Warning);
-                return;
-            }
+            // 1. Вызываем новый универсальный движок покомпонентного расчета
+            List<SelectedComponent> finalComponents = CalculationEngine.CalculateSpecification(
+                baseConfig,
+                selectedDimensions,
+                heatingLines,
+                TerminalRows
+            );
 
-            // Инициализируем Snackbar-уведомление о старте процесса
-            Snackbar.Add("Запуск облачной генерации ГОСТ-спецификации...", Severity.Info);
-
-            // 2. ФАСАД СТРАТЕГИИ: Сначала отправляем данные вам на почту powerman@mail.ru, чтобы лид не потерялся
-            // Используем Task.Run, чтобы отправка почты не тормозила скачивание файла у пользователя
-            _ = Task.Run(async () =>
-            {
-                try
-                {
-                    await EmailService.SendProjectOrderAsync(baseConfig, selectedDimensions, heatingLines, TerminalRows);
-                }
-                catch { /* Логируем ошибку отправки почты в дебаг, не мешая пользователю */ }
-            });
-
-            // 3. ПОДГОТОВКА ДАННЫХ ДЛЯ КЛАССА DOCUMENTGENERATOR
-            // Превращаем UI-таблицу автоматов в массив SelectedComponent для EPPlus
-            var matchedComponents = new List<SelectedComponent>();
-
-            foreach (var line in activeLines)
-            {
-                matchedComponents.Add(new SelectedComponent
-                {
-                    Designation = line.Designation,
-                    Vendor = baseConfig.Manufacturer, // КЭАЗ / Dekraft / IEK из Шага 1
-                    Description = $"Выключатель автоматический {(line.Poles == 1 ? "однополюсный" : "трехполюсный")}, ном. ток {line.Current}А, характеристика {line.Curve}, отключающая способность {line.IkZ}кА. " + (line.HasRCD ? "С дифференциальной защитой (АВДТ)." : ""),
-                    Article = $"{baseConfig.Manufacturer}-BA-{line.Poles}P-{line.Current}A-{line.Curve}", // Имитация артикула, пока база отключена
-                    Quantity = 1
-                });
-            }
-
-            // Добавляем клеммные ряды XT в общую спецификацию
-            foreach (var term in TerminalRows)
-            {
-                matchedComponents.Add(new SelectedComponent
-                {
-                    Designation = term.XBlockName,
-                    Vendor = baseConfig.TerminalVendor, // STEZ / IEK из Шага 4
-                    Description = $"Блок клеммный проходной, тип зажима: {term.TerminalType}, сечение подключаемого провода {term.WireSection}.",
-                    Article = $"{baseConfig.TerminalVendor}-STEZ-{term.WireSection}",
-                    Quantity = term.Quantity
-                });
-            }
-
-            // 4. НАСТРОЙКА МЕТАДАННЫХ ШТАМПА ГОСТ
+            // 2. Формируем штамп ГОСТ
             var configMetadata = new VentAvtomatikaConfig
             {
-                ClientName = "B2B Проектировщик",
-                CompanyName = "Инжиниринг",
-                KpNumber = "ШУЭ-" + DateTime.Now.ToString("ddMM-HHmm")
+                ClientName = "B2B Заказчик",
+                CompanyName = "Проектный отдел",
+                KpNumber = "АСУ-" + DateTime.Now.ToString("ddMM-HHmm")
             };
 
-            // 5. ВЫЗОВ ВАШЕГО ИСПРАВЛЕННОГО МЕТОДА EPPLUS
-            byte[] excelBytes = DocGen.GenerateExcelSpecification(matchedComponents, configMetadata);
+            // 3. Генерируем 9-колонный Excel через EPPlus
+            byte[] excelBytes = DocGen.GenerateExcelSpecification(finalComponents, configMetadata);
             string fileName = $"Спецификация_{configMetadata.KpNumber}.xlsx";
 
-            // 6. ПЕРЕДАЧА БАЙТ В БРАУЗЕР ДЛЯ АВТОМАТИЧЕСКОГО СКАЧИВАНИЯ
+            // 4. Отдаем файл на автоматическое скачивание у инженера
             using var fileStream = new MemoryStream(excelBytes);
             using var streamRef = new DotNetStreamReference(stream: fileStream);
-
-            // Вызываем JS-функцию скачивания из App.razor
             await JS.InvokeVoidAsync("downloadFileFromStream", fileName, streamRef);
 
-            Snackbar.Add($"Документ {fileName} успешно сгенерирован!", Severity.Success);
+            Snackbar.Add($"Спецификация {fileName} успешно сформирована по компонентам!", Severity.Success);
         }
         catch (Exception ex)
         {
-            Snackbar.Add($"Ошибка генерации: {ex.Message}", Severity.Error);
-            System.Diagnostics.Debug.WriteLine($"[Excel Bind Error]: {ex.ToString()}");
+            Snackbar.Add($"Ошибка расчета: {ex.Message}", Severity.Error);
         }
     }
 

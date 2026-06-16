@@ -1,0 +1,20 @@
+[
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 1,
+        "Current": 16,
+        "Curve": "C",
+        "Article": "1002345",
+        "Name": "Выключатель автоматический OptiDin ВМ63-1C16-УХЛ4 (КЭАЗ)",
+        "Price": 450
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 3,
+        "Current": 32,
+        "Curve": "C",
+        "Article": "1002390",
+        "Name": "Выключатель автоматический вводной OptiDin ВМ63-3C32-УХЛ4",
+        "Price": 1650
+    }
+]
