@@ -6,8 +6,6 @@ public class BaseCabinetConfig
     public string MountType { get; set; } = "Навесной";
     private string _ipRating = "IP54";
     public string IpRating { get; set; } = "IP54";
-    public string Manufacturer { get; set; } = "IEK";
-    public bool HasPocket { get; set; }
     public bool HasPlinth { get; set; }
     public string PowerCategory { get; set; } = "III";
     public string EarthingSystem { get; set; } = "TN-S";
@@ -18,6 +16,14 @@ public class BaseCabinetConfig
     public string GlandType { get; set; } = "Пластик";
     public int GlandsCount { get; set; } = 0;
     public string RalColor { get; set; } = "7035";
+
+    public bool HasPocket { get; set; } = false;
+    public bool HasSidePanels { get; set; } = false;
+    public bool HasDoorHandle { get; set; } = false;
+    public bool HasShelf { get; set; } = false;
+    public string PlinthHeight { get; set; } = "100 мм";
+    public string FanModel { get; set; } = "FA 12.230";
+    public string Manufacturer { get; set; } = "ПРОВЕНТО";
 
     // Оборудование
     public string TerminalVendor { get; set; } = "Klemsan";
