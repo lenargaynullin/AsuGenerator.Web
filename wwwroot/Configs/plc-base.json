@@ -34,5 +34,137 @@
         "DoCount": 8,
         "AoCount": 2,
         "PowerSupply": "24V"
+    },
+    {
+        "Manufacturer": "ОВЕН",
+        "PlcType": "ПР200",
+        "Article": "ПРМ-24.1",
+        "Name": "Модуль расширения для программируемого реле",
+        "DiCount": 8,
+        "AiCount": 0,
+        "DoCount": 8,
+        "AoCount": 0,
+        "PowerSupply": "24V"
+    },
+    {
+        "Manufacturer": "ОВЕН",
+        "PlcType": "ПР200",
+        "Article": "ПРМ-230.1",
+        "Name": "Модуль расширения для программируемого реле",
+        "DiCount": 8,
+        "AiCount": 0,
+        "DoCount": 8,
+        "AoCount": 0,
+        "PowerSupply": "230V"
+    },
+    {
+        "Manufacturer": "ОВЕН",
+        "PlcType": "ПР200",
+        "Article": "ПРМ-24.2",
+        "Name": "Модуль расширения для программируемого реле",
+        "DiCount": 0,
+        "AiCount": 4,
+        "DoCount": 4,
+        "AoCount": 0,
+        "PowerSupply": "24V"
+    },
+    {
+        "Manufacturer": "ОВЕН",
+        "PlcType": "ПР200",
+        "Article": "ПРМ-230.2",
+        "Name": "Модуль расширения для программируемого реле",
+        "DiCount": 0,
+        "AiCount": 4,
+        "DoCount": 4,
+        "AoCount": 0,
+        "PowerSupply": "230V"
+    },
+    {
+        "Manufacturer": "ОВЕН",
+        "PlcType": "ПР200",
+        "Article": "ПРМ-24.3",
+        "Name": "Модуль расширения для программируемого реле",
+        "DiCount": 0,
+        "AiCount": 4,
+        "DoCount": 0,
+        "AoCount": 2,
+        "PowerSupply": "24V"
+    },
+    {
+        "Manufacturer": "ОВЕН",
+        "PlcType": "ПР200",
+        "Article": "ПРМ-230.3",
+        "Name": "Модуль расширения для программируемого реле",
+        "DiCount": 0,
+        "AiCount": 4,
+        "DoCount": 0,
+        "AoCount": 2,
+        "PowerSupply": "230V"
+    },
+    {
+        "Manufacturer": "ОВЕН",
+        "PlcType": "ПР200",
+        "Article": "ПРМ-24.4",
+        "Name": "Модуль расширения для программируемого реле",
+        "DiCount": 16,
+        "AiCount": 0,
+        "DoCount": 0,
+        "AoCount": 0,
+        "PowerSupply": "24V"
+    },
+    {
+        "Manufacturer": "ОВЕН",
+        "PlcType": "ПР200",
+        "Article": "ПРМ-230.4",
+        "Name": "Модуль расширения для программируемого реле",
+        "DiCount": 16,
+        "AiCount": 0,
+        "DoCount": 0,
+        "AoCount": 0,
+        "PowerSupply": "230V"
+    },
+    {
+        "Manufacturer": "ОВЕН",
+        "PlcType": "ПР200",
+        "Article": "ПРМ-24.5",
+        "Name": "Модуль расширения для программируемого реле",
+        "DiCount": 0,
+        "AiCount": 0,
+        "DoCount": 16,
+        "AoCount": 0,
+        "PowerSupply": "24V"
+    },
+    {
+        "Manufacturer": "ОВЕН",
+        "PlcType": "ПР200",
+        "Article": "ПРМ-230.5",
+        "Name": "Модуль расширения для программируемого реле",
+        "DiCount": 0,
+        "AiCount": 0,
+        "DoCount": 16,
+        "AoCount": 0,
+        "PowerSupply": "230V"
+    },
+    {
+        "Manufacturer": "ОВЕН",
+        "PlcType": "ПР200",
+        "Article": "ПРМ-24.6",
+        "Name": "Модуль расширения для программируемого реле",
+        "DiCount": 16,
+        "AiCount": 0,
+        "DoCount": 12,
+        "AoCount": 0,
+        "PowerSupply": "24V"
+    },
+    {
+        "Manufacturer": "ОВЕН",
+        "PlcType": "ПР200",
+        "Article": "ПРМ-230.6",
+        "Name": "Модуль расширения для программируемого реле",
+        "DiCount": 16,
+        "AiCount": 0,
+        "DoCount": 12,
+        "AoCount": 0,
+        "PowerSupply": "230V"
     }
 ]

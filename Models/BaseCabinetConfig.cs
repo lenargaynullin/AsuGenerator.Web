@@ -25,6 +25,7 @@ public class BaseCabinetConfig
     public string FanModel { get; set; } = "FA 12.230";
     public string Manufacturer { get; set; } = "ПРОВЕНТО";
 
+
     public bool HasEyebolts { get; set; }        // Рым-болты
     public bool HasDoorRails { get; set; }       // Рейка для глухой двери
     public bool HasRoofCablePanel { get; set; }  // Потолочная панель с вводом для кабелей

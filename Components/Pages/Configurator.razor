@@ -49,10 +49,10 @@
                 <MudText Typo="Typo.subtitle2" Color="Color.Primary" Class="px-3 py-2"><b>ЭТАПЫ ПРОЕКТИРОВАНИЯ</b></MudText>
                 <MudNavMenu Bordered="false" Dense="true" Class="pa-1">
                     <MudNavLink Icon="@Icons.Material.Filled.SettingsSuggest" IconColor="Color.Primary" OnClick="@(() => SwitchTab(0))" Class="@(ActiveTabIndex == 0 ? "mud-chip-text-primary mud-background-gray" : "")">
-                        1. Конструктив (Оболочка Провенто)
+                        1. Конструктив
                     </MudNavLink>
                     <MudNavLink Icon="@Icons.Material.Filled.Memory" IconColor="Color.Info" OnClick="@(() => SwitchTab(1))" Class="@(ActiveTabIndex == 1 ? "mud-chip-text-info mud-background-gray" : "")">
-                        2. Контроллеры и модули (ОВЕН)
+                        2. Контроллеры и сигналы КИПиА
                     </MudNavLink>
                     <MudNavLink Icon="@Icons.Material.Filled.ElectricalServices" IconColor="Color.Warning" OnClick="@(() => SwitchTab(2))" Class="@(ActiveTabIndex == 2 ? "mud-chip-text-warning mud-background-gray" : "")">
                         3. Защита и коммутация (Сила)
@@ -196,61 +196,71 @@
                     </MudTabPanel>
                                         @* ШАГ 2: КОНТРОЛЛЕРЫ И СИГНАЛЫ ОВЕН *@
                     <MudTabPanel>
-                        <MudText Typo="Typo.h6" Color="Color.Info" Class="mb-4"><b>2. Программируемые контроллеры и емкость сигналов КИП</b></MudText>
-                        <MudGrid>
-                            <MudItem xs="12" md="6" Class="d-flex flex-column gap-3" Style="border-right: 1px solid var(--mud-palette-lines-inputs); padding-right: 24px;">
-                                <MudText Typo="Typo.subtitle2" Color="Color.Info"><b>Выбор базовой платформы</b></MudText>
+                        <MudText Typo="Typo.h5" Color="Color.Primary" Class="mb-4"><b>2. Контроллеры и сигналы КИПиА</b></MudText>
+                        <MudText Typo="Typo.body2" Color="Color.Secondary" Class="mb-6">Выберите управляющий контроллер и укажите количество физических сигналов с объекта для автоматического расчета модулей расширения ОВЕН.</MudText>
 
-                                <div class="d-flex gap-2 mt-2">
-                                    <MudSelect T="string" Label="Напряжение питания ПЛК" @bind-Value="baseConfig.PlcPower" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense">
-                                        <MudSelectItem Value="@("220")">~230 В (Переменный ток)</MudSelectItem>
-                                        <MudSelectItem Value="@("24")">=24 В (Постоянный ток)</MudSelectItem>
-                                    </MudSelect>
+                        <MudGrid Spacing="3">
+                            @* Левая карточка: Конфигурация процессора *@
+                            <MudItem xs="12" md="6">
+                                <MudCard Outlined="true" Class="pa-4 h-100" Style="background-color: white;">
+                                    <MudText Typo="Typo.subtitle1" Color="Color.Primary" Class="mb-3"><b>Центральный процессор:</b></MudText>
 
-                                    <MudSelect T="string" Label="Интерфейсы RS-485" @bind-Value="baseConfig.PlcInterfaces" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense">
-                                        <MudSelectItem Value="@("0")">Без интерфейса (0)</MudSelectItem>
-                                        <MudSelectItem Value="@("1")">1 х RS-485 (1)</MudSelectItem>
-                                        <MudSelectItem Value="@("2")">2 х RS-485 (2)</MudSelectItem>
-                                    </MudSelect>
-                                </div>
+                                    <div class="d-flex flex-column gap-3">
+                                        <MudSelect T="string" Label="Тип устройства" @bind-Value="baseConfig.PlcType" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense">
+                                            <MudSelectItem Value="@("ПР200")">Программируемое реле ПР200</MudSelectItem>
+                                            <MudSelectItem Value="@("ПЛК210")">Промышленный контроллер ПЛК210</MudSelectItem>
+                                        </MudSelect>
 
-                                <MudSelect T="string" Label="Линейка контроллера" @bind-Value="baseConfig.PlcType" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense">
-                                    <MudSelectItem Value="@("ПР200")">Программируемое реле ПР200</MudSelectItem>
-                                    <MudSelectItem Value="@("ПЛК110")">Промышленный контроллер ПЛК110</MudSelectItem>
-                                    <MudSelectItem Value="@("ПЛК210")">Современный Сетевой ПЛК210</MudSelectItem>
-                                </MudSelect>
-                                <MudSelect T="string" Label="Протокол диспетчеризации верхнего уровня" @bind-Value="baseConfig.Protocol" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense">
-                                    <MudSelectItem Value="@("Modbus RTU")">Modbus RTU (Интерфейс RS-485)</MudSelectItem>
-                                    <MudSelectItem Value="@("Modbus TCP")">Modbus TCP (Интерфейс Ethernet)</MudSelectItem>
-                                </MudSelect>
-                                <div class="mt-4">
-                                    <MudAlert Severity="Severity.Info" Dense="true" Icon="@Icons.Material.Filled.AutoFixHigh">
-                                        Модули ввода-вывода МВ210/МУ210 рассчитаются на бэкенде автоматически под емкость сигналов.
-                                    </MudAlert>
-                                </div>
+                                        <MudSelect T="string" Label="Протокол связи" @bind-Value="baseConfig.Protocol" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense">
+                                            <MudSelectItem Value="@("Modbus RTU")">Modbus RTU (RS-485)</MudSelectItem>
+                                            <MudSelectItem Value="@("Modbus TCP")">Modbus TCP (Ethernet)</MudSelectItem>
+                                        </MudSelect>
+
+                                        <div class="d-flex gap-2">
+                                            <MudSelect T="string" Label="Питание ПЛК" @bind-Value="baseConfig.PlcPower" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense">
+                                                <MudSelectItem Value="@("220")">~230 В</MudSelectItem>
+                                                <MudSelectItem Value="@("24")">=24 В</MudSelectItem>
+                                            </MudSelect>
+
+                                            <MudSelect T="string" Label="Слоты RS-485" @bind-Value="baseConfig.PlcInterfaces" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense">
+                                                <MudSelectItem Value="@("0")">0 шт.</MudSelectItem>
+                                                <MudSelectItem Value="@("1")">1 шт.</MudSelectItem>
+                                                <MudSelectItem Value="@("2")">2 шт.</MudSelectItem>
+                                            </MudSelect>
+                                        </div>
+                                    </div>
+                                </MudCard>
                             </MudItem>
-                            
-                            <MudItem xs="12" md="6" Class="d-flex flex-column gap-2" Style="padding-left: 24px;">
-                                <MudText Typo="Typo.subtitle2" Color="Color.Info" Class="mb-2"><b>Физические каналы датчиков автоматизации</b></MudText>
-                                <MudGrid Spacing="2">
-                                    <MudItem xs="6">
-                                        <MudNumericField T="int" Label="AI (4-20 мА / RTD)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" HideSpinButtons="false" />
-                                    </MudItem>
-                                    <MudItem xs="6">
-                                        <MudNumericField T="int" Label="AO (Аналоговые выходы)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" HideSpinButtons="false" />
-                                    </MudItem>
-                                    <MudItem xs="6">
-                                        <MudNumericField T="int" Label="DI (Дискретные входы)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" HideSpinButtons="false" />
-                                    </MudItem>
-                                    <MudItem xs="6">
-                                        <MudNumericField T="int" Label="DO (Релейные выходы)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" HideSpinButtons="false" />
-                                    </MudItem>
-                                </MudGrid>
-                                <MudText Typo="Typo.caption" Color="Color.Secondary" Class="mt-2 font-italic">
-                                    * Система автоматически добавит кросс-платы и клеммные колодки с учетом 10% резерва по ГОСТ.
-                                </MudText>
+
+                            @* Правая карточка: Ввод сигналов КИП *@
+                            <MudItem xs="12" md="6">
+                                <MudCard Outlined="true" Class="pa-4 h-100" Style="background-color: white;">
+                                    <MudText Typo="Typo.subtitle1" Color="Color.Success" Class="mb-3"><b>Емкость физических каналов:</b></MudText>
+
+                                    <MudGrid Spacing="2">
+                                        <MudItem xs="6">
+                                            <MudNumericField @bind-Value="baseConfig.DiCount" Label="Дискретные входы (DI)" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Min="0" Max="128" />
+                                        </MudItem>
+                                        <MudItem xs="6">
+                                            <MudNumericField @bind-Value="baseConfig.DoCount" Label="Дискретные выходы (DO)" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Min="0" Max="128" />
+                                        </MudItem>
+                                        <MudItem xs="6">
+                                            <MudNumericField @bind-Value="baseConfig.AiCount" Label="Аналоговые входы (AI)" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Min="0" Max="64" />
+                                        </MudItem>
+                                        <MudItem xs="6">
+                                            <MudNumericField @bind-Value="baseConfig.AoCount" Label="Аналоговые выходы (AO)" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Min="0" Max="64" />
+                                        </MudItem>
+                                    </MudGrid>
+
+                                    <div class="mt-4 pa-2 rounded" style="background-color: var(--mud-palette-background-grey); border-left: 4px solid var(--mud-palette-success);">
+                                        <MudText Typo="Typo.caption" Color="Color.Secondary">
+                                            * Бэкенд автоматически рассчитает необходимое количество и артикулы модулей расширения ОВЕН МВ210/МУ210 на основе введенных сигналов.
+                                        </MudText>
+                                    </div>
+                                </MudCard>
                             </MudItem>
                         </MudGrid>
+
                     </MudTabPanel>
 
                     @* ШАГ 3: ВАША ТАБЛИЦА АВТОМАТОВ И ЛИНИЙ ЗАЩИТЫ *@

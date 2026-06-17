@@ -323,56 +323,93 @@ namespace AsuGenerator.Web.Services
 
             }
 
-                        // ----------------------------------------------------
-            // ШАГ 2 LOGIC: ДИНАМИЧЕСКИЙ НАБОРНЫЙ АРТИКУЛ ОВЕН ПР200
             // ----------------------------------------------------
-            if (config.PlcType == "ПР200")
+            // ШАГ 2 LOGIC: ПОДБОР БАЗОВОГО БЛОКА И МОДУЛЕЙ РАСШИРЕНИЯ ПРМ (ОВЕН)
+            // ----------------------------------------------------
+            string plcJsonPath = Path.Combine(_env.WebRootPath, "Configs", "plc-base.json");
+            if (File.Exists(plcJsonPath) && config.PlcType == "ПР200")
             {
-                // Поля из UI: 
-                // config.PlcPower = "220" или "24"
-                // config.PlcDiType = "230В" или "24В" (Питание датчиков DI)
-                // config.PlcInterfaces = "0", "1" или "2" (Интерфейсы RS-485)
+                var plcDb = JsonSerializer.Deserialize<List<JsonPlcItem>>(File.ReadAllText(plcJsonPath));
 
-                // 1. ВЫЧИСЛЯЕМ МОДИФИКАТОР ПИТАНИЯ ДАТЧИКОВ DI (Вторая позиция кода)
-                string diPowerModifier = "";
-                if (config.PlcPower == "220")
-                {
-                    // Если питание 220В, то для входов ~230В код пустой, а для входов =24В код равен "2"
-                    diPowerModifier = config.PlcDiType == "24В" ? "2" : "";
-                }
-                // Если общее питание =24В, то модификатор входов не ставится по таблице
+                // Переводим выбранное на UI питание в формат JSON базы
+                string targetPower = config.PlcPower == "220" ? "230V" : "24V";
 
-                // 2. ВЫЧИСЛЯЕМ КОД ТИПА И КОЛИЧЕСТВА ВХОДОВ-ВЫХОДОВ (Третья позиция кода)
-                string ioCode = "1"; // По умолчанию: 8 DI / 6 DO
+                // 1. ПОДБИРАЕМ БАЗОВЫЙ БЛОК ПР200
+                // Для ПР200-220.24.2 (входы 24В) можно расширить логику, пока берем по умолчанию базовый
+                var basePlc = plcDb?.FirstOrDefault(p => p.PlcType == "ПР200" && p.PowerSupply == targetPower && p.Protocol == config.Protocol);
 
-                if (config.DiCount > 0 && config.AiCount > 0 && config.DoCount > 0 && config.AoCount > 0)
+                // Если Modbus RTU, но точного совпадения нет, берем первый доступный этого питания
+                if (basePlc == null)
                 {
-                    // Определяем тип аналогового выхода (Ток 4-20мА или Напряжение 0-10В)
-                    // Предположим, у вас на UI есть свойство config.AoType ("4-20мА" или "0-10В")
-                    ioCode = config.AoType == "0-10В" ? "4" : "2"; 
-                }
-                else if (config.DiCount > 0 && config.AiCount > 0 && config.DoCount > 0 && config.AoCount == 0)
-                {
-                    // Если дискретных выходов DO больше 8 (например, 12) — это код 5
-                    ioCode = config.DoCount > 8 ? "5" : "3"; 
+                    basePlc = plcDb?.FirstOrDefault(p => p.PlcType == "ПР200" && p.PowerSupply == targetPower);
                 }
 
-                // 3. СКЛЕИВАЕМ СТРОКУ АРТИКУЛА ПО ТАБЛИЦЕ ЗАВОДА
-                // Формат: ПР200-[Питание].[МодификаторDI][КодИО].[Интерфейсы].0
-                string generatedArticle = $"ПР200-{config.PlcPower}.{diPowerModifier}{ioCode}.{config.PlcInterfaces}.0";
+                if (basePlc != null)
+                {
+                    finalSpec.Add(new SelectedComponent
+                    {
+                        Designation = "DD1",
+                        Vendor = "ОВЕН",
+                        Description = basePlc.Name,
+                        Article = basePlc.Article,
+                        Quantity = 1
+                    });
 
-                // 4. ФОРМИРУЕМ ОПИСАНИЕ ДЛЯ СПЕЦИФИКАЦИИ
-                string desc = $"Программируемое реле ПР200 с дисплеем. Питание: {config.PlcPower}В. Входы/Выходы: {config.DiCount}DI/{config.DoCount}DO. Интерфейсов RS-485: {config.PlcInterfaces} шт.";
+                    // 2. ВЫЧИСЛЯЕМ ОСТАТОК НЕОБХОДИМЫХ КАНАЛОВ (Вычитаем емкость базового блока)
+                    int remainingDi = Math.Max(0, config.DiCount - basePlc.DiCount);
+                    int remainingDo = Math.Max(0, config.DoCount - basePlc.DoCount);
+                    int remainingAi = Math.Max(0, config.AiCount - basePlc.AiCount);
+                    int remainingAo = Math.Max(0, config.AoCount - basePlc.AoCount);
 
-                finalSpec.Add(new SelectedComponent 
-                { 
-                    Designation = "DD1", 
-                    Vendor = "ОВЕН", 
-                    Description = desc, 
-                    Article = generatedArticle, // Выдаст точный код, например: ПР200-220.22.2.0
-                    Quantity = 1 
-                });
+                    int moduleCounter = 2;
+
+                    // 3. АВТОПОДБОР МОДУЛЕЙ ПРМ НА ОСНОВЕ ОСТАТКА
+                    // Логика для Аналоговых выходов AO (Покрывается ПРМ-X.3, где 2 канала AO и 4 AI)
+                    if (remainingAo > 0)
+                    {
+                        int neededModules = (int)Math.Ceiling((double)remainingAo / 2);
+                        var prmModule = plcDb?.FirstOrDefault(p => p.Article.StartsWith("ПРМ") && p.PowerSupply == targetPower && p.AoCount == 2);
+
+                        for (int i = 0; i < neededModules; i++)
+                        {
+                            finalSpec.Add(new SelectedComponent { Designation = $"DD{moduleCounter++}", Vendor = "ОВЕН", Description = prmModule?.Name ?? "Модуль расширения ПРМ", Article = prmModule?.Article ?? "ПРМ", Quantity = 1 });
+                            if (prmModule != null) remainingAi = Math.Max(0, remainingAi - prmModule.AiCount); // ПРМ.3 также покрывает 4 канала AI
+                        }
+                    }
+
+                    // Логика для Аналоговых входов AI (Если еще остались после подбора AO, покрывается ПРМ-X.2, где 4 AI и 4 DO)
+                    if (remainingAi > 0)
+                    {
+                        int neededModules = (int)Math.Ceiling((double)remainingAi / 4);
+                        var prmModule = plcDb?.FirstOrDefault(p => p.Article.StartsWith("ПРМ") && p.PowerSupply == targetPower && p.AiCount == 4);
+
+                        for (int i = 0; i < neededModules; i++)
+                        {
+                            finalSpec.Add(new SelectedComponent { Designation = $"DD{moduleCounter++}", Vendor = "ОВЕН", Description = prmModule?.Name ?? "Модуль расширения ПРМ", Article = prmModule?.Article ?? "ПРМ", Quantity = 1 });
+                            if (prmModule != null) remainingDo = Math.Max(0, remainingDo - prmModule.DoCount); // ПРМ.2 также покрывает 4 канала DO
+                        }
+                    }
+
+                    // Логика для Дискретных входов/выходов DI/DO (Используем ПРМ-X.1, где по 8 DI и 8 DO)
+                    while (remainingDi > 0 || remainingDo > 0)
+                    {
+                        // Ищем оптимальный модуль ПРМ.1 (8DI/8DO)
+                        var prmModule = plcDb?.FirstOrDefault(p => p.Article.EndsWith(".1") && p.PowerSupply == targetPower);
+
+                        if (prmModule != null)
+                        {
+                            finalSpec.Add(new SelectedComponent { Designation = $"DD{moduleCounter++}", Vendor = "ОВЕН", Description = prmModule.Name, Article = prmModule.Article, Quantity = 1 });
+                            remainingDi = Math.Max(0, remainingDi - prmModule.DiCount);
+                            remainingDo = Math.Max(0, remainingDo - prmModule.DoCount);
+                        }
+                        else
+                        {
+                            break; // Защита от бесконечного цикла, если база не считалась
+                        }
+                    }
+                }
             }
+
 
 
 
@@ -458,7 +495,19 @@ namespace AsuGenerator.Web.Services
 
         // Вспомогательные DTO-классы для десериализации JSON баз данных
         private class JsonCabinetItem { public string Manufacturer { get; set; } public string MountType { get; set; } public string IpRating { get; set; } public string Dimensions { get; set; } public string Article { get; set; } public string Name { get; set; } }
-        private class JsonPlcItem { public string PlcType { get; set; } public string Protocol { get; set; } public string Article { get; set; } public string Name { get; set; } }
+        private class JsonPlcItem {
+            public string Manufacturer { get; set; }
+            public string PlcType { get; set; }
+            public string Protocol { get; set; }
+            public string Article { get; set; }
+            public string Name { get; set; }
+            public int DiCount { get; set; }
+            public int AiCount { get; set; }
+            public int DoCount { get; set; }
+            public int AoCount { get; set; }
+            public string PowerSupply { get; set; }
+            public string ModuleType { get; set; }
+        }
         private class JsonBreakerItem { public string Manufacturer { get; set; } public int Poles { get; set; } public int Current { get; set; } public string Curve { get; set; } public string Article { get; set; } public string Name { get; set; } }
         private class JsonTerminalItem { public string Vendor { get; set; } public string TerminalType { get; set; } public string WireSection { get; set; } public string Article { get; set; } public string Name { get; set; } }
     }
