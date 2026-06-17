@@ -109,13 +109,26 @@
                                     
                                 </div>
                             </MudItem>
+
+                            @* Дополнительные опции ПРОВЕНТО*@
                             <MudItem xs="12" sm="6" Class="d-flex flex-column gap-2">
-                                <MudText Typo="Typo.subtitle2" Color="Color.Primary">Дополнительные опции Провенто:</MudText>
-                                <MudCheckBox @bind-Value="baseConfig.HasPocket" Label="Карман для исполнительной документации" Color="Color.Primary" Dense="true" />
-                                <MudCheckBox @bind-Value="baseConfig.HasSidePanels" Label="Комплект боковых панелей шкафа" Color="Color.Primary" Dense="true" Disabled="@(baseConfig.MountType == "Навесной")" />
-                                <MudCheckBox @bind-Value="baseConfig.HasDoorHandle" Label="Эргономичная ручка двери с замком" Color="Color.Primary" Dense="true" />
-                                <MudCheckBox @bind-Value="baseConfig.HasShelf" Label="Полка для ноутбука/приборов внутренняя" Color="Color.Primary" Dense="true" />
+                                <MudText Typo="Typo.subtitle2" Color="Color.Primary"><b>Дополнительная комплектация каркаса:</b></MudText>
+
+                                @* НОВЫЕ ЧЕКБОКСЫ АЙТЕМОВ ПРОВЕНТО *@
+                                <MudCheckBox @bind-Value="baseConfig.HasEyebolts" Label="Рым-болты для транспортировки (4 шт.)" Color="Color.Primary" Dense="true" />
+                                <MudCheckBox @bind-Value="baseConfig.HasRoofCablePanel" Label="Потолочная панель с кабельным вводом" Color="Color.Primary" Dense="true" />
                                 
+                                <MudCheckBox @bind-Value="baseConfig.HasPocket" Label="Карман для документации на дверь" Color="Color.Primary" Dense="true" />
+                                <MudCheckBox @bind-Value="baseConfig.HasSupportBase" Label="Подставка шкафа для документации" Color="Color.Primary" Dense="true" />
+
+                                <MudCheckBox @bind-Value="baseConfig.HasMountPanel" Label="Дополнительная монтажная панель" Color="Color.Primary" Dense="true" />
+                                <MudCheckBox @bind-Value="baseConfig.HasCabinetDoor" Label="Дополнительная дверь шкафа" Color="Color.Primary" Dense="true" />
+
+                                <MudCheckBox @bind-Value="baseConfig.HasDoorRails" Label="Монтажные рейки для глухой двери" Color="Color.Primary" Dense="true" />
+
+                                <MudCheckBox @bind-Value="baseConfig.HasLighting" Label="Светодиодный шкафной светильник (~220В)" Color="Color.Primary" Dense="true" />
+                                <MudCheckBox @bind-Value="baseConfig.HasLimitSwitch" Label="Концевой выключатель подсветки/двери" Color="Color.Primary" Dense="true" />
+
                                 <MudDivider Class="my-2" />
                                 <MudGrid Spacing="1">
                                     <MudItem xs="6">

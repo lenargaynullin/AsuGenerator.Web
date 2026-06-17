@@ -25,6 +25,15 @@ public class BaseCabinetConfig
     public string FanModel { get; set; } = "FA 12.230";
     public string Manufacturer { get; set; } = "ПРОВЕНТО";
 
+    public bool HasEyebolts { get; set; }        // Рым-болты
+    public bool HasDoorRails { get; set; }       // Рейка для глухой двери
+    public bool HasRoofCablePanel { get; set; }  // Потолочная панель с вводом для кабелей
+    public bool HasSupportBase { get; set; }     // Подставка
+    public bool HasMountPanel { get; set; }      // Монтажная панель
+    public bool HasCabinetDoor { get; set; }     // Дверь
+    public bool HasLimitSwitch { get; set; }     // Концевой выключатель
+
+
     // Оборудование
     public string TerminalVendor { get; set; } = "STEZ";
     public int TerminalReservePercent { get; set; } = 10;

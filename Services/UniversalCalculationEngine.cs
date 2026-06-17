@@ -62,18 +62,19 @@ namespace AsuGenerator.Web.Services
                     {
                         finalSpec.Add(new SelectedComponent
                         {
-                            Designation = "Карман док.",
+                            Designation = "",
                             Vendor = "ПРОВЕНТО",
                             Description = $"Карман для документации",
                             Article = $"DP 40 M",
                             Quantity = 1
                         });
-                    };
+                    }
+                    ;
                     if (cabinetWidth == 500 && cabinetWidth == 1000)
                     {
                         finalSpec.Add(new SelectedComponent
                         {
-                            Designation = "Карман док.",
+                            Designation = "",
                             Vendor = "ПРОВЕНТО",
                             Description = $"Карман для документации",
                             Article = $"DP 50 M",
@@ -85,18 +86,19 @@ namespace AsuGenerator.Web.Services
                     {
                         finalSpec.Add(new SelectedComponent
                         {
-                            Designation = "Карман док.",
+                            Designation = "",
                             Vendor = "ПРОВЕНТО",
                             Description = $"Карман для документации",
                             Article = $"DP 60 M",
                             Quantity = 1
                         });
-                    };
+                    }
+                    ;
                     if (cabinetWidth == 800)
                     {
                         finalSpec.Add(new SelectedComponent
                         {
-                            Designation = "Карман док.",
+                            Designation = "",
                             Vendor = "ПРОВЕНТО",
                             Description = $"Карман для документации",
                             Article = $"DP 80 M",
@@ -104,11 +106,12 @@ namespace AsuGenerator.Web.Services
                         });
                     }
                     ;
-                } else
+                }
+                else
                 { // Карман пластиковый
                     finalSpec.Add(new SelectedComponent
                     {
-                        Designation = "Карман док.",
+                        Designation = "",
                         Vendor = "ПРОВЕНТО",
                         Description = $"Карман для документации",
                         Article = $"DP 40 P",
@@ -121,7 +124,7 @@ namespace AsuGenerator.Web.Services
                 {
                     finalSpec.Add(new SelectedComponent
                     {
-                        Designation = "Ручка двери",
+                        Designation = "",
                         Vendor = "ПРОВЕНТО",
                         Description = "Ручка поворотная с цилиндром",
                         Article = "LH 1C.Z",
@@ -129,26 +132,21 @@ namespace AsuGenerator.Web.Services
                     });
                 }
 
-                // 3. Внутренние стационарные полки (подбираются строго под ширину и глубину рамы)
-                if (config.HasShelf && cabinetWidth > 0 && cabinetDepth > 0)
+                // 3. Подставка (Добавить Кнопку-переключатель в конфигураторе)
+                if (config.MountType == "Напольный" && config.HasSupportBase && cabinetHeight > 0 && cabinetDepth > 0)
                 {
-                    finalSpec.Add(new SelectedComponent
-                    {
-                        Designation = "Полка",
-                        Vendor = "ПРОВЕНТО",
-                        Description = $"Полка фиксированная стационарная для приборов в шкаф шириной {cabinetWidth}мм и глубиной {cabinetDepth}мм",
-                        Article = $"PPS {cabinetWidth / 10}.{cabinetDepth / 10}",
-                        Quantity = 1
-                    });
+                    if (cabinetWidth == 1000) finalSpec.Add(new SelectedComponent { Designation = "", Vendor = "ПРОВЕНТО", Description = "Подставка шкафа", Article = "SH 50 D", Quantity = 1 });
+                    if (cabinetWidth == 600 || cabinetWidth == 1200) finalSpec.Add(new SelectedComponent { Designation = "", Vendor = "ПРОВЕНТО", Description = "Подставка шкафа", Article = "SH 60 D", Quantity = 1 });
+                    if (cabinetWidth == 800) finalSpec.Add(new SelectedComponent { Designation = "", Vendor = "ПРОВЕНТО", Description = "Подставка шкафа", Article = "SH 80 D", Quantity = 1 });
                 }
 
                 // 4. Светильник (Добавить Кнопку-переключатель в конфигураторе)
-                
+
                 if (config.HasLighting == true) // Светильник завяжем на тип шкафа или можно добавить как чекбокс config.HasLighting
                 {
                     finalSpec.Add(new SelectedComponent
                     {
-                        Designation = "Светильник",
+                        Designation = "HL",
                         Vendor = "ПРОВЕНТО",
                         Description = "Светильник светодиодный, ~220В",
                         Article = "LA 5 LED",
@@ -166,7 +164,7 @@ namespace AsuGenerator.Web.Services
                     {
                         finalSpec.Add(new SelectedComponent
                         {
-                            Designation = "Цоколь (ф/з)",
+                            Designation = "",
                             Vendor = "ПРОВЕНТО",
                             Description = $"Передние и задние элементы цоколя высота {heightDigits} мм",
                             Article = $"ZA {cabinetWidth / 10}.00",
@@ -175,20 +173,21 @@ namespace AsuGenerator.Web.Services
 
                         finalSpec.Add(new SelectedComponent
                         {
-                            Designation = "Цоколь (бок)",
+                            Designation = "",
                             Vendor = "ПРОВЕНТО",
                             Description = $"Боковые элементы цоколя высота {heightDigits} мм",
                             Article = $"ZA 00.{cabinetDepth / 10}",
                             Quantity = 1
                         });
-                    };
+                    }
+                    ;
 
                     // Высота 200 мм
                     if (heightDigits == "200")
                     {
                         finalSpec.Add(new SelectedComponent
                         {
-                            Designation = "Цоколь (ф/з)",
+                            Designation = "",
                             Vendor = "ПРОВЕНТО",
                             Description = $"Передние и задние элементы цоколя высота {heightDigits} мм",
                             Article = $"ZA {cabinetWidth / 10}.00 H",
@@ -197,7 +196,7 @@ namespace AsuGenerator.Web.Services
 
                         finalSpec.Add(new SelectedComponent
                         {
-                            Designation = "Цоколь (бок)",
+                            Designation = "",
                             Vendor = "ПРОВЕНТО",
                             Description = $"Боковые элементы цоколя высота {heightDigits} мм",
                             Article = $"ZA 00.{cabinetDepth / 10} H",
@@ -212,7 +211,7 @@ namespace AsuGenerator.Web.Services
                 {
                     finalSpec.Add(new SelectedComponent
                     {
-                        Designation = "Панели бок.",
+                        Designation = "",
                         Vendor = "ПРОВЕНТО",
                         Description = $"Боковые панели (высота {cabinetHeight} мм, глубина {cabinetDepth} мм)",
                         Article = $"SP {cabinetHeight / 10}.{cabinetDepth / 10}",
@@ -220,160 +219,44 @@ namespace AsuGenerator.Web.Services
                     });
                 }
                 // 7. Рым болт (Добавить Кнопку-переключатель в конфигураторе)
-                if (config.MountType == "Напольный" && cabinetHeight > 0 && cabinetDepth > 0)
+                if (config.MountType == "Напольный" && config.HasEyebolts && cabinetHeight > 0 && cabinetDepth > 0)
                 {
-                    finalSpec.Add(new SelectedComponent
-                    {
-                        Designation = "Рым болт",
-                        Vendor = "ПРОВЕНТО",
-                        Description = $"Рым болт",
-                        Article = $"LE 12",
-                        Quantity = 4
-                    });
+                    finalSpec.Add(new SelectedComponent { Designation = "", Vendor = "ПРОВЕНТО", Description = "Рым болт (комплект 4 шт.)", Article = "LE 12", Quantity = 4 });
                 }
                 // 8. Концевой выключатель (Добавить Кнопку-переключатель в конфигураторе)
-                if (config.MountType == "Напольный" && cabinetHeight > 0 && cabinetDepth > 0)
+                if (config.MountType == "Напольный" && config.HasLimitSwitch && cabinetHeight > 0 && cabinetDepth > 0)
                 {
-                    finalSpec.Add(new SelectedComponent
-                    {
-                        Designation = "Концевой выключатель",
-                        Vendor = "ПРОВЕНТО",
-                        Description = $"Концевой выключатель",
-                        Article = $"SW 01",
-                        Quantity = 1
-                    });
+                    finalSpec.Add(new SelectedComponent { Designation = "", Vendor = "ПРОВЕНТО", Description = "Концевой выключатель двери шкафа", Article = "SW 01", Quantity = 1 });
                 }
-                // 9. Рейка для глухой двери (Добавить Кнопку-переключатель в конфигураторе)
-                if (config.MountType == "Напольный" && cabinetHeight > 0 && cabinetDepth > 0)
+                // 9. Рейка для глухой двери (Связано с чекбоксом UI)
+                if (config.MountType == "Напольный" && config.HasDoorRails && cabinetHeight > 0 && cabinetDepth > 0)
                 {
-                    if (cabinetWidth == 400)
-                    {
-                        finalSpec.Add(new SelectedComponent
-                        {
-                            Designation = "Рейка для глухой двери",
-                            Vendor = "ПРОВЕНТО",
-                            Description = $"Рейка для глухой двери",
-                            Article = $"VB 40 G",
-                            Quantity = 1
-                        });
-                    };
-                    if (cabinetWidth == 500 && cabinetWidth == 1000)
-                    {
-                        finalSpec.Add(new SelectedComponent
-                        {
-                            Designation = "Рейка для глухой двери",
-                            Vendor = "ПРОВЕНТО",
-                            Description = $"Рейка для глухой двери",
-                            Article = $"VB 50 G",
-                            Quantity = 1
-                        });
-                    }
-                    ;
-                    if (cabinetWidth == 600)
-                    {
-                        finalSpec.Add(new SelectedComponent
-                        {
-                            Designation = "Рейка для глухой двери",
-                            Vendor = "ПРОВЕНТО",
-                            Description = $"Рейка для глухой двери",
-                            Article = $"VB 60 G",
-                            Quantity = 1
-                        });
-                    }
-                    ;
-                    if (cabinetWidth == 800)
-                    {
-                        finalSpec.Add(new SelectedComponent
-                        {
-                            Designation = "Рейка для глухой двери",
-                            Vendor = "ПРОВЕНТО",
-                            Description = $"Рейка для глухой двери",
-                            Article = $"VB 80 G",
-                            Quantity = 1
-                        });
-                    }
-                    ;
+                    if (cabinetWidth == 400) finalSpec.Add(new SelectedComponent { Designation = "", Vendor = "ПРОВЕНТО", Description = "Рейка для глухой двери", Article = "VB 40 G", Quantity = 1 });
+                    if (cabinetWidth == 500 || cabinetWidth == 1000) finalSpec.Add(new SelectedComponent { Designation = "", Vendor = "ПРОВЕНТО", Description = "Рейка для глухой двери", Article = "VB 50 G", Quantity = 1 });
+                    if (cabinetWidth == 600 || cabinetWidth == 1200) finalSpec.Add(new SelectedComponent { Designation = "", Vendor = "ПРОВЕНТО", Description = "Рейка для глухой двери", Article = "VB 60 G", Quantity = 1 });
+                    if (cabinetWidth == 800) finalSpec.Add(new SelectedComponent { Designation = "", Vendor = "ПРОВЕНТО", Description = "Рейка для глухой двери", Article = "VB 80 G", Quantity = 1 });
                 }
-            }
-            // 10. Потолочная панель (Добавить Кнопку-переключатель в конфигураторе)
-            if (config.MountType == "Напольный" && cabinetHeight > 0 && cabinetDepth > 0)
-            {
-                    finalSpec.Add(new SelectedComponent
-                    {
-                        Designation = "Потолочная панель с вводом для кабелей",
-                        Vendor = "ПРОВЕНТО",
-                        Description = $"Потолочная панель с вводом для кабелей",
-                        Article = $"R {cabinetWidth / 10}.{cabinetDepth / 10} PK",
-                        Quantity = 1
-                    });
-            }
-            // 11. Подставка (Добавить Кнопку-переключатель в конфигураторе)
-            if (config.MountType == "Напольный" && cabinetHeight > 0 && cabinetDepth > 0)
-            {
-                if (cabinetWidth == 1000)
+                // 10. Потолочная панель (Связано с чекбоксом UI)
+                if (config.MountType == "Напольный" && config.HasRoofCablePanel && cabinetHeight > 0 && cabinetDepth > 0)
                 {
-                    finalSpec.Add(new SelectedComponent
-                    {
-                        Designation = "Подставка",
-                        Vendor = "ПРОВЕНТО",
-                        Description = $"Подставка",
-                        Article = $"SH 50 D",
-                        Quantity = 1
-                    });
+                    finalSpec.Add(new SelectedComponent { Designation = "", Vendor = "ПРОВЕНТО", Description = "Потолочная панель с перфорацией и вводом для кабелей", Article = $"R {cabinetWidth / 10}.{cabinetDepth / 10} PK", Quantity = 1 });
                 }
-                if (cabinetWidth == 600 && cabinetWidth == 1200)
+                // 11. Монтажная панель (Связано с чекбоксом UI)
+                if (config.MountType == "Напольный" && config.HasMountPanel && cabinetHeight > 0 && cabinetDepth > 0)
                 {
-                    finalSpec.Add(new SelectedComponent
-                    {
-                        Designation = "Подставка",
-                        Vendor = "ПРОВЕНТО",
-                        Description = $"Подставка",
-                        Article = $"SH 60 D",
-                        Quantity = 1
-                    });
+                    finalSpec.Add(new SelectedComponent { Designation = "", Vendor = "ПРОВЕНТО", Description = "Монтажная панель внутренняя", Article = $"MP {cabinetWidth / 10}.{cabinetDepth / 10}", Quantity = 1 });
                 }
-                if (cabinetWidth == 800)
+                // 12. Дверь (Связано с чекбоксом UI)
+                if (config.MountType == "Напольный" && config.HasCabinetDoor && cabinetHeight > 0 && cabinetDepth > 0)
                 {
-                    finalSpec.Add(new SelectedComponent
-                    {
-                        Designation = "Подставка",
-                        Vendor = "ПРОВЕНТО",
-                        Description = $"Подставка",
-                        Article = $"SH 80 D",
-                        Quantity = 1
-                    });
+                    finalSpec.Add(new SelectedComponent { Designation = "", Vendor = "ПРОВЕНТО", Description = "Дверь передняя глухая", Article = $"D {cabinetWidth / 10}.{cabinetDepth / 10}", Quantity = 1 });
                 }
-            }
-            // 12. Монтажная панель (Добавить Кнопку-переключатель в конфигураторе)
-            if (config.MountType == "Напольный" && cabinetHeight > 0 && cabinetDepth > 0)
-            {
-                finalSpec.Add(new SelectedComponent
-                {
-                    Designation = "Монтажная панель",
-                    Vendor = "ПРОВЕНТО",
-                    Description = $"Монтажная панель",
-                    Article = $"MP {cabinetWidth / 10}.{cabinetDepth / 10}",
-                    Quantity = 1
-                });
-            }
-            // 13. Дверь (Добавить Кнопку-переключатель в конфигураторе)
-            if (config.MountType == "Напольный" && cabinetHeight > 0 && cabinetDepth > 0)
-            {
-                finalSpec.Add(new SelectedComponent
-                {
-                    Designation = "Дверь",
-                    Vendor = "ПРОВЕНТО",
-                    Description = $"Дверь",
-                    Article = $"D {cabinetWidth / 10}.{cabinetDepth / 10}",
-                    Quantity = 1
-                });
             }
 
-
-            // ----------------------------------------------------
-            // ШАГ 2 LOGIC: ПОДБОР КОНТРОЛЛЕРА ОВЕН ИЗ JSON
-            // ----------------------------------------------------
-            string plcJsonPath = Path.Combine(_env.WebRootPath, "Configs", "plc-base.json");
+                // ----------------------------------------------------
+                // ШАГ 2 LOGIC: ПОДБОР КОНТРОЛЛЕРА ОВЕН ИЗ JSON
+                // ----------------------------------------------------
+                string plcJsonPath = Path.Combine(_env.WebRootPath, "Configs", "plc-base.json");
             if (File.Exists(plcJsonPath))
             {
                 var plcs = JsonSerializer.Deserialize<List<JsonPlcItem>>(File.ReadAllText(plcJsonPath));
