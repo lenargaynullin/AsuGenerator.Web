@@ -114,20 +114,49 @@
                             <MudItem xs="12" sm="6" Class="d-flex flex-column gap-2">
                                 <MudText Typo="Typo.subtitle2" Color="Color.Primary"><b>Дополнительная комплектация каркаса:</b></MudText>
 
-                                @* НОВЫЕ ЧЕКБОКСЫ АЙТЕМОВ ПРОВЕНТО *@
-                                <MudCheckBox @bind-Value="baseConfig.HasEyebolts" Label="Рым-болты для транспортировки (4 шт.)" Color="Color.Primary" Dense="true" />
-                                <MudCheckBox @bind-Value="baseConfig.HasRoofCablePanel" Label="Потолочная панель с кабельным вводом" Color="Color.Primary" Dense="true" />
-                                
+                                @* Эти опции доступны и для навесных, и для напольных шкафов *@
                                 <MudCheckBox @bind-Value="baseConfig.HasPocket" Label="Карман для документации на дверь" Color="Color.Primary" Dense="true" />
-                                <MudCheckBox @bind-Value="baseConfig.HasSupportBase" Label="Подставка шкафа для документации" Color="Color.Primary" Dense="true" />
-
-                                <MudCheckBox @bind-Value="baseConfig.HasMountPanel" Label="Дополнительная монтажная панель" Color="Color.Primary" Dense="true" />
-                                <MudCheckBox @bind-Value="baseConfig.HasCabinetDoor" Label="Дополнительная дверь шкафа" Color="Color.Primary" Dense="true" />
-
-                                <MudCheckBox @bind-Value="baseConfig.HasDoorRails" Label="Монтажные рейки для глухой двери" Color="Color.Primary" Dense="true" />
-
                                 <MudCheckBox @bind-Value="baseConfig.HasLighting" Label="Светодиодный шкафной светильник (~220В)" Color="Color.Primary" Dense="true" />
-                                <MudCheckBox @bind-Value="baseConfig.HasLimitSwitch" Label="Концевой выключатель подсветки/двери" Color="Color.Primary" Dense="true" />
+                                <MudCheckBox @bind-Value="baseConfig.HasLimitSwitch" Label="Концевой выключатель двери" Color="Color.Primary" Dense="true" />
+
+
+                                @* ИСПРАВЛЕНО: Эти опции жестко блокируются и горят серым, если выбран тип шкафа "Навесной" *@
+                                <MudCheckBox @bind-Value="baseConfig.HasEyebolts"
+                                             Label="Рым-болты для транспортировки (4 шт.)"
+                                             Color="Color.Primary"
+                                             Dense="true"
+                                             Disabled="@(baseConfig.MountType == "Навесной")" />
+
+                                <MudCheckBox @bind-Value="baseConfig.HasDoorRails"
+                                             Label="Монтажные рейки для глухой двери"
+                                             Color="Color.Primary"
+                                             Dense="true"
+                                             Disabled="@(baseConfig.MountType == "Навесной")" />
+
+                                <MudCheckBox @bind-Value="baseConfig.HasRoofCablePanel"
+                                             Label="Потолочная панель с кабельным вводом"
+                                             Color="Color.Primary"
+                                             Dense="true"
+                                             Disabled="@(baseConfig.MountType == "Навесной")" />
+
+                                <MudCheckBox @bind-Value="baseConfig.HasSupportBase"
+                                             Label="Подставка шкафа для документации"
+                                             Color="Color.Primary"
+                                             Dense="true"
+                                             Disabled="@(baseConfig.MountType == "Навесной")" />
+
+                                <MudCheckBox @bind-Value="baseConfig.HasMountPanel"
+                                             Label="Дополнительная монтажная панель"
+                                             Color="Color.Primary"
+                                             Dense="true"
+                                             Disabled="@(baseConfig.MountType == "Навесной")" />
+
+                                <MudCheckBox @bind-Value="baseConfig.HasCabinetDoor"
+                                             Label="Дополнительная дверь шкафа"
+                                             Color="Color.Primary"
+                                             Dense="true"
+                                             Disabled="@(baseConfig.MountType == "Навесной")" />
+
 
                                 <MudDivider Class="my-2" />
                                 <MudGrid Spacing="1">
@@ -696,6 +725,19 @@
         {
             selectedDimensions = AvailableDimensions.FirstOrDefault() ?? "";
         }
+        // КРИТИЧЕСКИЙ СБРОС: Если тип шкафа стал Навесным, принудительно снимаем галочки напольных опций
+        if (baseConfig.MountType == "Навесной")
+        {
+            baseConfig.HasEyebolts = false;
+            baseConfig.HasDoorRails = false;
+            baseConfig.HasRoofCablePanel = false;
+            baseConfig.HasSupportBase = false;
+            baseConfig.HasMountPanel = false;
+            baseConfig.HasCabinetDoor = false;
+            baseConfig.PlinthHeight = "Нет"; // Цоколь навесному шкафу тоже не положен
+        }
+
+        StateHasChanged(); // Обновляем интерфейс
     }
 
     // Красивое форматирование строки "2000×800×600" в "2000 х 800 х 600 мм" для пользователя
