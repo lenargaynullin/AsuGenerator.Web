@@ -137,12 +137,30 @@
                                             <MudSelectItem Value="@("200 мм")">200 мм</MudSelectItem>
                                         </MudSelect>
                                     </MudItem>
-                                    <MudItem xs="6">
-                                        <MudSelect T="string" Label="Вентилятор фильтр." @bind-Value="baseConfig.FanModel" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense">
-                                            <MudSelectItem Value="@("FA 12.230")">FA 12.230</MudSelectItem>
-                                            <MudSelectItem Value="@("FA 13.230")">FA 13.230</MudSelectItem>
-                                        </MudSelect>
-                                    </MudItem>
+                                    <div class="d-flex gap-2" style="width: 100%;">
+                                        @* Выбор модели вентилятора (занимает 75% ширины строки) *@
+                                        <div style="flex: 3;">
+                                            <MudSelect T="string" Label="Вентилятор фильтр." @bind-Value="baseConfig.FanModel" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense">
+                                                <MudSelectItem Value="@("FA 12.230")">FA 12.230 (15 х 15 см, 138 м³/ч)</MudSelectItem>
+                                                <MudSelectItem Value="@("FA 13.230")">FA 13.230 (20 х 20 см, 272 м³/ч)</MudSelectItem>
+                                                <MudSelectItem Value="@("FA 15.230")">FA 15.230 (25 х 25 см, 272 м³/ч)</MudSelectItem>
+                                                <MudSelectItem Value="@("FA 08.230")">FA 08.230 (10 х 10 см, 39 м³/ч)</MudSelectItem>
+                                                <MudSelectItem Value="@("FA 20.230")">FA 20.230 (32 х 32 см, 800 м³/ч)</MudSelectItem>
+                                            </MudSelect>
+                                            <MudText Typo="Typo.caption" Color="Color.Secondary" Class="mt-2 font-italic">
+                                                * Система автоматически добавит Решетку с фильтром
+                                            </MudText>
+                                        </div>
+
+                                        @* НОВЫЙ ВЫПАДАЮЩИЙ СПИСОК: Выбор количества (занимает 25% ширины строки) *@
+                                        <div style="flex: 1;">
+                                            <MudSelect T="int" Label="Кол-во" @bind-Value="baseConfig.FanQuantity" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense">
+                                                <MudSelectItem Value="1">1 шт.</MudSelectItem>
+                                                <MudSelectItem Value="2">2 шт.</MudSelectItem>
+                                            </MudSelect>
+                                        </div>
+                                    </div>
+
                                 </MudGrid>
                             </MudItem>
                         </MudGrid>

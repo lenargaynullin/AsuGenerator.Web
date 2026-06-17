@@ -42,6 +42,7 @@ public class BaseCabinetConfig
     public string TrunkingMaterial { get; set; } = "ПВХ";
     public bool AutoCalculateTrunking { get; set; } = true;
     public bool IncludeWireAndFerrules { get; set; } = false;
+    public int FanQuantity { get; set; }
 
     // Событие для сброса габаритов
     public event Action<string>? OnIpRatingChanged;

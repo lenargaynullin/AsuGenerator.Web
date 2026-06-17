@@ -251,12 +251,82 @@ namespace AsuGenerator.Web.Services
                 {
                     finalSpec.Add(new SelectedComponent { Designation = "", Vendor = "ПРОВЕНТО", Description = "Дверь передняя глухая", Article = $"D {cabinetWidth / 10}.{cabinetDepth / 10}", Quantity = 1 });
                 }
+                // 13. Подбор вентилятора Провенто с учетом выбранного на UI количества
+                if (!string.IsNullOrEmpty(config.FanModel) && config.FanModel != "Нет")
+                {
+                    finalSpec.Add(new SelectedComponent
+                    {
+                        Designation = "",
+                        Vendor = "ПРОВЕНТО",
+                        Description = $"Вентилятор фильтрующий 230 В",
+                        Article = config.FanModel,
+                        Quantity = config.FanQuantity // ИСПРАВЛЕНО: Теперь подставляется живое количество 1 или 2!
+                    });
+
+                    // Инженерная фишка: Выпускной фильтр (решетка) всегда заказывается в таком же количестве!
+                    if (config.FanModel == "FA 12.230")
+                    {
+                        finalSpec.Add(new SelectedComponent
+                        {
+                            Designation = "",
+                            Vendor = "ПРОВЕНТО",
+                            Description = $"Решетка с фильтром",
+                            Article = "FF 12 D",
+                            Quantity = config.FanQuantity
+                        });
+                    }
+                    if (config.FanModel == "FA 13.230")
+                    {
+                        finalSpec.Add(new SelectedComponent
+                        {
+                            Designation = "",
+                            Vendor = "ПРОВЕНТО",
+                            Description = $"Решетка с фильтром",
+                            Article = "FF 13 D",
+                            Quantity = config.FanQuantity
+                        });
+                    }
+                    if (config.FanModel == "FA 15.230")
+                    {
+                        finalSpec.Add(new SelectedComponent
+                        {
+                            Designation = "",
+                            Vendor = "ПРОВЕНТО",
+                            Description = $"Решетка с фильтром",
+                            Article = "FF 15 D",
+                            Quantity = config.FanQuantity
+                        });
+                    }
+                    if (config.FanModel == "FA 08.230")
+                    {
+                        finalSpec.Add(new SelectedComponent
+                        {
+                            Designation = "",
+                            Vendor = "ПРОВЕНТО",
+                            Description = $"Решетка с фильтром",
+                            Article = "FF 08 D",
+                            Quantity = config.FanQuantity
+                        });
+                    }
+                    if (config.FanModel == "FA 20.230")
+                    {
+                        finalSpec.Add(new SelectedComponent
+                        {
+                            Designation = "",
+                            Vendor = "ПРОВЕНТО",
+                            Description = $"Решетка с фильтром",
+                            Article = "FF 20 D",
+                            Quantity = config.FanQuantity
+                        });
+                    }
+                }
+
             }
 
-                // ----------------------------------------------------
-                // ШАГ 2 LOGIC: ПОДБОР КОНТРОЛЛЕРА ОВЕН ИЗ JSON
-                // ----------------------------------------------------
-                string plcJsonPath = Path.Combine(_env.WebRootPath, "Configs", "plc-base.json");
+            // ----------------------------------------------------
+            // ШАГ 2 LOGIC: ПОДБОР КОНТРОЛЛЕРА ОВЕН ИЗ JSON
+            // ----------------------------------------------------
+            string plcJsonPath = Path.Combine(_env.WebRootPath, "Configs", "plc-base.json");
             if (File.Exists(plcJsonPath))
             {
                 var plcs = JsonSerializer.Deserialize<List<JsonPlcItem>>(File.ReadAllText(plcJsonPath));
