@@ -2,19 +2,569 @@
     {
         "Manufacturer": "КЭАЗ",
         "Poles": 1,
+        "Current": 10,
+        "Curve": "C",
+        "Article": "260501",
+        "Name": "Выключатель автоматический OptiDin BM63-1C10-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 1,
+        "Current": 13,
+        "Curve": "C",
+        "Article": "260502",
+        "Name": "Выключатель автоматический OptiDin BM63-1C13-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 1,
         "Current": 16,
         "Curve": "C",
-        "Article": "1002345",
-        "Name": "Выключатель автоматический OptiDin ВМ63-1C16-УХЛ4 (КЭАЗ)",
-        "Price": 450
+        "Article": "260503",
+        "Name": "Выключатель автоматический OptiDin BM63-1C16-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 1,
+        "Current": 1,
+        "Curve": "C",
+        "Article": "260504",
+        "Name": "Выключатель автоматический OptiDin BM63-1C1-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 1,
+        "Current": 20,
+        "Curve": "C",
+        "Article": "260505",
+        "Name": "Выключатель автоматический OptiDin BM63-1C20-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 1,
+        "Current": 25,
+        "Curve": "C",
+        "Article": "260506",
+        "Name": "Выключатель автоматический OptiDin BM63-1C25-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 1,
+        "Current": 2,
+        "Curve": "C",
+        "Article": "260507",
+        "Name": "Выключатель автоматический OptiDin BM63-1C2-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 1,
+        "Current": 32,
+        "Curve": "C",
+        "Article": "260508",
+        "Name": "Выключатель автоматический OptiDin BM63-1C32-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 1,
+        "Current": 3,
+        "Curve": "C",
+        "Article": "260509",
+        "Name": "Выключатель автоматический OptiDin BM63-1C3-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 1,
+        "Current": 40,
+        "Curve": "C",
+        "Article": "260510",
+        "Name": "Выключатель автоматический OptiDin BM63-1C40-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 1,
+        "Current": 4,
+        "Curve": "C",
+        "Article": "260511",
+        "Name": "Выключатель автоматический OptiDin BM63-1C4-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 1,
+        "Current": 50,
+        "Curve": "C",
+        "Article": "260512",
+        "Name": "Выключатель автоматический OptiDin BM63-1C50-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 1,
+        "Current": 5,
+        "Curve": "C",
+        "Article": "260513",
+        "Name": "Выключатель автоматический OptiDin BM63-1C5-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 1,
+        "Current": 63,
+        "Curve": "C",
+        "Article": "260514",
+        "Name": "Выключатель автоматический OptiDin BM63-1C63-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 1,
+        "Current": 6,
+        "Curve": "C",
+        "Article": "260515",
+        "Name": "Выключатель автоматический OptiDin BM63-1C6-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 1,
+        "Current": 8,
+        "Curve": "C",
+        "Article": "260516",
+        "Name": "Выключатель автоматический OptiDin BM63-1C8-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 1,
+        "Current": 10,
+        "Curve": "C",
+        "Article": "293214",
+        "Name": "Выключатель автоматический OptiDin BM63-1C10-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 1,
+        "Current": 16,
+        "Curve": "C",
+        "Article": "293215",
+        "Name": "Выключатель автоматический OptiDin BM63-1C16-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 1,
+        "Current": 20,
+        "Curve": "C",
+        "Article": "293216",
+        "Name": "Выключатель автоматический OptiDin BM63-1C20-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 1,
+        "Current": 25,
+        "Curve": "C",
+        "Article": "293219",
+        "Name": "Выключатель автоматический OptiDin BM63-1C25-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 1,
+        "Current": 32,
+        "Curve": "C",
+        "Article": "293220",
+        "Name": "Выключатель автоматический OptiDin BM63-1C32-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 1,
+        "Current": 40,
+        "Curve": "C",
+        "Article": "293222",
+        "Name": "Выключатель автоматический OptiDin BM63-1C40-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 1,
+        "Current": 6,
+        "Curve": "C",
+        "Article": "293223",
+        "Name": "Выключатель автоматический OptiDin BM63-1C6-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 2,
+        "Current": 1,
+        "Curve": "C",
+        "Article": "260600",
+        "Name": "Выключатель автоматический OptiDin BM63-2C1-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 2,
+        "Current": 2,
+        "Curve": "C",
+        "Article": "260603",
+        "Name": "Выключатель автоматический OptiDin BM63-2C2-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 2,
+        "Current": 3,
+        "Curve": "C",
+        "Article": "260605",
+        "Name": "Выключатель автоматический OptiDin BM63-2C3-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 2,
+        "Current": 4,
+        "Curve": "C",
+        "Article": "260607",
+        "Name": "Выключатель автоматический OptiDin BM63-2C4-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 2,
+        "Current": 5,
+        "Curve": "C",
+        "Article": "260609",
+        "Name": "Выключатель автоматический OptiDin BM63-2C5-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 2,
+        "Current": 6,
+        "Curve": "C",
+        "Article": "260611",
+        "Name": "Выключатель автоматический OptiDin BM63-2C6-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 2,
+        "Current": 8,
+        "Curve": "C",
+        "Article": "260612",
+        "Name": "Выключатель автоматический OptiDin BM63-2C8-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 2,
+        "Current": 10,
+        "Curve": "C",
+        "Article": "260597",
+        "Name": "Выключатель автоматический OptiDin BM63-2C10-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 2,
+        "Current": 13,
+        "Curve": "C",
+        "Article": "260598",
+        "Name": "Выключатель автоматический OptiDin BM63-2C13-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 2,
+        "Current": 16,
+        "Curve": "C",
+        "Article": "260599",
+        "Name": "Выключатель автоматический OptiDin BM63-2C16-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 2,
+        "Current": 20,
+        "Curve": "C",
+        "Article": "260601",
+        "Name": "Выключатель автоматический OptiDin BM63-2C20-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 2,
+        "Current": 25,
+        "Curve": "C",
+        "Article": "260602",
+        "Name": "Выключатель автоматический OptiDin BM63-2C25-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 2,
+        "Current": 32,
+        "Curve": "C",
+        "Article": "260604",
+        "Name": "Выключатель автоматический OptiDin BM63-2C32-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 2,
+        "Current": 40,
+        "Curve": "C",
+        "Article": "260606",
+        "Name": "Выключатель автоматический OptiDin BM63-2C40-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 2,
+        "Current": 50,
+        "Curve": "C",
+        "Article": "260608",
+        "Name": "Выключатель автоматический OptiDin BM63-2C50-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 2,
+        "Current": 63,
+        "Curve": "C",
+        "Article": "260610",
+        "Name": "Выключатель автоматический OptiDin BM63-2C63-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 3,
+        "Current": 1,
+        "Curve": "C",
+        "Article": "260792",
+        "Name": "Выключатель автоматический OptiDin BM63-3C1-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 3,
+        "Current": 2,
+        "Curve": "C",
+        "Article": "260795",
+        "Name": "Выключатель автоматический OptiDin BM63-3C2-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 3,
+        "Current": 3,
+        "Curve": "C",
+        "Article": "260797",
+        "Name": "Выключатель автоматический OptiDin BM63-3C3-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 3,
+        "Current": 4,
+        "Curve": "C",
+        "Article": "260799",
+        "Name": "Выключатель автоматический OptiDin BM63-3C4-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 3,
+        "Current": 5,
+        "Curve": "C",
+        "Article": "260801",
+        "Name": "Выключатель автоматический OptiDin BM63-3C5-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 3,
+        "Current": 6,
+        "Curve": "C",
+        "Article": "260803",
+        "Name": "Выключатель автоматический OptiDin BM63-3C6-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 3,
+        "Current": 8,
+        "Curve": "C",
+        "Article": "260804",
+        "Name": "Выключатель автоматический OptiDin BM63-3C8-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 3,
+        "Current": 10,
+        "Curve": "C",
+        "Article": "260789",
+        "Name": "Выключатель автоматический OptiDin BM63-3C10-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 3,
+        "Current": 13,
+        "Curve": "C",
+        "Article": "260790",
+        "Name": "Выключатель автоматический OptiDin BM63-3C13-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 3,
+        "Current": 16,
+        "Curve": "C",
+        "Article": "260791",
+        "Name": "Выключатель автоматический OptiDin BM63-3C16-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 3,
+        "Current": 20,
+        "Curve": "C",
+        "Article": "260793",
+        "Name": "Выключатель автоматический OptiDin BM63-3C20-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 3,
+        "Current": 25,
+        "Curve": "C",
+        "Article": "260794",
+        "Name": "Выключатель автоматический OptiDin BM63-3C25-УХЛ3 (6кА)"
     },
     {
         "Manufacturer": "КЭАЗ",
         "Poles": 3,
         "Current": 32,
         "Curve": "C",
-        "Article": "1002390",
-        "Name": "Выключатель автоматический вводной OptiDin ВМ63-3C32-УХЛ4",
-        "Price": 1650
+        "Article": "260796",
+        "Name": "Выключатель автоматический OptiDin BM63-3C32-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 3,
+        "Current": 40,
+        "Curve": "C",
+        "Article": "260798",
+        "Name": "Выключатель автоматический OptiDin BM63-3C40-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 3,
+        "Current": 50,
+        "Curve": "C",
+        "Article": "260800",
+        "Name": "Выключатель автоматический OptiDin BM63-3C50-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 3,
+        "Current": 63,
+        "Curve": "C",
+        "Article": "260802",
+        "Name": "Выключатель автоматический OptiDin BM63-3C63-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 4,
+        "Current": 1,
+        "Curve": "C",
+        "Article": "260888",
+        "Name": "Выключатель автоматический OptiDin BM63-4C1-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 4,
+        "Current": 2,
+        "Curve": "C",
+        "Article": "260891",
+        "Name": "Выключатель автоматический OptiDin BM63-4C2-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 4,
+        "Current": 3,
+        "Curve": "C",
+        "Article": "260893",
+        "Name": "Выключатель автоматический OptiDin BM63-4C3-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 4,
+        "Current": 4,
+        "Curve": "C",
+        "Article": "260895",
+        "Name": "Выключатель автоматический OptiDin BM63-4C4-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 4,
+        "Current": 5,
+        "Curve": "C",
+        "Article": "260897",
+        "Name": "Выключатель автоматический OptiDin BM63-4C5-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 4,
+        "Current": 6,
+        "Curve": "C",
+        "Article": "260899",
+        "Name": "Выключатель автоматический OptiDin BM63-4C6-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 4,
+        "Current": 8,
+        "Curve": "C",
+        "Article": "260900",
+        "Name": "Выключатель автоматический OptiDin BM63-4C8-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 4,
+        "Current": 10,
+        "Curve": "C",
+        "Article": "260885",
+        "Name": "Выключатель автоматический OptiDin BM63-4C10-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 4,
+        "Current": 13,
+        "Curve": "C",
+        "Article": "260886",
+        "Name": "Выключатель автоматический OptiDin BM63-4C13-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 4,
+        "Current": 16,
+        "Curve": "C",
+        "Article": "260887",
+        "Name": "Выключатель автоматический OptiDin BM63-4C16-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 4,
+        "Current": 20,
+        "Curve": "C",
+        "Article": "260889",
+        "Name": "Выключатель автоматический OptiDin BM63-4C20-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 4,
+        "Current": 25,
+        "Curve": "C",
+        "Article": "260890",
+        "Name": "Выключатель автоматический OptiDin BM63-4C25-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 4,
+        "Current": 32,
+        "Curve": "C",
+        "Article": "260892",
+        "Name": "Выключатель автоматический OptiDin BM63-4C32-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 4,
+        "Current": 40,
+        "Curve": "C",
+        "Article": "260894",
+        "Name": "Выключатель автоматический OptiDin BM63-4C40-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 4,
+        "Current": 50,
+        "Curve": "C",
+        "Article": "260896",
+        "Name": "Выключатель автоматический OptiDin BM63-4C50-УХЛ3 (6кА)"
+    },
+    {
+        "Manufacturer": "КЭАЗ",
+        "Poles": 4,
+        "Current": 63,
+        "Curve": "C",
+        "Article": "260898",
+        "Name": "Выключатель автоматический OptiDin BM63-4C63-УХЛ3 (6кА)"
     }
 ]

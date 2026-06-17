@@ -22,6 +22,25 @@
     </div>
 </div>
 
+@* Баннер *@
+<MudAlert Severity="Severity.Info"
+          Variant="Variant.Filled"
+          Square="true"
+          Class="my-4 roundedpa-4"
+          Style="background-color: #1e293b; color: #f8fafc; border-left: 6px solid var(--mud-palette-warning) !important;">
+    <div class="d-flex align-center gap-3">
+        <MudIcon Icon="@Icons.Material.Filled.RocketLaunch" Color="Color.Warning" Size="Size.Large" />
+        <div>
+            <MudText Typo="Typo.subtitle1" Style="color: var(--mud-palette-warning); font-weight: bold;">
+                Платформа ASU Generator находится в режиме открытого бета-тестирования!
+            </MudText>
+            <MudText Typo="Typo.body2" Style="color: #cbd5e1; font-size: 13px; line-height: 1.5;">
+                До <b>1 августа 2026 года</b> все функции сквозного покомпонентного проектирования шкафов и выгрузка готовых спецификаций в Excel по форме <b>ГОСТ 21.110-2013</b> предоставляются <b>абсолютно бесплатно</b>. После завершения тестирования сервис перейдет на коммерческую подписку, но за первыми инженерами-тестировщиками навсегда зафиксируется скидка 50%.
+            </MudText>
+        </div>
+    </div>
+</MudAlert>
+
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-12 mb-12">
     @* Блок 2: Реальные примеры для скачивания (Снятие скепсиса ГИПов) *@
     <div class="text-center mb-10">

@@ -106,9 +106,11 @@ namespace AsuGenerator.Web.Services
                         });
                     }
                     ;
-                }
-                else
-                { // Карман пластиковый
+                };
+
+                // Карман пластиковый
+                if (config.HasPocket && cabinetWidth > 0 && config.MountType == "Навесной")
+                { 
                     finalSpec.Add(new SelectedComponent
                     {
                         Designation = "",
@@ -252,7 +254,7 @@ namespace AsuGenerator.Web.Services
                     finalSpec.Add(new SelectedComponent { Designation = "", Vendor = "ПРОВЕНТО", Description = "Дверь передняя глухая", Article = $"D {cabinetWidth / 10}.{cabinetDepth / 10}", Quantity = 1 });
                 }
                 // 13. Подбор вентилятора Провенто с учетом выбранного на UI количества
-                if (!string.IsNullOrEmpty(config.FanModel) && config.FanModel != "Нет")
+                if (!string.IsNullOrEmpty(config.FanModel) && config.FanModel != "Нет" && config.FanQuantity != 0)
                 {
                     finalSpec.Add(new SelectedComponent
                     {
@@ -511,15 +513,26 @@ namespace AsuGenerator.Web.Services
                 {
                     // Ищем автомат в JSON по живым параметрам с UI строки таблицы
                     var matchedBreaker = breakers?.FirstOrDefault(b =>
-                        b.Manufacturer == config.Manufacturer &&
+                        b.Manufacturer == config.PreferredBrand &&
                         b.Poles == line.Poles &&
                         b.Current == line.Current &&
                         b.Curve == line.Curve);
 
-                    string desc = matchedBreaker != null ? matchedBreaker.Name : $"Выключатель автоматический {line.Poles}P {line.Current}A {line.Curve}";
-                    string art = matchedBreaker != null ? matchedBreaker.Article : $"{config.Manufacturer}-ВА-{line.Poles}P-{line.Current}A";
+                    // СТАЛО (ИСПРАВЛЕНО):
+                    // Если автомат найден в базе — берем его родное имя, артикул и завод (КЭАЗ/Dekraft). 
+                    // Если не найден — выводим бренд автоматов из свойства PreferredBrand модели.
+                    string desc = matchedBreaker != null ? matchedBreaker.Name : $"Выключатель автоматический модульный {line.Poles}P {line.Current}A хар-ка {line.Curve}";
+                    string art = matchedBreaker != null ? matchedBreaker.Article : $"{config.PreferredBrand}-ВА-{line.Poles}P-{line.Current}A";
+                    string actualVendor = matchedBreaker != null ? matchedBreaker.Manufacturer : config.PreferredBrand;
 
-                    finalSpec.Add(new SelectedComponent { Designation = line.Designation, Vendor = config.Manufacturer, Description = desc, Article = art, Quantity = 1 });
+                    finalSpec.Add(new SelectedComponent 
+                    { 
+                        Designation = line.Designation, 
+                        Vendor = actualVendor, // Сюда упадет КЭАЗ, а не ПРОВЕНТО
+                        Description = desc, 
+                        Article = art, 
+                        Quantity = 1 
+                    });
 
                     // Логика автоматического подбора контакторов
                     if (line.HasContactor)
