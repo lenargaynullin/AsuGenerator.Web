@@ -323,20 +323,58 @@ namespace AsuGenerator.Web.Services
 
             }
 
+                        // ----------------------------------------------------
+            // ШАГ 2 LOGIC: ДИНАМИЧЕСКИЙ НАБОРНЫЙ АРТИКУЛ ОВЕН ПР200
             // ----------------------------------------------------
-            // ШАГ 2 LOGIC: ПОДБОР КОНТРОЛЛЕРА ОВЕН ИЗ JSON
-            // ----------------------------------------------------
-            string plcJsonPath = Path.Combine(_env.WebRootPath, "Configs", "plc-base.json");
-            if (File.Exists(plcJsonPath))
+            if (config.PlcType == "ПР200")
             {
-                var plcs = JsonSerializer.Deserialize<List<JsonPlcItem>>(File.ReadAllText(plcJsonPath));
-                var matchedPlc = plcs?.FirstOrDefault(p => p.PlcType == config.PlcType && p.Protocol == config.Protocol);
+                // Поля из UI: 
+                // config.PlcPower = "220" или "24"
+                // config.PlcDiType = "230В" или "24В" (Питание датчиков DI)
+                // config.PlcInterfaces = "0", "1" или "2" (Интерфейсы RS-485)
 
-                if (matchedPlc != null)
+                // 1. ВЫЧИСЛЯЕМ МОДИФИКАТОР ПИТАНИЯ ДАТЧИКОВ DI (Вторая позиция кода)
+                string diPowerModifier = "";
+                if (config.PlcPower == "220")
                 {
-                    finalSpec.Add(new SelectedComponent { Designation = "DD1", Vendor = "ОВЕН", Description = matchedPlc.Name, Article = matchedPlc.Article, Quantity = 1 });
+                    // Если питание 220В, то для входов ~230В код пустой, а для входов =24В код равен "2"
+                    diPowerModifier = config.PlcDiType == "24В" ? "2" : "";
                 }
+                // Если общее питание =24В, то модификатор входов не ставится по таблице
+
+                // 2. ВЫЧИСЛЯЕМ КОД ТИПА И КОЛИЧЕСТВА ВХОДОВ-ВЫХОДОВ (Третья позиция кода)
+                string ioCode = "1"; // По умолчанию: 8 DI / 6 DO
+
+                if (config.DiCount > 0 && config.AiCount > 0 && config.DoCount > 0 && config.AoCount > 0)
+                {
+                    // Определяем тип аналогового выхода (Ток 4-20мА или Напряжение 0-10В)
+                    // Предположим, у вас на UI есть свойство config.AoType ("4-20мА" или "0-10В")
+                    ioCode = config.AoType == "0-10В" ? "4" : "2"; 
+                }
+                else if (config.DiCount > 0 && config.AiCount > 0 && config.DoCount > 0 && config.AoCount == 0)
+                {
+                    // Если дискретных выходов DO больше 8 (например, 12) — это код 5
+                    ioCode = config.DoCount > 8 ? "5" : "3"; 
+                }
+
+                // 3. СКЛЕИВАЕМ СТРОКУ АРТИКУЛА ПО ТАБЛИЦЕ ЗАВОДА
+                // Формат: ПР200-[Питание].[МодификаторDI][КодИО].[Интерфейсы].0
+                string generatedArticle = $"ПР200-{config.PlcPower}.{diPowerModifier}{ioCode}.{config.PlcInterfaces}.0";
+
+                // 4. ФОРМИРУЕМ ОПИСАНИЕ ДЛЯ СПЕЦИФИКАЦИИ
+                string desc = $"Программируемое реле ПР200 с дисплеем. Питание: {config.PlcPower}В. Входы/Выходы: {config.DiCount}DI/{config.DoCount}DO. Интерфейсов RS-485: {config.PlcInterfaces} шт.";
+
+                finalSpec.Add(new SelectedComponent 
+                { 
+                    Designation = "DD1", 
+                    Vendor = "ОВЕН", 
+                    Description = desc, 
+                    Article = generatedArticle, // Выдаст точный код, например: ПР200-220.22.2.0
+                    Quantity = 1 
+                });
             }
+
+
 
             // ----------------------------------------------------
             // ШАГ 3 LOGIC: СИЛОВАЯ ТАБЛИЦА АВТОМАТОВ (КЭАЗ/DEKRAFT)

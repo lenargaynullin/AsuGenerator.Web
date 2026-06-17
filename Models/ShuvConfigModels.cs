@@ -31,5 +31,5 @@ public class HeatingLine
     public bool HasContactor { get; set; }
     public int ContactorCurrent { get; set; }
     public bool HasThermostat { get; set; }
-
+    public bool HasAuxContact { get; set; }
 }

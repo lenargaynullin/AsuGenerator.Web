@@ -1,16 +1,38 @@
 [
     {
+        "Manufacturer": "ОВЕН",
         "PlcType": "ПР200",
         "Protocol": "Modbus RTU",
-        "Article": "ПР200-220.21.0",
-        "Name": "Программируемое реле ПР200 (ОВЕН)",
-        "Price": 9840
+        "Article": "ПР200-220.4.2",
+        "Name": "Программируемое реле ПР200-220.4.2 [Питание ~230В, 8xDI(~230В), 4xAI, 8xDO(Р), 2xAO, 2xRS-485]",
+        "DiCount": 8,
+        "AiCount": 4,
+        "DoCount": 8,
+        "AoCount": 2,
+        "PowerSupply": "230V"
     },
     {
-        "PlcType": "ПЛК210",
-        "Protocol": "Modbus TCP",
-        "Article": "ПЛК210-24-CS",
-        "Name": "Промышленный контроллер ПЛК210 (ОВЕН)",
-        "Price": 42600
+        "Manufacturer": "ОВЕН",
+        "PlcType": "ПР200",
+        "Protocol": "Modbus RTU",
+        "Article": "ПР200-220.24.2",
+        "Name": "Программируемое реле ПР200-220.24.2 [Питание ~230В, 8xDI(=24В), 4xAI, 8xDO(Р), 2xAO, 2xRS-485]",
+        "DiCount": 8,
+        "AiCount": 4,
+        "DoCount": 8,
+        "AoCount": 2,
+        "PowerSupply": "230V"
+    },
+    {
+        "Manufacturer": "ОВЕН",
+        "PlcType": "ПР200",
+        "Protocol": "Modbus RTU",
+        "Article": "ПР200-24.4.2",
+        "Name": "Программируемое реле ПР200-24.4.2 [Питание =24В, 8xDI(=24В), 4xAI, 8xDO(Р), 2xAO, 2xRS-485]",
+        "DiCount": 8,
+        "AiCount": 4,
+        "DoCount": 8,
+        "AoCount": 2,
+        "PowerSupply": "24V"
     }
 ]

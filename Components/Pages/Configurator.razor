@@ -200,6 +200,20 @@
                         <MudGrid>
                             <MudItem xs="12" md="6" Class="d-flex flex-column gap-3" Style="border-right: 1px solid var(--mud-palette-lines-inputs); padding-right: 24px;">
                                 <MudText Typo="Typo.subtitle2" Color="Color.Info"><b>Выбор базовой платформы</b></MudText>
+
+                                <div class="d-flex gap-2 mt-2">
+                                    <MudSelect T="string" Label="Напряжение питания ПЛК" @bind-Value="baseConfig.PlcPower" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense">
+                                        <MudSelectItem Value="@("220")">~230 В (Переменный ток)</MudSelectItem>
+                                        <MudSelectItem Value="@("24")">=24 В (Постоянный ток)</MudSelectItem>
+                                    </MudSelect>
+
+                                    <MudSelect T="string" Label="Интерфейсы RS-485" @bind-Value="baseConfig.PlcInterfaces" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense">
+                                        <MudSelectItem Value="@("0")">Без интерфейса (0)</MudSelectItem>
+                                        <MudSelectItem Value="@("1")">1 х RS-485 (1)</MudSelectItem>
+                                        <MudSelectItem Value="@("2")">2 х RS-485 (2)</MudSelectItem>
+                                    </MudSelect>
+                                </div>
+
                                 <MudSelect T="string" Label="Линейка контроллера" @bind-Value="baseConfig.PlcType" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense">
                                     <MudSelectItem Value="@("ПР200")">Программируемое реле ПР200</MudSelectItem>
                                     <MudSelectItem Value="@("ПЛК110")">Промышленный контроллер ПЛК110</MudSelectItem>
@@ -266,6 +280,7 @@
                                             <th style="width: 8%; text-align: left; font-weight: bold; font-size: 13px;">Хар-ка</th>
                                             <th style="width: 12%; text-align: left; font-weight: bold; font-size: 13px;">Iк.з., кА</th>
                                             <th style="width: 8%; text-align: center; font-weight: bold; font-size: 13px;">Контактор</th>
+                                            <th style="width: 80px; text-align: center;">Доп. контакт</th>
                                             <th style="width: 8%; text-align: center; font-weight: bold; font-size: 13px;">Термостат</th>
                                             <th style="width: 5%; text-align: center; font-weight: bold; font-size: 13px;"><MudIcon Icon="@Icons.Material.Filled.DeleteOutline" Size="Size.Small" /></th>
                                         </tr>
@@ -349,6 +364,11 @@
                                                 } else {
                                                     <MudIcon Icon="@Icons.Material.Filled.Remove" Color="Color.Default" Size="Size.Small" />
                                                 }
+                                            </td>
+
+                                            <td style="text-align: center;">
+                                                @* НОВЫЙ ЧЕКБОКС ДОП КОНТАКТА СТАТУСА АВТОМАТА *@
+                                                    <MudCheckBox @bind-Value="context.HasAuxContact" Color="Color.Primary" Dense="true" />
                                             </td>
 
                                             <td style="text-align: center; vertical-align: middle;">
@@ -621,10 +641,6 @@
             Snackbar.Add($"Ошибка: {ex.Message}", Severity.Error);
         }
     }
-
-
-
-
 
     private async Task SwitchTab(int index)
     {

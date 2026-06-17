@@ -44,6 +44,7 @@ public class BaseCabinetConfig
     public bool IncludeWireAndFerrules { get; set; } = false;
     public int FanQuantity { get; set; }
 
+
     // Событие для сброса габаритов
     public event Action<string>? OnIpRatingChanged;
     public int Height { get; set; } = 600;
@@ -60,6 +61,16 @@ public class BaseCabinetConfig
     public int InputCurrent { get; set; } = 32;
     public string GroundSystem { get; set; } = "TN-S";
     public int ShortCircuitCurrent { get; set; } = 6;
+
+    // PLC
+    public string PlcPower { get; set; } = "220";      // "220" (~230В) или "24" (=24В)
+    public string PlcDiType { get; set; } = "Стандарт"; // "Стандарт" (~230В) или "24В" для дискретных входов
+    public string PlcInterfaces { get; set; } = "2";    // "0" (без), "1" (один RS-485), "2" (два RS-485)
+    public int AiCount { get; set; } = 0;
+    public int AoCount { get; set; } = 0;
+    public int DiCount { get; set; } = 0;
+    public int DoCount { get; set; } = 0;
+    public string AoType { get; set; } = "";
 
     // Системные
     public string PlcType { get; set; } = "ПР200";
