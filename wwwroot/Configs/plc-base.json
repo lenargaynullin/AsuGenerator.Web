@@ -166,5 +166,136 @@
         "DoCount": 12,
         "AoCount": 0,
         "PowerSupply": "230V"
+    },
+    {
+        "Manufacturer": "ОВЕН",
+        "PlcType": "ПЛК210",
+        "Article": "ПЛК210-01-CS",
+        "Name": "Промышленный контроллер ПЛК210 (12xDI, 18xDO)",
+        "DiCount": 12,
+        "AiCount": 0,
+        "DoCount": 18,
+        "AoCount": 0
+    },
+    {
+        "Manufacturer": "ОВЕН",
+        "PlcType": "ПЛК210",
+        "Article": "ПЛК210-02-CS",
+        "Name": "Промышленный контроллер ПЛК210 (24xDI, 12xDO)",
+        "DiCount": 24,
+        "AiCount": 0,
+        "DoCount": 12,
+        "AoCount": 0
+    },
+    {
+        "Manufacturer": "ОВЕН",
+        "PlcType": "ПЛК210",
+        "Article": "ПЛК210-03-CS",
+        "Name": "Промышленный контроллер ПЛК210 (24xDI, 16xDO)",
+        "DiCount": 24,
+        "AiCount": 0,
+        "DoCount": 16,
+        "AoCount": 0
+    },
+    {
+        "Manufacturer": "ОВЕН",
+        "PlcType": "ПЛК210",
+        "Article": "ПЛК210-04-CS",
+        "Name": "Промышленный контроллер ПЛК210 (12xDI, 12xDO, 4xAI)",
+        "DiCount": 12,
+        "AiCount": 4,
+        "DoCount": 12,
+        "AoCount": 0
+    },
+    {
+        "Manufacturer": "ОВЕН",
+        "PlcType": "ПЛК210",
+        "Article": "ПЛК210-11-CS",
+        "Name": "Промышленный контроллер ПЛК210 (12xDI, 18xDO)",
+        "DiCount": 12,
+        "AiCount": 0,
+        "DoCount": 18,
+        "AoCount": 0
+    },
+    {
+        "Manufacturer": "ОВЕН",
+        "PlcType": "ПЛК210",
+        "Article": "ПЛК210-12-CS",
+        "Name": "Промышленный контроллер ПЛК210 (24xDI, 12xDO)",
+        "DiCount": 24,
+        "AiCount": 0,
+        "DoCount": 12,
+        "AoCount": 0
+    },
+    {
+        "Manufacturer": "ОВЕН",
+        "PlcType": "ПЛК210",
+        "Article": "ПЛК210-13-CS",
+        "Name": "Промышленный контроллер ПЛК210 (24xDI, 16xDO)",
+        "DiCount": 24,
+        "AiCount": 0,
+        "DoCount": 16,
+        "AoCount": 0
+    },
+    {
+        "Manufacturer": "ОВЕН",
+        "PlcType": "ПЛК210",
+        "Article": "ПЛК210-14-CS",
+        "Name": "Промышленный контроллер ПЛК210 (12xDI, 12xDO, 4xAI)",
+        "DiCount": 12,
+        "AiCount": 4,
+        "DoCount": 12,
+        "AoCount": 0
+    },
+    {
+        "Manufacturer": "ОВЕН",
+        "PlcType": "ПЛК210",
+        "Article": "МВ210-101",
+        "Name": "Модуль аналогового ввода ПЛК210 (8xAI)",
+        "DiCount": 0,
+        "AiCount": 8,
+        "DoCount": 0,
+        "AoCount": 0
+    },
+    {
+        "Manufacturer": "ОВЕН",
+        "PlcType": "ПЛК210",
+        "Article": "МУ210-502",
+        "Name": "Модуль аналогового вывода ПЛК210 (6xAO)",
+        "DiCount": 0,
+        "AiCount": 0,
+        "DoCount": 0,
+        "AoCount": 6
+    },
+    {
+        "Manufacturer": "ОВЕН",
+        "PlcType": "ПЛК210",
+        "Article": "МВ210-212",
+        "Name": "Модуль дискретного ввода ПЛК210 (32xDI =24 В)",
+        "Di24Count": 32,
+        "AiCount": 0,
+        "DoCount": 0,
+        "AoCount": 0
+    },
+    {
+        "Manufacturer": "ОВЕН",
+        "PlcType": "ПЛК210",
+        "Article": "МВ210-214",
+        "Name": "Модуль дискретного ввода ПЛК210 (32xDI с.к.)",
+        "DiDryCount": 32,
+        "AiCount": 0,
+        "DoCount": 0,
+        "AoCount": 0
+    },
+    {
+        "Manufacturer": "ОВЕН",
+        "PlcType": "ПЛК210",
+        "Article": "МУ210-402",
+        "Name": "Модуль дискретного вывода ПЛК210 (16xDO)",
+        "DiCount": 0,
+        "AiCount": 0,
+        "DoCount": 16,
+        "AoCount": 0
     }
+
 ]
