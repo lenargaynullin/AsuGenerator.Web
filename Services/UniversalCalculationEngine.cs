@@ -488,60 +488,45 @@ namespace AsuGenerator.Web.Services
                                     for (int i = 0; i < count; i++)
                                         finalSpec.Add(new SelectedComponent { Designation = $"AO{aoCounter++}", Vendor = "ОВЕН", Description = mod?.Name ?? "Модуль аналогового вывода МУ210", Article = mod?.Article ?? "МУ210-502", Quantity = 1 });
                                 }
-
                             }
                         }
                         break;
-
                 }
             }
 
-
-
-
-
             // ----------------------------------------------------
-            // ШАГ 3 LOGIC: СИЛОВАЯ ТАБЛИЦА АВТОМАТОВ (КЭАЗ/DEKRAFT)
+            // 3. ШАГ 3: ТАБЛИЦА СИЛОВОЙ ЗАЩИТЫ КЭАЗ / DEKRAFT (УМНЫЙ ПОДБОР)
             // ----------------------------------------------------
             string breakersJsonPath = Path.Combine(_env.WebRootPath, "Configs", "breakers-base.json");
             if (File.Exists(breakersJsonPath))
             {
-                var breakers = JsonSerializer.Deserialize<List<JsonBreakerItem>>(File.ReadAllText(breakersJsonPath));
-
+                var breakersDb = JsonSerializer.Deserialize<List<JsonBreakerItem>>(File.ReadAllText(breakersJsonPath));
                 int contactorCounter = 1;
+                int rcdCounter = 1;
+
                 foreach (var line in lines.Where(l => l.IsEnabled))
                 {
-                    // Ищем автомат в JSON по живым параметрам с UI строки таблицы
-                    var matchedBreaker = breakers?.FirstOrDefault(b =>
-                        b.Manufacturer == config.PreferredBrand &&
-                        b.Poles == line.Poles &&
-                        b.Current == line.Current &&
-                        b.Curve == line.Curve);
+                    // Безопасный парсинг числа полюсов (вырезаем цифру из строк типа "3P" или "3Р")
+                    int uiPoles = 3;
+                    if (line.Poles != null)
+                    {
+                        string polesDigits = new string(line.Poles.ToString().Where(char.IsDigit).ToArray());
+                        int.TryParse(polesDigits, out uiPoles);
+                    }
 
-                    // СТАЛО (ИСПРАВЛЕНО):
-                    // Если автомат найден в базе — берем его родное имя, артикул и завод (КЭАЗ/Dekraft). 
-                    // Если не найден — выводим бренд автоматов из свойства PreferredBrand модели.
-                    string desc = matchedBreaker != null ? matchedBreaker.Name : $"Выключатель автоматический модульный {line.Poles}P {line.Current}A хар-ка {line.Curve}";
-                    string art = matchedBreaker != null ? matchedBreaker.Article : $"{config.PreferredBrand}-ВА-{line.Poles}P-{line.Current}A";
+                    // 1. ИЩЕМ БАЗОВЫЙ АВТОМАТ В JSON
+                    var matchedBreaker = breakersDb?.FirstOrDefault(b =>
+                        b.Poles == uiPoles &&
+                        b.Current == line.Current &&
+                        b.Curve.Trim().ToLower() == line.Curve?.Trim().ToLower());
+
+                    string baseArt = matchedBreaker != null ? matchedBreaker.Article : "КОД_НЕ_НАЙДЕН";
+                    string baseDesc = matchedBreaker != null ? matchedBreaker.Name : $"Выключатель автоматический {uiPoles}P {line.Current}A";
                     string actualVendor = matchedBreaker != null ? matchedBreaker.Manufacturer : config.PreferredBrand;
 
-                    finalSpec.Add(new SelectedComponent 
-                    { 
-                        Designation = line.Designation, 
-                        Vendor = actualVendor, // Сюда упадет КЭАЗ, а не ПРОВЕНТО
-                        Description = desc, 
-                        Article = art, 
-                        Quantity = 1 
-                    });
-
-                    // Логика автоматического подбора контакторов
-                    if (line.HasContactor)
-                    {
-                        finalSpec.Add(new SelectedComponent { Designation = $"KM{contactorCounter}", Vendor = config.Manufacturer, Description = $"Контактор модульный силовой, ток {line.Current}А, катушка ~220В", Article = $"{config.Manufacturer}-KM-{line.Current}A", Quantity = 1 });
-                        contactorCounter++;
-                    }
                 }
             }
+
 
             // ----------------------------------------------------
             // 4. ШАГ 4: СТРОГИЙ ПОДБОР КЛЕММ STEZ / IEK БЕЗ ДУБЛИРОВАНИЯ
@@ -610,20 +595,6 @@ namespace AsuGenerator.Web.Services
                 }
             }
 
-            // РАСЧЕТ МАТЕРИАЛОВ МОНТАЖА (Позиции также не указываются)
-            if (config.AutoCalculateTrunking && cabinetHeight > 0 && cabinetWidth > 0)
-            {
-                int finalTrunkingMeters = (int)Math.Ceiling(((double)(cabinetHeight + cabinetWidth) * 2 / 1000) * 1.2);
-                finalSpec.Add(new SelectedComponent { Designation = "", Vendor = "IEK/ДКС", Description = $"Кабель-канал перфорированный, типоразмер {config.TrunkingSize}", Article = $"ТК-{config.TrunkingSize}", Quantity = finalTrunkingMeters });
-            }
-
-            if (config.IncludeWireAndFerrules)
-            {
-                int totalConnections = lines.Count(l => l.IsEnabled) * 4 + terminals.Sum(t => t.Quantity);
-                int finalWireMeters = (int)Math.Ceiling(totalConnections * 0.4);
-                finalSpec.Add(new SelectedComponent { Designation = "", Vendor = "Systeme Electric", Description = "Провод монтажный медный гибкий ПуГВ 1х2.5 мм²", Article = "ПуГВ-2.5-С", Quantity = finalWireMeters });
-                finalSpec.Add(new SelectedComponent { Designation = "", Vendor = "КВТ", Description = "Наконечник втулочный изолированный НШВИ 2.5-8", Article = "НШВИ-2.5", Quantity = totalConnections * 2 });
-            }
 
             // Объединяем клеммы и их аксессуары с основным списком оборудования
             finalSpec.AddRange(terminalSpecList);

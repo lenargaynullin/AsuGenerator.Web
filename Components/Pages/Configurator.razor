@@ -77,7 +77,7 @@
                         3. Защита и коммутация (Сила)
                     </MudNavLink>
                     <MudNavLink Icon="@Icons.Material.Filled.Layers" IconColor="Color.Success" OnClick="@(() => SwitchTab(3))" Class="@(ActiveTabIndex == 3 ? "mud-chip-text-success mud-background-gray" : "")">
-                        4. Клеммные ряды и монтаж
+                        4. Клеммные блоки
                     </MudNavLink>
                 </MudNavMenu>
                                 <MudDivider Class="my-4" />
@@ -303,14 +303,10 @@
                                             @* Откалиброванные пропорции под 10 колонок без наложений *@
                                             <th style="width: 5%; text-align: center; font-weight: bold; font-size: 13px;"><MudIcon Icon="@Icons.Material.Filled.PowerSettingsNew" Size="Size.Small" /></th>
                                             <th style="width: 10%; text-align: left; padding-left: 12px; font-weight: bold; font-size: 13px;">Поз. ОУ</th>
-                                            <th style="width: 10%; text-align: center; font-weight: bold; font-size: 13px;">Диф. защита</th>
                                             <th style="width: 10%; text-align: left; font-weight: bold; font-size: 13px;">Полюса</th>
                                             <th style="width: 12%; text-align: left; font-weight: bold; font-size: 13px;">Номинал, А</th>
                                             <th style="width: 8%; text-align: left; font-weight: bold; font-size: 13px;">Хар-ка</th>
                                             <th style="width: 12%; text-align: left; font-weight: bold; font-size: 13px;">Iк.з., кА</th>
-                                            <th style="width: 8%; text-align: center; font-weight: bold; font-size: 13px;">Контактор</th>
-                                            <th style="width: 80px; text-align: center;">Доп. контакт</th>
-                                            <th style="width: 8%; text-align: center; font-weight: bold; font-size: 13px;">Термостат</th>
                                             <th style="width: 5%; text-align: center; font-weight: bold; font-size: 13px;"><MudIcon Icon="@Icons.Material.Filled.DeleteOutline" Size="Size.Small" /></th>
                                         </tr>
                                     </thead>
@@ -340,16 +336,6 @@
                                                 }
                                             </td>
                         
-                                            <td style="text-align: center; vertical-align: middle; white-space: nowrap;">
-                                                @if (context.Designation != "QF") {
-                                                    <div class="d-flex align-center justify-center gap-1">
-                                                        <MudCheckBox @bind-Value="context.HasRCD" Color="Color.Error" Dense="true" Disabled="@(!context.IsEnabled)" />
-                                                        <MudText Typo="Typo.caption" Style="font-size: 11px;">АВДТ</MudText>
-                                                    </div>
-                                                } else {
-                                                    <MudText Typo="Typo.caption" Color="Color.Secondary" Class="font-italic">Нет</MudText>
-                                                }
-                                            </td>
 
                                             <td style="vertical-align: middle; padding-right: 6px;">
                                                 <MudSelect T="int" @bind-Value="context.Poles" Variant="Variant.Outlined" Margin="Margin.Dense" Dense="true" Disabled="@(!context.IsEnabled)" Style="background-color: white; font-size: 13px;">
@@ -380,30 +366,7 @@
                                                 </MudSelect>
                                             </td>
 
-                                            <td style="text-align: center; vertical-align: middle;">
-                                                @if (context.Designation != "QF") {
-                                                    <div class="d-flex justify-center">
-                                                        <MudCheckBox @bind-Value="context.HasContactor" Color="Color.Info" Dense="true" Disabled="@(!context.IsEnabled)" />
-                                                    </div>
-                                                } else {
-                                                    <MudIcon Icon="@Icons.Material.Filled.Remove" Color="Color.Default" Size="Size.Small" />
-                                                }
-                                            </td>
-
-                                            <td style="text-align: center;">
-                                                @* НОВЫЙ ЧЕКБОКС ДОП КОНТАКТА СТАТУСА АВТОМАТА *@
-                                                    <MudCheckBox @bind-Value="context.HasAuxContact" Color="Color.Primary" Dense="true" />
-                                            </td>
-
-                                            <td style="text-align: center; vertical-align: middle;">
-                                                @if (context.Designation != "QF") {
-                                                    <div class="d-flex justify-center">
-                                                        <MudCheckBox @bind-Value="context.HasThermostat" Color="Color.Warning" Dense="true" Disabled="@(!context.IsEnabled)" />
-                                                    </div>
-                                                } else {
-                                                    <MudIcon Icon="@Icons.Material.Filled.Remove" Color="Color.Default" Size="Size.Small" />
-                                                }
-                                            </td>
+                                            
 
                                             @* Кнопка удаления строки (Вводной QF удалять нельзя) *@
                                             <td style="text-align: center; vertical-align: middle;">
@@ -424,11 +387,11 @@
 
                     @* ШАГ 4: КЛЕММНЫЕ БЛОКИ И МОНТАЖНЫЕ МАТЕРИАЛЫ *@
                     <MudTabPanel>
-                        <MudText Typo="Typo.h6" Color="Color.Success" Class="mb-4"><b>4. Клеммные блоки и расходные электромонтажные материалы</b></MudText>
+                        <MudText Typo="Typo.h6" Color="Color.Success" Class="mb-4"><b>4. Клеммные блоки</b></MudText>
                         <MudGrid Class="pa-2">
 
                             @* Левая колонка (РАСШИРЕНА до md="9"): Конфигурация клеммных блоков *@
-                            <MudItem xs="12" md="9" Class="d-flex flex-column gap-3">
+                            <MudItem xs="12" md="12" Class="d-flex flex-column gap-3">
                                 <div class="d-flex justify-space-between align-center mb-1">
                                     <MudText Typo="Typo.subtitle2" Color="Color.Success"><b>1. Конфигурация клеммных блоков</b></MudText>
                                     <MudButton Variant="Variant.Outlined" Color="Color.Success" StartIcon="@Icons.Material.Filled.Add" Size="Size.Small" OnClick="AddTerminalRow">
@@ -443,9 +406,9 @@
                                             <tr class="mud-table-row" style="background-color: var(--mud-palette-background-grey); border-bottom: 1px solid var(--mud-palette-lines-default); height: 40px;">
                                                 @* ОТКАЛИБРОВАНО: 13% + 40% + 25% + 15% + 7% = 100%. Все заголовки по центру *@
                                                 <th style="width: 13%; text-align: center; font-weight: bold; font-size: 13px;">Маркировка</th>
-                                                <th style="width: 40%; text-align: center; font-weight: bold; font-size: 13px;">Тип клеммы</th>
-                                                <th style="width: 25%; text-align: center; font-weight: bold; font-size: 13px;">Сечение, мм²</th>
-                                                <th style="width: 15%; text-align: center; font-weight: bold; font-size: 13px;">Кол-во, шт</th> @* ВОЗВРАЩЕНО НА МЕСТО *@
+                                                <th style="width: 55%; text-align: center; font-weight: bold; font-size: 13px;">Тип клеммы</th>
+                                                <th style="width: 13%; text-align: center; font-weight: bold; font-size: 13px;">Сечение, мм²</th>
+                                                <th style="width: 13%; text-align: center; font-weight: bold; font-size: 13px;">Кол-во, шт</th> @* ВОЗВРАЩЕНО НА МЕСТО *@
                                                 <th style="width: 7%; text-align: center; font-weight: bold; font-size: 13px;"><MudIcon Icon="@Icons.Material.Filled.DeleteOutline" Size="Size.Small" /></th>
                                             </tr>
                                         </thead>
@@ -503,28 +466,7 @@
                                 </MudAlert>
                             </MudItem>
 
-                            @* Правая колонка (СУЖЕНА до md="3"): Один узкий строго структурированный столбец *@
-                            <MudItem xs="12" md="3" Class="d-flex flex-column gap-3" Style="border-left: 1px solid var(--mud-palette-lines-inputs); padding-left: 20px;">
-                                <MudText Typo="Typo.subtitle2" Color="Color.Success"><b>2. Настройки монтажа</b></MudText>
-
-                                @* Поля выстроены строго по одному на строке *@
-                                <MudSelect T="string" Label="Производитель клемм" @bind-Value="baseConfig.TerminalVendor" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense">
-                                    <MudSelectItem Value="@("STEZ")">STEZ</MudSelectItem>
-                                    <MudSelectItem Value="@("IEK")">IEK</MudSelectItem>
-                                </MudSelect>
-
-                                <MudNumericField T="int" Label="Резерв клемм, %" @bind-Value="baseConfig.TerminalReservePercent" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" />
-
-                                <MudSelect T="string" Label="Типоразмер короба" @bind-Value="baseConfig.TrunkingSize" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense">
-                                    <MudSelectItem Value="@("60 х 40 мм")">60x40 мм</MudSelectItem>
-                                    <MudSelectItem Value="@("40 х 40 мм")">40x40 мм</MudSelectItem>
-                                </MudSelect>
-
-                                <div class="d-flex flex-column gap-2 mt-2">
-                                    <MudCheckBox T="bool" @bind-Value="baseConfig.AutoCalculateTrunking" Label="Авторасчет метража по шкафу" Color="Color.Success" Dense="true" />
-                                    <MudCheckBox T="bool" @bind-Value="baseConfig.IncludeWireAndFerrules" Label="Включить в спецификацию провод ПуГВ и НШВИ" Color="Color.Success" Dense="true" />
-                                </div>
-                            </MudItem>
+                            
 
                         </MudGrid>
 
