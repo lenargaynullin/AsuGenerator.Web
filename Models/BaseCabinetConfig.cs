@@ -36,8 +36,8 @@ public class BaseCabinetConfig
 
 
     // Оборудование
-    public string TerminalVendor { get; set; } = "STEZ";
-    public int TerminalReservePercent { get; set; } = 10;
+    public string TerminalVendor { get; set; } = "IEK";
+    public int TerminalReservePercent { get; set; } = 20;
     public string DinRailType { get; set; } = "Оцинкованная";
     public string TrunkingSize { get; set; } = "60x40";
     public string TrunkingMaterial { get; set; } = "ПВХ";

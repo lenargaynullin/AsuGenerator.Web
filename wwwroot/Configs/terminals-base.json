@@ -1,18 +1,148 @@
 [
     {
-        "Vendor": "STEZ",
-        "TerminalType": "Проходная винтовая (Фаза/N)",
+        "Vendor": "IEK",
+        "TerminalType": "Клемма винтовая",
         "WireSection": "2.5 мм²",
-        "Article": "STZ-204120",
-        "Name": "Клемма проходная винтовая серый STEZ-2.5",
-        "Price": 42
+        "Article": "YZN10-002-K03",
+        "Name": "Зажим наборный ЗНИ-2,5мм2 (JXB24А) серый"
     },
     {
-        "Vendor": "STEZ",
-        "TerminalType": "Заземляющая (РЕ, желто-зеленая)",
-        "WireSection": "2.5 мм²",
-        "Article": "STZ-204150",
-        "Name": "Клемма заземляющая PE желто-зеленая STEZ-2.5-PE",
-        "Price": 95
+        "Vendor": "IEK",
+        "TerminalType": "Клемма винтовая",
+        "WireSection": "4 мм²",
+        "Article": "YZN10-004-K03",
+        "Name": "Зажим наборный ЗНИ-4мм2 (JXB35А) серый"
+    },
+    {
+        "Vendor": "IEK",
+        "TerminalType": "Клемма винтовая",
+        "WireSection": "6 мм²",
+        "Article": "YZN10-006-K03",
+        "Name": "Зажим наборный ЗНИ-6мм2 (JXB50А) серый"
+    },
+    {
+        "Vendor": "IEK",
+        "TerminalType": "Клемма винтовая",
+        "WireSection": "10 мм²",
+        "Article": "YZN10-010-K03",
+        "Name": "Зажим наборный ЗНИ-10мм2 (JXB70А) серый"
+    },
+    {
+        "Vendor": "IEK",
+        "TerminalType": "Клемма винтовая",
+        "WireSection": "16 мм²",
+        "Article": "YZN10-016-K03",
+        "Name": "Зажим наборный ЗНИ-16мм2 (JXB100) серый"
+    },
+    {
+        "Vendor": "IEK",
+        "TerminalType": "Клемма винтовая",
+        "WireSection": "35 мм²",
+        "Article": "YZN10-035-K03",
+        "Name": "Зажим наборный ЗНИ-35мм2 (JXB125А) серый"
+    },
+    {
+        "Vendor": "IEK",
+        "TerminalType": "Клемма винтовая",
+        "WireSection": "70 мм²",
+        "Article": "YZN10-070-K03",
+        "Name": "Зажим наборный ЗНИ-70мм2 (JXB250А) серый"
+    },
+    {
+        "Vendor": "IEK",
+        "TerminalType": "Клемма винтовая",
+        "WireSection": "95 мм²",
+        "Article": "YZN10-095-K03",
+        "Name": "Зажим наборный ЗНИ-95мм2 (JXB330А) серый"
+    },
+    {
+        "Vendor": "IEK",
+        "TerminalType": "Крышка",
+        "WireSection": "4-6 мм²",
+        "Article": "YZN10D-ZGL-006-K03",
+        "Name": "Заглушка для ЗНИ4-6мм2 (JXB35-50А) серая"
+    },
+    {
+        "Vendor": "IEK",
+        "TerminalType": "Крышка",
+        "WireSection": "10 мм²",
+        "Article": "YZN10D-ZGL-010-K03",
+        "Name": "Заглушка для ЗНИ-10мм2 (JXB70A) серая"
+    },
+    {
+        "Vendor": "IEK",
+        "TerminalType": "Крышка",
+        "WireSection": "16 мм²",
+        "Article": "YZN10D-ZGL-016-K03",
+        "Name": "Заглушка для ЗНИ-16мм2 (JXB100A) серая"
+    },
+    {
+        "Vendor": "IEK",
+        "TerminalType": "Крышка",
+        "WireSection": "35 мм²",
+        "Article": "YZN10D-ZGL-035-K03",
+        "Name": "Заглушка для ЗНИ-35мм2 (JXB125A) серая"
+    },
+    {
+        "Vendor": "IEK",
+        "TerminalType": "Концевой стопор",
+        "Article": "YZN11DF-003-K03",
+        "Name": "Концевой стопор на DIN-рейку"
+    },
+    {
+        "Vendor": "IEK",
+        "TerminalType": "Клемма PE",
+        "WireSection": "4 мм²",
+        "Article": "YZN20-004-K52",
+        "Name": "Зажим наборный ЗНИ-4PEN 4мм2 (JXB-земля)"
+    },
+    {
+        "Vendor": "IEK",
+        "TerminalType": "Клемма PE",
+        "WireSection": "6 мм²",
+        "Article": "YZN20-006-K52",
+        "Name": "Зажим наборный ЗНИ-6PEN 6мм2 (JXB-земля)"
+    },
+    {
+        "Vendor": "IEK",
+        "TerminalType": "Клемма PE",
+        "WireSection": "10 мм²",
+        "Article": "YZN20-010-K52",
+        "Name": "Зажим наборный ЗНИ-10PEN 10мм2 (JXB-земля)"
+    },
+    {
+        "Vendor": "IEK",
+        "TerminalType": "Клемма PE",
+        "WireSection": "16 мм²",
+        "Article": "YZN20-016-K52",
+        "Name": "Зажим наборный ЗНИ-16PEN 16мм2 (JXB-земля)"
+    },
+    {
+        "Vendor": "IEK",
+        "TerminalType": "Клемма PE",
+        "WireSection": "35 мм²",
+        "Article": "YZN20-035-K52",
+        "Name": "Зажим наборный ЗНИ-35PEN 35мм2 (JXB-земля)"
+    },
+    {
+        "Vendor": "IEK",
+        "TerminalType": "Клемма PE",
+        "WireSection": "70 мм²",
+        "Article": "YZN20-070-K52",
+        "Name": "Зажим наборный ЗНИ-70PEN 70мм2 (JXB-земля)"
+    },
+    {
+        "Vendor": "IEK",
+        "TerminalType": "Клемма PE",
+        "WireSection": "70 мм²",
+        "Article": "YZN20-070-K52",
+        "Name": "Зажим наборный ЗНИ-70PEN 70мм2 (JXB-земля)"
+    },
+    {
+        "Vendor": "IEK",
+        "TerminalType": "Клемма винтовая с держателем предохранителя",
+        "WireSection": "4 мм²",
+        "Article": "YZN30-004F-K02",
+        "Name": "Клемма винтовая КВИ-4-П с держателем предохранителя 5х20 серая"
     }
 ]

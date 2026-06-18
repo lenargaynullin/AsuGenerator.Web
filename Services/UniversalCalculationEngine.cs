@@ -544,51 +544,142 @@ namespace AsuGenerator.Web.Services
             }
 
             // ----------------------------------------------------
-            // ШАГ 4 LOGIC: КЛЕММЫ STEZ И АВТОМАТИЧЕСКИЕ СТОПОРЫ/ЗАГЛУШЕК
+            // 4. ШАГ 4: СТРОГИЙ ПОДБОР КЛЕММ STEZ / IEK БЕЗ ДУБЛИРОВАНИЯ
             // ----------------------------------------------------
             string terminalsJsonPath = Path.Combine(_env.WebRootPath, "Configs", "terminals-base.json");
+            List<SelectedComponent> terminalSpecList = new List<SelectedComponent>();
+
             if (File.Exists(terminalsJsonPath))
             {
-                var jsonTerminals = JsonSerializer.Deserialize<List<JsonTerminalItem>>(File.ReadAllText(terminalsJsonPath));
+                var terminalsDb = JsonSerializer.Deserialize<List<JsonTerminalItem>>(File.ReadAllText(terminalsJsonPath)) ?? new();
 
-                foreach (var term in terminals)
+                foreach (var term in terminals.Where(t => t.Quantity > 0))
                 {
-                    var matchedTerm = jsonTerminals?.FirstOrDefault(t =>
-                        t.Vendor == config.TerminalVendor &&
-                        t.TerminalType == term.TerminalType &&
-                        t.WireSection == term.WireSection);
-
-                    string art = matchedTerm != null ? matchedTerm.Article : $"{config.TerminalVendor}-XT";
-                    string desc = matchedTerm != null ? matchedTerm.Name : $"Клемма {term.TerminalType} {term.WireSection}";
-
-                    // Сама клемма
-                    finalSpec.Add(new SelectedComponent { Designation = term.XBlockName, Vendor = config.TerminalVendor, Description = desc, Article = art, Quantity = term.Quantity });
-
-                    // АВТОМАТИЧЕСКИЙ РАСЧЕТ ОБОЙМЫ РЯДА ПО ГОСТу! 
-                    if (config.TerminalVendor == "STEZ")
+                    string searchType = term.TerminalType;
+                    if (config.TerminalVendor == "IEK")
                     {
-                        finalSpec.Add(new SelectedComponent { Designation = $"{term.XBlockName}.Загл", Vendor = "STEZ", Description = $"Пластина торцевая изолирующая ряда {term.XBlockName}", Article = "STZ-NPP-2.5", Quantity = 1 });
-                        finalSpec.Add(new SelectedComponent { Designation = $"{term.XBlockName}.Стопор", Vendor = "STEZ", Description = $"Концевой фиксатор (стопор) на DIN-рейку ряда {term.XBlockName}", Article = "STZ-KD3", Quantity = 2 });
+                        if (term.TerminalType.Contains("Проходная винтовая")) searchType = "Клемма винтовая";
+                        if (term.TerminalType.Contains("Заземляющая")) searchType = "Клемма PE";
+                        if (term.TerminalType.Contains("предохранителя")) searchType = "Клемма винтовая с держателем предохранителя";
+                    }
+
+                    string cleanedUiSection = term.WireSection?.Replace(".0", "").Trim().ToLower();
+
+                    var matchedTerm = terminalsDb.FirstOrDefault(t =>
+                        t.Vendor.Trim().ToLower() == config.TerminalVendor?.Trim().ToLower() &&
+                        t.TerminalType.Trim().ToLower() == searchType.Trim().ToLower() &&
+                        t.WireSection.Trim().ToLower().Replace(".0", "") == cleanedUiSection);
+
+                    string art = matchedTerm != null ? matchedTerm.Article : $"{config.TerminalVendor}-XT-{term.WireSection}";
+                    string desc = matchedTerm != null ? matchedTerm.Name : $"Клемма проходная {term.TerminalType} {term.WireSection}";
+
+                    // Добавляем ТОЛЬКО саму клеммную колодку со своим ОУ (XT1, XT2...)
+                    terminalSpecList.Add(new SelectedComponent { Designation = term.XBlockName, Vendor = config.TerminalVendor, Description = desc, Article = art, Quantity = term.Quantity });
+                }
+
+                // АВТОРУЧЕЙ РАСЧЕТА АКСЕССУАРОВ: Строго 1 комплект на 1 уникальное ОУ ряда!
+                var uniqueXBlocks = terminals.Where(t => t.Quantity > 0).Select(t => t.XBlockName).Distinct().ToList();
+                foreach (var blockName in uniqueXBlocks)
+                {
+                    if (config.TerminalVendor == "IEK")
+                    {
+                        var maxSection = terminals.Where(t => t.XBlockName == blockName && t.Quantity > 0).Select(t => t.WireSection).FirstOrDefault();
+                        string coverSection = maxSection?.Replace(".0", "").Trim().ToLower() ?? "4-6 мм²";
+                        if (coverSection == "2.5 мм²" || coverSection == "4 мм²" || coverSection == "6 мм²") coverSection = "4-6 мм²";
+
+                        var matchedCover = terminalsDb.FirstOrDefault(t => t.Vendor == "IEK" && t.TerminalType == "Крышка" && t.WireSection == coverSection);
+                        if (matchedCover != null)
+                        {
+                            // Позиция ("") не указывается по ГОСТ для крышек
+                            terminalSpecList.Add(new SelectedComponent { Designation = "", Vendor = "IEK", Description = matchedCover.Name, Article = matchedCover.Article, Quantity = 1 });
+                        }
+
+                        var matchedStop = terminalsDb.FirstOrDefault(t => t.Vendor == "IEK" && t.TerminalType == "Концевой стопор");
+                        if (matchedStop != null)
+                        {
+                            // Позиция ("") не указывается по ГОСТ для стопоров
+                            terminalSpecList.Add(new SelectedComponent { Designation = "", Vendor = "IEK", Description = matchedStop.Name, Article = matchedStop.Article, Quantity = 2 });
+                        }
+                    }
+                    else if (config.TerminalVendor == "STEZ")
+                    {
+                        // Позиции ("") не указываются по ГОСТ для аксессуаров STEZ
+                        terminalSpecList.Add(new SelectedComponent { Designation = "", Vendor = "STEZ", Description = "Пластина торцевая изолирующая ряда", Article = "STZ-NPP-2.5", Quantity = 1 });
+                        terminalSpecList.Add(new SelectedComponent { Designation = "", Vendor = "STEZ", Description = "Концевой фиксатор (стопор) на DIN-рейку", Article = "STZ-KD3", Quantity = 2 });
                     }
                 }
             }
 
+            // РАСЧЕТ МАТЕРИАЛОВ МОНТАЖА (Позиции также не указываются)
+            if (config.AutoCalculateTrunking && cabinetHeight > 0 && cabinetWidth > 0)
+            {
+                int finalTrunkingMeters = (int)Math.Ceiling(((double)(cabinetHeight + cabinetWidth) * 2 / 1000) * 1.2);
+                finalSpec.Add(new SelectedComponent { Designation = "", Vendor = "IEK/ДКС", Description = $"Кабель-канал перфорированный, типоразмер {config.TrunkingSize}", Article = $"ТК-{config.TrunkingSize}", Quantity = finalTrunkingMeters });
+            }
+
+            if (config.IncludeWireAndFerrules)
+            {
+                int totalConnections = lines.Count(l => l.IsEnabled) * 4 + terminals.Sum(t => t.Quantity);
+                int finalWireMeters = (int)Math.Ceiling(totalConnections * 0.4);
+                finalSpec.Add(new SelectedComponent { Designation = "", Vendor = "Systeme Electric", Description = "Провод монтажный медный гибкий ПуГВ 1х2.5 мм²", Article = "ПуГВ-2.5-С", Quantity = finalWireMeters });
+                finalSpec.Add(new SelectedComponent { Designation = "", Vendor = "КВТ", Description = "Наконечник втулочный изолированный НШВИ 2.5-8", Article = "НШВИ-2.5", Quantity = totalConnections * 2 });
+            }
+
+            // Объединяем клеммы и их аксессуары с основным списком оборудования
+            finalSpec.AddRange(terminalSpecList);
+
             // ----------------------------------------------------
-            // ШАГ 5: ПАТТЕРН 4 — ГРУППИРОВКА ОДИНАКОВЫХ АРТИКУЛОВ
+            // 5. ИДЕАЛЬНОЕ СХЛОПЫВАНИЕ ОДИНАКОВЫХ АРТИКУЛОВ ПО ГОСТ
             // ----------------------------------------------------
-            var groupedSpec = finalSpec
-                .GroupBy(c => c.Article)
-                .Select(g => new SelectedComponent
+            // Принудительно зачищаем позиции у всех вспомогательных материалов перед схлопыванием
+            foreach (var item in finalSpec)
+            {
+                if (item.Description != null && (
+                    item.Description.Contains("Заглушка") ||
+                    item.Description.Contains("стопор") ||
+                    item.Description.Contains("Кабель-канал") ||
+                    item.Description.Contains("Провод") ||
+                    item.Description.Contains("Наконечник")))
                 {
-                    Designation = string.Join(", ", g.Select(x => x.Designation).Distinct()),
-                    Vendor = g.First().Vendor,
-                    Description = g.First().Description,
-                    Article = g.Key,
-                    Quantity = g.Sum(x => x.Quantity)
+                    item.Designation = ""; // Для материалов позиция всегда пустая
+                }
+            }
+
+            var ovenComponents = finalSpec.Where(c => c.Vendor == "ОВЕН").ToList();
+            var otherComponents = finalSpec.Where(c => c.Vendor != "ОВЕН").ToList();
+
+            // ГРУППИРУЕМ СТРОГО ПО АРТИКУЛУ!
+            // Одинаковые клеммы со всего шкафа теперь гарантированно сольются в одну позицию!
+            var groupedOther = otherComponents
+                .GroupBy(c => c.Article.Trim())
+                .Select(g => {
+                    // Собираем все уникальные обозначения ряда (XT3, XT4, XT5) и склеиваем их через запятую по ГОСТ
+                    var designList = g.Select(x => x.Designation?.Trim())
+                                      .Where(d => !string.IsNullOrEmpty(d))
+                                      .Distinct()
+                                      .ToList();
+
+                    string finalDesignation = string.Join(", ", designList);
+
+                    return new SelectedComponent
+                    {
+                        Designation = finalDesignation, // Выдаст красивую строку: "XT3, XT4, XT5"
+                        Vendor = g.First().Vendor,
+                        Description = g.First().Description,
+                        Article = g.Key,
+                        Quantity = g.Sum(x => x.Quantity) // Суммирует общее количество: 10 + 10 + 10 = 30 шт.
+                    };
                 })
+                // Сортировка: элементы с позициями (Шкаф, QF, XT) идут наверх, пустые материалы — вниз
+                .OrderBy(c => string.IsNullOrEmpty(c.Designation))
+                .ThenBy(c => c.Designation)
                 .ToList();
 
-            return groupedSpec;
+            var totalFinalList = new List<SelectedComponent>();
+            totalFinalList.AddRange(groupedOther);
+            totalFinalList.AddRange(ovenComponents);
+
+            return totalFinalList;
         }
 
         // Вспомогательные DTO-классы для десериализации JSON баз данных

@@ -461,8 +461,9 @@
                                                     @* Тип клеммы *@
                                                     <td style="vertical-align: middle; padding-right: 6px;">
                                                         <MudSelect T="string" @bind-Value="context.TerminalType" Margin="Margin.Dense" Variant="Variant.Outlined" Dense="true" Style="background-color: white; font-size: 13px;">
-                                                            <MudSelectItem Value="@("Проходная винтовая (Фаза/N)")">Проходная винтовая</MudSelectItem>
-                                                            <MudSelectItem Value="@("Заземляющая (РЕ, желто-зеленая)")">Заземляющая (PE)</MudSelectItem>
+                                                            <MudSelectItem Value="@("Клемма винтовая")">Клемма винтовая</MudSelectItem>
+                                                            <MudSelectItem Value="@("Клемма винтовая с держателем предохранителя")">Клемма винтовая с держателем предохранителя</MudSelectItem>
+                                                            <MudSelectItem Value="@("Клемма PE")">Клемма PE</MudSelectItem>
                                                         </MudSelect>
                                                     </td>
 
@@ -470,9 +471,16 @@
                                                     <td style="vertical-align: middle; padding-right: 6px;">
                                                         <MudSelect T="string" @bind-Value="context.WireSection" Margin="Margin.Dense" Variant="Variant.Outlined" Dense="true" Style="background-color: white; font-size: 13px;">
                                                             <MudSelectItem Value="@("2.5 мм²")">2.5 мм²</MudSelectItem>
-                                                            <MudSelectItem Value="@("4.0 мм²")">4.0 мм²</MudSelectItem>
+                                                            <MudSelectItem Value="@("4 мм²")">4 мм²</MudSelectItem>
+                                                            <MudSelectItem Value="@("6 мм²")">6 мм²</MudSelectItem>
+                                                            <MudSelectItem Value="@("10 мм²")">10 мм²</MudSelectItem>
+                                                            <MudSelectItem Value="@("16 мм²")">16 мм²</MudSelectItem>
+                                                            <MudSelectItem Value="@("35 мм²")">35 мм²</MudSelectItem>
+                                                            <MudSelectItem Value="@("70 мм²")">70 мм²</MudSelectItem>
+                                                            <MudSelectItem Value="@("95 мм²")">95 мм²</MudSelectItem>
                                                         </MudSelect>
                                                     </td>
+
 
                                                     @* ПОЛЕ КОЛИЧЕСТВА КЛЕММ *@
                                                     <td style="vertical-align: middle; padding-right: 8px;">
@@ -565,7 +573,7 @@
     public class TerminalRow
     {
         public string XBlockName { get; set; } = "XT1";
-        public string TerminalType { get; set; } = "Проходная винтовая (Фаза/N)";
+        public string TerminalType { get; set; } = "Клемма винтовая";
         public string WireSection { get; set; } = "2.5 мм²";
         public int Quantity { get; set; } = 10;
     }
@@ -581,14 +589,42 @@
 
     private List<TerminalRow> TerminalRows { get; set; } = new()
     {
-        new TerminalRow { XBlockName = "XT1", TerminalType = "Проходная винтовая (Фаза/N)", WireSection = "2.5 мм²", Quantity = 24 },
-        new TerminalRow { XBlockName = "XT2", TerminalType = "Заземляющая (РЕ, желто-зеленая)", WireSection = "2.5 мм²", Quantity = 4 }
+        new TerminalRow { XBlockName = "XT1", TerminalType = "Клемма винтовая", WireSection = "6 мм²", Quantity = 4 },
+        new TerminalRow { XBlockName = "XT1", TerminalType = "Клемма PE", WireSection = "6 мм²", Quantity = 1 },
     };
 
+    // ИСПРАВЛЕНО: Метод автонумерации клеммников с защитой от дублирования ОУ
     private void AddTerminalRow()
     {
-        string nextBlockName = $"XT{TerminalRows.Count + 1}";
-        TerminalRows.Add(new TerminalRow { XBlockName = nextBlockName });
+        int nextIndex = 1;
+
+        if (TerminalRows != null && TerminalRows.Any())
+        {
+            // Находим максимальное число после букв "XT" среди всех существующих строк
+            int maxCurrentIndex = TerminalRows
+                .Select(t =>
+                {
+                    if (string.IsNullOrEmpty(t.XBlockName)) return 0;
+                    // Оставляем только цифры из названия ряда (например, "XT1" -> "1")
+                    string digits = new string(t.XBlockName.Where(char.IsDigit).ToArray());
+                    return int.TryParse(digits, out int val) ? val : 0;
+                })
+                .Max();
+
+            // Следующий клеммник будет на единицу больше максимального найденного
+            nextIndex = maxCurrentIndex + 1;
+        }
+
+        // Берем параметры последней строки для удобства пользователя (сечение, тип)
+        var lastRow = TerminalRows?.LastOrDefault();
+
+        TerminalRows.Add(new TerminalRow
+        {
+            XBlockName = $"XT{nextIndex}", // Теперь выдаст строго XT2!
+            TerminalType = lastRow?.TerminalType ?? "Проходная винтовая (Фаза/N)",
+            WireSection = lastRow?.WireSection ?? "2.5 мм²",
+            Quantity = 12
+        });
     }
 
     private void RemoveTerminalRow(TerminalRow row)
