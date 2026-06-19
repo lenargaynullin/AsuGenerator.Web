@@ -406,8 +406,8 @@
                                             <tr class="mud-table-row" style="background-color: var(--mud-palette-background-grey); border-bottom: 1px solid var(--mud-palette-lines-default); height: 40px;">
                                                 @* ОТКАЛИБРОВАНО: 13% + 40% + 25% + 15% + 7% = 100%. Все заголовки по центру *@
                                                 <th style="width: 13%; text-align: center; font-weight: bold; font-size: 13px;">Маркировка</th>
-                                                <th style="width: 55%; text-align: center; font-weight: bold; font-size: 13px;">Тип клеммы</th>
-                                                <th style="width: 13%; text-align: center; font-weight: bold; font-size: 13px;">Сечение, мм²</th>
+                                                <th style="width: 50%; text-align: center; font-weight: bold; font-size: 13px;">Тип клеммы</th>
+                                                <th style="width: 15%; text-align: center; font-weight: bold; font-size: 13px;">Сечение, мм²</th>
                                                 <th style="width: 13%; text-align: center; font-weight: bold; font-size: 13px;">Кол-во, шт</th> @* ВОЗВРАЩЕНО НА МЕСТО *@
                                                 <th style="width: 7%; text-align: center; font-weight: bold; font-size: 13px;"><MudIcon Icon="@Icons.Material.Filled.DeleteOutline" Size="Size.Small" /></th>
                                             </tr>
@@ -591,8 +591,7 @@
 
     private List<TerminalRow> TerminalRows { get; set; } = new()
     {
-        new TerminalRow { XBlockName = "XT1", TerminalType = "Клемма винтовая", WireSection = "6 мм²", Quantity = 4 },
-        new TerminalRow { XBlockName = "XT1", TerminalType = "Клемма PE", WireSection = "6 мм²", Quantity = 1 },
+        new TerminalRow { XBlockName = "XT1", TerminalType = "Клемма винтовая", WireSection = "2.5 мм²", Quantity = 5 },
     };
 
     // ИСПРАВЛЕНО: Метод автонумерации клеммников с защитой от дублирования ОУ
