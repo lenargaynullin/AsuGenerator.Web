@@ -1,0 +1,90 @@
+﻿@page "/standard-cabinets"
+@using AsuGenerator.Web.Models
+@inject NavigationManager NavManager
+
+<PageTitle>Типовые шкафы управления — ASU Generator</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-4 mb-8">
+    @* Заголовок раздела *@
+    <MudText Typo="Typo.h4" Color="Color.Primary" Class="mb-2"><b>📦 Типовые шкафы управления АСУ ТП</b></MudText>
+    <MudText Typo="Typo.body1" Color="Color.Secondary" Class="mb-6">
+        Библиотека готовых инженерных решений. Выберите базовый серийный шкаф, чтобы мгновенно загрузить его спецификацию или доработать под свои задачи в конфигураторе.
+    </MudText>
+
+    @* Сетка адаптивных карточек готовых шкафов *@
+    <MudGrid Spacing="3">
+
+        @* КАРТОЧКА 1: ВЕНТИЛЯЦИЯ *@
+        <MudItem xs="12" sm="6" md="4">
+            <MudCard Outlined="true" Class="d-flex flex-column h-100" Style="background-color: white; border-top: 4px solid var(--mud-palette-primary) !important;">
+                <MudCardContent Class="flex-grow-1pa-4">
+                    <div class="d-flex justify-space-between align-center mb-2">
+                        <MudChip T="string" Color="Color.Primary" Size="Size.Small" Style="font-weight: bold;">ШУВ</MudChip>
+                        <MudText Typo="Typo.caption" Color="Color.Secondary">Популярное</MudText>
+                    </div>
+                    <MudText Typo="Typo.h6" Class="mb-1"><b>Шкаф управления вентиляцией</b></MudText>
+                    <MudText Typo="Typo.body2" Color="Color.Secondary" Class="mb-4">
+                        Автоматизация приточно-вытяжных систем. На борту ОВЕН ПР200, силовые автоматы КЭАЗ на 3 линии обогрева и вентиляторы охлаждения Провенто.
+                    </MudText>
+                </MudCardContent>
+                <MudCardActions Class="pa-4 pt-0">
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" StartIcon="@Icons.Material.Filled.Settings" OnClick="@(() => LoadTemplate("shuv"))">
+                        Открыть в конфигураторе
+                    </MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+
+        @* КАРТОЧКА 2: НАГРЕВ / ОБОРУДОВАНИЕ *@
+        <MudItem xs="12" sm="6" md="4">
+            <MudCard Outlined="true" Class="d-flex flex-column h-100" Style="background-color: white; border-top: 4px solid var(--mud-palette-warning) !important;">
+                <MudCardContent Class="flex-grow-1pa-4">
+                    <div class="d-flex justify-space-between align-center mb-2">
+                        <MudChip T="string" Color="Color.Warning" Size="Size.Small" Style="font-weight: bold; color: white;">ШУЭО</MudChip>
+                        <MudText Typo="Typo.caption" Color="Color.Secondary">Напольный</MudText>
+                    </div>
+                    <MudText Typo="Typo.h6" Class="mb-1"><b>Шкаф электрообогрева КИП</b></MudText>
+                    <MudText Typo="Typo.body2" Color="Color.Secondary" Class="mb-4">
+                        Мощный напольный каркас Провенто 2000х800х600 с цоколем. Рассчитан на контроллер ПЛК210 и плотный силовой ряд КЭАЗ на 12 отходящих фидеров.
+                    </MudText>
+                </MudCardContent>
+                <MudCardActions Class="pa-4 pt-0">
+                    <MudButton Variant="Variant.Filled" Color="Color.Warning" Style="color: white;" FullWidth="true" StartIcon="@Icons.Material.Filled.Settings" OnClick="@(() => LoadTemplate("shueo"))">
+                        Открыть в конфигураторе
+                    </MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+
+        @* КАРТОЧКА 3: НАСОСЫ / КНС *@
+        <MudItem xs="12" sm="6" md="4">
+            <MudCard Outlined="true" Class="d-flex flex-column h-100" Style="background-color: white; border-top: 4px solid var(--mud-palette-success) !important;">
+                <MudCardContent Class="flex-grow-1pa-4">
+                    <div class="d-flex justify-space-between align-center mb-2">
+                        <MudChip T="string" Color="Color.Success" Size="Size.Small" Style="font-weight: bold;">ШУН</MudChip>
+                        <MudText Typo="Typo.caption" Color="Color.Secondary">КИПиА</MudText>
+                    </div>
+                    <MudText Typo="Typo.h6" Class="mb-1"><b>Шкаф управления насосами</b></MudText>
+                    <MudText Typo="Typo.body2" Color="Color.Secondary" Class="mb-4">
+                        Каскадное управление двумя дренажными или сетевыми насосами по датчикам 4-20мА. Модульный конструктив IEK и обойма клеммников STEZ.
+                    </MudText>
+                </MudCardContent>
+                <MudCardActions Class="pa-4 pt-0">
+                    <MudButton Variant="Variant.Filled" Color="Color.Success" FullWidth="true" StartIcon="@Icons.Material.Filled.Settings" OnClick="@(() => LoadTemplate("shun"))">
+                        Открыть в конфигураторе
+                    </MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+
+    </MudGrid>
+</MudContainer>
+
+@code {
+    // Метод перенаправления в конфигуратор с флагом выбранного шаблона
+    private void LoadTemplate(string templateType)
+    {
+        // Переходим на страницу конфигуратора и передаем в URL тип шаблона в виде query-параметра
+        NavManager.NavigateTo($"/configurator?template={templateType}");
+    }
+}

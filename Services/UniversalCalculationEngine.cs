@@ -50,6 +50,18 @@ namespace AsuGenerator.Web.Services
                 {
                     finalSpec.Add(new SelectedComponent { Designation = "Шкаф", Vendor = config.Manufacturer, Description = matchedCabinet.Name, Article = matchedCabinet.Article, Quantity = 1 });
                 }
+                else
+                {
+                    // Нетиповой размер — шкаф без артикула и производителя
+                    finalSpec.Add(new SelectedComponent
+                    {
+                        Designation = "Шкаф",
+                        Vendor = "",
+                        Article = "",
+                        Description = $"Шкаф {dimensions} мм",
+                        Quantity = 1
+                    });
+                }
             }
 
             // АВТОПОДБОР АКСЕССУАРОВ ПОД ГАБАРИТЫ КОРПУСА ПРОВЕНТО

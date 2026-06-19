@@ -16,6 +16,7 @@
 @inject AsuGenerator.Web.Services.UniversalCalculationEngine CalculationEngine
 @using Microsoft.AspNetCore.Hosting
 @inject IWebHostEnvironment Env
+@inject NavigationManager NavManager
 
 <PageTitle>Конфигуратор шкафа — ASU Generator</PageTitle>
 
@@ -124,7 +125,13 @@
                                             <MudSelectItem Value="@dim">@FormatDimensionsText(dim)</MudSelectItem>
                                         }
                                     </MudSelect>
-
+                                    <MudTextField T="string"
+                                                  Label="Или введите размер вручную (ВхШхГ, мм)"
+                                                  @bind-Value="customDimensions"
+                                                  Variant="Variant.Outlined"
+                                                  Dense="true"
+                                                  Margin="Margin.Dense"
+                                                  Placeholder="Например: 1800х1150х400" />
                                     
                                 </div>
                             </MudItem>
@@ -562,7 +569,12 @@
     private decimal EstimatedTotalCost = 184300;
     private string selectedDimensions = "1200×600×600";
     private List<SelectedComponent> matchedComponents = new();
+    private string customDimensions = "";
 
+    private List<PlcRow> PlcRows { get; set; } = new()
+{
+    new PlcRow { Designation = "A1", Article = "ПЛК210-01-CS", Name = "Промышленный контроллер ПЛК210 (12xDI, 18xDO)", IsBaseBlock = true }
+};
     // Используем ваш оригинальный класс из архитектуры проекта
     private BaseCabinetConfig baseConfig = new()
     {
@@ -579,7 +591,15 @@
         public string WireSection { get; set; } = "2.5 мм²";
         public int Quantity { get; set; } = 10;
     }
-
+    
+    public class PlcRow
+    {
+        public string Designation { get; set; } = "A1";
+        public string Article { get; set; } = "ПЛК210-01-CS";
+        public string Name { get; set; } = "Промышленный контроллер ПЛК210 (12xDI, 18xDO)";
+        public int Quantity { get; set; } = 1;
+        public bool IsBaseBlock { get; set; } = false;
+    }
     // Наполняем строки данными из вашей архитектуры
     private List<HeatingLine> heatingLines = new()
     {
@@ -656,7 +676,12 @@
                 return;
             }
 
-            var dims = selectedDimensions.Split('×');
+            // Если есть ручной ввод — используем его, иначе — выпадающий список
+            string effectiveDimensions = !string.IsNullOrWhiteSpace(customDimensions)
+                ? customDimensions
+                : selectedDimensions;
+
+            var dims = effectiveDimensions.Split('×');
             if (dims.Length == 3)
             {
                 baseConfig.Height = int.Parse(dims[0]);
@@ -664,8 +689,9 @@
                 baseConfig.Depth = int.Parse(dims[2]);
             }
 
+            // ИСПРАВЛЕНО: Теперь передаем PlcRows пятым аргументом в калькулятор!
             matchedComponents = CalculationEngine.CalculateSpecification(
-                baseConfig, selectedDimensions, heatingLines, TerminalRows);
+                baseConfig, effectiveDimensions, heatingLines, TerminalRows);
 
             Snackbar.Add($"Найдено {matchedComponents.Count} позиций", Severity.Success);
         }
@@ -704,12 +730,16 @@
 
             Snackbar.Add($"Файл {fileName} скачан.", Severity.Success);
 
-            // Письмо — в фоне
+            string effectiveDimensions = !string.IsNullOrWhiteSpace(customDimensions)
+                        ? customDimensions
+                        : selectedDimensions;
+
+            // Письмо — в фоне. ИСПРАВЛЕНО: Передаем PlcRows пятым аргументом в почту!
             _ = Task.Run(async () =>
             {
                 try
                 {
-                    await EmailService.SendUniversalOrderAsync(baseConfig, selectedDimensions, heatingLines, TerminalRows);
+                    await EmailService.SendUniversalOrderAsync(baseConfig, effectiveDimensions, heatingLines, TerminalRows);
                 }
                 catch { }
             });
@@ -719,6 +749,7 @@
             Snackbar.Add($"Ошибка: {ex.Message}", Severity.Error);
         }
     }
+
 
     private async Task SwitchTab(int index)
     {
@@ -787,22 +818,104 @@
     {
         try
         {
-            // Читаем созданную базу cabinet-base.json с диска
-            string jsonPath = Path.Combine(Env.WebRootPath, "Configs", "cabinet-base.json");
-            if (File.Exists(jsonPath))
+            // 1. Читаем созданную базу cabinet-base.json с диска
+            string jsonPath = Path.Combine(Env.WebRootPath, "Configs", "cabinet-base.json"); //
+            if (File.Exists(jsonPath)) //
             {
-                string jsonText = await File.ReadAllTextAsync(jsonPath);
-                AllCabinets = System.Text.Json.JsonSerializer.Deserialize<List<JsonCabinetItemDto>>(jsonText) ?? new();
+                string jsonText = await File.ReadAllTextAsync(jsonPath); //
+                AllCabinets = System.Text.Json.JsonSerializer.Deserialize<List<JsonCabinetItemDto>>(jsonText) ?? new(); //
             }
 
-            // Запускаем первичную фильтрацию размеров под дефолтные параметры UI
-            UpdateAvailableDimensions();
+            // 2. ПЕРЕХВАТ ШАБЛОНА ТИПОВОГО ШКАФА ИЗ URL СТРОКИ БРАУЗЕРА
+            var uri = NavManager.ToAbsoluteUri(NavManager.Uri); //
+            if (Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(uri.Query).TryGetValue("template", out var templateName))
+            {
+                string selectedTemplate = templateName.ToString().ToLower().Trim();
+
+                // АВТОЗАПОЛНЕНИЕ ПОД ШАБЛОН ШУВ (Вентиляция)
+                if (selectedTemplate == "shuv")
+                {
+                    baseConfig.ProjectName = "Шкаф управления вентиляцией ШУВ-1";
+                    baseConfig.Manufacturer = "ПРОВЕНТО"; //
+                    baseConfig.MountType = "Навесной"; //
+                    baseConfig.PlcType = "ПР200"; //
+                    baseConfig.Protocol = "Modbus RTU"; //
+                    selectedDimensions = "600×400×250"; // Задаем габарит из базы Провенто
+                    baseConfig.FanModel = "FA 12.230"; //
+                    baseConfig.FanQuantity = 1; //
+
+                    // Набиваем базовые «мозги» ПР200 прямо в интерактивную таблицу на экране Шага 2
+                    PlcRows = new()
+                {
+                    new PlcRow { Designation = "DD1", Article = "ПР200-220.4.2", Name = "Программируемое реле ПР200-220.4.2 [~230В]", IsBaseBlock = true }
+                };
+
+                    // Набиваем дефолтные автоматы защиты для вентиляции (Полюса КЭАЗ в вашей модели — это int!)
+                    heatingLines = new()
+                {
+                    new HeatingLine { Designation = "QF", IsEnabled = true, Poles = 1, Current = 16, Curve = "C", IkZ = 6.0 }, //
+                    new HeatingLine { Designation = "QF1", IsEnabled = true, Poles = 1, Current = 10, Curve = "C", IkZ = 6.0 }, //
+                    new HeatingLine { Designation = "QF2", IsEnabled = true, Poles = 1, Current = 6, Curve = "C", IkZ = 6.0 } //
+                };
+                }
+                // АВТОЗАПОЛНЕНИЕ ПОД ШАБЛОН ШУЭО (Электрообогрев)
+                else if (selectedTemplate == "shueo")
+                {
+                    baseConfig.ProjectName = "Шкаф электрообогрева ШУЭО-1";
+                    baseConfig.Manufacturer = "ПРОВЕНТО"; //
+                    baseConfig.MountType = "Напольный"; //
+                    baseConfig.PlcType = "ПЛК210"; //
+                    baseConfig.Protocol = "Modbus TCP"; //
+                    selectedDimensions = "2000×800×600";
+                    baseConfig.PlinthHeight = "100 мм"; //
+                    baseConfig.FanModel = "FA 15.230"; //
+                    baseConfig.FanQuantity = 2; //
+
+                    PlcRows = new()
+                {
+                    new PlcRow { Designation = "A1", Article = "ПЛК210-01-CS", Name = "Промышленный контроллер ПЛК210-01-CS", IsBaseBlock = true }
+                };
+
+                    heatingLines = new()
+                {
+                    new HeatingLine { Designation = "QF", IsEnabled = true, Poles = 3, Current = 32, Curve = "C", IkZ = 6.0 }, //
+                    new HeatingLine { Designation = "QF1", IsEnabled = true, Poles = 3, Current = 16, Curve = "C", IkZ = 6.0 } //
+                };
+                }
+                // АВТОЗАПОЛНЕНИЕ ПОД ШАБЛОН ШУН (Насосы)
+                else if (selectedTemplate == "shun")
+                {
+                    baseConfig.ProjectName = "Шкаф управления насосами ШУН-1";
+                    baseConfig.Manufacturer = "ПРОВЕНТО"; //
+                    baseConfig.MountType = "Навесной"; //
+                    baseConfig.PlcType = "ПР200"; //
+                    baseConfig.Protocol = "Modbus RTU"; //
+                    selectedDimensions = "800×600×300";
+                    baseConfig.FanModel = "Нет";
+                    baseConfig.TerminalVendor = "STEZ";
+
+                    PlcRows = new()
+                {
+                    new PlcRow { Designation = "DD1", Article = "ПР200-24.4.2", Name = "Программируемое реле ПР200-24.4.2 [=24В]", IsBaseBlock = true }
+                };
+
+                    heatingLines = new()
+                {
+                    new HeatingLine { Designation = "QF", IsEnabled = true, Poles = 3, Current = 25, Curve = "C", IkZ = 6.0 }, //
+                    new HeatingLine { Designation = "QF1", IsEnabled = true, Poles = 3, Current = 16, Curve = "C", IkZ = 6.0 } //
+                };
+                }
+            }
+
+            // 3. Запускаем первичную фильтрацию размеров под дефолтные/шаблонные параметры UI
+            UpdateAvailableDimensions(); //
         }
         catch (Exception ex)
         {
-            Snackbar.Add($"Ошибка загрузки базы корпусов: {ex.Message}", Severity.Error);
+            Snackbar.Add($"Ошибка загрузки базы корпусов: {ex.Message}", Severity.Error); //
         }
     }
+
 
     // Метод динамического пересчета доступных размеров при изменении типа монтажа или IP
     private void UpdateAvailableDimensions()
