@@ -745,7 +745,6 @@
     }
     private void AddHeatingLine()
     {
-        // Находим максимальный индекс среди существующих линий QF (пропуская вводной QF)
         int nextIndex = 1;
         var existingNumbers = heatingLines
             .Where(l => l.Designation.StartsWith("QF") && l.Designation != "QF")
@@ -753,19 +752,22 @@
             .ToList();
 
         if (existingNumbers.Any())
-        {
             nextIndex = existingNumbers.Max() + 1;
-        }
 
-        // Добавляем новую линию со стандартными инженерными параметрами по умолчанию
+        // Берём параметры последней строки (как у клемм)
+        var lastLine = heatingLines.LastOrDefault();
+
         heatingLines.Add(new HeatingLine
         {
             Designation = $"QF{nextIndex}",
             IsEnabled = true,
-            Poles = 1,
-            Current = 16,
-            Curve = "C",
-            IkZ = 6.0
+            Poles = lastLine?.Poles ?? 1,
+            Current = lastLine?.Current ?? 16,
+            Curve = lastLine?.Curve ?? "C",
+            IkZ = lastLine?.IkZ ?? 6.0,
+            HasRCD = lastLine?.HasRCD ?? false,
+            HasContactor = lastLine?.HasContactor ?? false,
+            HasThermostat = lastLine?.HasThermostat ?? false
         });
     }
 
