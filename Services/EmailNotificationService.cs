@@ -101,6 +101,29 @@ namespace AsuGenerator.Web.Services
             await client.SendAsync(message);
             await client.DisconnectAsync(true);
         }
+        public async Task SendFeedbackAsync(string name, string contact, string type, string message)
+        {
+            var mail = new MimeMessage();
+            mail.From.Add(new MailboxAddress("AsuGenerator", SenderEmail));
+            mail.To.Add(new MailboxAddress("Ленар", SenderEmail));
+            mail.Subject = $"[{type}] {name} — отзыв с asugenerator.ru";
 
+            var sb = new StringBuilder();
+            sb.AppendLine($"Имя: {name}");
+            sb.AppendLine($"Контакты: {contact}");
+            sb.AppendLine($"Тип: {type}");
+            sb.AppendLine();
+            sb.AppendLine(message);
+
+            mail.Body = new TextPart("plain") { Text = sb.ToString() };
+
+            using var client = new SmtpClient();
+            client.Timeout = 5000;
+            client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+            await client.ConnectAsync(SmtpServer, SmtpPort, true);
+            await client.AuthenticateAsync(SenderEmail, SenderPassword);
+            await client.SendAsync(mail);
+            await client.DisconnectAsync(true);
+        }
     }
 }

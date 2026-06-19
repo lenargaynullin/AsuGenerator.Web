@@ -1,0 +1,200 @@
+﻿@page "/feedback"
+@using System.IO
+@using System.Text.Json
+@using AsuGenerator.Web.Models
+@using AsuGenerator.Web.Services
+@inject IWebHostEnvironment Env
+@inject ISnackbar Snackbar
+@inject EmailNotificationService EmailService
+
+<PageTitle>Отзывы и предложения — ASU Generator</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-4 mb-8">
+    @* Заголовок и описание страницы *@
+    <MudText Typo="Typo.h4" Color="Color.Primary" Class="mb-2"><b>💬 Отзывы и предложения инженеров</b></MudText>
+    <MudText Typo="Typo.body1" Color="Color.Secondary" Class="mb-6">
+        Ваше мнение развивает платформу. Оставьте свой отзыв, предложите новый вендор оборудования или сообщите о баге — мы дорабатываем алгоритмы САПР каждый день.
+    </MudText>
+
+    <MudGrid Spacing="3">
+        @* ЛЕВАЯ КОЛОНКА: ФОРМА ОТПРАВКИ ОТЗЫВА *@
+        <MudItem xs="12" md="5">
+            <MudCard Outlined="true" Class="pa-4 sticky-card" Style="background-color: white; border-top: 4px solid var(--mud-palette-primary) !important; position: sticky; top: 20px;">
+                <MudText Typo="Typo.subtitle1" Color="Color.Primary" Class="mb-3"><b>Написать отзыв или предложение:</b></MudText>
+                
+                <div class="d-flex flex-column gap-3">
+                    @* Поле ввода имени или компании *@
+                    <MudTextField @bind-Value="newFeedback.Name" Label="Ваше имя или Компания" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Placeholder="Например: Ильнур, ООО АСУ-Трейд" />
+                    
+                    @* Компактная строка: Должность и Город *@
+                    <div class="d-flex gap-2">
+                        <div style="flex: 2;">
+                            <MudTextField @bind-Value="newFeedback.Role" Label="Должность" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Placeholder="Проектировщик КИПиА, ГИП" />
+                        </div>
+                        <div style="flex: 1;">
+                            <MudTextField @bind-Value="newFeedback.City" Label="Город" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Placeholder="Казань" />
+                        </div>
+                    </div>
+
+                    @* Инженерный дропдаун оценки/категории сообщения *@
+                    <MudSelect T="string" Label="Оценка платформы" @bind-Value="newFeedback.Rating" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense">
+                        <MudSelectItem Value="@("5")">⭐⭐⭐⭐⭐ Отличный софт, экономит часы</MudSelectItem>
+                        <MudSelectItem Value="@("4")">⭐⭐⭐⭐ Хорошо, но нужно расширять базы</MudSelectItem>
+                        <MudSelectItem Value="@("3")">⭐⭐⭐ Есть замечания / Баг-репорт</MudSelectItem>
+                    </MudSelect>
+
+                    @* Большое текстовое поле для предложений по базам КЭАЗ/ОВЕН *@
+                    <MudTextField @bind-Value="newFeedback.Message" Label="Текст вашего сообщения" Variant="Variant.Outlined" Lines="5" Placeholder="Напишите, каких функций или артикулов КЭАЗ/ОВЕН вам не хватает, или поделитесь впечатлением..." />
+
+                    @* Кнопка отправки *@
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Send" Size="Size.Medium" Class="mt-2" OnClick="SubmitFeedback">
+                        Отправить сообщение
+                    </MudButton>
+                </div>
+            </MudCard>
+        </MudItem>
+
+        @* ПРАВАЯ КОЛОНКА: ЖИВАЯ СТЕНА ОТЗЫВОВ ПОЛЬЗОВАТЕЛЕЙ *@
+        <MudItem xs="12" md="7">
+            <MudText Typo="Typo.subtitle1" Color="Color.Success" Class="mb-3"><b>Последние отзывы пользователей:</b></MudText>
+
+            <div class="d-flex flex-column gap-3">
+                @if (feedbacks == null || !feedbacks.Any())
+                {
+                    <MudPaper Outlined="true" Class="pa-4 text-center" Style="background-color: white;">
+                        <MudText Typo="Typo.body2" Color="Color.Secondary">Здесь пока пусто. Оставьте первый отзыв слева!</MudText>
+                    </MudPaper>
+                }
+                else
+                {
+                    @foreach (var fb in feedbacks.OrderByDescending(f => f.Date))
+                    {
+                        <MudCard Outlined="true" Class="pa-4" Style="background-color: white;">
+                            <div class="d-flex justify-space-between align-start mb-2">
+                                <div>
+                                    <MudText Typo="Typo.body1" Style="font-weight: bold; color: var(--mud-palette-primary);">@fb.Name</MudText>
+                                    <MudText Typo="Typo.caption" Color="Color.Secondary">
+                                        @fb.Role • @fb.City
+                                    </MudText>
+                                </div>
+                                <div class="text-right">
+                                    <MudText Typo="Typo.caption" Color="Color.Secondary" Class="d-block mb-1">
+                                        @fb.Date.ToString("dd.MM.yyyy HH:mm")
+                                    </MudText>
+                                    <MudText Style="font-size: 12px;">
+                                        @(fb.Rating == "5" ? "⭐⭐⭐⭐⭐" : fb.Rating == "4" ? "⭐⭐⭐⭐" : "⭐⭐⭐")
+                                    </MudText>
+                                </div>
+                            </div>
+                            <MudText Typo="Typo.body2" Style="color: #334155; white-space: normal; word-break: break-word; line-height: 1.6;">
+                                @fb.Message
+                            </MudText>
+                        </MudCard>
+                    }
+                }
+            </div>
+        </MudItem>
+    </MudGrid>
+</MudContainer>
+
+@code {
+    private FeedbackItem newFeedback = new() { Role = "Проектировщик АСУ ТП", City = "Казань", Rating = "5" };
+    private List<FeedbackItem> feedbacks = new();
+    private string jsonPath => Path.Combine(Env.WebRootPath, "Configs", "feedbacks.json");
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadFeedbacksAsync();
+    }
+
+    private async Task LoadFeedbacksAsync()
+    {
+        try
+        {
+            if (File.Exists(jsonPath))
+            {
+                string jsonText = await File.ReadAllTextAsync(jsonPath);
+                feedbacks = JsonSerializer.Deserialize<List<FeedbackItem>>(jsonText) ?? new();
+            }
+            else
+            {
+                feedbacks = new()
+                {
+                    new FeedbackItem { Name = "Дмитрий К.", Role = "Главный специалист КИПиА", City = "Пермь", Message = "Интересная задумка. Давно искал нечно подобное", Date = DateTime.Now.AddDays(-2) },
+                    new FeedbackItem { Name = "ООО ЭлектроЩит-Казань", Role = "Начальник сборочного цеха", City = "Казань", Message = "Привет. Отличный софт! Желаю успехов в развитии сервиса", Date = DateTime.Now.AddDays(-5) }
+                };
+                await SaveFeedbacksToDiskAsync();
+            }
+        }
+        catch { }
+    }
+
+    private async Task SubmitFeedback()
+    {
+        if (string.IsNullOrWhiteSpace(newFeedback.Name) || string.IsNullOrWhiteSpace(newFeedback.Message))
+        {
+            Snackbar.Add("Пожалуйста, заполните ваше имя и текст сообщения!", Severity.Warning);
+            return;
+        }
+
+        try
+        {
+            newFeedback.Date = DateTime.Now;
+            feedbacks.Add(new FeedbackItem
+            {
+                Name = newFeedback.Name.Trim(),
+                Role = newFeedback.Role.Trim(),
+                City = newFeedback.City.Trim(),
+                Message = newFeedback.Message.Trim(),
+                Rating = newFeedback.Rating,
+                Date = newFeedback.Date
+            });
+
+            await SaveFeedbacksToDiskAsync();
+            Snackbar.Add("Спасибо! Ваш отзыв опубликован и отправлен разработчику.", Severity.Success);
+
+            _ = Task.Run(async () =>
+            {
+                try
+                {
+                    string stars = newFeedback.Rating == "5" ? "⭐⭐⭐⭐⭐" : newFeedback.Rating == "4" ? "⭐⭐⭐⭐" : "⭐⭐⭐";
+                    string html = $@"
+                    <div style='font-family: Arial, sans-serif; max-width: 500px; margin: 0 auto; border: 1px solid #cbd5e1; border-radius: 8px; overflow: hidden;'>
+                        <div style='background-color: #0284c7; padding: 16px; text-align: center; color: white;'>
+                            <h3 style='margin:0;'>💬 ПОЛУЧЕН НОВЫЙ ОТЗЫВ НА САЙТЕ</h3>
+                        </div>
+                        <div style='padding: 20px; background-color: #f8fafc; font-size: 14px; color: #334155;'>
+                            <p><b>Отправитель:</b> {newFeedback.Name} ({newFeedback.Role}, г. {newFeedback.City})</p>
+                            <p><b>Оценка:</b> {stars}</p>
+                            <p style='background-color: white; padding: 12px; border-left: 4px solid #0284c7; border-radius:4px; font-style: italic;'>
+                                ""{newFeedback.Message}""
+                            </p>
+                        </div>
+                    </div>";
+                    await EmailService.SendUniversalOrderAsync(new BaseCabinetConfig { ProjectName = "ОТЗЫВ: " + newFeedback.Name, ClientName = newFeedback.Message }, "", new(), new());
+                }
+                catch { }
+            });
+
+            newFeedback.Message = "";
+            StateHasChanged();
+        }
+        catch (Exception ex) { Snackbar.Add($"Ошибка отправки: {ex.Message}", Severity.Error); }
+    }
+
+    private async Task SaveFeedbacksToDiskAsync()
+    {
+        var options = new JsonSerializerOptions { WriteIndented = true, Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping };
+        await File.WriteAllTextAsync(jsonPath, JsonSerializer.Serialize(feedbacks, options));
+    }
+
+    public class FeedbackItem
+    {
+        public string Name { get; set; } = "";
+        public string Role { get; set; } = "Инженер";
+        public string City { get; set; } = "Казань";
+        public string Message { get; set; } = "";
+        public DateTime Date { get; set; } = DateTime.Now;
+        public string Rating { get; set; } = "5";
+    }
+}
