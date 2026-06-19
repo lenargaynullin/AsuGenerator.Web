@@ -474,7 +474,7 @@
                 </MudTabs>
 
                 @* НИЖНЯЯ ПАНЕЛЬ: Управление шагами конфигуратора *@
-                <div class="d-flex justify-space-between align-center mt-8 pt-4" style="border-top: 1px solid var(--mud-palette-lines-default);">
+                <div class="d-flex justify-space-between align-center mt-8 pt-4 mb-6" style="border-top: 1px solid var(--mud-palette-lines-default); width: 100%;">
                     <MudButton Variant="Variant.Outlined" Color="Color.Primary" Disabled="@(ActiveTabIndex == 0)" OnClick="PrevTab" StartIcon="@Icons.Material.Filled.NavigateBefore">
                         Назад
                     </MudButton>
@@ -487,11 +487,70 @@
                     }
                     else
                     {
-                        <MudButton Variant="Variant.Filled" Color="Color.Success" StartIcon="@Icons.Material.Filled.FileDownload" Size="Size.Large" OnClick="GenerateFinalSpecification" Style="font-weight: bold;">
-                            СГЕНЕРИРОВАТЬ ЭКСЕЛЬ (ГОСТ)
-                        </MudButton>
+                        <div class="d-flex gap-3 align-center">
+                            <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.PlayArrow" Size="Size.Large" OnClick="PreviewSpecification" Style="font-weight: bold;">
+                                СГЕНЕРИРОВАТЬ (ПРЕДПРОСМОТР)
+                            </MudButton>
+
+                            @if (matchedComponents != null && matchedComponents.Any())
+                            {
+                                <MudButton Variant="Variant.Filled" Color="Color.Success" StartIcon="@Icons.Material.Filled.FileDownload" Size="Size.Large" OnClick="DownloadExcel" Style="font-weight: bold;">
+                                    СКАЧАТЬ ЭКСЕЛЬ
+                                </MudButton>
+                            }
+                        </div>
                     }
-                </div>
+                </div> @* ИСПРАВЛЕНО: Закрываем панель кнопок ЗДЕСЬ, чтобы они не сжимали таблицу! *@
+
+
+                @* ИСПРАВЛЕНО: Выносим блок результатов расчёта на отдельный нижний этаж во всю ширину экрана *@
+                @if (matchedComponents != null && matchedComponents.Any())
+                {
+                    <div class="w-100 mt-6" style="width: 100%; clear: both;">
+                        <MudCard Elevation="3" Class="pa-2 w-100" Style="width: 100%; min-width: 100%;">
+                            <MudCardHeader>
+                                <CardHeaderContent>
+                                    <MudText Typo="Typo.h6" Color="Color.Primary"><b>Результаты расчёта</b></MudText>
+                                </CardHeaderContent>
+                            </MudCardHeader>
+                            <MudCardContent Class="pa-0" Style="width: 100%;">
+                                @* Добавлен параметр table-layout: auto, чтобы таблица красиво растягивалась под длинные тексты Провенто *@
+                                <MudSimpleTable Dense="true" Hover="true" Outlined="true" Style="width: 100%; min-width: 100%; table-layout: auto;">
+                                    <thead>
+                                        <tr style="background-color: var(--mud-palette-background-grey);">
+                                            <th style="width: 80px; text-align: center; font-weight: bold;">Поз.</th>
+                                            <th style="width: 120px; font-weight: bold;">Бренд</th>
+                                            <th style="width: 140px; font-weight: bold;">Артикул</th>
+                                            <th style="font-weight: bold;">Наименование</th>
+                                            <th style="width: 80px; text-align: center; font-weight: bold;">Кол-во</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var comp in matchedComponents)
+                                        {
+                                            <tr>
+                                                <td style="text-align: center; padding: 6px 4px;">
+                                                    @* ИСПРАВЛЕНО: Чип рендерится только в том случае, если у позиции есть реальный текст *@
+                                                    @if (!string.IsNullOrEmpty(comp.Designation))
+                                                    {
+                                                        <MudChip T="string" Color="Color.Info" Size="Size.Small" Style="font-weight: bold;">
+                                                            @comp.Designation
+                                                        </MudChip>
+                                                    }
+                                                </td>
+                                                <td style="padding: 6px 4px;">@comp.Vendor</td>
+                                                <td style="padding: 6px 4px;">@comp.Article</td>
+                                                <td style="padding: 6px 4px; white-space: normal; word-break: break-word;">@comp.Description</td>
+                                                <td style="text-align: center; padding: 6px 4px; font-weight: bold;">@comp.Quantity</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </MudSimpleTable>
+                            </MudCardContent>
+                        </MudCard>
+                    </div>
+                }
+
             </MudPaper>
         </MudItem>
     </MudGrid>
@@ -502,6 +561,7 @@
     private int ActiveTabIndex = 0;
     private decimal EstimatedTotalCost = 184300;
     private string selectedDimensions = "1200×600×600";
+    private List<SelectedComponent> matchedComponents = new();
 
     // Используем ваш оригинальный класс из архитектуры проекта
     private BaseCabinetConfig baseConfig = new()
@@ -582,7 +642,11 @@
         // Логика сохранения состояния
     }
 
-    private async Task GenerateFinalSpecification()
+
+    /// <summary>
+    /// Предпросмотр: заполняет таблицу под кнопкой, без скачивания
+    /// </summary>
+    private void PreviewSpecification()
     {
         try
         {
@@ -593,33 +657,46 @@
                 return;
             }
 
-            // 1. Генерация Excel (сначала!)
-            var input = new UiConfigInput
-            {
-                ProjectNumber = "АСУ-" + DateTime.Now.ToString("ddMM-HHmm"),
-                BaseConfig = baseConfig,
-                HeatingLines = activeLines
-            };
-
             var dims = selectedDimensions.Split('×');
             if (dims.Length == 3)
             {
-                input.BaseConfig.Height = int.Parse(dims[0]);
-                input.BaseConfig.Width = int.Parse(dims[1]);
-                input.BaseConfig.Depth = int.Parse(dims[2]);
+                baseConfig.Height = int.Parse(dims[0]);
+                baseConfig.Width = int.Parse(dims[1]);
+                baseConfig.Depth = int.Parse(dims[2]);
             }
 
-            List<SelectedComponent> finalComponents = CalculationEngine.CalculateSpecification(
+            matchedComponents = CalculationEngine.CalculateSpecification(
                 baseConfig, selectedDimensions, heatingLines, TerminalRows);
 
+            Snackbar.Add($"Найдено {matchedComponents.Count} позиций", Severity.Success);
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Ошибка: {ex.Message}", Severity.Error);
+        }
+    }
+
+    /// <summary>
+    /// Скачивание Excel
+    /// </summary>
+    private async Task DownloadExcel()
+    {
+        if (matchedComponents == null || !matchedComponents.Any())
+        {
+            Snackbar.Add("Сначала нажмите «Сгенерировать»", Severity.Warning);
+            return;
+        }
+
+        try
+        {
             var configMetadata = new VentAvtomatikaConfig
             {
                 ClientName = "Проектный отдел",
                 CompanyName = "B2B Инженер",
-                KpNumber = input.ProjectNumber
+                KpNumber = "АСУ-" + DateTime.Now.ToString("ddMM-HHmm")
             };
 
-            byte[] excelBytes = DocGen.GenerateExcelSpecification(finalComponents, configMetadata);
+            byte[] excelBytes = DocGen.GenerateExcelSpecification(matchedComponents, configMetadata);
             string fileName = $"Спецификация_{configMetadata.KpNumber}.xlsx";
 
             using var fileStream = new MemoryStream(excelBytes);
@@ -628,14 +705,14 @@
 
             Snackbar.Add($"Файл {fileName} скачан.", Severity.Success);
 
-            // 2. Письмо — в фоне, без ожидания (потом!)
+            // Письмо — в фоне
             _ = Task.Run(async () =>
             {
                 try
                 {
                     await EmailService.SendUniversalOrderAsync(baseConfig, selectedDimensions, heatingLines, TerminalRows);
                 }
-                catch { /* молча */ }
+                catch { }
             });
         }
         catch (Exception ex)
