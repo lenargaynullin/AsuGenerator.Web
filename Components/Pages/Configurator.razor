@@ -19,7 +19,7 @@
 
 <PageTitle>Конфигуратор шкафа — ASU Generator</PageTitle>
 
-<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-4 mb-6">
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-2 mb-2 px-2">
     
     @* Верхняя статус-панель проекта в стиле Slate-Blue *@
     <MudPaper Outlined="true" Class="pa-4 mb-4 d-flex justify-space-between align-center" Style="background-color: #1e293b; color: white;">
@@ -63,7 +63,7 @@
     <MudGrid Spacing="3">
         
         @* Левая панель: Навигация по разделам проектирования шкафа *@
-        <MudItem xs="12" md="3">
+        <MudItem xs="12" md="3" Class="d-none d-md-block">
             <MudPaper Outlined="true" Class="pa-2 h-100">
                 <MudText Typo="Typo.subtitle2" Color="Color.Primary" Class="px-3 py-2"><b>ЭТАПЫ ПРОЕКТИРОВАНИЯ</b></MudText>
                 <MudNavMenu Bordered="false" Dense="true" Class="pa-1">
@@ -92,7 +92,7 @@
         </MudItem>
 
         @* Правая панель: Рабочая зона текущего шага *@
-        <MudItem xs="12" md="9">
+        <MudItem xs="12" md="12" lg="9">
             <MudPaper Outlined="true" Class="pa-6" Style="min-height: 500px; position: relative;">
                 
                 <MudTabs @ref="TabsControl" Elevation="0" Outlined="false" Style="--mud-tabs-display: none;">
@@ -296,7 +296,7 @@
                             </MudButton>
                         </div>
 
-                        <div class="mud-table-responsive" style="overflow-x: hidden; border: 1px solid var(--mud-palette-lines-default); border-radius: 4px; width: 100%;">
+                            <div class="mud-table-responsive" style="overflow-x: auto; border: 1px solid var(--mud-palette-lines-default); border-radius: 4px; width: 100%;">
                             <table class="mud-table-root mud-table-dense" style="width: 100%; table-layout: fixed; border-collapse: collapse;">
                                     <thead>
                                         <tr class="mud-table-row" style="background-color: var(--mud-palette-background-grey); border-bottom: 1px solid var(--mud-palette-lines-default); height: 40px;">
@@ -400,7 +400,7 @@
                                 </div>
 
                                 @* Таблица теперь имеет огромный запас по ширине *@
-                                <div class="mud-table-responsive" style="overflow-x: hidden; border: 1px solid var(--mud-palette-lines-default); border-radius: 4px; width: 100%;">
+                                <div class="mud-table-responsive" style="overflow-x: auto; border: 1px solid var(--mud-palette-lines-default); border-radius: 4px; width: 100%;">
                                     <table class="mud-table-root mud-table-dense" style="width: 100%; table-layout: fixed; border-collapse: collapse;">
                                         <thead>
                                             <tr class="mud-table-row" style="background-color: var(--mud-palette-background-grey); border-bottom: 1px solid var(--mud-palette-lines-default); height: 40px;">
