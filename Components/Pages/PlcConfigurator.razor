@@ -28,9 +28,19 @@
                         <MudItem xs="4">
                             <MudNumericField @bind-Value="cabinetWidth" Label="Ширина (мм)" Min="600" Max="1200" Step="100" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 11px; font-weight: bold;" />
                         </MudItem>
-                        <!-- НОВОЕ: Динамический ввод высоты -->
-                        <MudItem xs="4">
-                            <MudNumericField @bind-Value="cabinetHeight" Label="Высота (мм)" Min="1200" Max="2200" Step="100" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 11px; font-weight: bold;" />
+
+
+                        <!-- ДОБАВЛЕНО: СЕЛЕКТОР ТИПА ШКАФА СТРОГО С ЗАКРЫТЫМИ ТЕГАМИ MUDITEM -->
+                        <MudItem xs="12" Class="mt-1 border-top pt-2">
+                            <MudText Typo="Typo.caption" Class="font-weight-bold grey-text d-block mb-1" Style="font-size: 10px;">КОНСТРУКТИВ МОНТАЖНОЙ ПАНЕЛИ:</MudText>
+                            <MudRadioGroup T="CabinetType" @bind-Value="cabinetType" Color="Color.Primary" Dense="true">
+                                <MudRadio Value="CabinetType.SingleSided" Size="Size.Small">
+                                    <span style="font-size: 11px; font-weight: bold;">Односторонний (Общая панель)</span>
+                                </MudRadio>
+                                <MudRadio Value="CabinetType.DoubleSided" Size="Size.Small" Class="ml-2">
+                                    <span style="font-size: 11px; font-weight: bold;">Двухсторонний (Лицевая/Задняя)</span>
+                                </MudRadio>
+                            </MudRadioGroup>
                         </MudItem>
                     </MudGrid>
                 </MudCardContent>
