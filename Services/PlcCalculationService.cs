@@ -200,20 +200,71 @@ namespace AsuGenerator.Web.Services
 
         private CabinetSide PackBackSideEquipment(int relayCount, TerminalBlockRow terminals, int usefulWidthMm)
         {
-            var side = new CabinetSide { TotalAllocatedHeightMm = 40 };
-            var queue = GetBackSideBasketsQueue(relayCount, terminals, usefulWidthMm);
-            int idx = 0;
-            while (queue.Any())
-            {
-                var b = queue.Dequeue(); b.BasketIndex = idx++;
-                var n = new PlcNode(); n.Baskets.Add(b); side.Nodes.Add(n);
-                side.TotalAllocatedHeightMm += 265;
+            var side = new CabinetSide { TotalAllocatedHeightMm = 40, TotalDinRailsCount = 0 };
 
-                // ИСПРАВЛЕНО: Изменили с TotalDinRulesCount на TotalDinRailsCount
+            // Получаем плоский список всех необходимых физических блоков оборудования для задней панели
+            var flatEquipmentList = new List<PlcComponent>();
+
+            int remainingRelayWidth = relayCount * 16;
+            while (remainingRelayWidth > 0)
+            {
+                int width = Math.Min(remainingRelayWidth, usefulWidthMm);
+                flatEquipmentList.Add(new PlcComponent { Article = "FINDER", Name = "Блок реле", Type = "RELAY_BLOCK", WidthMm = width });
+                remainingRelayWidth -= width;
+            }
+
+            int remainingTerminalWidth = (terminals.GreyTerminalsCount + terminals.BlueTerminalsCount + terminals.PeTerminalsCount) * 5;
+            while (remainingTerminalWidth > 0)
+            {
+                int width = Math.Min(remainingTerminalWidth, usefulWidthMm);
+                flatEquipmentList.Add(new PlcComponent { Article = "IEK_COL", Name = "Клеммный ряд", Type = "TERMINAL_BLOCK", WidthMm = width });
+                remainingTerminalWidth -= width;
+            }
+
+            // Алгоритм ГОРИЗОНТАЛЬНОЙ укладки блоков на DIN-рейки задней панели
+            int backBasketIdx = 0;
+            var currentBasket = new PlcBasket { BasketIndex = backBasketIdx };
+
+            foreach (var eq in flatEquipmentList)
+            {
+                int currentOccupiedWidth = currentBasket.Modules.Sum(m => m.WidthMm);
+
+                // Проверяем: поместятся ли блоки вместе на ОДНУ горизонтальную DIN-рейку 580 мм
+                if (currentOccupiedWidth + eq.WidthMm <= usefulWidthMm)
+                {
+                    currentBasket.Modules.Add(eq);
+                }
+                else
+                {
+                    // Место на текущей рейке задней панели закончилось! Сохраняем её по высоте
+                    var node = new PlcNode();
+                    node.Baskets.Add(currentBasket);
+                    side.Nodes.Add(node);
+
+                    side.TotalAllocatedHeightMm += 265; // Добавляем высоту шага (рейка + короб)
+                    side.TotalDinRailsCount++;
+
+                    // Переходим на следующую рейку задней панели (CARRIER BACK)
+                    backBasketIdx++;
+                    currentBasket = new PlcBasket { BasketIndex = backBasketIdx };
+                    currentBasket.Modules.Add(eq);
+                }
+            }
+
+            // Не забываем сохранить последний заполняемый ряд
+            if (currentBasket.Modules.Any())
+            {
+                var node = new PlcNode();
+                node.Baskets.Add(currentBasket);
+                side.Nodes.Add(node);
+
+                side.TotalAllocatedHeightMm += 265;
                 side.TotalDinRailsCount++;
             }
+
             return side;
         }
+
 
 
         private PowerSupplyUnit CalculatePSU(int modulesCount)

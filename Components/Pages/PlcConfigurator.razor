@@ -125,20 +125,20 @@
             </MudButton>
         </MudItem>
 
-        <!-- ВЫВОД РЕЗУЛЬТАТОВ (ПРАВАЯ КОЛОНКА) -->
+                <!-- ВЫВОД РЕЗУЛЬТАТОВ (ПРАВАЯ КОЛОНКА) -->
         <MudItem xs="12" md="7">
             <MudCard Elevation="1" Style="min-height: 520px;">
                 <MudCardHeader Class="py-1 px-3 border-bottom">
                     <CardHeaderContent>
-                        <MudText Typo="Typo.subtitle2" Style="font-size: 13px; font-weight: bold;">📐 Скомпонованные шкафы автоматизации</MudText>
+                        <MudText Typo="Typo.subtitle2" Style="font-size: 13px; font-weight: bold;">📐 Компоновка шкафов автоматизации</MudText>
                     </CardHeaderContent>
                 </MudCardHeader>
-                <MudCardContent Class="pa-3">
+                <MudCardContent Class="pa-2">
                     @if (calcResult is null || !calcResult.Cabinets.Any())
                     {
                         <div class="d-flex flex-column align-center justify-center font-italic text-muted mt-12" style="font-size: 11px;">
                             <MudIcon Icon="@Icons.Material.Filled.SettingsInputComponent" Size="Size.Medium" Class="mb-1" />
-                            <MudText Style="font-size: 11px;">Задайте конфигурацию сигналов слева</MudText>
+                            <MudText Style="font-size: 11px;">Задайте конфигурацию сигналов слева и нажмите кнопку генерации</MudText>
                         </div>
                     }
                     else
@@ -170,9 +170,7 @@
                                         <div class="cable-duct duct-h40">40х100</div>
                                         <div class="cable-duct duct-h40">40х100</div>
 
-                                        @{
-                                            int singleRailCounter = 1;
-                                        }
+                                        @{ int singleRailCounter = 1; }
                                         @foreach (var node in cabinet.SingleSide.Nodes)
                                         {
                                             @foreach (var basket in node.Baskets)
@@ -183,14 +181,14 @@
                                                         {
                                                             @if (m.Type == "RELAY_BLOCK")
                                                             {
-                                                                <div class="text-center rounded text-white d-flex align-center justify-center font-weight-bold" style="background-color: #d35400; width: 100%; height: 42px; font-size: 9px; border: 1px dashed #fff;">
-                                                                    🔲 РЕЛЕ РАЗВЯЗКИ (@cabinet.InterposingRelays.Count шт)
+                                                                <div class="text-center rounded text-white d-flex align-center justify-center font-weight-bold" style="background-color: #d35400; width: @((m.WidthMm * 0.8))px; height: 42px; font-size: 9px; border: 1px dashed #fff; min-width: 50px;">
+                                                                    РЕЛЕ (@cabinet.InterposingRelays.Count шт)
                                                                 </div>
                                                             }
                                                             else if (m.Type == "TERMINAL_BLOCK")
                                                             {
-                                                                <div class="text-center rounded text-white d-flex align-center justify-center font-weight-bold" style="background-color: #7f8c8d; width: 100%; height: 42px; font-size: 9px; border: 1px dashed #fff;">
-                                                                    🔷 КЛЕММНЫЙ РЯД СИГНАЛОВ ПОЛЯ IEK
+                                                                <div class="text-center rounded text-white d-flex align-center justify-center font-weight-bold" style="background-color: #7f8c8d; width: @((m.WidthMm * 0.8))px; height: 42px; font-size: 9px; border: 1px dashed #fff; min-width: 50px;">
+                                                                    КЛЕММЫ IEK
                                                                 </div>
                                                             }
                                                             else
@@ -216,13 +214,94 @@
                             }
                             else
                             {
-                                <!-- РЕНДЕР ДВУХСТОРОННЕГО ШКАФА С ТАБАМИ (Ваш готовый код из предыдущего шага) -->
-                                <MudTabs Elevation="0" Rounded="true" ApplyEffectsToContainer="true" Class="border rounded shadow-sm bg-white mb-2">
-                                    <MudTabPanel Text="ЛИЦЕВАЯ СТОРОНА (ПЛК)" Style="font-size: 11px; font-weight: bold; height: 32px;">
-                                        <!-- Код рендеринга Лицевой панели FrontSide... -->
+                                <!-- РЕНДЕР ДВУХСТОРОННЕГО ШКАФА С ТАБАМИ -->
+                                <MudTabs Elevation="0" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-0" Class="border rounded shadow-sm bg-white mb-2">
+                                    
+                                    <!-- ЛИЦЕВАЯ СТОРОНА (ПЛК) -->
+                                    <MudTabPanel Text="ЛИЦЕВАЯ СТОРОНА (ПЛК и БП)" Style="font-size: 11px; font-weight: bold; padding: 4px 12px; height: 32px;">
+                                        <div class="d-flex cabinet-panel w-100" style="height: @(visualPanelHeightPx)px;">
+                                            <div class="cable-duct duct-left"><span style="writing-mode: vertical-rl; transform: rotate(180deg); white-space: nowrap;">40х100</span></div>
+                                            <div class="flex-grow-1 rail-zone" style="max-width: @(visualUsefulWidthPx)px; min-width: @(visualUsefulWidthPx)px;">
+                                                <div class="cable-duct duct-h40">40х100</div>
+                                                <div class="power-supply-zone">
+                                                    @if (cabinet.RecommendedPowerSupply is not null)
+                                                    {
+                                                        <div class="font-weight-bold text-white" style="font-size: 10px;">⚡ @cabinet.RecommendedPowerSupply.Name</div>
+                                                        <div style="font-size: 9px; color: #f1c40f; font-family: monospace;">@cabinet.RecommendedPowerSupply.Article (@cabinet.RecommendedPowerSupply.WidthMm мм)</div>
+                                                    }
+                                                </div>
+                                                <div class="cable-duct duct-h40">40х100</div>
+                                                <div class="cable-duct duct-h40">40х100</div>
+
+                                                @{ int frontRailCounter = 1; }
+                                                @foreach (var node in cabinet.FrontSide.Nodes)
+                                                {
+                                                    @foreach (var basket in node.Baskets)
+                                                    {
+                                                        <div class="din-rail-row">
+                                                            <div class="modules-line d-flex align-center justify-start">
+                                                                @foreach (var m in basket.Modules)
+                                                                {
+                                                                    <div class="text-center rounded text-white style-plc-module @GetModuleColorClass(m.Type)" style="min-width: @(m.WidthMm * 0.8)px; height: 50px;">
+                                                                        <div class="font-weight-bold" style="font-size: 8px;">@GetUniqueModuleDesignation(m, cabinet)</div>
+                                                                        <div style="font-size: 7px; font-family: monospace;">@m.Article</div>
+                                                                        <div style="font-size: 6px; color: #bdc3c7;">@m.WidthMm мм</div>
+                                                                    </div>
+                                                                }
+                                                            </div>
+                                                            <div class="rail-label">--- CARRIER FRONT @frontRailCounter ---</div>
+                                                        </div>
+                                                        <div class="cable-duct duct-h60">60х100</div>
+                                                        { frontRailCounter++; }
+                                                    }
+                                                }
+                                                <div class="cable-entry-zone">СВОБОДНАЯ ЗОНА ПАНЕЛИ: @(panelHeightMm - cabinet.FrontSide.TotalAllocatedHeightMm) мм</div>
+                                            </div>
+                                            <div class="cable-duct duct-right"><span style="writing-mode: vertical-rl; transform: rotate(180deg); white-space: nowrap;">60х100</span></div>
+                                        </div>
                                     </MudTabPanel>
-                                    <MudTabPanel Text="ЗАДНЯЯ СТОРОНА (РЕЛЕ/КЛЕММЫ)" Style="font-size: 11px; font-weight: bold; height: 32px;">
-                                        <!-- Код рендеринга Задней панели BackSide... -->
+                                    <!-- ЗАДНЯЯ СТОРОНА (РЕЛЕ И КЛЕММЫ) -->
+                                    <MudTabPanel Text="ЗАДНЯЯ СТОРОНА (РЕЛЕ И КЛЕММЫ)" Style="font-size: 11px; font-weight: bold; padding: 4px 12px; height: 32px;">
+                                        <div class="d-flex cabinet-panel w-100" style="height: @(visualPanelHeightPx)px;">
+                                            <div class="cable-duct duct-left"><span style="writing-mode: vertical-rl; transform: rotate(180deg); white-space: nowrap;">40х100</span></div>
+                                            <div class="flex-grow-1 rail-zone" style="max-width: @(visualUsefulWidthPx)px; min-width: @(visualUsefulWidthPx)px;">
+                                                <div class="cable-duct duct-h40">40х100</div>
+
+                                                @{
+                                                    int backRailCounter = 1;
+                                                }
+                                                @foreach (var node in cabinet.BackSide.Nodes)
+                                                {
+                                                    @foreach (var basket in node.Baskets)
+                                                    {
+                                                        <div class="din-rail-row" style="background-color: #232d37;">
+                                                            <div class="modules-line d-flex align-center justify-start gap-1">
+                                                                @foreach (var bEq in basket.Modules)
+                                                                {
+                                                                    @if (bEq.Type == "RELAY_BLOCK")
+                                                                    {
+                                                                        <div class="text-center rounded text-white d-flex align-center justify-center font-weight-bold" style="background-color: #d35400; width: @((bEq.WidthMm * 0.8))px; height: 42px; font-size: 9px; border: 1px dashed #fff; min-width: 60px;">
+                                                                            РЕЛЕ FINDER (@cabinet.InterposingRelays.Count шт)
+                                                                        </div>
+                                                                    }
+                                                                    else if (bEq.Type == "TERMINAL_BLOCK")
+                                                                    {
+                                                                        <div class="text-center rounded text-white d-flex align-center justify-center font-weight-bold" style="background-color: #7f8c8d; width: @((bEq.WidthMm * 0.8))px; height: 42px; font-size: 9px; border: 1px dashed #fff; min-width: 60px;">
+                                                                            КЛЕММЫ IEK
+                                                                        </div>
+                                                                    }
+                                                                }
+                                                            </div>
+                                                            <div class="rail-label" style="color: #e67e22;">--- CARRIER BACK @backRailCounter ---</div>
+                                                        </div>
+                                                        <div class="cable-duct duct-h60">60х100</div>
+                                                        { backRailCounter++; }
+                                                    }
+                                                }
+                                                <div class="cable-entry-zone">СВОБОДНАЯ ЗОНА ПАНЕЛИ: @(panelHeightMm - cabinet.BackSide.TotalAllocatedHeightMm) мм</div>
+                                            </div>
+                                            <div class="cable-duct duct-right"><span style="writing-mode: vertical-rl; transform: rotate(180deg); white-space: nowrap;">60х100</span></div>
+                                        </div>
                                     </MudTabPanel>
                                 </MudTabs>
                             }
@@ -243,16 +322,14 @@
                             </MudCard>
                         }
 
-
                         <MudAlert Severity="Severity.Info" Dense="true" Class="mt-2 font-weight-bold" Style="font-size: 11px;">
                             ✅ ИТОГО СФОРМИРОВАНО ШКАФОВ: @calcResult.Cabinets.Count шт. | Всего DIN-реек под ПЛК: @calcResult.TotalDinRailsRequired шт.
                         </MudAlert>
                     }
-
-
                 </MudCardContent>
             </MudCard>
         </MudItem>
+
     </MudGrid>
 </MudContainer>
 
@@ -265,7 +342,7 @@
         position: relative;
         font-family: 'Courier New', monospace;
         box-sizing: border-box;
-        overflow-y: auto;
+        width: 100% !important;
     }
 
     /* Перфорированные кабельные короба */
