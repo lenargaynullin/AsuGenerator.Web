@@ -11,6 +11,7 @@ namespace AsuGenerator.Web.Services
 {
     public class UniversalCalculationEngine
     {
+
         private readonly IWebHostEnvironment _env;
 
         public UniversalCalculationEngine(IWebHostEnvironment env)
