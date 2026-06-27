@@ -1,4 +1,4 @@
-﻿@page "/import-specification"
+﻿@page "/import-spec"
 @using System.IO
 @using System.Text.Json
 @using AsuGenerator.Web.Models
@@ -125,17 +125,12 @@
             var configDir = Path.Combine(AppContext.BaseDirectory, "wwwroot", "Configs");
             var configPath = Path.Combine(configDir, "cabinet-templates.json");
 
+            // Гарантируем наличие директории и файла перед чтением
             if (!Directory.Exists(configDir)) Directory.CreateDirectory(configDir);
+            if (!File.Exists(configPath)) await File.WriteAllTextAsync(configPath, "[]");
 
-            List<CabinetSpecificationTemplate> templates = new();
-            if (File.Exists(configPath))
-            {
-                var json = await File.ReadAllTextAsync(configPath);
-                if (!string.IsNullOrWhiteSpace(json))
-                {
-                    templates = JsonSerializer.Deserialize<List<CabinetSpecificationTemplate>>(json) ?? new();
-                }
-            }
+            var json = await File.ReadAllTextAsync(configPath);
+            var templates = JsonSerializer.Deserialize<List<CabinetSpecificationTemplate>>(json) ?? new();
 
             if (templates.Any(t => t.TemplateName.Equals(_cabinetName.Trim(), StringComparison.OrdinalIgnoreCase)))
             {
@@ -145,7 +140,11 @@
 
             var newTemplate = new CabinetSpecificationTemplate
             {
+                Id = Guid.NewGuid().ToString(), // Железно фиксируем боевой GUID
                 TemplateName = _cabinetName.Trim(),
+                CabinetName = "Импортированная спецификация",
+                ObjectLocation = "Объект: Загружен из буфера обмена",
+                LastModified = DateTime.Now,
                 Items = _parsedItems
             };
 
@@ -154,7 +153,7 @@
             var updatedJson = JsonSerializer.Serialize(templates, new JsonSerializerOptions { WriteIndented = true });
             await File.WriteAllTextAsync(configPath, updatedJson);
 
-            Snackbar.Add($"Шаблон шкафа «{_cabinetName}» успешно сохранен!", Severity.Success);
+            Snackbar.Add($"Шаблон шкафа «{_cabinetName}» успешно сохранен в базу!", Severity.Success);
 
             _cabinetName = "";
             _clipboardData = "";
@@ -162,7 +161,8 @@
         }
         catch (Exception ex)
         {
-            Snackbar.Add($"Не удалось сохранить файл шаблона: {ex.Message}", Severity.Error);
+            Snackbar.Add($"Не удалось сохранить шаблон: {ex.Message}", Severity.Error);
         }
     }
+
 }

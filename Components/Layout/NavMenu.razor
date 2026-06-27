@@ -10,49 +10,54 @@
 <MudNavMenu Bordered="true" Class="pa-2">
 
     @* Ссылка на главную страницу (Лендинг/Презентация) *@
-    <MudNavLink href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home" IconColor="Color.Default">
+    <MudNavLink Href="/" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home" IconColor="Color.Default">
         Главная страница
     </MudNavLink>
 
+    @* Ссылка на панель управления проектами инженера — ПЕРЕНЕСЕНА НАВЕРХ ДЛЯ УДОБСТВА ИНЖЕНЕРА *@
+    <MudNavLink Href="/dashboard" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Dashboard" IconColor="Color.Info">
+        Мои проекты
+    </MudNavLink>
+
+    @* Ссылка на импорт спецификации из буфера обмена Excel (ИСПРАВЛЕНА ССЫЛКА НА ИМЯ ВАШЕГО СТРАНИЧНОГО РОУТА И ИКОНКА) *@
+    <MudNavLink Href="/import-spec" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.ContentPaste" IconColor="Color.Success">
+        Импорт спецификации
+    </MudNavLink>
+
     @* Ссылка на сам рабочий конфигуратор с вкладками Конструктив/Оборудование *@
-    <MudNavLink href="configurator" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Build" IconColor="Color.Primary">
+    <MudNavLink Href="/configurator" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Build" IconColor="Color.Primary">
         Конфигуратор шкафа
     </MudNavLink>
 
     @* Ссылка на конфигуратор ПЛК *@
-    <MudNavLink href="plc-configurator" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Memory" IconColor="Color.Info">
+    <MudNavLink Href="/plc-configurator" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Memory" IconColor="Color.Info">
         Конфигуратор ПЛК
     </MudNavLink>
 
-    @* Ссылка на конфигуратор ПЛК *@
-    <MudNavLink href="import-specification" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Memory" IconColor="Color.Info">
-        Импорт спецификации
-    </MudNavLink>
-
-    @* Ссылка на панель управления проектами инженера *@
-    <MudNavLink href="dashboard" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Dashboard" IconColor="Color.Info">
-        Мои проекты
-    </MudNavLink>
-
-    @* Ссылка на коммерческую страницу с тарифами и запросом счета по ИНН *@
-    <MudNavLink href="pricing" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Payments" IconColor="Color.Success">
-        Тарифы и Бизнес
-    </MudNavLink>
-
-    @* Ссылка на страницу блога со статьями *@
-    <MudNavLink href="blog" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.RssFeed" IconColor="Color.Warning">
-        Блог и статьи
-    </MudNavLink>
-
-    <MudNavLink href="standards" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.MenuBook" IconColor="Color.Warning">
-        Стандарты ГОСТ
-    </MudNavLink>
-
-    <MudNavLink Href="/standard-cabinets" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Inventory2">
+    @* Ссылка на типовые шкафы (ВРУ, ЩС, ЩО) — ПЕРЕВЕДЕНА НА ТИПОВОЙ СТИЛЬ СВЕРХУ *@
+    <MudNavLink Href="/standard-cabinets" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Inventory2" IconColor="Color.Default">
         Типовые шкафы
     </MudNavLink>
 
-    <MudNavLink Href="/feedback" Icon="@Icons.Material.Filled.Feedback" Match="NavLinkMatch.Prefix">
+    <MudDivider Class="my-2" />
+
+    @* Ссылка на коммерческую страницу с тарифами и запросом счета по ИНН *@
+    <MudNavLink Href="/pricing" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Payments" IconColor="Color.Success">
+        Тарифы и Бизнес
+    </MudNavLink>
+
+    @* Ссылка на страницу блога со статьями (Полезно для статьи на Хабре) *@
+    <MudNavLink Href="/blog" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.RssFeed" IconColor="Color.Warning">
+        Блог и статьи
+    </MudNavLink>
+
+    @* Ссылка на стандарты ГОСТ *@
+    <MudNavLink Href="/standards" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.MenuBook" IconColor="Color.Warning">
+        Стандарты ГОСТ
+    </MudNavLink>
+
+    @* Страница отзывов и предложений из базы JSON *@
+    <MudNavLink Href="/feedback" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Feedback" IconColor="Color.Default">
         Отзывы и предложения
     </MudNavLink>
 

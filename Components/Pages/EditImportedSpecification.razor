@@ -1,0 +1,233 @@
+﻿@page "/edit-spec/{Id}"
+@using System.IO
+@using System.Text.Json
+@using AsuGenerator.Web.Models
+@inject NavigationManager NavigationManager
+@inject ISnackbar Snackbar
+
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-6">
+    <div class="d-flex justify-space-between align-center mb-4">
+        <div>
+            <MudButton Variant="Variant.Text" StartIcon="@Icons.Material.Filled.ArrowBack" OnClick="BackToDashboard">
+                Вернуться на панель управления
+            </MudButton>
+            <MudText Typo="Typo.h5" Class="mt-2"><b>Редактирование шкафа: @_project?.TemplateName</b></MudText>
+        </div>
+        <div class="d-flex gap-2">
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" OnClick="AddNewRow">
+                Добавить позицию
+            </MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Success" StartIcon="@Icons.Material.Filled.Save" OnClick="SaveProject">
+                Сохранить проект
+            </MudButton>
+        </div>
+    </div>
+
+    @if (_project == null)
+    {
+        <div class="d-flex justify-center my-8">
+            <MudProgressCircular Color="Color.Primary" Indeterminate="true" />
+        </div>
+    }
+    else
+    {
+        <MudPaper Elevation="2" Class="pa-4 mb-4">
+            <MudGrid>
+                <MudItem xs="12" sm="6">
+                    <MudTextField @bind-Value="_project.TemplateName" Label="Шифр проекта / Марка" Variant="Variant.Outlined" Margin="Margin.Dense" />
+                </MudItem>
+                <MudItem xs="12" sm="6">
+                    <MudTextField @bind-Value="_project.CabinetName" Label="Наименование шкафа" Variant="Variant.Outlined" Margin="Margin.Dense" />
+                </MudItem>
+            </MudGrid>
+        </MudPaper>
+
+        <MudTable Items="@_project.Items" Dense="true" Hover="true" Bordered="true" Striped="true" CommitEditTooltip="Применить" CancelEditTooltip="Отменить">
+            <HeaderContent>
+                <MudTh Style="width: 15%;">Тип оборудования</MudTh>
+                <MudTh Style="width: 20%;">Артикул</MudTh>
+                <MudTh Style="width: 45%;">Номенклатура / Описание</MudTh>
+                <MudTh Style="width: 10%;">Кол-во</MudTh>
+                <MudTh Style="width: 5%;">Ед.</MudTh>
+                <MudTh Style="width: 5%;" Class="text-center">Удалить</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Тип">
+                    <MudTextField @bind-Value="context.Type" Margin="Margin.Dense" Variant="Variant.Text" />
+                </MudTd>
+                <MudTd DataLabel="Артикул">
+                    <MudTextField @bind-Value="context.PartNumber" Margin="Margin.Dense" Variant="Variant.Text" Style="font-family: monospace;" />
+                </MudTd>
+                <MudTd DataLabel="Номенклатура">
+                    <MudTextField @bind-Value="context.Name" Margin="Margin.Dense" Variant="Variant.Text" />
+                </MudTd>
+                <MudTd DataLabel="Кол-во">
+                    <MudNumericField @bind-Value="context.Quantity" Margin="Margin.Dense" Variant="Variant.Text" HideSpinner="true" Style="font-weight: bold; text-align: right;" />
+                </MudTd>
+                <MudTd DataLabel="Ед.">
+                    <MudTextField @bind-Value="context.Unit" Margin="Margin.Dense" Variant="Variant.Text" />
+                </MudTd>
+                <MudTd Class="text-center">
+                    <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Size="Size.Small" OnClick="@(() => RemoveRow(context))" />
+                </MudTd>
+            </RowTemplate>
+        </MudTable>
+    }
+</MudContainer>
+
+@code {
+    [Parameter] public string Id { get; set; }
+
+    private CabinetSpecificationTemplate _project;
+    private List<CabinetSpecificationTemplate> _allProjects = new();
+    private string _configPath;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _configPath = Path.Combine(AppContext.BaseDirectory, "wwwroot", "Configs", "cabinet-templates.json");
+        await LoadProjectDataAsync();
+    }
+
+    private async Task LoadProjectDataAsync()
+    {
+        try
+        {
+            if (File.Exists(_configPath))
+            {
+                var json = await File.ReadAllTextAsync(_configPath);
+                if (!string.IsNullOrWhiteSpace(json))
+                {
+                    _allProjects = JsonSerializer.Deserialize<List<CabinetSpecificationTemplate>>(json) ?? new();
+                    _project = _allProjects.FirstOrDefault(p => p.Id == Id);
+                }
+            }
+
+            // ИСПРАВЛЕНИЕ: Если проект не найден в JSON-файле, проверяем, не демо-проект ли это из дашборда
+            if (_project == null)
+            {
+                _project = GetDemoProjectById(Id);
+
+                if (_project != null)
+                {
+                    // Если это демо-проект, сразу добавляем его в наш список для последующего сохранения
+                    _allProjects.Add(_project);
+                }
+                else
+                {
+                    Snackbar.Add("Проект не найден в базе данных", Severity.Error);
+                    BackToDashboard();
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Ошибка загрузки данных: {ex.Message}", Severity.Error);
+        }
+    }
+
+    // Дополнительный хелпер для подгрузки демо-данных, если кликнули по ним
+    private CabinetSpecificationTemplate GetDemoProjectById(string id)
+    {
+        return id switch
+        {
+            "1" => new CabinetSpecificationTemplate
+            {
+                Id = "1",
+                TemplateName = "2026-04-АСУ.ШУВ1",
+                CabinetName = "Шкаф управления вентиляцией ШУВ-1",
+                ObjectLocation = "Объект: ТЦ 'Атриум', Приточка П1",
+                Items = new() { new CustomTemplateItem { Type = "Корпус", PartNumber = "Провенто ESB", Name = "Корпус шкафа", Quantity = 1, Unit = "шт" } }
+            },
+            "2" => new CabinetSpecificationTemplate
+            {
+                Id = "2",
+                TemplateName = "08/2026-ЩР",
+                CabinetName = "Шкаф распределения питания ЩР-1",
+                ObjectLocation = "Объект: НПЗ, Цех №3, АВР КЭАЗ",
+                Items = new() { new CustomTemplateItem { Type = "Выключатель автоматический", PartNumber = "OptiDin 3P", Name = "Автоматический выключатель", Quantity = 1, Unit = "шт" } }
+            },
+            "3" => new CabinetSpecificationTemplate
+            {
+                Id = "3",
+                TemplateName = "АСУ-ТП.042.ШЛК",
+                CabinetName = "Шкаф линковки сигналов КИП (100 DI)",
+                ObjectLocation = "Объект: Насосная станция 2-го подъема",
+                Items = new() { new CustomTemplateItem { Type = "Прочее", PartNumber = "Terminal-01", Name = "Клеммный блок", Quantity = 100, Unit = "шт" } }
+            },
+            _ => null
+        };
+    }
+
+
+    private void AddNewRow()
+    {
+        _project?.Items.Add(new CustomTemplateItem
+        {
+            Type = "Прочее",
+            PartNumber = "Новый артикул",
+            Name = "Новое наименование компонента",
+            Quantity = 1,
+            Unit = "шт"
+        });
+        StateHasChanged();
+    }
+
+    private void RemoveRow(CustomTemplateItem item)
+    {
+        _project?.Items.Remove(item);
+    }
+
+    private async Task SaveProject()
+    {
+        try
+        {
+            if (_project == null) return;
+
+            _project.LastModified = DateTime.Now;
+            _project.EstimatedCost = CalculateNewCost(_project.Items);
+
+            // Перезаписываем обновленный проект в общем списке
+            var index = _allProjects.FindIndex(p => p.Id == _project.Id);
+            if (index != -1)
+            {
+                _allProjects[index] = _project;
+            }
+
+            var json = JsonSerializer.Serialize(_allProjects, new JsonSerializerOptions { WriteIndented = true });
+            await File.WriteAllTextAsync(_configPath, json);
+
+            Snackbar.Add("Спецификация шкафа успешно обновлена!", Severity.Success);
+            BackToDashboard();
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Ошибка при сохранении: {ex.Message}", Severity.Error);
+        }
+    }
+
+    private decimal CalculateNewCost(List<CustomTemplateItem> items)
+    {
+        double total = 0;
+        foreach (var item in items)
+        {
+            double pricePerUnit = item.Type.ToLower() switch
+            {
+                "корпус" => 14500,
+                "выключатель автоматический" => 7600,
+                "счетчик" => 5200,
+                "трансформатор" => 3100,
+                "шина" => 1200,
+                "провод" => 180,
+                "наконечник" => 45,
+                _ => 250
+            };
+            total += pricePerUnit * item.Quantity;
+        }
+        return (decimal)total;
+    }
+
+    private void BackToDashboard()
+    {
+        NavigationManager.NavigateTo("/dashboard");
+    }
+}

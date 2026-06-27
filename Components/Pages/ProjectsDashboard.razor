@@ -3,8 +3,11 @@
 @using System.IO
 @using System.Text.Json
 @using AsuGenerator.Web.Models
+@using AsuGenerator.Web.Services
 @inject NavigationManager NavigationManager
 @inject ISnackbar Snackbar
+@inject IJSRuntime JS
+@inject DocumentGenerator DocGenerator
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-6">
     @* Верхняя панель: Заголовок и кнопка создания *@
@@ -102,9 +105,33 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _configPath = Path.Combine(AppContext.BaseDirectory, "wwwroot", "Configs", "cabinet-templates.json");
+        var configDir = Path.Combine(AppContext.BaseDirectory, "wwwroot", "Configs");
+        _configPath = Path.Combine(configDir, "cabinet-templates.json");
+
+        try
+        {
+            // Гарантируем, что папка Configs существует
+            if (!Directory.Exists(configDir))
+            {
+                Directory.CreateDirectory(configDir);
+            }
+
+            // ИСПРАВЛЕНИЕ: Если файла cabinet-templates.json физически нет, создаем его на лету
+            if (!File.Exists(_configPath))
+            {
+                // Записываем валидный пустой JSON массив, чтобы десериализатор не выдавал null
+                await File.WriteAllTextAsync(_configPath, "[]");
+                Snackbar.Add("Файл базы шаблонов успешно инициализирован на диске!", Severity.Info);
+            }
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Не удалось инициализировать файл базы: {ex.Message}", Severity.Error);
+        }
+
         await LoadProjectsFromStorageAsync();
     }
+
 
     private async Task LoadProjectsFromStorageAsync()
     {
@@ -115,23 +142,45 @@
                 var json = await File.ReadAllTextAsync(_configPath);
                 if (!string.IsNullOrWhiteSpace(json))
                 {
-                    // Десериализуем B2B шаблоны, вставленные пользователем из Excel
                     var templates = JsonSerializer.Deserialize<List<CabinetSpecificationTemplate>>(json) ?? new();
 
-                    _userProjects = templates.Select((t, index) => new ProjectRow
+                    // Флаг, определяющий, нужно ли перезаписать файл с чистыми ID
+                    bool hasInvalidIds = false;
+                    var validTemplates = new List<CabinetSpecificationTemplate>();
+
+                    foreach (var t in templates)
                     {
-                        Id = string.IsNullOrEmpty(t.Id) ? Guid.NewGuid().ToString() : t.Id,
-                        Code = t.TemplateName, // Шифр шкафа, введенный проектировщиком
+                        // Если ID пустой, равен null или равен строке "0", принудительно даем новый GUID
+                        if (string.IsNullOrWhiteSpace(t.Id) || t.Id == "0")
+                        {
+                            t.Id = Guid.NewGuid().ToString();
+                            hasInvalidIds = true;
+                        }
+                        validTemplates.Add(t);
+                    }
+
+                    // Маппим в строки таблицы дашборда
+                    _userProjects = validTemplates.Select((t, index) => new ProjectRow
+                    {
+                        Id = t.Id, // Теперь здесь гарантированно боевой Guid
+                        Code = t.TemplateName,
                         Name = t.CabinetName ?? "Импортированная спецификация",
                         ObjectLocation = t.ObjectLocation ?? "Объект: Загружен из буфера обмена",
                         LastModified = t.LastModified == default ? DateTime.Now.AddHours(-index) : t.LastModified,
                         EstimatedCost = t.EstimatedCost > 0 ? t.EstimatedCost : CalculateEstimatedCost(t.Items),
                         Items = t.Items
                     }).ToList();
+
+                    // Если полечили базу, сразу пишем правильные ID на диск VDS
+                    if (hasInvalidIds)
+                    {
+                        var updatedJson = JsonSerializer.Serialize(validTemplates, new JsonSerializerOptions { WriteIndented = true });
+                        await File.WriteAllTextAsync(_configPath, updatedJson);
+                        Snackbar.Add("База данных проектов успешно оптимизирована и синхронизирована!", Severity.Info);
+                    }
                 }
             }
 
-            // Если конфигурационный файл пуст, наполняем его базовыми демо-проектами
             if (!_userProjects.Any())
             {
                 AddDemoProjects();
@@ -140,9 +189,11 @@
         }
         catch (Exception ex)
         {
-            Snackbar.Add($"Ошибка загрузки проектов: {ex.Message}", Severity.Error);
+            Snackbar.Add($"Ошибка инициализации дашборда: {ex.Message}", Severity.Error);
         }
     }
+
+
 
     private decimal CalculateEstimatedCost(List<CustomTemplateItem> items)
     {
@@ -208,14 +259,70 @@
 
     private void EditProject(string id)
     {
-        NavigationManager.NavigateTo($"/configurator/{id}");
+        NavigationManager.NavigateTo($"/edit-spec/{id}");
     }
 
-    private void DownloadExcel(string id)
+    private async Task DownloadExcel(string id)
     {
-        Snackbar.Add($"Запуск генерации Excel по ГОСТ 21.110 для проекта ID: {id}", Severity.Info);
-        // Здесь вызывается ваш Services/DocumentGenerator.cs
+        try
+        {
+            var project = _userProjects.FirstOrDefault(p => p.Id == id);
+            if (project == null)
+            {
+                Snackbar.Add("Проект не найден!", Severity.Error);
+                return;
+            }
+
+            Snackbar.Add($"Формирование спецификации по ГОСТ 21.110 для {project.Code}...", Severity.Info);
+
+            // Маппим кастомные строки буфера обмена в формат SelectedComponent
+            var mappedComponents = project.Items.Select(item => new SelectedComponent
+            {
+                Designation = "—",
+                Description = item.Name,
+                Article = item.PartNumber,
+                Vendor = item.Type,
+                Quantity = (int)item.Quantity
+            }).ToList();
+
+            // Создаем пустой конфиг вентиляции для шапки
+            var fakeConfig = new VentAvtomatikaConfig
+            {
+                KpNumber = project.Code,
+                ClientName = "Загружен из буфера",
+                CompanyName = project.ObjectLocation
+            };
+
+            // Вызов вашего оригинального метода генерации Excel
+            byte[] fileBytes = DocGenerator.GenerateExcelSpecification(mappedComponents, fakeConfig);
+            string fileName = $"{project.Code}_Спецификация_ГОСТ.xlsx";
+            string base64String = Convert.ToBase64String(fileBytes);
+
+            // ИСПРАВЛЕНИЕ: Инжектируем чистый нативный JavaScript прямо через C#, чтобы избежать ошибки 'not a function'
+            var jsCode = @"
+            (function(name, base64) {
+                var link = document.createElement('a');
+                link.download = name;
+                link.href = 'data:application/octet-stream;base64,' + base64;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            })";
+
+            // Вызываем анонимную функцию в контексте браузера напрямую
+            await JS.InvokeVoidAsync("eval", $"{jsCode}('{fileName}', '{base64String}')");
+
+            if (_availableDownloads > 0) _availableDownloads--;
+
+            Snackbar.Add("Файл успешно сгенерирован и скачан!", Severity.Success);
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Ошибка генерации Excel: {ex.Message}", Severity.Error);
+        }
     }
+
+
 
     private async Task DeleteProject(ProjectRow project)
     {
