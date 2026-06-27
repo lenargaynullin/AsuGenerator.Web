@@ -1,7 +1,12 @@
 ﻿@page "/plc-configurator"
 @using AsuGenerator.Web.Models
 @using AsuGenerator.Web.Services
+@using System.Text.Json
+
 @inject PlcCalculationService PlcCalcService
+@inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment Env
+@inject AsuGenerator.Web.Services.RegulCalculationService RegulService
+@inject MudBlazor.ISnackbar Snackbar
 
 <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-4 px-4">
     <MudText Typo="Typo.h5" Class="mb-3 font-weight-bold" Style="font-size: 16px;">⚙️ Расширенная конфигурация ПЛК и сигналов</MudText>
@@ -15,13 +20,14 @@
                         <MudItem xs="4">
                             <MudSelect T="string" Label="Производитель" @bind-Value="selectedVendor" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 11px;">
                                 <MudSelectItem Value="@("ОВЕН")">ОВЕН</MudSelectItem>
+                                <MudSelectItem Value="@("REGUL")">REGUL</MudSelectItem>
                             </MudSelect>
                         </MudItem>
                         <MudItem xs="4">
                             <MudSelect T="PlcComponent" Label="Контроллер (CPU)" @bind-Value="selectedCpu" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 11px;">
                                 @foreach (var cpu in availableCpus.Where(c => c.Name.Contains(selectedVendor)))
                                 {
-                                    <MudSelectItem Value="@cpu">@cpu.Name (@cpu.Article)</MudSelectItem>
+                                    <MudSelectItem Value="@cpu">@cpu.Article</MudSelectItem>
                                 }
                             </MudSelect>
                         </MudItem>
@@ -123,6 +129,15 @@
             <MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small" FullWidth="true" OnClick="GenerateLayout" Disabled="@(selectedCpu is null)" Style="font-size: 11px; height: 32px;">
                 Сгенерировать корзины
             </MudButton>
+            <MudButton Variant="Variant.Filled"
+                       Color="Color.Success"
+                       FullWidth="true"
+                       Class="mt-4 py-2"
+                       StartIcon="@Icons.Material.Filled.Save"
+                       OnClick="SavePlcProjectToDashboard"
+                       Disabled="@(calcResult == null || !calcResult.Cabinets.Any())">
+                Сохранить спецификацию ПЛК в проекты
+            </MudButton>
         </MudItem>
 
                 <!-- ВЫВОД РЕЗУЛЬТАТОВ (ПРАВАЯ КОЛОНКА) -->
@@ -170,36 +185,45 @@
                                         <div class="cable-duct duct-h40">40х100</div>
                                         <div class="cable-duct duct-h40">40х100</div>
 
-                                        @{ int singleRailCounter = 1; }
+                                        @{
+                                            int singleRailCounter = 1;
+                                        }
                                         @foreach (var node in cabinet.SingleSide.Nodes)
                                         {
                                             @foreach (var basket in node.Baskets)
                                             {
                                                 <div class="din-rail-row">
-                                                    <div class="modules-line d-flex align-center justify-start">
+                                                    <div class="modules-line d-flex align-center justify-start flex-wrap">
+
+                                                        @* ИСПРАВЛЕНО: Добавлен цикл перебора модулей внутри корзины *@
                                                         @foreach (var m in basket.Modules)
                                                         {
-                                                            @if (m.Type == "RELAY_BLOCK")
-                                                            {
-                                                                <div class="text-center rounded text-white d-flex align-center justify-center font-weight-bold" style="background-color: #d35400; width: @((m.WidthMm * 0.8))px; height: 42px; font-size: 9px; border: 1px dashed #fff; min-width: 50px;">
-                                                                    РЕЛЕ (@cabinet.InterposingRelays.Count шт)
+                                                            <div class="text-center rounded text-white style-plc-module @GetModuleColorClass(m.Type)"
+                                                                 style="min-width: @(m.WidthMm * 0.8)px; max-width: @(m.WidthMm * 0.8)px; height: 50px; margin: 0 1px; overflow: hidden; display: inline-block; vertical-align: top;">
+
+                                                                <!-- Выводим реальный шифр ОУ на основе типа вендора -->
+                                                                <div class="font-weight-bold" style="font-size: 8px; line-height: 1.1; padding-top: 2px;">
+                                                                    @if (selectedVendor == "REGUL")
+                                                                    {
+                                                                        @(m.Type == "CPU" ? "A1" : m.Type == "BUS" ? "G1" : "U" + (basket.Modules.IndexOf(m) + 1))
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        @GetUniqueModuleDesignation(m, cabinet)
+                                                                    }
                                                                 </div>
-                                                            }
-                                                            else if (m.Type == "TERMINAL_BLOCK")
-                                                            {
-                                                                <div class="text-center rounded text-white d-flex align-center justify-center font-weight-bold" style="background-color: #7f8c8d; width: @((m.WidthMm * 0.8))px; height: 42px; font-size: 9px; border: 1px dashed #fff; min-width: 50px;">
-                                                                    КЛЕММЫ IEK
+
+                                                                <!-- Вместо зашитого МВ210 выводим реальный артикул m.Article из plc-base.json -->
+                                                                <div style="font-size: 7px; font-family: monospace; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; padding: 0 2px;">
+                                                                    @m.Article
                                                                 </div>
-                                                            }
-                                                            else
-                                                            {
-                                                                <div class="text-center rounded text-white style-plc-module @GetModuleColorClass(m.Type)" style="min-width: @(m.WidthMm * 0.8)px; height: 50px;">
-                                                                    <div class="font-weight-bold" style="font-size: 8px;">@GetUniqueModuleDesignation(m, cabinet)</div>
-                                                                    <div style="font-size: 7px; font-family: monospace;">@m.Article</div>
-                                                                    <div style="font-size: 6px; color: #bdc3c7;">@m.WidthMm мм</div>
+
+                                                                <div style="font-size: 6px; color: #e0e0e0;">
+                                                                    @m.WidthMm мм
                                                                 </div>
-                                                            }
+                                                            </div>
                                                         }
+
                                                     </div>
                                                     <div class="rail-label">--- CARRIER @singleRailCounter ---</div>
                                                 </div>
@@ -207,6 +231,7 @@
                                                 { singleRailCounter++; }
                                             }
                                         }
+
                                         <div class="cable-entry-zone">ЗОНА ЗАВЕДЕНИЯ КАБЕЛЕЙ (СВОБОДНО: @(panelHeightMm - cabinet.SingleSide.TotalAllocatedHeightMm) мм)</div>
                                     </div>
                                     <div class="cable-duct duct-right"><span style="writing-mode: vertical-rl; transform: rotate(180deg); white-space: nowrap;">60х100</span></div>
@@ -443,6 +468,15 @@
         padding: 0 !important;
     }
 
+    /* Фирменный изумрудный цвет Прософт для процессоров REGUL */
+    .bg-regul-cpu {
+        background-color: #27ae60;
+    }
+    /* Окраска модулей шасси и оконечников */
+    .bg-regul-terminal {
+        background-color: #34495e;
+        border-left: 3px solid #e74c3c;
+    }
     /* Модули ПЛК (Высота 125 мм) */
     .style-plc-module {
         height: 50px; /* 125mm * 0.4 */
@@ -526,6 +560,7 @@
 </style>
 
 @code {
+
     private CabinetType cabinetType = CabinetType.SingleSided;
     private string selectedVendor = "ОВЕН";
     private int cabinetWidth = 800;
@@ -537,32 +572,124 @@
     private List<PlcComponent> availableCpus = new();
     private List<PlcComponent> availableModulesInDb = new();
     private PlcCabinetCalculationResult? calcResult;
+    private PlcBaseRoot _plcDbRoot = new();
+
 
     private int TotalSignalsCount => signals.TotalDI + signals.TotalDO + signals.TotalAI + signals.TotalAO;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        LoadMockPlcDatabase();
-        selectedCpu = availableCpus.FirstOrDefault(c => c.Name.Contains(selectedVendor));
+        try
+        {
+            // Читаем обновленный единый файл конфигурации ПЛК
+            string jsonPath = Path.Combine(Env.WebRootPath, "Configs", "plc-base.json");
+            if (File.Exists(jsonPath))
+            {
+                string jsonText = await File.ReadAllTextAsync(jsonPath);
+                _plcDbRoot = System.Text.Json.JsonSerializer.Deserialize<PlcBaseRoot>(jsonText) ?? new();
+            }
+
+            // Автоматически инициализируем списки ОВЕН/REGUL
+            selectedVendor = "REGUL";
+            UpdateAvailableCpus();
+        }
+        catch (Exception ex)
+        {
+            // ИСПРАВЛЕНО: Валидный b2b-вызов MudBlazor Snackbar
+            Snackbar.Add($"Ошибка инициализации единой базы ПЛК: {ex.Message}", Severity.Error);
+        }
     }
+
 
     private void GenerateLayout()
     {
         if (selectedCpu is null) return;
 
-        calcResult = PlcCalcService.CalculateMultiPlcCabinet(
-        signals,
-        selectedCpu,
-        availableModulesInDb,
-        busCoupler,
-        maxSlotsPerBasket: 12,
-        cabinetWidthMm: cabinetWidth,
-        cabinetHeightMm: cabinetHeight,
-        cabinetType: cabinetType // Передаем выбор пользователя
-        );
+        if (selectedVendor == "ОВЕН")
+        {
+            // Ваш старый алгоритм расчета ОВЕН МВ210/МУ210
+            calcResult = PlcCalcService.CalculateMultiPlcCabinet(
+                signals, selectedCpu, availableModulesInDb, busCoupler,
+                maxSlotsPerBasket: 12, cabinetWidthMm: cabinetWidth,
+                cabinetHeightMm: cabinetHeight, cabinetType: cabinetType
+            );
+        }
+        else if (selectedVendor == "REGUL")
+        {
+            // БОЕВОЙ B2B-РАСЧЕТ ДЛЯ REGUL R500
+            var inputSignals = new List<IoSignalRow>();
 
-        this.StateHasChanged();
+            // Собираем данные из полей ввода MudNumericField на экране
+            int totalDi = signals.DiDryContact + signals.DiWetContact + signals.DiFastCounter;
+            if (totalDi > 0) inputSignals.Add(new IoSignalRow { SignalType = "DI", TotalWithReserve = totalDi });
+            if (signals.TotalDO > 0) inputSignals.Add(new IoSignalRow { SignalType = "DO", TotalWithReserve = signals.TotalDO });
+            if (signals.TotalAI > 0) inputSignals.Add(new IoSignalRow { SignalType = "AI", TotalWithReserve = signals.TotalAI });
+            if (signals.TotalAO > 0) inputSignals.Add(new IoSignalRow { SignalType = "AO", TotalWithReserve = signals.TotalAO });
+
+            // Вызываем наш монолитный сервис (учитывает 20% резерва и считает БП/Шасси/Оконечники)
+            var regulRacks = RegulService.CalculateSystemWithDbAndBarriers(inputSignals);
+
+            // Маппим результаты в графический объект вашей страницы PlcCabinetCalculationResult
+            calcResult = new PlcCabinetCalculationResult();
+            var visualCabinet = new PlcCabinet
+            {
+                CabinetIndex = 1,
+                Type = cabinetType,
+                // ИСПРАВЛЕНО: Просто вызываем дефолтные конструкторы ваших b2b-классов, чтобы не было конфликта типов
+                InterposingRelays = new(),
+                Terminals = new()
+            };
+
+
+            var visualSide = cabinetType == CabinetType.SingleSided ? visualCabinet.SingleSide : visualCabinet.FrontSide;
+            var node = new PlcNode();
+
+            foreach (var rack in regulRacks)
+            {
+                var basket = new PlcBasket();
+
+                // Превращаем CustomTemplateItem в PlcComponent для графических div-блоков рендера
+                foreach (var item in rack.AddedComponents)
+                {
+                    // Вычисляем ширину одной единицы оборудования для CSS стилей width
+                    int unitWidth = item.PartNumber.Contains("CU") ? 80 : 40;
+
+                    // Добавляем покомпонентно каждый физический модуль REGUL на DIN-рейку
+                    for (int i = 0; i < item.Quantity; i++)
+                    {
+                        basket.Modules.Add(new PlcComponent
+                        {
+                            Article = item.PartNumber,
+                            Type = item.PartNumber.Contains("CU") ? "CPU" : item.PartNumber.Contains("PP") ? "BUS" : "DI",
+                            WidthMm = unitWidth
+                        });
+                    }
+                }
+
+                // Добавляем барьеры искрозащиты из вашей базы как отдельные модули BARRIER_BLOCK
+                foreach (var acc in rack.Accessories)
+                {
+                    for (int i = 0; i < acc.Quantity; i++)
+                    {
+                        basket.Modules.Add(new PlcComponent
+                        {
+                            Article = acc.PartNumber,
+                            Type = "BARRIER_BLOCK",
+                            WidthMm = 12 // Узкий b2b-формат барьера
+                        });
+                    }
+                }
+
+                node.Baskets.Add(basket);
+            }
+
+            visualSide.Nodes.Add(node);
+            calcResult.Cabinets.Add(visualCabinet);
+        }
+
+        this.StateHasChanged(); // Принудительно перерисовываем MudBlazor UI
     }
+
 
     // Метод сквозного расчета уникальных позиционных обозначений (ГОСТ) в рамках Шкафа
     private string GetUniqueModuleDesignation(PlcComponent currentMod, PlcCabinet currentCabinet)
@@ -628,27 +755,143 @@
 
     private string GetModuleColorClass(string type) => type switch
     {
-        "CPU" => "bg-cpu",
-        "DI" => "bg-di",
-        "DO" => "bg-do",
-        "AI_Current" => "bg-ai-cur",
-        "AI_Temp" => "bg-ai-temp",
-        "AO" => "bg-ao",
-        _ => "bg-unknown"
+        // ИСПРАВЛЕНО: Если выбран REGUL, красим процессоры и модули в изумрудный, блоки питания в темно-серый
+        "CPU" => selectedVendor == "REGUL" ? "mud-theme-success" : "bg-cpu",
+        "BUS" => selectedVendor == "REGUL" ? "mud-theme-dark" : "bg-power",
+        "DI" => selectedVendor == "REGUL" ? "mud-theme-success" : "bg-di",
+        "DO" => selectedVendor == "REGUL" ? "mud-theme-success" : "bg-do",
+        "AI_Current" => selectedVendor == "REGUL" ? "mud-theme-success" : "bg-ai-cur",
+        "BARRIER_BLOCK" => "mud-theme-warning", // Желтый цвет взрывозащиты Exi
+        _ => "mud-theme-secondary"
     };
 
-    private void LoadMockPlcDatabase()
+    private void UpdateAvailableCpus()
     {
-        availableCpus = new List<PlcComponent> {
-            new() { Article = "ПЛК210-01", Name = "ОВЕН ПЛК210", Type = "CPU", DiChannels = 12, DoChannels = 4, WidthMm = 105, SlotsOccupied = 2 }
-        };
+        // Защита: если корень базы или компоненты не инициализированы, выходим из метода
+        if (_plcDbRoot?.Components == null) return;
 
-        availableModulesInDb = new List<PlcComponent> {
-            new() { Article = "МВ210-202", Name = "Модуль 16DI", Type = "DI", DiChannels = 16, WidthMm = 42 },
-            new() { Article = "МУ210-401", Name = "Модуль 16DO (Реле)", Type = "DO", DoChannels = 16, WidthMm = 42 },
-            new() { Article = "МВ210-101", Name = "Модуль 8AI (4-20мА/0-10В)", Type = "AI_Current", AiChannels = 8, WidthMm = 42 },
-            new() { Article = "МВ210-102", Name = "Модуль 8AI (RTD/TC)", Type = "AI_Temp", AiChannels = 8, WidthMm = 42 },
-            new() { Article = "МУ210-501", Name = "Модуль 6AO", Type = "AO", AoChannels = 6, WidthMm = 42 }
-        };
+        // Динамический фильтр контроллеров из plc-base.json по выбранному бренду
+        var vendorData = _plcDbRoot.Vendors?.FirstOrDefault(v => v.Name == selectedVendor);
+        if (vendorData != null)
+        {
+            // Преобразуем данные из DTO в формат вашего PlcComponent
+            availableCpus = _plcDbRoot.Components
+                .Where(c => c.Vendor == selectedVendor && c.Category == "cpu")
+                .Select(c => new PlcComponent
+                {
+                    Article = c.PartNumber,
+                    Name = c.Description,
+                    Type = "CPU",
+                    WidthMm = (int)c.WidthMm
+                }).ToList();
+
+            selectedCpu = availableCpus.FirstOrDefault();
+        }
+
+        StateHasChanged(); // Принудительно обновляем UI MudBlazor
     }
+    private async Task SavePlcProjectToDashboard()
+    {
+        try
+        {
+            // 1. Формируем пути к базе проектов дашборда
+            //string configDir = Path.Combine(Env.WebRootPath, "Configs");
+            //string configPath = Path.Combine(configDir, "cabinet-templates.json");
+            var configDir = Path.Combine(AppContext.BaseDirectory, "wwwroot", "Configs");
+            var configPath = Path.Combine(configDir, "cabinet-templates.json");
+
+            if (!Directory.Exists(configDir)) Directory.CreateDirectory(configDir);
+            if (!File.Exists(configPath)) await File.WriteAllTextAsync(configPath, "[]");
+
+            // Читаем текущие проекты дашборда
+            string jsonText = await File.ReadAllTextAsync(configPath);
+            var templates = System.Text.Json.JsonSerializer.Deserialize<List<CabinetSpecificationTemplate>>(jsonText) ?? new();
+
+            // 2. Генерируем сложный b2b-шифр проекта для щитовиков
+            string projectCipher = $"{DateTime.Now.Year}-{DateTime.Now.Month:D2}-АСУ.{selectedVendor}.{selectedCpu?.Article}";
+
+            // Защита от дубликатов имен
+            if (templates.Any(t => t.TemplateName.Equals(projectCipher, StringComparison.OrdinalIgnoreCase)))
+            {
+                projectCipher += $"_{Guid.NewGuid().ToString().Substring(0, 4).ToUpper()}";
+            }
+
+            var savedItems = new List<CustomTemplateItem>();
+
+            // 3. Собираем все модули ПЛК из графических корзин рендера в плоскую спецификацию ГОСТ
+            var visualCabinet = calcResult.Cabinets.FirstOrDefault();
+            if (visualCabinet != null)
+            {
+                var visualSide = cabinetType == CabinetType.SingleSided ? visualCabinet.SingleSide : visualCabinet.FrontSide;
+                var allModules = visualSide.Nodes.SelectMany(n => n.Baskets).SelectMany(b => b.Modules);
+
+                // Группируем одинаковые модули (артикулы REGUL) для ГОСТ-строки
+                var groupedModules = allModules.GroupBy(m => m.Article);
+                foreach (var group in groupedModules)
+                {
+                    string categoryName = group.First().Type switch
+                    {
+                        "CPU" => "Центральный процессор",
+                        "BUS" => "Модуль питания шины",
+                        "BARRIER_BLOCK" => "Взрывозащита Exi",
+                        _ => "Модуль ввода/вывода"
+                    };
+
+                    savedItems.Add(new CustomTemplateItem
+                    {
+                        PartNumber = group.Key,
+                        Name = $"{categoryName} {selectedVendor} R500",
+                        Quantity = group.Count(),
+                        Unit = "шт",
+                        Type = group.First().Type == "BARRIER_BLOCK" ? "выключатель автоматический" : "корпус" // Маппинг категорий стоимости для дашборда
+                    });
+
+                    // Под каждый физический модуль РЕГУЛ (кроме барьеров) добавляем пластиковое шасси
+                    if (group.First().Type != "BARRIER_BLOCK")
+                    {
+                        string chassisArt = group.Key.Contains("CU") || group.Key.Contains("PP") ? "R500 CH 02 022" : "R500 CH 01 011";
+                        savedItems.Add(new CustomTemplateItem
+                        {
+                            PartNumber = chassisArt,
+                            Name = $"Модуль монтажного шасси под {group.Key}",
+                            Quantity = group.Count(),
+                            Unit = "шт",
+                            Type = "шина"
+                        });
+                    }
+                }
+            }
+
+            // 4. Создаем итоговый объект b2b-проекта
+            var newProject = new CabinetSpecificationTemplate
+            {
+                Id = Guid.NewGuid().ToString(),
+                TemplateName = projectCipher,
+                CabinetName = $"Шкаф управления на базе {selectedVendor} R500",
+                ObjectLocation = $"Объект: Система РСУ/ПАЗ ({signals.DiDryContact} DI, {signals.TotalDO} DO)",
+                LastModified = DateTime.Now,
+                Items = savedItems
+            };
+
+            // Сохраняем обратно на диск VDS reg.ru
+            templates.Add(newProject);
+            // ИСПРАВЛЕНО: Добавляем JavaScriptEncoder.Create, чтобы кириллица в JSON оставалась русской
+            var serializeOptions = new JsonSerializerOptions
+            {
+                WriteIndented = true,
+                Encoder = System.Text.Encodings.Web.JavaScriptEncoder.Create(System.Text.Unicode.UnicodeRanges.All)
+            };
+
+            var updatedJson = System.Text.Json.JsonSerializer.Serialize(templates, serializeOptions);
+            await File.WriteAllTextAsync(configPath, updatedJson);
+
+            Snackbar.Add($"Спецификация шкафа ПЛК сохранена под шифром {projectCipher}!", Severity.Success);
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Ошибка экспорта в проекты: {ex.Message}", Severity.Error);
+        }
+    }
+
+
 }

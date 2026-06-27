@@ -1,301 +1,195 @@
-[
-    {
-        "Manufacturer": "ОВЕН",
-        "PlcType": "ПР200",
-        "Protocol": "Modbus RTU",
-        "Article": "ПР200-220.4.2",
-        "Name": "Программируемое реле ПР200-220.4.2 [Питание ~230В, 8xDI(~230В), 4xAI, 8xDO(Р), 2xAO, 2xRS-485]",
-        "DiCount": 8,
-        "AiCount": 4,
-        "DoCount": 8,
-        "AoCount": 2,
-        "PowerSupply": "230V"
+{
+    "GlobalSettings": {
+        "ReserveAiPercent": 20,
+        "ReserveDiPercent": 20,
+        "DefaultCabinetWidthMm": 800,
+        "MaxBusCurrentA": 4.5
     },
-    {
-        "Manufacturer": "ОВЕН",
-        "PlcType": "ПР200",
-        "Protocol": "Modbus RTU",
-        "Article": "ПР200-220.24.2",
-        "Name": "Программируемое реле ПР200-220.24.2 [Питание ~230В, 8xDI(=24В), 4xAI, 8xDO(Р), 2xAO, 2xRS-485]",
-        "DiCount": 8,
-        "AiCount": 4,
-        "DoCount": 8,
-        "AoCount": 2,
-        "PowerSupply": "230V"
-    },
-    {
-        "Manufacturer": "ОВЕН",
-        "PlcType": "ПР200",
-        "Protocol": "Modbus RTU",
-        "Article": "ПР200-24.4.2",
-        "Name": "Программируемое реле ПР200-24.4.2 [Питание =24В, 8xDI(=24В), 4xAI, 8xDO(Р), 2xAO, 2xRS-485]",
-        "DiCount": 8,
-        "AiCount": 4,
-        "DoCount": 8,
-        "AoCount": 2,
-        "PowerSupply": "24V"
-    },
-    {
-        "Manufacturer": "ОВЕН",
-        "PlcType": "ПР200",
-        "Article": "ПРМ-24.1",
-        "Name": "Модуль расширения для программируемого реле",
-        "DiCount": 8,
-        "AiCount": 0,
-        "DoCount": 8,
-        "AoCount": 0,
-        "PowerSupply": "24V"
-    },
-    {
-        "Manufacturer": "ОВЕН",
-        "PlcType": "ПР200",
-        "Article": "ПРМ-230.1",
-        "Name": "Модуль расширения для программируемого реле",
-        "DiCount": 8,
-        "AiCount": 0,
-        "DoCount": 8,
-        "AoCount": 0,
-        "PowerSupply": "230V"
-    },
-    {
-        "Manufacturer": "ОВЕН",
-        "PlcType": "ПР200",
-        "Article": "ПРМ-24.2",
-        "Name": "Модуль расширения для программируемого реле",
-        "DiCount": 0,
-        "AiCount": 4,
-        "DoCount": 4,
-        "AoCount": 0,
-        "PowerSupply": "24V"
-    },
-    {
-        "Manufacturer": "ОВЕН",
-        "PlcType": "ПР200",
-        "Article": "ПРМ-230.2",
-        "Name": "Модуль расширения для программируемого реле",
-        "DiCount": 0,
-        "AiCount": 4,
-        "DoCount": 4,
-        "AoCount": 0,
-        "PowerSupply": "230V"
-    },
-    {
-        "Manufacturer": "ОВЕН",
-        "PlcType": "ПР200",
-        "Article": "ПРМ-24.3",
-        "Name": "Модуль расширения для программируемого реле",
-        "DiCount": 0,
-        "AiCount": 4,
-        "DoCount": 0,
-        "AoCount": 2,
-        "PowerSupply": "24V"
-    },
-    {
-        "Manufacturer": "ОВЕН",
-        "PlcType": "ПР200",
-        "Article": "ПРМ-230.3",
-        "Name": "Модуль расширения для программируемого реле",
-        "DiCount": 0,
-        "AiCount": 4,
-        "DoCount": 0,
-        "AoCount": 2,
-        "PowerSupply": "230V"
-    },
-    {
-        "Manufacturer": "ОВЕН",
-        "PlcType": "ПР200",
-        "Article": "ПРМ-24.4",
-        "Name": "Модуль расширения для программируемого реле",
-        "DiCount": 16,
-        "AiCount": 0,
-        "DoCount": 0,
-        "AoCount": 0,
-        "PowerSupply": "24V"
-    },
-    {
-        "Manufacturer": "ОВЕН",
-        "PlcType": "ПР200",
-        "Article": "ПРМ-230.4",
-        "Name": "Модуль расширения для программируемого реле",
-        "DiCount": 16,
-        "AiCount": 0,
-        "DoCount": 0,
-        "AoCount": 0,
-        "PowerSupply": "230V"
-    },
-    {
-        "Manufacturer": "ОВЕН",
-        "PlcType": "ПР200",
-        "Article": "ПРМ-24.5",
-        "Name": "Модуль расширения для программируемого реле",
-        "DiCount": 0,
-        "AiCount": 0,
-        "DoCount": 16,
-        "AoCount": 0,
-        "PowerSupply": "24V"
-    },
-    {
-        "Manufacturer": "ОВЕН",
-        "PlcType": "ПР200",
-        "Article": "ПРМ-230.5",
-        "Name": "Модуль расширения для программируемого реле",
-        "DiCount": 0,
-        "AiCount": 0,
-        "DoCount": 16,
-        "AoCount": 0,
-        "PowerSupply": "230V"
-    },
-    {
-        "Manufacturer": "ОВЕН",
-        "PlcType": "ПР200",
-        "Article": "ПРМ-24.6",
-        "Name": "Модуль расширения для программируемого реле",
-        "DiCount": 16,
-        "AiCount": 0,
-        "DoCount": 12,
-        "AoCount": 0,
-        "PowerSupply": "24V"
-    },
-    {
-        "Manufacturer": "ОВЕН",
-        "PlcType": "ПР200",
-        "Article": "ПРМ-230.6",
-        "Name": "Модуль расширения для программируемого реле",
-        "DiCount": 16,
-        "AiCount": 0,
-        "DoCount": 12,
-        "AoCount": 0,
-        "PowerSupply": "230V"
-    },
-    {
-        "Manufacturer": "ОВЕН",
-        "PlcType": "ПЛК210",
-        "Article": "ПЛК210-01-CS",
-        "Name": "Промышленный контроллер ПЛК210 (12xDI, 18xDO)",
-        "DiCount": 12,
-        "AiCount": 0,
-        "DoCount": 18,
-        "AoCount": 0
-    },
-    {
-        "Manufacturer": "ОВЕН",
-        "PlcType": "ПЛК210",
-        "Article": "ПЛК210-02-CS",
-        "Name": "Промышленный контроллер ПЛК210 (24xDI, 12xDO)",
-        "DiCount": 24,
-        "AiCount": 0,
-        "DoCount": 12,
-        "AoCount": 0
-    },
-    {
-        "Manufacturer": "ОВЕН",
-        "PlcType": "ПЛК210",
-        "Article": "ПЛК210-03-CS",
-        "Name": "Промышленный контроллер ПЛК210 (24xDI, 16xDO)",
-        "DiCount": 24,
-        "AiCount": 0,
-        "DoCount": 16,
-        "AoCount": 0
-    },
-    {
-        "Manufacturer": "ОВЕН",
-        "PlcType": "ПЛК210",
-        "Article": "ПЛК210-04-CS",
-        "Name": "Промышленный контроллер ПЛК210 (12xDI, 12xDO, 4xAI)",
-        "DiCount": 12,
-        "AiCount": 4,
-        "DoCount": 12,
-        "AoCount": 0
-    },
-    {
-        "Manufacturer": "ОВЕН",
-        "PlcType": "ПЛК210",
-        "Article": "ПЛК210-11-CS",
-        "Name": "Промышленный контроллер ПЛК210 (12xDI, 18xDO)",
-        "DiCount": 12,
-        "AiCount": 0,
-        "DoCount": 18,
-        "AoCount": 0
-    },
-    {
-        "Manufacturer": "ОВЕН",
-        "PlcType": "ПЛК210",
-        "Article": "ПЛК210-12-CS",
-        "Name": "Промышленный контроллер ПЛК210 (24xDI, 12xDO)",
-        "DiCount": 24,
-        "AiCount": 0,
-        "DoCount": 12,
-        "AoCount": 0
-    },
-    {
-        "Manufacturer": "ОВЕН",
-        "PlcType": "ПЛК210",
-        "Article": "ПЛК210-13-CS",
-        "Name": "Промышленный контроллер ПЛК210 (24xDI, 16xDO)",
-        "DiCount": 24,
-        "AiCount": 0,
-        "DoCount": 16,
-        "AoCount": 0
-    },
-    {
-        "Manufacturer": "ОВЕН",
-        "PlcType": "ПЛК210",
-        "Article": "ПЛК210-14-CS",
-        "Name": "Промышленный контроллер ПЛК210 (12xDI, 12xDO, 4xAI)",
-        "DiCount": 12,
-        "AiCount": 4,
-        "DoCount": 12,
-        "AoCount": 0
-    },
-    {
-        "Manufacturer": "ОВЕН",
-        "PlcType": "ПЛК210",
-        "Article": "МВ210-101",
-        "Name": "Модуль аналогового ввода ПЛК210 (8xAI)",
-        "DiCount": 0,
-        "AiCount": 8,
-        "DoCount": 0,
-        "AoCount": 0
-    },
-    {
-        "Manufacturer": "ОВЕН",
-        "PlcType": "ПЛК210",
-        "Article": "МУ210-502",
-        "Name": "Модуль аналогового вывода ПЛК210 (6xAO)",
-        "DiCount": 0,
-        "AiCount": 0,
-        "DoCount": 0,
-        "AoCount": 6
-    },
-    {
-        "Manufacturer": "ОВЕН",
-        "PlcType": "ПЛК210",
-        "Article": "МВ210-212",
-        "Name": "Модуль дискретного ввода ПЛК210 (32xDI =24 В)",
-        "Di24Count": 32,
-        "AiCount": 0,
-        "DoCount": 0,
-        "AoCount": 0
-    },
-    {
-        "Manufacturer": "ОВЕН",
-        "PlcType": "ПЛК210",
-        "Article": "МВ210-214",
-        "Name": "Модуль дискретного ввода ПЛК210 (32xDI с.к.)",
-        "DiDryCount": 32,
-        "AiCount": 0,
-        "DoCount": 0,
-        "AoCount": 0
-    },
-    {
-        "Manufacturer": "ОВЕН",
-        "PlcType": "ПЛК210",
-        "Article": "МУ210-402",
-        "Name": "Модуль дискретного вывода ПЛК210 (16xDO)",
-        "DiCount": 0,
-        "AiCount": 0,
-        "DoCount": 16,
-        "AoCount": 0
-    }
-
-]
+    "Vendors": [
+        {
+            "Name": "REGUL",
+            "Series": [
+                {
+                    "Id": "R500",
+                    "MaxModulesPerRack": 40,
+                    "RackPriceRub": 85000,
+                    "TargetApplication": "РСУ/ПАЗ до SIL3"
+                },
+                {
+                    "Id": "R600",
+                    "MaxModulesPerRack": 14,
+                    "RackPriceRub": 120000,
+                    "TargetApplication": "Высокоплотные системы"
+                }
+            ]
+        },
+        {
+            "Name": "ОВЕН",
+            "Series": [
+                {
+                    "Id": "ПЛК210",
+                    "MaxModulesPerRack": 12,
+                    "RackPriceRub": 45000,
+                    "TargetApplication": "Общепромышленная автоматизация"
+                },
+                {
+                    "Id": "ПР200",
+                    "MaxModulesPerRack": 2,
+                    "RackPriceRub": 18000,
+                    "TargetApplication": "Локальная автоматика"
+                }
+            ]
+        }
+    ],
+    "Components": [
+        {
+            "Vendor": "REGUL",
+            "FamilyId": "R500",
+            "PartNumber": "R500 PP 00 021",
+            "Category": "power",
+            "Description": "Модуль источника питания 24 В DC 75 Вт с гальванической изоляцией",
+            "Channels": 0,
+            "WidthMm": 40.0,
+            "HeightMm": 180.0,
+            "PowerConsumptionW": 0.0,
+            "TwoBusSupport": true,
+            "CompatibleChassis": "R500 CH 02 022"
+        },
+        {
+            "Vendor": "REGUL",
+            "FamilyId": "R500",
+            "PartNumber": "R500 CU 00 051",
+            "Category": "cpu",
+            "Description": "Модуль центрального процессора I-го типа, 2 Гб ОЗУ, 16 Гб ПЗУ",
+            "Channels": 0,
+            "WidthMm": 80.0,
+            "HeightMm": 180.0,
+            "PowerConsumptionW": 3.3,
+            "TwoBusSupport": true,
+            "CompatibleChassis": "R500 CH 02 022"
+        },
+        {
+            "Vendor": "REGUL",
+            "FamilyId": "R500",
+            "PartNumber": "R500 AI 08 041",
+            "Category": "AI",
+            "Description": "Модуль аналогового ввода, ток 4-20 мА + HART, 8 каналов, поканальная Г/И",
+            "Channels": 8,
+            "WidthMm": 40.0,
+            "HeightMm": 180.0,
+            "PowerConsumptionW": 1.82,
+            "TwoBusSupport": true,
+            "CompatibleChassis": "R500 CH 01 011"
+        },
+        {
+            "Vendor": "REGUL",
+            "FamilyId": "R500",
+            "PartNumber": "R500 DI 32 011",
+            "Category": "DI",
+            "Description": "Модуль дискретного ввода, 24 В DC, 32 канала, групповая Г/И",
+            "Channels": 32,
+            "WidthMm": 40.0,
+            "HeightMm": 180.0,
+            "PowerConsumptionW": 0.7,
+            "TwoBusSupport": true,
+            "CompatibleChassis": "R500 CH 01 011"
+        },
+        {
+            "Vendor": "REGUL",
+            "FamilyId": "R500",
+            "PartNumber": "R500 DO 32 011",
+            "Category": "DO",
+            "Description": "Модуль дискретного вывода 24 В DC, 0.5 А, 32 канала, групповая Г/И",
+            "Channels": 32,
+            "WidthMm": 40.0,
+            "HeightMm": 180.0,
+            "PowerConsumptionW": 1.9,
+            "TwoBusSupport": true,
+            "CompatibleChassis": "R500 CH 01 011"
+        },
+        {
+            "Vendor": "REGUL",
+            "FamilyId": "R500",
+            "PartNumber": "R500 ST 01 012",
+            "Category": "terminal",
+            "Description": "Модуль оконечный с поддержкой функции расширения шины (IN)",
+            "Channels": 0,
+            "WidthMm": 40.0,
+            "HeightMm": 130.0,
+            "PowerConsumptionW": 0.0,
+            "TwoBusSupport": true,
+            "CompatibleChassis": "R500 CH 01 011"
+        },
+        {
+            "Vendor": "REGUL",
+            "FamilyId": "R500",
+            "PartNumber": "R500 ST 01 022",
+            "Category": "terminal",
+            "Description": "Модуль оконечный с поддержкой функции расширения шины (OUT)",
+            "Channels": 0,
+            "WidthMm": 40.0,
+            "HeightMm": 130.0,
+            "PowerConsumptionW": 0.0,
+            "TwoBusSupport": true,
+            "CompatibleChassis": "R500 CH 01 011"
+        },
+        {
+            "Vendor": "ОВЕН",
+            "FamilyId": "ПЛК210",
+            "PartNumber": "ПЛК210-01-CS",
+            "Category": "cpu",
+            "Description": "Промышленный контроллер ПЛК210 (12xDI, 18xDO)",
+            "Channels": 30,
+            "WidthMm": 105.0,
+            "HeightMm": 125.0,
+            "PowerConsumptionW": 12.0,
+            "TwoBusSupport": false,
+            "CompatibleChassis": "Нет"
+        },
+        {
+            "Vendor": "ОВЕН",
+            "FamilyId": "ПЛК210",
+            "PartNumber": "МВ210-202",
+            "Category": "DI",
+            "Description": "Модуль дискретного ввода ОВЕН 16DI",
+            "Channels": 16,
+            "WidthMm": 42.0,
+            "HeightMm": 125.0,
+            "PowerConsumptionW": 3.0,
+            "TwoBusSupport": false,
+            "CompatibleChassis": "Нет"
+        }
+    ],
+    "Chassis": [
+        {
+            "PartNumber": "R500 CH 01 011",
+            "WidthMm": 40.0,
+            "Description": "Модуль шасси стандартный"
+        },
+        {
+            "PartNumber": "R500 CH 02 022",
+            "WidthMm": 80.0,
+            "Description": "Модуль шасси с поддержкой резервирования шин"
+        }
+    ],
+    "Barriers": [
+        {
+            "Id": 1,
+            "Type": "AI",
+            "ChannelsPerBarrier": 1,
+            "Description": "Барьер для AI по умолчанию"
+        },
+        {
+            "Id": 4,
+            "Type": "AI",
+            "ChannelsPerBarrier": 2,
+            "Description": "Барьер искрозащиты AI 2-канальный"
+        },
+        {
+            "Id": 5,
+            "Type": "DI",
+            "ChannelsPerBarrier": 4,
+            "Description": "Барьер искрозащиты DI 4-канальный"
+        }
+    ]
+}

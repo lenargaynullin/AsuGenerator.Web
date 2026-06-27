@@ -110,27 +110,29 @@
 
         try
         {
-            // Гарантируем, что папка Configs существует
-            if (!Directory.Exists(configDir))
-            {
-                Directory.CreateDirectory(configDir);
-            }
-
-            // ИСПРАВЛЕНИЕ: Если файла cabinet-templates.json физически нет, создаем его на лету
-            if (!File.Exists(_configPath))
-            {
-                // Записываем валидный пустой JSON массив, чтобы десериализатор не выдавал null
-                await File.WriteAllTextAsync(_configPath, "[]");
-                Snackbar.Add("Файл базы шаблонов успешно инициализирован на диске!", Severity.Info);
-            }
+            if (!Directory.Exists(configDir)) Directory.CreateDirectory(configDir);
+            if (!File.Exists(_configPath)) await File.WriteAllTextAsync(_configPath, "[]");
         }
         catch (Exception ex)
         {
-            Snackbar.Add($"Не удалось инициализировать файл базы: {ex.Message}", Severity.Error);
+            Snackbar.Add($"Ошибка инициализации диска: {ex.Message}", Severity.Error);
         }
 
+        // Первичную загрузку отсюда можно оставить, она отработает при первом заходе
         await LoadProjectsFromStorageAsync();
     }
+
+    // ИСПРАВЛЕНО: Этот метод вызывается Blazor ВСЕГДА, когда пользователь
+    // переходит на эту страницу из бокового меню или через NavManager.NavigateTo!
+    protected override async Task OnParametersSetAsync()
+    {
+        // Принудительно перечитываем JSON-базу с диска при каждом открытии дашборда
+        await LoadProjectsFromStorageAsync();
+
+        // Даем команду MudBlazor мгновенно обновить строки таблицы на экране
+        StateHasChanged();
+    }
+
 
 
     private async Task LoadProjectsFromStorageAsync()
@@ -142,15 +144,20 @@
                 var json = await File.ReadAllTextAsync(_configPath);
                 if (!string.IsNullOrWhiteSpace(json))
                 {
-                    var templates = JsonSerializer.Deserialize<List<CabinetSpecificationTemplate>>(json) ?? new();
+                    // ИСПРАВЛЕНО: Добавляем b2b-опции десериализации для обхода кодировок Unicode
+                    var options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true,
+                        Encoder = System.Text.Encodings.Web.JavaScriptEncoder.Create(System.Text.Unicode.UnicodeRanges.All)
+                    };
 
-                    // Флаг, определяющий, нужно ли перезаписать файл с чистыми ID
+                    var templates = JsonSerializer.Deserialize<List<CabinetSpecificationTemplate>>(json, options) ?? new();
+
                     bool hasInvalidIds = false;
                     var validTemplates = new List<CabinetSpecificationTemplate>();
 
                     foreach (var t in templates)
                     {
-                        // Если ID пустой, равен null или равен строке "0", принудительно даем новый GUID
                         if (string.IsNullOrWhiteSpace(t.Id) || t.Id == "0")
                         {
                             t.Id = Guid.NewGuid().ToString();
@@ -159,24 +166,22 @@
                         validTemplates.Add(t);
                     }
 
-                    // Маппим в строки таблицы дашборда
+                    // Маппим проекты из файла в строки таблицы дашборда
                     _userProjects = validTemplates.Select((t, index) => new ProjectRow
                     {
-                        Id = t.Id, // Теперь здесь гарантированно боевой Guid
-                        Code = t.TemplateName,
-                        Name = t.CabinetName ?? "Импортированная спецификация",
-                        ObjectLocation = t.ObjectLocation ?? "Объект: Загружен из буфера обмена",
-                        LastModified = t.LastModified == default ? DateTime.Now.AddHours(-index) : t.LastModified,
-                        EstimatedCost = t.EstimatedCost > 0 ? t.EstimatedCost : CalculateEstimatedCost(t.Items),
+                        Id = t.Id,
+                        Code = t.TemplateName, // Сюда встанет ваш шифр 2026-06-АСУ...
+                        Name = t.CabinetName ?? "Шкаф автоматизации REGUL R500",
+                        ObjectLocation = t.ObjectLocation ?? "Объект: Загружен из конфигуратора",
+                        LastModified = t.LastModified == default ? DateTime.Now : t.LastModified,
+                        // ИСПРАВЛЕНО: Если в файле цена 0, принудительно пересчитываем её по типам оборудования, чтобы не горел нуль!
+                        EstimatedCost = t.EstimatedCost > 0 ? t.EstimatedCost : (decimal)CalculateEstimatedCost(t.Items),
                         Items = t.Items
                     }).ToList();
 
-                    // Если полечили базу, сразу пишем правильные ID на диск VDS
                     if (hasInvalidIds)
                     {
-                        var updatedJson = JsonSerializer.Serialize(validTemplates, new JsonSerializerOptions { WriteIndented = true });
-                        await File.WriteAllTextAsync(_configPath, updatedJson);
-                        Snackbar.Add("База данных проектов успешно оптимизирована и синхронизирована!", Severity.Info);
+                        await SaveProjectsToStorageAsync();
                     }
                 }
             }
@@ -189,9 +194,11 @@
         }
         catch (Exception ex)
         {
-            Snackbar.Add($"Ошибка инициализации дашборда: {ex.Message}", Severity.Error);
+            Snackbar.Add($"Ошибка вывода проектов на дашборд: {ex.Message}", Severity.Error);
         }
     }
+
+
 
 
 

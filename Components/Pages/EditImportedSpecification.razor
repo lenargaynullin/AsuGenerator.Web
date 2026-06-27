@@ -4,6 +4,7 @@
 @using AsuGenerator.Web.Models
 @inject NavigationManager NavigationManager
 @inject ISnackbar Snackbar
+@inject IDialogService DialogService
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-6">
     <div class="d-flex justify-space-between align-center mb-4">
@@ -59,8 +60,19 @@
                     <MudTextField @bind-Value="context.PartNumber" Margin="Margin.Dense" Variant="Variant.Text" Style="font-family: monospace;" />
                 </MudTd>
                 <MudTd DataLabel="Номенклатура">
-                    <MudTextField @bind-Value="context.Name" Margin="Margin.Dense" Variant="Variant.Text" />
+                    <div class="d-flex align-center gap-1">
+                        <!-- Поле ввода номенклатуры -->
+                        <MudTextField @bind-Value="context.Name" Margin="Margin.Dense" Variant="Variant.Text" FullWidth="true" />
+
+                        <!-- КНОПКА ПОДБОРА ИЗ БАЗЫ ДАННЫХ -->
+                        <MudIconButton Icon="@Icons.Material.Filled.SavedSearch"
+                                       Color="Color.Info"
+                                       Size="Size.Small"
+                                       Tooltip="Подобрать аналог из базы ПЛК"
+                                       OnClick="@(() => OpenSelectorDialog(context))" />
+                    </div>
                 </MudTd>
+
                 <MudTd DataLabel="Кол-во">
                     <MudNumericField @bind-Value="context.Quantity" Margin="Margin.Dense" Variant="Variant.Text" HideSpinner="true" Style="font-weight: bold; text-align: right;" />
                 </MudTd>
@@ -230,4 +242,31 @@
     {
         NavigationManager.NavigateTo("/dashboard");
     }
+    private async Task OpenSelectorDialog(CustomTemplateItem currentRow)
+    {
+        // Параметры для передачи в модальное окно MudBlazor
+        var parameters = new DialogParameters<ComponentSelectorDialog>
+    {
+        { x => x.TargetType, currentRow.Type } // Передаем тип текущей строки (Корпус, Провод, и т.д.)
+    };
+
+        var options = new DialogOptions { MaxWidth = MaxWidth.Small, FullWidth = true, CloseButton = true };
+
+        // Открываем наше окно выбора
+        var dialog = await DialogService.ShowAsync<ComponentSelectorDialog>("Подбор номенклатуры", parameters, options);
+        var result = await dialog.Result;
+
+        // Если проектировщик выбрал позицию из таблицы и нажал ОК
+        if (result != null && !result.Canceled && result.Data is PlcComponentDto selectedComp)
+        {
+            // На лету перезаписываем данные ячейки из оцифрованной базы plc-base.json
+            currentRow.PartNumber = selectedComp.PartNumber;
+            currentRow.Name = selectedComp.Description;
+
+            // Перерисовываем MudBlazor таблицу
+            StateHasChanged();
+            Snackbar.Add($"Позиция успешно заменена на {selectedComp.PartNumber}", Severity.Success);
+        }
+    }
+
 }

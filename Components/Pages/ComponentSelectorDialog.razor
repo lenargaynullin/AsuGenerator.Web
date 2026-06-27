@@ -1,0 +1,100 @@
+﻿@using AsuGenerator.Web.Models
+@using System.IO
+@using System.Text.Json
+@inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment Env
+@inject ISnackbar Snackbar
+
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            <MudIcon Icon="@Icons.Material.Filled.Search" Class="mr-2" />
+            Подбор оборудования по типу: <b>@TargetType</b>
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudTextField @bind-Value="_searchQuery"
+                      Placeholder="Быстрый фильтр по артикулу или названию..."
+                      Adornment="Adornment.Start"
+                      AdornmentIcon="@Icons.Material.Filled.FilterList"
+                      Class="mb-4"
+                      Immediate="true" />
+
+        <div style="max-height: 400px; overflow-y: auto;">
+            <MudTable Items="@FilteredComponents()" Dense="true" Hover="true" Bordered="true" Striped="true" T="PlcComponentDto" OnRowClick="@RowClick">
+                <HeaderContent>
+                    <MudTh>Артикул</MudTh>
+                    <MudTh>Наименование / Описание</MudTh>
+                    <MudTh Style="width: 80px;">Действие</MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd Style="font-family: monospace; font-size: 12px;"><b>@context.PartNumber</b></MudTd>
+                    <MudTd Style="font-size: 12px;">@context.Description</MudTd>
+                    <MudTd Class="text-center">
+                        <MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small" OnClick="@(() => SelectComponent(context))">
+                            Выбрать
+                        </MudButton>
+                    </MudTd>
+                </RowTemplate>
+            </MudTable>
+        </div>
+    </DialogContent>
+    @* ИСПРАВЛЕНО: Заменено с DialogFooter на DialogActions в соответствии со стандартами MudBlazor v7 *@
+    <DialogActions>
+        <MudButton OnClick="Cancel" Variant="Variant.Text">Отмена</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] IMudDialogInstance MudDialog { get; set; }
+    [Parameter] public string TargetType { get; set; } = "";
+
+    private string _searchQuery = "";
+    private List<PlcComponentDto> _allDbComponents = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            string jsonPath = Path.Combine(Env.WebRootPath, "Configs", "plc-base.json");
+            if (File.Exists(jsonPath))
+            {
+                string jsonText = await File.ReadAllTextAsync(jsonPath);
+                var root = JsonSerializer.Deserialize<PlcBaseRoot>(jsonText, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                if (root != null) _allDbComponents = root.Components;
+            }
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Ошибка чтения базы ПЛК: {ex.Message}", Severity.Error);
+        }
+    }
+
+    private IEnumerable<PlcComponentDto> FilteredComponents()
+    {
+        var query = _allDbComponents.AsEnumerable();
+
+        if (!string.IsNullOrEmpty(TargetType))
+        {
+            string categoryFilter = TargetType.ToLower();
+            query = query.Where(c => c.Category.Contains(categoryFilter, StringComparison.OrdinalIgnoreCase) ||
+                                     c.Description.Contains(categoryFilter, StringComparison.OrdinalIgnoreCase));
+        }
+
+        if (!string.IsNullOrWhiteSpace(_searchQuery))
+        {
+            query = query.Where(c => c.PartNumber.Contains(_searchQuery, StringComparison.OrdinalIgnoreCase) ||
+                                     c.Description.Contains(_searchQuery, StringComparison.OrdinalIgnoreCase));
+        }
+
+        return query;
+    }
+
+    private void RowClick(TableRowClickEventArgs<PlcComponentDto> args) => SelectComponent(args.Item);
+
+    private void SelectComponent(PlcComponentDto component)
+    {
+        MudDialog.Close(DialogResult.Ok(component));
+    }
+
+    private void Cancel() => MudDialog.Cancel();
+}
