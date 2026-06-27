@@ -1,5 +1,10 @@
 ﻿@page "/dashboard"
 @using MudBlazor
+@using System.IO
+@using System.Text.Json
+@using AsuGenerator.Web.Models
+@inject NavigationManager NavigationManager
+@inject ISnackbar Snackbar
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-6">
     @* Верхняя панель: Заголовок и кнопка создания *@
@@ -52,8 +57,8 @@
             <MudTextField @bind-Value="_searchString" Placeholder="Поиск по шифру или объекту..." Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0" Margin="Margin.Dense" Variant="Variant.Outlined" Style="max-width: 300px;" />
         </ToolBarContent>
         <HeaderContent>
-            <MudTh Style="width: 15%;">Шифр проекта</MudTh>
-            <MudTh Style="width: 35%;">Наименование шкафа / Объект</MudTh>
+            <MudTh Style="width: 20%;">Шифр проекта / Марка</MudTh>
+            <MudTh Style="width: 30%;">Наименование шкафа / Объект</MudTh>
             <MudTh Style="width: 15%;">Дата изменения</MudTh>
             <MudTh Style="width: 15%;">Стоимость железа</MudTh>
             <MudTh Style="width: 20%;" Class="text-center">Действия</MudTh>
@@ -70,7 +75,7 @@
             </MudTd>
             <MudTd Class="text-center">
                 <div class="d-flex justify-center gap-1">
-                    <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" Size="Size.Small" Tooltip="Редактировать конфигурацию" OnClick="@(() => EditProject(context.Id))" />
+                    <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" Size="Size.Small" Tooltip="Редактировать состав" OnClick="@(() => EditProject(context.Id))" />
                     <MudIconButton Icon="@Icons.Material.Filled.FileDownload" Color="Color.Success" Size="Size.Small" Tooltip="Скачать Excel ГОСТ" OnClick="@(() => DownloadExcel(context.Id))" />
                     <MudIconButton Icon="@Icons.Material.Filled.DeleteOutline" Color="Color.Error" Size="Size.Small" Tooltip="Удалить проект" OnClick="@(() => DeleteProject(context))" />
                 </div>
@@ -88,26 +93,167 @@
         public string ObjectLocation { get; set; }
         public DateTime LastModified { get; set; }
         public decimal EstimatedCost { get; set; }
+        public List<CustomTemplateItem> Items { get; set; } = new();
     }
-
     private string _searchString = "";
     private int _availableDownloads = 14;
+    private string _configPath;
+    private List<ProjectRow> _userProjects = new();
 
-    private List<ProjectRow> _userProjects = new()
+    protected override async Task OnInitializedAsync()
     {
-        new ProjectRow { Id="1", Code="2026-04-АСУ.ШУВ1", Name="Шкаф управления вентиляцией ШУВ-1", ObjectLocation="Объект: ТЦ 'Атриум', Приточка П1", LastModified=DateTime.Now.AddDays(-2), EstimatedCost=142500 },
-        new ProjectRow { Id="2", Code="08/2026-ЩР", Name="Шкаф распределения питания ЩР-1", ObjectLocation="Объект: НПЗ, Цех №3, АВР КЭАЗ", LastModified=DateTime.Now.AddHours(-4), EstimatedCost=489000 },
-        new ProjectRow { Id="3", Code="АСУ-ТП.042.ШЛК", Name="Шкаф линковки сигналов КИП (100 DI)", ObjectLocation="Объект: Насосная станция 2-го подъема", LastModified=DateTime.Now.AddDays(-10), EstimatedCost=86000 }
-    };
+        _configPath = Path.Combine(AppContext.BaseDirectory, "wwwroot", "Configs", "cabinet-templates.json");
+        await LoadProjectsFromStorageAsync();
+    }
+
+    private async Task LoadProjectsFromStorageAsync()
+    {
+        try
+        {
+            if (File.Exists(_configPath))
+            {
+                var json = await File.ReadAllTextAsync(_configPath);
+                if (!string.IsNullOrWhiteSpace(json))
+                {
+                    // Десериализуем B2B шаблоны, вставленные пользователем из Excel
+                    var templates = JsonSerializer.Deserialize<List<CabinetSpecificationTemplate>>(json) ?? new();
+
+                    _userProjects = templates.Select((t, index) => new ProjectRow
+                    {
+                        Id = string.IsNullOrEmpty(t.Id) ? Guid.NewGuid().ToString() : t.Id,
+                        Code = t.TemplateName, // Шифр шкафа, введенный проектировщиком
+                        Name = t.CabinetName ?? "Импортированная спецификация",
+                        ObjectLocation = t.ObjectLocation ?? "Объект: Загружен из буфера обмена",
+                        LastModified = t.LastModified == default ? DateTime.Now.AddHours(-index) : t.LastModified,
+                        EstimatedCost = t.EstimatedCost > 0 ? t.EstimatedCost : CalculateEstimatedCost(t.Items),
+                        Items = t.Items
+                    }).ToList();
+                }
+            }
+
+            // Если конфигурационный файл пуст, наполняем его базовыми демо-проектами
+            if (!_userProjects.Any())
+            {
+                AddDemoProjects();
+                await SaveProjectsToStorageAsync();
+            }
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Ошибка загрузки проектов: {ex.Message}", Severity.Error);
+        }
+    }
+
+    private decimal CalculateEstimatedCost(List<CustomTemplateItem> items)
+    {
+        if (items == null || !items.Any()) return 0;
+
+        // Быстрый инженерный калькулятор себестоимости по типам номенклатуры
+        double total = 0;
+        foreach (var item in items)
+        {
+            if (string.IsNullOrWhiteSpace(item.Type)) continue;
+
+            double pricePerUnit = item.Type.ToLower() switch
+            {
+                "корпус" => 14500,
+                "выключатель автоматический" => 7600,
+                "счетчик" => 5200,
+                "трансформатор" => 3100,
+                "шина" => 1200,
+                "провод" => 180,
+                "наконечник" => 45,
+                _ => 250
+            };
+            total += pricePerUnit * item.Quantity;
+        }
+        return (decimal)total;
+    }
+
+    private async Task SaveProjectsToStorageAsync()
+    {
+        try
+        {
+            var templatesToSave = _userProjects.Select(p => new CabinetSpecificationTemplate
+            {
+                Id = p.Id,
+                TemplateName = p.Code,
+                CabinetName = p.Name,
+                ObjectLocation = p.ObjectLocation,
+                LastModified = p.LastModified,
+                // ИСПРАВЛЕНО: Убрано несуществующее свойство HardwarePrice, пишем напрямую p.EstimatedCost
+                EstimatedCost = p.EstimatedCost,
+                Items = p.Items
+            }).ToList();
+
+            var json = JsonSerializer.Serialize(templatesToSave, new JsonSerializerOptions { WriteIndented = true });
+            await File.WriteAllTextAsync(_configPath, json);
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Ошибка сохранения базы данных: {ex.Message}", Severity.Error);
+        }
+    }
+
 
     private bool FilterFunc(ProjectRow element) =>
         string.IsNullOrWhiteSpace(_searchString) ||
         element.Code.Contains(_searchString, StringComparison.OrdinalIgnoreCase) ||
         element.Name.Contains(_searchString, StringComparison.OrdinalIgnoreCase) ||
         element.ObjectLocation.Contains(_searchString, StringComparison.OrdinalIgnoreCase);
+    private void CreateNewProject()
+    {
+        NavigationManager.NavigateTo("/import-spec");
+    }
 
-    private void CreateNewProject() { /* Навигация на конфигуратор */ }
-    private void EditProject(string id) { /* Открытие конфигуратора с id */ }
-    private void DownloadExcel(string id) { /* Вызов вашего движка ClosedXML */ }
-    private void DeleteProject(ProjectRow project) => _userProjects.Remove(project);
+    private void EditProject(string id)
+    {
+        NavigationManager.NavigateTo($"/configurator/{id}");
+    }
+
+    private void DownloadExcel(string id)
+    {
+        Snackbar.Add($"Запуск генерации Excel по ГОСТ 21.110 для проекта ID: {id}", Severity.Info);
+        // Здесь вызывается ваш Services/DocumentGenerator.cs
+    }
+
+    private async Task DeleteProject(ProjectRow project)
+    {
+        _userProjects.Remove(project);
+        await SaveProjectsToStorageAsync();
+        Snackbar.Add($"Проект {project.Code} успешно удален", Severity.Warning);
+    }
+
+    private void AddDemoProjects()
+    {
+        _userProjects.Add(new ProjectRow
+        {
+            Id = "1",
+            Code = "2026-04-АСУ.ШУВ1",
+            Name = "Шкаф управления вентиляцией ШУВ-1",
+            ObjectLocation = "Объект: ТЦ 'Атриум', Приточка П1",
+            LastModified = DateTime.Now.AddDays(-2),
+            EstimatedCost = 142500
+        });
+
+        _userProjects.Add(new ProjectRow
+        {
+            Id = "2",
+            Code = "08/2026-ЩР",
+            Name = "Шкаф распределения питания ЩР-1",
+            ObjectLocation = "Объект: НПЗ, Цех №3, АВР КЭАЗ",
+            LastModified = DateTime.Now.AddHours(-4),
+            EstimatedCost = 489000
+        });
+
+        _userProjects.Add(new ProjectRow
+        {
+            Id = "3",
+            Code = "АСУ-ТП.042.ШЛК",
+            Name = "Шкаф линковки сигналов КИП (100 DI)",
+            ObjectLocation = "Объект: Насосная станция 2-го подъема",
+            LastModified = DateTime.Now.AddDays(-10),
+            EstimatedCost = 86000
+        });
+    }
 }

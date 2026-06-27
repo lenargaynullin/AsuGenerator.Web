@@ -1,0 +1,168 @@
+﻿@page "/import-specification"
+@using System.IO
+@using System.Text.Json
+@using AsuGenerator.Web.Models
+@using AsuGenerator.Web.Services
+@inject ExcelParserService ParserService
+@inject ISnackbar Snackbar
+
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-6">
+    <MudText Typo="Typo.h5" Class="mb-2" Weight="500">Добавление готовой спецификации ВРУ/ЩС в шаблоны</MudText>
+    <MudText Typo="Typo.body2" Class="mb-6" Color="Color.Secondary">
+        Скопируйте строки таблицы из Excel (Артикул, Номенклатура, Кол-во, Ед., Тип), вставьте в текстовую область ниже, задайте марку шкафа и сохраните.
+    </MudText>
+
+    <MudGrid>
+        <MudItem xs="12" md="4">
+            <MudPaper Class="pa-4" Elevation="2">
+                <MudText Typo="Typo.subtitle1" Class="mb-3" Weight="500">Параметры шаблона</MudText>
+
+                <MudTextField @bind-Value="_cabinetName"
+                              Label="Марка / Наименование шкафа"
+                              Placeholder="Например, ВРУ1А-21-10-31УХЛ4(311.6-26) ВП"
+                              Variant="Variant.Outlined"
+                              Required="true"
+                              Class="mb-4" />
+
+                <MudTextField T="string"
+                              Label="Буфер обмена из Excel (Ctrl+V)"
+                              Lines="8"
+                              Variant="Variant.Outlined"
+                              @bind-Value="_clipboardData"
+                              Immediate="true"
+                              Placeholder="Вставьте сюда скопированные ячейки таблицы с типом оборудования..."
+                              Class="mb-4" />
+
+                <MudButton Variant="Variant.Filled"
+                           Color="Color.Primary"
+                           FullWidth="true"
+                           StartIcon="@Icons.Material.Filled.ContentPasteGo"
+                           OnClick="ProcessTable"
+                           Disabled="@string.IsNullOrWhiteSpace(_clipboardData)">
+                    Распознать таблицу
+                </MudButton>
+            </MudPaper>
+        </MudItem>
+
+        <MudItem xs="12" md="8">
+            @if (_parsedItems.Any())
+            {
+                <MudPaper Class="pa-4" Elevation="2">
+                    <div class="d-flex justify-between align-center mb-4">
+                        <MudText Typo="Typo.subtitle1" Weight="500">
+                            Предпросмотр распознанных позиций (@_parsedItems.Count)
+                        </MudText>
+                        <MudButton Variant="Variant.Filled"
+                                   Color="Color.Success"
+                                   StartIcon="@Icons.Material.Filled.Save"
+                                   OnClick="SaveAsTemplate"
+                                   Disabled="@string.IsNullOrWhiteSpace(_cabinetName)">
+                            Сохранить шаблон шкафа
+                        </MudButton>
+                    </div>
+
+                    <MudTable Items="@_parsedItems" Dense="true" Hover="true" Bordered="true" Striped="true" MaxHeight="500px" FixedHeader="true">
+                        <HeaderContent>
+                            <MudTh>Артикул</MudTh>
+                            <MudTh>Номенклатура</MudTh>
+                            <MudTh>Кол-во</MudTh>
+                            <MudTh>Ед.</MudTh>
+                            <MudTh>Тип</MudTh>
+                        </HeaderContent>
+                        <RowTemplate>
+                            <MudTd DataLabel="Артикул" Style="font-family: monospace;">@context.PartNumber</MudTd>
+                            <MudTd DataLabel="Номенклатура">@context.Name</MudTd>
+                            <MudTd DataLabel="Кол-во" Style="text-align: right; font-weight: bold;">@context.Quantity</MudTd>
+                            <MudTd DataLabel="Ед.">@context.Unit</MudTd>
+                            <MudTd DataLabel="Тип">
+                                <MudChip T="string" Color="Color.Info" Size="Size.Small" Variant="Variant.Text">@context.Type</MudChip>
+                            </MudTd>
+                        </RowTemplate>
+                    </MudTable>
+                </MudPaper>
+            }
+            else
+            {
+                <MudAlert Severity="Severity.Info" Variant="Variant.Outlined" Class="mt-2">
+                    Вставьте данные и нажмите «Распознать таблицу» для предварительного просмотра.
+                </MudAlert>
+            }
+        </MudItem>
+    </MudGrid>
+</MudContainer>
+
+@code {
+    private string _cabinetName = "";
+    private string _clipboardData = "";
+    private List<CustomTemplateItem> _parsedItems = new();
+
+    private void ProcessTable()
+    {
+        try
+        {
+            _parsedItems = ParserService.ParseSpecificationTable(_clipboardData);
+            if (!_parsedItems.Any())
+            {
+                Snackbar.Add("Не удалось распознать строки. Проверьте структуру столбцов.", Severity.Warning);
+            }
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Ошибка парсинга: {ex.Message}", Severity.Error);
+        }
+    }
+
+    private async Task SaveAsTemplate()
+    {
+        if (string.IsNullOrWhiteSpace(_cabinetName))
+        {
+            Snackbar.Add("Введите имя шкафа перед сохранением!", Severity.Warning);
+            return;
+        }
+
+        try
+        {
+            var configDir = Path.Combine(AppContext.BaseDirectory, "wwwroot", "Configs");
+            var configPath = Path.Combine(configDir, "cabinet-templates.json");
+
+            if (!Directory.Exists(configDir)) Directory.CreateDirectory(configDir);
+
+            List<CabinetSpecificationTemplate> templates = new();
+            if (File.Exists(configPath))
+            {
+                var json = await File.ReadAllTextAsync(configPath);
+                if (!string.IsNullOrWhiteSpace(json))
+                {
+                    templates = JsonSerializer.Deserialize<List<CabinetSpecificationTemplate>>(json) ?? new();
+                }
+            }
+
+            if (templates.Any(t => t.TemplateName.Equals(_cabinetName.Trim(), StringComparison.OrdinalIgnoreCase)))
+            {
+                Snackbar.Add("Шаблон с таким шифром шкафа уже существует в базе!", Severity.Error);
+                return;
+            }
+
+            var newTemplate = new CabinetSpecificationTemplate
+            {
+                TemplateName = _cabinetName.Trim(),
+                Items = _parsedItems
+            };
+
+            templates.Add(newTemplate);
+
+            var updatedJson = JsonSerializer.Serialize(templates, new JsonSerializerOptions { WriteIndented = true });
+            await File.WriteAllTextAsync(configPath, updatedJson);
+
+            Snackbar.Add($"Шаблон шкафа «{_cabinetName}» успешно сохранен!", Severity.Success);
+
+            _cabinetName = "";
+            _clipboardData = "";
+            _parsedItems.Clear();
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Не удалось сохранить файл шаблона: {ex.Message}", Severity.Error);
+        }
+    }
+}

@@ -87,3 +87,22 @@ public class BaseCabinetConfig
     public decimal Margin { get; set; } = 1.35m;
     public string PreferredBrand { get; set; } = "КЭАЗ"; // КЭАЗ / EKF / IEK / Chint
 }
+public class CustomTemplateItem
+{
+    public string PartNumber { get; set; } = "";    // Артикул (столбец 1)
+    public string Name { get; set; } = "";          // Номенклатура (столбец 2)
+    public double Quantity { get; set; }           // Кол-во (столбец 3)
+    public string Unit { get; set; } = "";          // Ед. изм. (столбец 4)
+    public string Type { get; set; } = "";          // ТИП ОБОРУДОВАНИЯ (столбец 5)
+}
+
+public class CabinetSpecificationTemplate
+{
+    public string Id { get; set; } = Guid.NewGuid().ToString();
+    public string TemplateName { get; set; } = "";
+    public string CabinetName { get; set; } = "Импортированная спецификация";
+    public string ObjectLocation { get; set; } = "Объект: Загружен из буфера обмена";
+    public DateTime LastModified { get; set; } = DateTime.Now;
+    public decimal EstimatedCost { get; set; }
+    public List<CustomTemplateItem> Items { get; set; } = new();
+}
