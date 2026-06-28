@@ -7,6 +7,8 @@
 @inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment Env
 @inject AsuGenerator.Web.Services.RegulCalculationService RegulService
 @inject MudBlazor.ISnackbar Snackbar
+@inject AsuGenerator.Web.Services.PlcComparisonEngine ComparisonEngine
+
 
 <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-4 px-4">
     <MudText Typo="Typo.h5" Class="mb-3 font-weight-bold" Style="font-size: 16px;">⚙️ Расширенная конфигурация ПЛК и сигналов</MudText>
@@ -470,7 +472,7 @@
 
     /* Фирменный изумрудный цвет Прософт для процессоров REGUL */
     .bg-regul-cpu {
-        background-color: #27ae60;
+        background-color: #13b479;
     }
     /* Окраска модулей шасси и оконечников */
     .bg-regul-terminal {
@@ -573,6 +575,7 @@
     private List<PlcComponent> availableModulesInDb = new();
     private PlcCabinetCalculationResult? calcResult;
     private PlcBaseRoot _plcDbRoot = new();
+    private Dictionary<string, PlcComparisonResult>? _tkpComparisonReport;
 
 
     private int TotalSignalsCount => signals.TotalDI + signals.TotalDO + signals.TotalAI + signals.TotalAO;
@@ -607,7 +610,7 @@
 
         if (selectedVendor == "ОВЕН")
         {
-            // Ваш старый алгоритм расчета ОВЕН МВ210/МУ210
+            // Базовый общепромышленный алгоритм расчета ОВЕН МВ210/МУ210
             calcResult = PlcCalcService.CalculateMultiPlcCabinet(
                 signals, selectedCpu, availableModulesInDb, busCoupler,
                 maxSlotsPerBasket: 12, cabinetWidthMm: cabinetWidth,
@@ -616,30 +619,28 @@
         }
         else if (selectedVendor == "REGUL")
         {
-            // БОЕВОЙ B2B-РАСЧЕТ ДЛЯ REGUL R500
+            // 1. БОЕВОЙ B2B-РАСЧЕТ СИГНАЛОВ ДЛЯ СИСТЕМЫ ПРОСОФТ REGUL R500
             var inputSignals = new List<IoSignalRow>();
 
-            // Собираем данные из полей ввода MudNumericField на экране
+            // Суммируем дискретные входы из UI полей ввода MudNumericField
             int totalDi = signals.DiDryContact + signals.DiWetContact + signals.DiFastCounter;
             if (totalDi > 0) inputSignals.Add(new IoSignalRow { SignalType = "DI", TotalWithReserve = totalDi });
             if (signals.TotalDO > 0) inputSignals.Add(new IoSignalRow { SignalType = "DO", TotalWithReserve = signals.TotalDO });
             if (signals.TotalAI > 0) inputSignals.Add(new IoSignalRow { SignalType = "AI", TotalWithReserve = signals.TotalAI });
             if (signals.TotalAO > 0) inputSignals.Add(new IoSignalRow { SignalType = "AO", TotalWithReserve = signals.TotalAO });
 
-            // Вызываем наш монолитный сервис (учитывает 20% резерва и считает БП/Шасси/Оконечники)
+            // Вызов монолитного сервиса (учитывает 20% резерва, считает БП, шасси и оконечники)
             var regulRacks = RegulService.CalculateSystemWithDbAndBarriers(inputSignals);
 
-            // Маппим результаты в графический объект вашей страницы PlcCabinetCalculationResult
+            // 2. СБОРКА И ИНИЦИАЛИЗАЦИЯ ГРАФИЧЕСКОГО ОБЪЕКТА РЕНДЕРА РЕЕК
             calcResult = new PlcCabinetCalculationResult();
             var visualCabinet = new PlcCabinet
             {
                 CabinetIndex = 1,
                 Type = cabinetType,
-                // ИСПРАВЛЕНО: Просто вызываем дефолтные конструкторы ваших b2b-классов, чтобы не было конфликта типов
-                InterposingRelays = new(),
-                Terminals = new()
+                InterposingRelays = new(), // Дефолтный конструктор вашего класса реле
+                Terminals = new()          // Дефолтный конструктор вашего класса клемм
             };
-
 
             var visualSide = cabinetType == CabinetType.SingleSided ? visualCabinet.SingleSide : visualCabinet.FrontSide;
             var node = new PlcNode();
@@ -648,13 +649,12 @@
             {
                 var basket = new PlcBasket();
 
-                // Превращаем CustomTemplateItem в PlcComponent для графических div-блоков рендера
+                // Преобразуем рассчитанные CustomTemplateItem в PlcComponent для генерации div-блоков
                 foreach (var item in rack.AddedComponents)
                 {
-                    // Вычисляем ширину одной единицы оборудования для CSS стилей width
-                    int unitWidth = item.PartNumber.Contains("CU") ? 80 : 40;
+                    int unitWidth = item.PartNumber.Contains("CU") ? 80 : 40; // Габариты по вашей БД РЕГУЛ
 
-                    // Добавляем покомпонентно каждый физический модуль REGUL на DIN-рейку
+                    // Раскладываем модули поштучно на графическую DIN-рейку CARRIER
                     for (int i = 0; i < item.Quantity; i++)
                     {
                         basket.Modules.Add(new PlcComponent
@@ -666,7 +666,7 @@
                     }
                 }
 
-                // Добавляем барьеры искрозащиты из вашей базы как отдельные модули BARRIER_BLOCK
+                // Добавляем рассчитанные барьеры искрозащиты как узкие блоки желтого цвета Exi
                 foreach (var acc in rack.Accessories)
                 {
                     for (int i = 0; i < acc.Quantity; i++)
@@ -675,7 +675,7 @@
                         {
                             Article = acc.PartNumber,
                             Type = "BARRIER_BLOCK",
-                            WidthMm = 12 // Узкий b2b-формат барьера
+                            WidthMm = 12 // Узкий шаг барьера взрывозащиты в мм
                         });
                     }
                 }
@@ -685,10 +685,19 @@
 
             visualSide.Nodes.Add(node);
             calcResult.Cabinets.Add(visualCabinet);
+
+            // 3. ЗАПУСК ИЗОЛИРОВАННОГО ТКП-ДВИЖКА ДЛЯ СРАВНЕНИЯ ЦЕН И ШКАФОВ
+            if (inputSignals.Any())
+            {
+                // Вызываем выделенный класс и передаем корень прочитанной JSON-базы
+                _tkpComparisonReport = ComparisonEngine.CompareSystems(inputSignals, cabinetWidth, _plcDbRoot);
+            }
         }
 
-        this.StateHasChanged(); // Принудительно перерисовываем MudBlazor UI
+        // Принудительно заставляем MudBlazor v7 мгновенно перерисовать экран
+        this.StateHasChanged();
     }
+
 
 
     // Метод сквозного расчета уникальных позиционных обозначений (ГОСТ) в рамках Шкафа

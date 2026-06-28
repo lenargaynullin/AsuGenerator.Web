@@ -1,53 +1,145 @@
 ﻿@page "/"
 @using MudBlazor
+@inject NavigationManager NavManager
 
-<PageTitle>ASU Generator — Облачный конфигуратор шкафов АСУ ТП</PageTitle>
+<PageTitle>Спецификации для шкафов АСУ ТП — за 10 минут вместо 4 часов</PageTitle>
 
-@* Блок 1: Первый экран (Главное ценностное предложение) *@
-<div class="mud-theme-primary pa-12 text-center d-flex flex-column align-center justify-center style-hero">
-    <MudIcon Icon="@Icons.Material.Filled.AutoMode" Size="Size.Large" Style="font-size: 4rem;" Class="mb-4" />
-    <MudText Typo="Typo.h3" Class="mb-3" Style="font-weight: 800;">
-        Облачный конфигуратор шкафов АСУ ТП
+@* Блок 1: Hero — Главное ценностное предложение в мятно-графитовом B2B стиле *@
+<div class="text-center py-10 px-4 style-hero rounded-b-lg mb-6">
+    
+    <MudChip T="string" Variant="Variant.Filled" Size="Size.Small" Class="mb-3 style-mint-chip">
+        B2B ПЛАТФОРМА ДЛЯ ЩИТОВИКОВ И ИНЖЕНЕРОВ АСУ ТП
+    </MudChip>
+
+    <MudText Typo="Typo.h3" Class="mb-3 text-white font-weight-bold">
+        Спецификация шкафа АСУ ТП — за 10 минут вместо 4 часов
     </MudText>
-    <MudText Typo="Typo.h5" Class="mb-6 mud-text-secondary" Style="max-width: 800px; opacity: 0.9;">
-        Сборка заказных спецификаций по ГОСТ 21.110 за 10 минут. Автоматический сквозной подбор корпусов Провенто, плат ОВЕН и силовой автоматики КЭАЗ/Dekraft.
+    
+    <MudText Typo="Typo.body1" Class="mb-6 px-4 style-hero-subtext" Style="max-width: 750px; margin: 0 auto;">
+        Вводите количество сигналов — система сама подбирает ПЛК, модули, 
+        барьеры искрозащиты и автоматы. На выходе — готовая заказная 
+        спецификация по <b>ГОСТ 21.110-2013</b> и визуализация монтажной панели.
     </MudText>
-    <div class="d-flex gap-4">
-        <MudButton Variant="Variant.Filled" Color="Color.Success" Size="Size.Large" StartIcon="@Icons.Material.Filled.PlayArrow" href="/configurator" Style="font-weight: bold; padding: 12px 32px;">
-            СОБРАТЬ ШКАФ БЕСПЛАТНО
+    
+    @* Три ключевые выгоды *@
+    <div class="d-flex justify-center gap-8 flex-wrap mb-8">
+        <div style="max-width: 200px;">
+            <MudIcon Icon="@Icons.Material.Filled.Speed" Size="Size.Large" Style="color: #3cb890;" />
+            <MudText Typo="Typo.subtitle2" Class="mt-2 text-white"><b>10 минут</b> на спецификацию</MudText>
+            <MudText Typo="Typo.caption" Style="color: #94a3b8;">Вместо 4 часов ручного подбора</MudText>
+        </div>
+        <div style="max-width: 200px;">
+            <MudIcon Icon="@Icons.Material.Filled.CompareArrows" Size="Size.Large" Style="color: #3cb890;" />
+            <MudText Typo="Typo.subtitle2" Class="mt-2 text-white"><b>Информационная мощность</b></MudText>
+            <MudText Typo="Typo.caption" Style="color: #94a3b8;">Сквозной автоматический расчет сигналов</MudText>
+        </div>
+        <div style="max-width: 200px;">
+            <MudIcon Icon="@Icons.Material.Filled.Description" Size="Size.Large" Style="color: #3cb890;" />
+            <MudText Typo="Typo.subtitle2" Class="mt-2 text-white"><b>Excel по ГОСТ</b> сразу</MudText>
+            <MudText Typo="Typo.caption" Style="color: #94a3b8;">Готовый документ для отдела закупок</MudText>
+        </div>
+    </div>
+    
+    @* Кнопки действия в вашем новом мятном цвете *@
+    <div class="d-flex justify-center flex-wrap gap-4 mt-2">
+        <MudButton Variant="Variant.Filled"
+                   Size="Size.Large"
+                   href="/plc-configurator"
+                   StartIcon="@Icons.Material.Filled.AutoFixHigh"
+                   Class="style-mint-btn">
+            РАССЧИТАТЬ СИСТЕМУ ПЛК
         </MudButton>
-        <MudButton Variant="Variant.Outlined" Color="Color.Inherit" Size="Size.Large" StartIcon="@Icons.Material.Filled.Payments" href="/pricing">
-            Посмотреть тарифы
+        <MudButton Variant="Variant.Outlined"
+                   Color="Color.Inherit"
+                   Size="Size.Large"
+                   href="/dashboard"
+                   Style="border: 1px solid rgba(255, 255, 255, 0.5); color: #ffffff; font-weight: bold; padding: 10px 28px;">
+            МОИ ПРОЕКТЫ
         </MudButton>
     </div>
+
+    <MudText Typo="Typo.caption" Class="mt-4 d-block" Style="color: #94a3b8;">
+        Без регистрации. Первая спецификация — за 5 минут.
+    </MudText>
 </div>
 
-@* Баннер *@
+@* Баннер бета-тестирования *@
 <MudAlert Severity="Severity.Info"
           Variant="Variant.Filled"
           Square="true"
-          Class="my-4 roundedpa-4"
-          Style="background-color: #1e293b; color: #f8fafc; border-left: 6px solid var(--mud-palette-warning) !important;">
+          Class="my-4 rounded pa-4"
+          Style="background-color: #1e293b; color: #f8fafc; border-left: 6px solid #3cb890 !important;">
     <div class="d-flex align-center gap-3">
-        <MudIcon Icon="@Icons.Material.Filled.RocketLaunch" Color="Color.Warning" Size="Size.Large" />
+        <MudIcon Icon="@Icons.Material.Filled.RocketLaunch" Style="color: #3cb890;" Size="Size.Large" />
         <div>
-            <MudText Typo="Typo.subtitle1" Style="color: var(--mud-palette-warning); font-weight: bold;">
+            <MudText Typo="Typo.subtitle1" Style="color: #3cb890; font-weight: bold;">
                 Платформа ASU Generator находится в режиме открытого бета-тестирования!
             </MudText>
             <MudText Typo="Typo.body2" Style="color: #cbd5e1; font-size: 13px; line-height: 1.5;">
-                До <b>1 августа 2026 года</b> все функции сквозного покомпонентного проектирования шкафов и выгрузка готовых спецификаций в Excel по форме <b>ГОСТ 21.110-2013</b> предоставляются <b>абсолютно бесплатно</b>. После завершения тестирования сервис перейдет на коммерческую подписку, но за первыми инженерами-тестировщиками навсегда зафиксируется скидка 50%.
+                До <b>1 августа 2026 года</b> все функции сквозного покомпонентного проектирования шкафов и выгрузка готовых спецификаций в Excel по форме 
+                <b>ГОСТ 21.110-2013</b> предоставляются <b>абсолютно бесплатно</b>. После завершения тестирования сервис перейдет на коммерческую подписку, но за первыми инженерами-тестировщиками навсегда зафиксируется скидка 50%.
             </MudText>
         </div>
     </div>
 </MudAlert>
 
-<MudContainer MaxWidth="MaxWidth.Large" Class="mt-12 mb-12">
-    @* Блок 2: Реальные примеры для скачивания (Снятие скепсиса ГИПов) *@
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-8 mb-12">
+    @* БЛОК: Выбор сценария для снятия скепсиса пользователей *@
+    <MudText Typo="Typo.h5" Class="mb-4 mt-8 text-center" Color="Color.Primary"><b>Инструменты и рабочие b2b-сценарии</b></MudText>
+    <MudGrid Class="mb-10">
+        <MudItem xs="12" sm="6">
+            <MudCard Outlined="true" Class="hover-card pa-2" Style="height: 100%; border-top: 5px solid #3cb890;">
+                <MudCardHeader>
+                    <CardHeaderAvatar>
+                        <MudIcon Icon="@Icons.Material.Filled.Memory" Style="color: #3cb890;" Size="Size.Large" />
+                    </CardHeaderAvatar>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h6"><b>Графический конфигуратор ПЛК</b></MudText>
+                        <MudText Typo="Typo.caption" Color="Color.Secondary">Для инженеров АСУ ТП и ГИПов</MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudText Typo="Typo.body2">
+                        Вставьте матрицу сигналов из ТЗ. Алгоритм подберет модули <b>REGUL R500 (Прософт)</b> или <b>ОВЕН</b> с учетом 20% резерва по ГОСТ, рассчитает токи шины, блоки питания, добавит монтажные шасси, промежуточные реле и барьеры искрозащиты.
+                    </MudText>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton Variant="Variant.Text" Style="color: #3cb890; font-weight: bold;" Href="/plc-configurator" EndIcon="@Icons.Material.Filled.ArrowForward">Перейти к расчету ПЛК</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+
+        <MudItem xs="12" sm="6">
+            <MudCard Outlined="true" Class="hover-card pa-2" Style="height: 100%; border-top: 5px solid var(--mud-palette-info);">
+                <MudCardHeader>
+                    <CardHeaderAvatar>
+                        <MudIcon Icon="@Icons.Material.Filled.ContentPaste" Color="Color.Info" Size="Size.Large" />
+                    </CardHeaderAvatar>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h6"><b>Импорт готовых спецификаций</b></MudText>
+                        <MudText Typo="Typo.caption" Color="Color.Secondary">Для сметчиков и закупщиков</MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudText Typo="Typo.body2">
+                        Скопируйте строки спецификации силовых шкафов или ВРУ из буфера обмена Excel (Артикул, Номенклатура, Кол-во, Ед., Тип). Система распознает текст, создаст шаблон проекта и автоматически рассчитает себестоимость оборудования.
+                    </MudText>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton Variant="Variant.Text" Color="Color.Info" Href="/import-spec" EndIcon="@Icons.Material.Filled.ArrowForward" Style="font-weight: bold;">Импортировать из Excel</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+
+    @* Блок 2: Реальные примеры для скачивания *@
     <div class="text-center mb-10">
         <MudText Typo="Typo.h5" Color="Color.Primary" Class="mb-2"><b>Проверьте качество проектной документации</b></MudText>
         <MudText Typo="Typo.body2" Color="Color.Secondary" Class="mb-6">Скачайте примеры спецификаций, которые система генерирует автоматически строго в соответствии с ГОСТ</MudText>
         <div class="d-flex justify-center gap-4 flex-wrap">
-            <MudButton Variant="Variant.Outlined" Color="Color.Primary" StartIcon="@Icons.Custom.FileFormats.FileExcel" href="/examples/Specification_SHUV.xlsx" Download="Спецификация_ШУВ_ГОСТ.xlsx">
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary" 
+                       StartIcon="@Icons.Custom.FileFormats.FileExcel" 
+                       href="/examples/Specification_SHUV.xlsx" Download="Спецификация_ШУВ_ГОСТ.xlsx">
                 Пример спецификации ШУВ (.xlsx)
             </MudButton>
         </div>
@@ -55,52 +147,46 @@
 
     <MudDivider Class="my-10" />
 
-    @* Блок 3: Excel vs ASU Generator (Обоснование ценности) *@
+    @* Блок 3: Excel vs ASU Generator *@
     <MudText Typo="Typo.h5" Alignment="Alignment.Center" Color="Color.Primary" Class="mb-8"><b>Почему ASU Generator умнее, чем ваша Excel-таблица?</b></MudText>
-    <MudGrid Class="mb-12">
+    <MudGrid Class="mt-8 px-4 mb-10">
         <MudItem xs="12" md="6">
-            <MudCard Outlined="true" Class="pa-4 h-100" Style="border-color: var(--mud-palette-error-lighten) !important;">
-                <div class="d-flex align-center mb-3 text-danger">
-                    <MudIcon Icon="@Icons.Material.Filled.TrendingDown" Color="Color.Error" Class="mr-2" />
-                    <MudText Typo="Typo.h6" Color="Color.Error"><b>Как обычно проектируют в Excel:</b></MudText>
-                </div>
+            <MudPaper Outlined="true" Class="pa-6" Style="border-top: 4px solid var(--mud-palette-error); height: 100%;">
+                <MudText Typo="Typo.h6" Color="Color.Error" Class="mb-4"><b>Как обычно проектируют ПЛК in Excel:</b></MudText>
                 <div class="d-flex flex-column gap-3">
-                    <div class="d-flex gap-2"><MudIcon Icon="@Icons.Material.Filled.Close" Color="Color.Error" Size="Size.Small" /> <MudText Typo="Typo.body2"><b>Рутина:</b> Часы на ручной поиск кодов цоколей и панелей Провенто по PDF-каталогам.</MudText></div>
-                    <div class="d-flex gap-2"><MudIcon Icon="@Icons.Material.Filled.Close" Color="Color.Error" Size="Size.Small" /> <MudText Typo="Typo.body2"><b>Ошибки:</b> Случайно затертая формула или опечатка в коде срывают закупку и сборку.</MudText></div>
-                    <div class="d-flex gap-2"><MudIcon Icon="@Icons.Material.Filled.Close" Color="Color.Error" Size="Size.Small" /> <MudText Typo="Typo.body2"><b>Цены:</b> Прайс-листы вендоров постоянно меняются, ТКП приходится пересчитывать руками.</MudText></div>
-                    <div class="d-flex gap-2"><MudIcon Icon="@Icons.Material.Filled.Close" Color="Color.Error" Size="Size.Small" /> <MudText Typo="Typo.body2"><b>Хаос:</b> Каждый инженер считает «мелочевку» (клеммы, стопоры) по своим формулам.</MudText></div>
+                    <MudText Typo="Typo.body2">• <b>Рутина:</b> Часы на ручной подсчет модулей ввода-вывода под емкость сигналов из ТЗ.</MudText>
+                    <MudText Typo="Typo.body2">• <b>Каталоги:</b> Поиск кодов шасси, оконечных модулей расширения шины и БП по PDF-документации.</MudText>
+                    <MudText Typo="Typo.body2">• <b>Ошибки:</b> Превышение лимита тока внутренней шины или количества слотов срывает закупку.</MudText>
+                    <MudText Typo="Typo.body2">• <b>Взрывозащита:</b> Поканальный ручной подбор барьеров искрозащиты <code>Exi</code> под AI/DI/DO сигналы поля.</MudText>
                 </div>
-            </MudCard>
+            </MudPaper>
         </MudItem>
+
         <MudItem xs="12" md="6">
-            <MudCard Outlined="true" Class="pa-4 h-100" Style="border-color: var(--mud-palette-success-lighten) !important; background-color: var(--mud-palette-background-grey);">
-                <div class="d-flex align-center mb-3">
-                    <MudIcon Icon="@Icons.Material.Filled.TrendingUp" Color="Color.Success" Class="mr-2" />
-                    <MudText Typo="Typo.h6" Color="Color.Success"><b>Проектирование на asugenerator.ru:</b></MudText>
-                </div>
+            <MudPaper Outlined="true" Class="pa-6" Style="border-top: 4px solid var(--mud-palette-success); height: 100%;">
+                <MudText Typo="Typo.h6" Color="Color.Success" Class="mb-4"><b>Автоматизация на asugenerator.ru:</b></MudText>
                 <div class="d-flex flex-column gap-3">
-                    <div class="d-flex gap-2"><MudIcon Icon="@Icons.Material.Filled.Done" Color="Color.Success" Size="Size.Small" /> <MudText Typo="Typo.body2"><b>Автоматизация:</b> С C#-алгоритмами вы кликаете только габариты — аксессуары подбираются сами.</MudText></div>
-                    <div class="d-flex gap-2"><MudIcon Icon="@Icons.Material.Filled.Done" Color="Color.Success" Size="Size.Small" /> <MudText Typo="Typo.body2"><b>«Защита от дурака»:</b> Жёсткая валидация в коде гарантирует 100% совместимость железа.</MudText></div>
-                    <div class="d-flex gap-2"><MudIcon Icon="@Icons.Material.Filled.Done" Color="Color.Success" Size="Size.Small" /> <MudText Typo="Typo.body2"><b>Актуальность:</b> Единая база данных цен и линеек оборудования в облаке.</MudText></div>
-                    <div class="d-flex gap-2"><MudIcon Icon="@Icons.Material.Filled.Done" Color="Color.Success" Size="Size.Small" /> <MudText Typo="Typo.body2"><b>Стандартизация:</b> Система сама считает клеммные стопоры, заглушки и метраж коробов по ГОСТ.</MudText></div>
+                    <MudText Typo="Typo.body2">• <b>Информационная мощность:</b> Просто вставьте матрицу сигналов из Excel — софт распределит всё сам.</MudText>
+                    <MudText Typo="Typo.body2">• <b>Учет инженерного резерва:</b> Алгоритм автоматически закладывает 20% резерва каналов по ГОСТ.</MudText>
+                    <MudText Typo="Typo.body2">• <b>Защита от дурака:</b> Жёсткий расчет лимитов тока шины и автоматическая разбивка ПЛК на крейты.</MudText>
+                    <MudText Typo="Typo.body2">• <b>Комплексный подбор:</b> Система сама считает монтажные шасси, реле развязки и барьеры по канальности.</MudText>
                 </div>
-            </MudCard>
+            </MudPaper>
         </MudItem>
     </MudGrid>
 
     <MudDivider Class="my-10" />
 
     @* Блок 4: Интеграция и поддерживаемые вендоры *@
-    <div class="text-center mb-10">
-        <MudText Typo="Typo.h5" Color="Color.Primary" Class="mb-4"><b>Поддерживаемые производители оборудования</b></MudText>
-        <MudGrid Justify="Justify.Center" Spacing="4" Class="mt-2">
-            <MudItem xs="4" sm="2"><MudChip T="string" Color="Color.Default" Variant="Variant.Outlined" Size="Size.Large"><b>ПРОВЕНТО</b></MudChip></MudItem>
-            <MudItem xs="4" sm="2"><MudChip T="string" Color="Color.Default" Variant="Variant.Outlined" Size="Size.Large"><b>ОВЕН</b></MudChip></MudItem>
-            <MudItem xs="4" sm="2"><MudChip T="string" Color="Color.Default" Variant="Variant.Outlined" Size="Size.Large"><b>КЭАЗ</b></MudChip></MudItem>
-            <MudItem xs="4" sm="2"><MudChip T="string" Color="Color.Default" Variant="Variant.Outlined" Size="Size.Large"><b>Dekraft</b></MudChip></MudItem>
-            <MudItem xs="4" sm="2"><MudChip T="string" Color="Color.Default" Variant="Variant.Outlined" Size="Size.Large"><b>IEK</b></MudChip></MudItem>
-            <MudItem xs="4" sm="2"><MudChip T="string" Color="Color.Default" Variant="Variant.Outlined" Size="Size.Large"><b>STEZ</b></MudChip></MudItem>
-        </MudGrid>
+    <div class="mt-12 text-center">
+        <MudText Typo="Typo.subtitle1" Color="Color.Secondary" Class="mb-4"><b>ПОДДЕРЖИВАЕМЫЕ ПРОИЗВОДИТЕЛИ ОБОРУДОВАНИЯ</b></MudText>
+        <div class="d-flex justify-center flex-wrap gap-6 font-weight-bold" style="opacity: 0.85;">
+            <MudChip T="string" Variant="Variant.Text" Color="Color.Success">ПРОСОФТ (REGUL R500/R600)</MudChip>
+            <MudChip T="string" Variant="Variant.Text" Color="Color.Primary">ПРОВЕНТО</MudChip>
+            <MudChip T="string" Variant="Variant.Text" Color="Color.Info">ОВЕН</MudChip>
+            <MudChip T="string" Variant="Variant.Text" Color="Color.Warning">КЭАЗ</MudChip>
+            <MudChip T="string" Variant="Variant.Text" Color="Color.Default">Dekraft / IEK</MudChip>
+        </div>
     </div>
 
     @* Блок 5: Призыв для B2B *@
@@ -124,35 +210,43 @@
 <style>
     /* Премиальный темно-графитовый фон для главного экрана */
     .style-hero {
-        background-color: #1e293b !important; /* Строгий Slate-Blue (цвет профессионального софта) */
-        color: #f8fafc !important; /* Чистый мягкий белый текст */
+        background-color: #1e293b !important;
         min-height: 380px;
-        border-bottom: 4px solid var(--mud-palette-primary); /* Тонкий акцентный маркер снизу */
+        border-bottom: 4px solid #3cb890;
     }
 
-        /* Стилизация подзаголовка для лучшей читаемости на темном фоне */
-        .style-hero .mud-text-secondary {
-            color: #94a3b8 !important; /* Мягкий серый цвет для описания */
-        }
+    .style-hero-subtext {
+        color: #94a3b8 !important;
+        font-size: 15px;
+    }
 
-        /* Делаем кнопку "Собрать шкаф" более заметной, но строгой */
-        .style-hero .mud-button-filled.mud-button-filled-success {
-            background-color: #10b981 !important; /* Насыщенный изумрудно-зеленый (цвет действия) */
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-        }
-
-            .style-hero .mud-button-filled.mud-button-filled-success:hover {
-                background-color: #059669 !important; /* Темнеет при наведении */
-            }
-</style>
-
-
-@*
-<style>
-    .style-hero {
-        background: linear-gradient(135deg, var(--mud-palette-primary) 0%, var(--mud-palette-primary-darken) 100%);
+    /* Чип в фирменном мятном тоне */
+    .style-mint-chip {
+        background-color: #3cb890 !important;
         color: white !important;
-        min-height: 400px;
+        font-weight: bold;
     }
+
+    /* Главная кнопка действия в вашем мятном цвете */
+    .style-mint-btn {
+        background-color: #3cb890 !important;
+        color: white !important;
+        font-weight: bold;
+        padding: 10px 28px;
+        box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+    }
+
+        .style-mint-btn:hover {
+            background-color: #2da27d !important;
+        }
+
+    /* Анимация при наведении на карточки b2b сценариев */
+    .hover-card {
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    }
+
+        .hover-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--mud-elevation-4);
+        }
 </style>
-*@

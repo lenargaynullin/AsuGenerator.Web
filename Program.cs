@@ -22,8 +22,8 @@ builder.Services.AddSingleton<ShuvConfigLoader>();
 builder.Services.AddScoped<EmailNotificationService>();
 builder.Services.AddScoped<UniversalCalculationEngine>();
 builder.Services.AddScoped<PlcCalculationService>();
-// ИСПРАВЛЕНО: Регистрируем сервис авторасчета крейтов и барьеров REGUL R500 в контейнере зависимостей
 builder.Services.AddScoped<AsuGenerator.Web.Services.RegulCalculationService>();
+builder.Services.AddScoped<AsuGenerator.Web.Services.PlcComparisonEngine>();
 
 
 // Регистрация b2b фабрики управления шкафами
