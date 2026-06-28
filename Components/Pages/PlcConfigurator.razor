@@ -8,6 +8,7 @@
 @inject AsuGenerator.Web.Services.RegulCalculationService RegulService
 @inject MudBlazor.ISnackbar Snackbar
 @inject AsuGenerator.Web.Services.PlcComparisonEngine ComparisonEngine
+@inject IJSRuntime JS
 
 
 <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-4 px-4">
@@ -131,6 +132,15 @@
             <MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small" FullWidth="true" OnClick="GenerateLayout" Disabled="@(selectedCpu is null)" Style="font-size: 11px; height: 32px;">
                 Сгенерировать корзины
             </MudButton>
+            <MudButton Variant="Variant.Outlined"
+                       Color="Color.Info"
+                       FullWidth="true"
+                       Class="mt-2 py-2"
+                       StartIcon="@Icons.Material.Filled.BarChart"
+                       OnClick="NavigateToComparison">
+                Сравнить варианты (ТКП)
+            </MudButton>
+
             <MudButton Variant="Variant.Filled"
                        Color="Color.Success"
                        FullWidth="true"
@@ -606,97 +616,121 @@
 
     private void GenerateLayout()
     {
-        if (selectedCpu is null) return;
-
-        if (selectedVendor == "ОВЕН")
+        // ЗАЩИТА 1: Если корень базы или компоненты не прочитались с диска VDS, не даем сайту упасть
+        if (_plcDbRoot == null || _plcDbRoot.Components == null || !_plcDbRoot.Components.Any())
         {
-            // Базовый общепромышленный алгоритм расчета ОВЕН МВ210/МУ210
-            calcResult = PlcCalcService.CalculateMultiPlcCabinet(
-                signals, selectedCpu, availableModulesInDb, busCoupler,
-                maxSlotsPerBasket: 12, cabinetWidthMm: cabinetWidth,
-                cabinetHeightMm: cabinetHeight, cabinetType: cabinetType
-            );
-        }
-        else if (selectedVendor == "REGUL")
-        {
-            // 1. БОЕВОЙ B2B-РАСЧЕТ СИГНАЛОВ ДЛЯ СИСТЕМЫ ПРОСОФТ REGUL R500
-            var inputSignals = new List<IoSignalRow>();
-
-            // Суммируем дискретные входы из UI полей ввода MudNumericField
-            int totalDi = signals.DiDryContact + signals.DiWetContact + signals.DiFastCounter;
-            if (totalDi > 0) inputSignals.Add(new IoSignalRow { SignalType = "DI", TotalWithReserve = totalDi });
-            if (signals.TotalDO > 0) inputSignals.Add(new IoSignalRow { SignalType = "DO", TotalWithReserve = signals.TotalDO });
-            if (signals.TotalAI > 0) inputSignals.Add(new IoSignalRow { SignalType = "AI", TotalWithReserve = signals.TotalAI });
-            if (signals.TotalAO > 0) inputSignals.Add(new IoSignalRow { SignalType = "AO", TotalWithReserve = signals.TotalAO });
-
-            // Вызов монолитного сервиса (учитывает 20% резерва, считает БП, шасси и оконечники)
-            var regulRacks = RegulService.CalculateSystemWithDbAndBarriers(inputSignals);
-
-            // 2. СБОРКА И ИНИЦИАЛИЗАЦИЯ ГРАФИЧЕСКОГО ОБЪЕКТА РЕНДЕРА РЕЕК
-            calcResult = new PlcCabinetCalculationResult();
-            var visualCabinet = new PlcCabinet
-            {
-                CabinetIndex = 1,
-                Type = cabinetType,
-                InterposingRelays = new(), // Дефолтный конструктор вашего класса реле
-                Terminals = new()          // Дефолтный конструктор вашего класса клемм
-            };
-
-            var visualSide = cabinetType == CabinetType.SingleSided ? visualCabinet.SingleSide : visualCabinet.FrontSide;
-            var node = new PlcNode();
-
-            foreach (var rack in regulRacks)
-            {
-                var basket = new PlcBasket();
-
-                // Преобразуем рассчитанные CustomTemplateItem в PlcComponent для генерации div-блоков
-                foreach (var item in rack.AddedComponents)
-                {
-                    int unitWidth = item.PartNumber.Contains("CU") ? 80 : 40; // Габариты по вашей БД РЕГУЛ
-
-                    // Раскладываем модули поштучно на графическую DIN-рейку CARRIER
-                    for (int i = 0; i < item.Quantity; i++)
-                    {
-                        basket.Modules.Add(new PlcComponent
-                        {
-                            Article = item.PartNumber,
-                            Type = item.PartNumber.Contains("CU") ? "CPU" : item.PartNumber.Contains("PP") ? "BUS" : "DI",
-                            WidthMm = unitWidth
-                        });
-                    }
-                }
-
-                // Добавляем рассчитанные барьеры искрозащиты как узкие блоки желтого цвета Exi
-                foreach (var acc in rack.Accessories)
-                {
-                    for (int i = 0; i < acc.Quantity; i++)
-                    {
-                        basket.Modules.Add(new PlcComponent
-                        {
-                            Article = acc.PartNumber,
-                            Type = "BARRIER_BLOCK",
-                            WidthMm = 12 // Узкий шаг барьера взрывозащиты в мм
-                        });
-                    }
-                }
-
-                node.Baskets.Add(basket);
-            }
-
-            visualSide.Nodes.Add(node);
-            calcResult.Cabinets.Add(visualCabinet);
-
-            // 3. ЗАПУСК ИЗОЛИРОВАННОГО ТКП-ДВИЖКА ДЛЯ СРАВНЕНИЯ ЦЕН И ШКАФОВ
-            if (inputSignals.Any())
-            {
-                // Вызываем выделенный класс и передаем корень прочитанной JSON-базы
-                _tkpComparisonReport = ComparisonEngine.CompareSystems(inputSignals, cabinetWidth, _plcDbRoot);
-            }
+            Snackbar.Add("Критическая ошибка: База данных plc-base.json пуста или не найдена на сервере!", Severity.Error);
+            return;
         }
 
-        // Принудительно заставляем MudBlazor v7 мгновенно перерисовать экран
-        this.StateHasChanged();
+        if (selectedCpu is null)
+        {
+            Snackbar.Add("Выберите центральный процессор для расчета!", Severity.Warning);
+            return;
+        }
+
+        try
+        {
+            if (selectedVendor == "ОВЕН")
+            {
+                calcResult = PlcCalcService.CalculateMultiPlcCabinet(
+                    signals, selectedCpu, availableModulesInDb, busCoupler,
+                    maxSlotsPerBasket: 12, cabinetWidthMm: cabinetWidth,
+                    cabinetHeightMm: cabinetHeight, cabinetType: cabinetType
+                );
+            }
+            else if (selectedVendor == "REGUL")
+            {
+                // 1. СБОР СИГНАЛОВ
+                var inputSignals = new List<IoSignalRow>();
+                int totalDi = signals.DiDryContact + signals.DiWetContact + signals.DiFastCounter;
+                if (totalDi > 0) inputSignals.Add(new IoSignalRow { SignalType = "DI", TotalWithReserve = totalDi });
+                if (signals.TotalDO > 0) inputSignals.Add(new IoSignalRow { SignalType = "DO", TotalWithReserve = signals.TotalDO });
+                if (signals.TotalAI > 0) inputSignals.Add(new IoSignalRow { SignalType = "AI", TotalWithReserve = signals.TotalAI });
+                if (signals.TotalAO > 0) inputSignals.Add(new IoSignalRow { SignalType = "AO", TotalWithReserve = signals.TotalAO });
+
+                if (!inputSignals.Any())
+                {
+                    Snackbar.Add("Введите хотя бы один технологический канал поля для генерации крейтов!", Severity.Warning);
+                    return;
+                }
+
+                // Вызов сервиса РЕГУЛ
+                var regulRacks = RegulService.CalculateSystemWithDbAndBarriers(inputSignals);
+
+                // 2. СБОРКА ГРАФИЧЕСКОЙ МОДЕЛИ РЕНДЕРА
+                calcResult = new PlcCabinetCalculationResult();
+                var visualCabinet = new PlcCabinet
+                {
+                    CabinetIndex = 1,
+                    Type = cabinetType,
+                    InterposingRelays = new(),
+                    Terminals = new()
+                };
+
+                var visualSide = cabinetType == CabinetType.SingleSided ? visualCabinet.SingleSide : visualCabinet.FrontSide;
+                var node = new PlcNode();
+
+                foreach (var rack in regulRacks)
+                {
+                    var basket = new PlcBasket();
+                    foreach (var item in rack.AddedComponents)
+                    {
+                        int unitWidth = item.PartNumber.Contains("CU") ? 80 : 40;
+                        for (int i = 0; i < item.Quantity; i++)
+                        {
+                            basket.Modules.Add(new PlcComponent
+                            {
+                                Article = item.PartNumber,
+                                Type = item.PartNumber.Contains("CU") ? "CPU" : item.PartNumber.Contains("PP") ? "BUS" : "DI",
+                                WidthMm = unitWidth
+                            });
+                        }
+                    }
+
+                    foreach (var acc in rack.Accessories)
+                    {
+                        for (int i = 0; i < acc.Quantity; i++)
+                        {
+                            basket.Modules.Add(new PlcComponent
+                            {
+                                Article = acc.PartNumber,
+                                Type = "BARRIER_BLOCK",
+                                WidthMm = 12
+                            });
+                        }
+                    }
+
+                    node.Baskets.Add(basket);
+                }
+
+                visualSide.Nodes.Add(node);
+                calcResult.Cabinets.Add(visualCabinet);
+
+                // 3. БЕЗОПАСНЫЙ ВЫЗОВ ТКП-ДВИЖКА СРАВНЕНИЯ
+                try
+                {
+                    // ИСПРАВЛЕНО: Передаем честную переменную cabinetWidth, защищая от NullReference
+                    _tkpComparisonReport = ComparisonEngine.CompareSystems(inputSignals, cabinetWidth, _plcDbRoot);
+                }
+                catch (Exception ex)
+                {
+                    _tkpComparisonReport = null;
+                    Snackbar.Add($"Графика построена, но отчет ТКП не сгенерирован: {ex.Message}", Severity.Warning);
+                }
+            }
+
+            // Принудительно обновляем UI
+            this.StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            // ИСПРАВЛЕНО: Ловим абсолютно любые ошибки рантайма, выдавая инфо в Snackbar вместо падения всего сайта
+            Snackbar.Add($"Ошибка генерации корзины: {ex.Message}", Severity.Error);
+            calcResult = null;
+        }
     }
+
 
 
 
@@ -900,6 +934,20 @@
         {
             Snackbar.Add($"Ошибка экспорта в проекты: {ex.Message}", Severity.Error);
         }
+    }
+    private void NavigateToComparison()
+    {
+        // Суммируем дискретные входы из полей ввода страницы
+        int totalDi = signals.DiDryContact + signals.DiWetContact + signals.DiFastCounter;
+        int totalDo = signals.TotalDO;
+        int totalAi = signals.TotalAI;
+        int totalAo = signals.TotalAO;
+
+        // Формируем b2b URL-ссылку с параметрами, чтобы страница сравнения сразу открылась с расчетом
+        string url = $"/plc-comparison?di={totalDi}&do={totalDo}&ai={totalAi}&ao={totalAo}&width={cabinetWidth}";
+
+        // Открываем ТКП-анализ в новой вкладке браузера, чтобы инженер не потерял текущую схему
+        JS.InvokeVoidAsync("open", url, "_blank");
     }
 
 

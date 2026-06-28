@@ -6,6 +6,7 @@
 @inject PlcComparisonEngine ComparisonEngine
 @inject ISnackbar Snackbar
 @inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment Env
+@inject NavigationManager NavManager
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-6 mb-12">
     <div class="mb-6">
@@ -128,18 +129,36 @@
     {
         try
         {
+            // 1. Читаем единую базу ПЛК
             string jsonPath = Path.Combine(Env.WebRootPath, "Configs", "plc-base.json");
             if (File.Exists(jsonPath))
             {
                 string jsonText = await File.ReadAllTextAsync(jsonPath);
                 _plcDbRoot = System.Text.Json.JsonSerializer.Deserialize<PlcBaseRoot>(jsonText) ?? new();
             }
+
+            // 2. ПЕРЕХВАТ ПАРАМЕТРОВ ИЗ КОНФИГУРАТОРА: Парсим URL-строку
+            var uri = NavManager.ToAbsoluteUri(NavManager.Uri);
+            var queryStrings = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(uri.Query);
+
+            if (queryStrings.TryGetValue("di", out var diVal) && int.TryParse(diVal, out int di)) _diCount = di;
+            if (queryStrings.TryGetValue("do", out var doVal) && int.TryParse(doVal, out int @do)) _doCount = @do;
+            if (queryStrings.TryGetValue("ai", out var aiVal) && int.TryParse(aiVal, out int ai)) _aiCount = ai;
+            if (queryStrings.TryGetValue("ao", out var aoVal) && int.TryParse(aoVal, out int ao)) _aoCount = ao;
+            if (queryStrings.TryGetValue("width", out var wVal) && double.TryParse(wVal, out double w)) _cabinetWidth = w;
+
+            // Если параметры были переданы, сразу автоматически запускаем ТКП расчет без лишних кликов
+            if (diVal.Count > 0 || doVal.Count > 0 || aiVal.Count > 0 || aoVal.Count > 0)
+            {
+                RunComparison();
+            }
         }
         catch (Exception ex)
         {
-            Snackbar.Add($"Ошибка инициализации базы ПЛК: {ex.Message}", Severity.Error);
+            Snackbar.Add($"Ошибка инициализации ТКП: {ex.Message}", Severity.Error);
         }
     }
+
 
     private void RunComparison()
     {
