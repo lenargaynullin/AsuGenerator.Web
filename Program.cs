@@ -6,9 +6,21 @@ using MudBlazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Оптимизация интерактивных компонентов SignalR под плохую и нестабильную мобильную связь
 builder.Services.AddRazorComponents()
-    .AddInteractiveServerComponents();
+    .AddInteractiveServerComponents(); // Оставляем вызов чистым, как было в вашей рабочей версии
+
+// ИСПРАВЛЕНО: Настраиваем таймауты удержания сессии при обрывах связи напрямую через HubOptions
+builder.Services.Configure<Microsoft.AspNetCore.SignalR.HubOptions>(options =>
+{
+    options.ClientTimeoutInterval = TimeSpan.FromSeconds(60); // Ждать ответа от мобильного телефона 60 секунд вместо 30
+    options.KeepAliveInterval = TimeSpan.FromSeconds(15);    // Проверять канал каждые 15 секунд для удержания сессии
+    options.HandshakeTimeout = TimeSpan.FromSeconds(30);     // Увеличить время первичного рукопожатия при слабом сигнале 3G/E
+    options.MaximumReceiveMessageSize = 1024 * 1024;         // Лимит пакета в 1 МБ для защиты от разрывов при передаче JSON
+});
+
+
+
 
 builder.Services.AddMudServices();
 builder.Services.AddScoped<AsuGenerator.Web.Services.ExcelParserService>();

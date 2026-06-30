@@ -56,9 +56,61 @@
     </MudMainContent>
 </MudLayout>
 
-@* Системный блок ошибок Blazor (оставляем без изменений) *@
-<div id="blazor-error-ui" data-nosnippet>
-    Критическая ошибка приложения.
-    <a href="." class="reload">Обновить страницу</a>
-    <span class="dismiss">🗙</span>
+@* ИСПРАВЛЕНО: Интеллектуальный блок контроля SignalR-соединения под плохую связь *@
+<div id="components-reconnect-modal" class="style-reconnect-modal">
+    <div class="style-reconnect-content">
+        <div class="spinner-mint"></div>
+        <p><b>Слабый сигнал связи.</b> Восстанавливаем соединение с сервером АСУ ТП...</p>
+    </div>
 </div>
+
+<style>
+    /* Прячем дефолтную серую плашку Blazor */
+    #components-reconnect-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        z-index: 99999;
+        background-color: rgba(15, 23, 42, 0.85); /* Полупрозрачный slate-фон */
+        align-items: center;
+        justify-content: center;
+    }
+        /* Показываем плашку ТОЛЬКО во время реального разрыва сети */
+        #components-reconnect-modal.components-reconnect-show {
+            display: flex;
+        }
+
+    .style-reconnect-content {
+        background: #1e293b;
+        color: white;
+        padding: 24px;
+        border-radius: 8px;
+        border: 2px solid #3cb890; /* Ваша фирменная мятная рамка */
+        text-align: center;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+        font-family: sans-serif;
+    }
+    /* Мятный спиннер загрузки */
+    .spinner-mint {
+        border: 4px solid rgba(255,255,255,0.1);
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        border-left-color: #3cb890;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 12px auto;
+    }
+    @@keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+</style>
+

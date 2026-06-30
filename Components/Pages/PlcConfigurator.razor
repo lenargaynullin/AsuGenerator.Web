@@ -186,7 +186,9 @@
                                     </div>
 
                                     @* --- ЦЕНТРАЛЬНАЯ РАБОЧАЯ ЗОНА МОНТАЖНОЙ ПАНЕЛИ --- *@
-                                    <div class="main-panel-content" style="flex-grow: 1; display: flex; flex-direction: column; overflow: hidden;">
+                                    @* ИСПРАВЛЕНО: Задаем центральной зоне фиксированную ширину 581px (масштаб 1:1 к рейке), чтобы правый короб встал вплотную *@
+                                    <div class="main-panel-content" style="width: 510px; min-width: 510px; max-width: 510px; display: flex; flex-direction: column; overflow: hidden;">
+
 
                                         @* ВЕРХНИЙ СИЛОВОЙ ОТСЕК ШКАФА *@
                                         <div class="cable-duct-top" style="height: 32px; background-color: #334155; color: #94a3b8; font-family: monospace; font-size: 10px; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid #475569;">
@@ -230,7 +232,7 @@
                                                     <span style="font-size: 8px; color: #475569; font-family: monospace;">ТЕХНОЛОГИЧЕСКИЙ ОТСТУП 40 ММ</span>
                                                 </div>
 
-                                                <div class="modules-line" style="display: flex; align-items: center; justify-content: flex-start; flex-wrap: nowrap; overflow-x: auto; width: 100%; padding: 4px 10px; box-sizing: border-box;">
+                                                <div class="modules-line" style="display: flex; align-items: center; justify-content: flex-start; flex-wrap: nowrap; overflow: hidden; width: 100%; padding: 4px 10px; box-sizing: border-box;">
                                                     @foreach (var m in basket.Modules)
                                                     {
                                                         <div class="text-center rounded text-white style-plc-module @GetModuleColorClass(m.Type)"
@@ -387,14 +389,16 @@
     }
 
     /* Контейнер строки DIN-рейки — жесткий габарит 581 мм */
+    /* Контейнер строки DIN-рейки — жесткий один ряд с прижатием влево */
     .modules-line {
         display: flex;
-        align-items: center;
-        justify-content: flex-start;
+        align-items: center !important; /* Сохраняем идеальное осевое центрирование модулей по вертикали */
+        /* ИСПРАВЛЕНО: Прижимаем крейт влево, чтобы убрать дыру между U13 и правым коробом */
+        justify-content: flex-start !important;
         flex-wrap: nowrap !important;
-        overflow: hidden; /* ИСПРАВЛЕНО: Скролл убран, так как софт сам переносит модули на CARRIER 2 */
+        overflow: hidden;
         min-height: 150px;
-        padding: 4px 5px;
+        padding: 4px 0; 
         width: 100%;
         box-sizing: border-box;
     }
