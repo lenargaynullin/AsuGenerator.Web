@@ -48,6 +48,17 @@
     </script>
     <noscript><div><img src="https://mc.yandex.ru/watch/109890863" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
     <!-- /Yandex.Metrika counter -->
+    <script>
+        // Универсальный скрипт для скачивания файлов из Blazor Server без утечек памяти
+        window.downloadFileFromBytes = (fileName, byteBase64) => {
+        var link = document.createElement('a');
+        link.download = fileName;
+        link.href = 'data:application/octet-stream;base64,' + byteBase64;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        }
+    </script>
 
 </body>
 

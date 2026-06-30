@@ -116,55 +116,83 @@ public class RegulCalculationService
         var resultSpecs = new List<RegulRackResult>();
         int rackCounter = 1;
 
+        // Сортируем модули: сначала процессоры (CU), затем блоки питания (PP), затем ввод/вывод
         var moduleQueue = new Queue<RegulModuleInfo>(
             requestedModules.OrderByDescending(m => m.PartNumber.Contains("CU"))
         );
 
+        // Лимит полезной длины DIN-рейки для шкафа 800мм (800 - 100мм на кабель-каналы)
+        const double MaxRowWidthMm = 700.0;
+
         while (moduleQueue.Count > 0)
         {
             var currentRack = new RegulRackResult { RackIndex = rackCounter };
-            var rackModules = new List<RegulModuleInfo>();
+            var currentRackModules = new List<RegulModuleInfo>();
 
-            bool isTwoBusSupported = requestedModules.All(m => m.PowerType == RegulPowerType.TwoBus);
-            int basicPowerModulesCount = isTwoBusSupported ? 2 : 1;
+            // Базовая физическая ширина элементов управления крейта
+            // Левый оконечник шины IN (40 мм) + два БП (по 40 мм) = 120 мм начальной ширины
+            double currentWidthMm = 120.0;
 
-            while (moduleQueue.Count > 0 && (rackModules.Count + basicPowerModulesCount) < MaxSlotsPerRack)
+            bool isFirstRack = (rackCounter == 1);
+            bool needsNextRow = false;
+
+            // Набиваем модули в текущий горизонтальный ряд, пока не упремся в 700 мм
+            while (moduleQueue.Count > 0)
             {
-                rackModules.Add(moduleQueue.Dequeue());
+                var nextModule = moduleQueue.Peek();
+
+                // Если это не первый крейт, в начале ряда железно встанет модуль расширения IN (40мм)
+                double moduleWidth = nextModule.WidthMm;
+
+                // Проверяем, поместится ли модуль + запас под правый оконечник OUT (40мм)
+                if (currentWidthMm + moduleWidth + 40.0 > MaxRowWidthMm)
+                {
+                    needsNextRow = true;
+                    break; // Текущий ряд заполнен, уходим на деление по вертикали
+                }
+
+                // Модуль помещается — забираем из очереди
+                var module = moduleQueue.Dequeue();
+                currentRackModules.Add(module);
+                currentWidthMm += moduleWidth;
             }
 
-            double totalCurrent = rackModules.Sum(m => m.CurrentConsumptionA);
+            // Вычисляем суммарный ток шины текущего ряда
+            double totalCurrent = currentRackModules.Sum(m => m.CurrentConsumptionA);
             currentRack.CalculatedBusCurrentA = totalCurrent;
-
-            int requiredPowerModules = (int)Math.Ceiling(totalCurrent / PowerModuleCapacityA);
-            if (isTwoBusSupported && requiredPowerModules < 2) requiredPowerModules = 2;
 
             if (totalCurrent > MaxBusCurrentA)
             {
-                throw new InvalidOperationException($"Превышен лимит тока шины 4.5А ({totalCurrent}А).");
+                throw new InvalidOperationException($"Превышен лимит тока шины 4.5А ({totalCurrent}А) на рейке №{rackCounter}.");
             }
 
-            // Левый оконечник
-            currentRack.AddedComponents.Add(new CustomTemplateItem { PartNumber = "R500 ST 01 012", Name = "Модуль оконечный IN", Quantity = 1, Unit = "шт", Type = "ПЛК" });
-            currentRack.TotalRackWidthMm += 40;
+            // --- ФОРМИРОВАНИЕ СПЕЦИФИКАЦИИ ТЕКУЩЕГО РЯДА (ГОСТ 21.110) ---
 
-            // Блоки питания и их шасси
-            currentRack.AddedComponents.Add(new CustomTemplateItem { PartNumber = "R500 PP 00 021", Name = "Модуль источника питания 24 В DC, 75 Вт", Quantity = requiredPowerModules, Unit = "шт", Type = "ПЛК" });
-            currentRack.AddedComponents.Add(new CustomTemplateItem { PartNumber = "R500 CH 02 022", Name = "Модуль шасси БП", Quantity = requiredPowerModules, Unit = "шт", Type = "ПЛК" });
-            currentRack.TotalRackWidthMm += (40 * requiredPowerModules);
+            // 1. Левый оконечник IN (R500 ST 01 012)
+            currentRack.AddedComponents.Add(new CustomTemplateItem { PartNumber = "R500 ST 01 012", Name = "Модуль оконечный с функцией расширения шины (IN)", Quantity = 1, Unit = "шт", Type = "ПЛК" });
 
-            // Модули ввода/вывода
-            var groupedIo = rackModules.GroupBy(m => new { m.PartNumber, m.Description, m.WidthMm });
+            // 2. Блоки питания (Монтируем по 2 БП на крейт для резервирования шины TwoBus)
+            currentRack.AddedComponents.Add(new CustomTemplateItem { PartNumber = "R500 PP 00 021", Name = "Модуль источника питания 24 В DC, 75 Вт", Quantity = 2, Unit = "шт", Type = "ПЛК" });
+            currentRack.AddedComponents.Add(new CustomTemplateItem { PartNumber = "R500 CH 02 022", Name = "Модуль шасси БП (80 мм)", Quantity = 2, Unit = "шт", Type = "ПЛК" });
+
+            // 3. Модули ввода/вывода и процессоры текущего ряда
+            var groupedIo = currentRackModules.GroupBy(m => new { m.PartNumber, m.Description, m.WidthMm });
             foreach (var group in groupedIo)
             {
                 currentRack.AddedComponents.Add(new CustomTemplateItem { PartNumber = group.Key.PartNumber, Name = group.Key.Description, Quantity = group.Count(), Unit = "шт", Type = "ПЛК" });
-                currentRack.AddedComponents.Add(new CustomTemplateItem { PartNumber = "R500 CH 01 011", Name = "Модуль шасси ВВ", Quantity = group.Count(), Unit = "шт", Type = "ПЛК" });
-                currentRack.TotalRackWidthMm += (group.Key.WidthMm * group.Count());
+
+                // Автоподбор шасси из вашей новой b2b-базы данных
+                string chassisArt = group.Key.WidthMm == 80 ? "R500 CH 02 022" : "R500 CH 01 011";
+                string chassisName = group.Key.WidthMm == 80 ? "Модуль шасси с поддержкой резервирования" : "Модуль шасси стандартный";
+
+                currentRack.AddedComponents.Add(new CustomTemplateItem { PartNumber = chassisArt, Name = chassisName, Quantity = group.Count(), Unit = "шт", Type = "ПЛК" });
             }
 
-            // Правый оконечник
-            currentRack.AddedComponents.Add(new CustomTemplateItem { PartNumber = "R500 ST 01 022", Name = "Модуль оконечный OUT", Quantity = 1, Unit = "шт", Type = "ПЛК" });
-            currentRack.TotalRackWidthMm += 40;
+            // 4. Правый оконечник OUT (R500 ST 01 022) — ставится, если цепь расширения шины идет на следующий ряд
+            currentRack.AddedComponents.Add(new CustomTemplateItem { PartNumber = "R500 ST 01 022", Name = "Модуль оконечный с функцией расширения шины (OUT)", Quantity = 1, Unit = "шт", Type = "ПЛК" });
+
+            // Фиксируем честные физические габариты ряда с учетом оконечников
+            currentRack.TotalRackWidthMm = currentWidthMm + 40.0; // Добавляем 40мм правого оконечника
 
             resultSpecs.Add(currentRack);
             rackCounter++;
@@ -172,4 +200,5 @@ public class RegulCalculationService
 
         return resultSpecs;
     }
+
 }

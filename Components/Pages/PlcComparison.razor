@@ -1,106 +1,151 @@
 ﻿@page "/plc-comparison"
 @using AsuGenerator.Web.Models
 @using AsuGenerator.Web.Services
+@inject AsuGenerator.Web.Services.DocumentGenerator DocGenerator
 @using System.IO
+@using System.Text.Json
+@using OfficeOpenXml
 @inject ExcelParserService ParserService
 @inject PlcComparisonEngine ComparisonEngine
 @inject ISnackbar Snackbar
 @inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment Env
 @inject NavigationManager NavManager
+@inject IJSRuntime JS
 
-<MudContainer MaxWidth="MaxWidth.Large" Class="mt-6 mb-12">
-    <div class="mb-6">
-        <MudText Typo="Typo.h5" Color="Color.Primary"><b>Сравнительный анализ систем ПЛК (ТКП)</b></MudText>
-        <MudText Typo="Typo.body2" Color="Color.Secondary">Сравнение бюджетов, габаритов и технических назначений контроллеров REGUL R500 и ОВЕН</MudText>
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-6 mb-12">
+    
+    @* Hero-заголовок *@
+    <div class="mb-6 text-center">
+        <MudText Typo="Typo.h4" Color="Color.Primary" Class="font-weight-bold mb-2">
+            📊 Сравнительный анализ систем ПЛК
+        </MudText>
+        <MudText Typo="Typo.body1" Color="Color.Secondary">
+            Технико-коммерческое предложение для согласования с ГИПом и заказчиком
+        </MudText>
     </div>
 
     <MudGrid>
-        <!-- Левая колонка: Ввод емкости сигналов проекта -->
+        @* Левая колонка: Ввод сигналов *@
         <MudItem xs="12" md="4">
             <MudPaper Class="pa-4 rounded-lg" Outlined="true">
-                <MudText Typo="Typo.subtitle2" Class="mb-3"><b>1. Информационная мощность из ТЗ</b></MudText>
+                <MudText Typo="Typo.subtitle2" Class="mb-3">
+                    <b>1. Информационная мощность из ТЗ</b>
+                </MudText>
                 
-                <MudNumericField @bind-Value="_aiCount" Label="Аналоговые входы (AI 4-20мА)" Variant="Variant.Outlined" Margin="Margin.Dense" Min="0" Class="mb-2" />
-                <MudNumericField @bind-Value="_aoCount" Label="Аналоговые выходы (AO 4-20мА)" Variant="Variant.Outlined" Margin="Margin.Dense" Min="0" Class="mb-2" />
-                <MudNumericField @bind-Value="_diCount" Label="Дискретные входы (DI =24В)" Variant="Variant.Outlined" Margin="Margin.Dense" Min="0" Class="mb-2" />
-                <MudNumericField @bind-Value="_doCount" Label="Дискретные выходы (DO =24В, 0.5А)" Variant="Variant.Outlined" Margin="Margin.Dense" Min="0" Class="mb-4" />
+                <MudNumericField @bind-Value="_aiCount" 
+                                 Label="Аналоговые входы (AI 4-20мА)" 
+                                 Variant="Variant.Outlined" Margin="Margin.Dense" 
+                                 Min="0" Class="mb-2" />
+                <MudNumericField @bind-Value="_aoCount" 
+                                 Label="Аналоговые выходы (AO 4-20мА)" 
+                                 Variant="Variant.Outlined" Margin="Margin.Dense" 
+                                 Min="0" Class="mb-2" />
+                <MudNumericField @bind-Value="_diCount" 
+                                 Label="Дискретные входы (DI =24В)" 
+                                 Variant="Variant.Outlined" Margin="Margin.Dense" 
+                                 Min="0" Class="mb-2" />
+                <MudNumericField @bind-Value="_doCount" 
+                                 Label="Дискретные выходы (DO =24В, 0.5А)" 
+                                 Variant="Variant.Outlined" Margin="Margin.Dense" 
+                                 Min="0" Class="mb-4" />
 
-                <MudSelect T="double" @bind-Value="_cabinetWidth" Label="Ширина шкафа (мм)" Variant="Variant.Outlined" Margin="Margin.Dense" Class="mb-4">
+                <MudSelect T="double" @bind-Value="_cabinetWidth" 
+                           Label="Ширина шкафа (мм)" Variant="Variant.Outlined" 
+                           Margin="Margin.Dense" Class="mb-4">
                     <MudSelectItem Value="600.0">600 мм</MudSelectItem>
                     <MudSelectItem Value="800.0">800 мм</MudSelectItem>
                     <MudSelectItem Value="1000.0">1000 мм</MudSelectItem>
                 </MudSelect>
 
                 <MudButton Variant="Variant.Filled" 
-                           Style="background-color: #3cb890; color: white; font-weight: bold;" 
+                           Color="Color.Primary"
                            FullWidth="true" 
                            StartIcon="@Icons.Material.Filled.Calculate"
                            OnClick="RunComparison">
                     Рассчитать сравнение
                 </MudButton>
+                
+                @* Кнопка экспорта — показывается только после расчёта *@
+                @if (_tkpReport != null && _tkpReport.Any())
+                {
+                    <MudButton Variant="Variant.Outlined" 
+                               Color="Color.Success"
+                               FullWidth="true" 
+                               Class="mt-2"
+                               StartIcon="@Icons.Material.Filled.Download"
+                               OnClick="DownloadComparisonExcel">
+                        Скачать сравнение в Excel
+                    </MudButton>
+                }
             </MudPaper>
         </MudItem>
 
-        <!-- Правая колонка: Аналитические карточки ТКП и выводы -->
+        @* Правая колонка: Результаты сравнения *@
         <MudItem xs="12" md="8">
             @if (_tkpReport != null && _tkpReport.Any())
             {
-                <MudGrid Class="mb-4">
-                    @* Карточка ОВЕН *@
-                    <MudItem xs="12" sm="6">
-                        <MudPaper Outlined="true" Class="pa-4 rounded-lg style-tkp-card style-card-oven">
-                            <div class="d-flex justify-space-between align-center mb-2">
-                                <MudText Typo="Typo.subtitle1"><b>@_tkpReport["ОВЕН"].VendorName</b></MudText>
-                                <MudChip T="string" Color="Color.Info" Size="Size.Small" Variant="Variant.Text">@_tkpReport["ОВЕН"].SeriesId</MudChip>
-                            </div>
-                            <MudDivider Class="my-2" />
-                            <div class="d-flex flex-column gap-1 my-3" style="font-size: 13px;">
-                                <MudText Typo="Typo.body2">Назначение: <b>@_tkpReport["ОВЕН"].TargetApplication</b></MudText>
-                                <MudText Typo="Typo.body2">Всего узлов/крейтов: <b>@_tkpReport["ОВЕН"].TotalRacksCount шт.</b></MudText>
-                                <MudText Typo="Typo.body2">Необходимо шкафов: <b>@_tkpReport["ОВЕН"].TotalCabinetsCount шт.</b></MudText>
-                            </div>
-                            <div class="mt-4">
-                                <MudText Typo="Typo.h5" Color="Color.Info" Class="font-weight-bold">
-                                    @_tkpReport["ОВЕН"].TotalHardwareCostRub.ToString("N0") ₽
-                                </MudText>
-                                <MudText Typo="Typo.caption" Color="Color.Secondary">Базовая себестоимость спецификации</MudText>
-                            </div>
-                        </MudPaper>
-                    </MudItem>
+                @* Таблица сравнения в стиле ТКП *@
+                <MudTable Items="@GetComparisonRows()" 
+                          Hover="true" 
+                          Striped="true" 
+                          Dense="true" 
+                          Class="rounded-lg overflow-hidden mb-4"
+                          Style="border: 1px solid var(--mud-palette-lines-default);">
+                    <HeaderContent>
+                        <MudTh Style="font-weight: bold; background-color: #f5f5f5;">Параметр</MudTh>
+                        @foreach (var kvp in _tkpReport)
+                        {
+                            <MudTh Style="text-align: center; font-weight: bold; background-color: #f5f5f5;">
+                                @kvp.Value.VendorName
+                            </MudTh>
+                        }
+                    </HeaderContent>
+                    <RowTemplate>
+                        <MudTd Style="font-weight: 500;">@context.ParamName</MudTd>
+                        @foreach (var kvp in _tkpReport)
+                        {
+                            var value = context.Values.GetValueOrDefault(kvp.Key, "—");
+                            var cellStyle = GetCellStyle(context.ParamName, kvp.Key);
+                            
+                            <MudTd Style="@cellStyle">
+                                @value
+                            </MudTd>
+                        }
+                    </RowTemplate>
+                </MudTable>
 
-                    @* Карточка REGUL *@
-                    <MudItem xs="12" sm="6">
-                        <MudPaper Outlined="true" Class="pa-4 rounded-lg style-tkp-card style-card-regul">
-                            <div class="d-flex justify-space-between align-center mb-2">
-                                <MudText Typo="Typo.subtitle1" Style="color: #3cb890;"><b>@_tkpReport["REGUL"].VendorName</b></MudText>
-                                <MudChip T="string" Size="Size.Small" Variant="Variant.Text" Class="style-regul-chip">@_tkpReport["REGUL"].SeriesId</MudChip>
-                            </div>
-                            <MudDivider Class="my-2" />
-                            <div class="d-flex flex-column gap-1 my-3" style="font-size: 13px;">
-                                <MudText Typo="Typo.body2">Назначение: <b>@_tkpReport["REGUL"].TargetApplication</b></MudText>
-                                <MudText Typo="Typo.body2">Всего узлов/крейтов: <b>@_tkpReport["REGUL"].TotalRacksCount шт.</b></MudText>
-                                <MudText Typo="Typo.body2">Необходимо шкафов: <b>@_tkpReport["REGUL"].TotalCabinetsCount шт.</b></MudText>
-                            </div>
-                            <div class="mt-4">
-                                <MudText Typo="Typo.h5" Style="color: #3cb890;" Class="font-weight-bold">
-                                    @_tkpReport["REGUL"].TotalHardwareCostRub.ToString("N0") ₽
-                                </MudText>
-                                <MudText Typo="Typo.caption" Color="Color.Secondary">Резервирование + Искрозащита Exi</MudText>
-                            </div>
-                        </MudPaper>
-                    </MudItem>
-                </MudGrid>
-
-                @* Аналитическое резюме для ГИПа *@
-                <MudAlert Severity="Severity.Normal" Variant="Variant.Filled" Square="true" Class="rounded-lg pa-4" Style="background-color: #1e293b; color: #f8fafc;">
+                @* Сводный блок: итоги и рекомендация *@
+                
+                
+                <MudAlert Severity="Severity.Normal"
+                          Variant="Variant.Filled"
+                          Square="true"
+                          Class="rounded-lg pa-4"
+                          Style="background-color: #1e293b; color: #f8fafc;">
                     <div class="d-flex align-center gap-3">
-                        <MudIcon Icon="@Icons.Material.Filled.Insights" Style="color: #3cb890;" Size="Size.Large" />
-                        <div style="font-size: 13px; line-height: 1.5;">
-                            <b>Инженерный анализ отклонений бюджета:</b>
-                            Разница в стоимости между системами составляет
-                            <b style="color: #3cb890; font-size: 14px;">@((_tkpReport["REGUL"].TotalHardwareCostRub - _tkpReport["ОВЕН"].TotalHardwareCostRub).ToString("N0")) ₽</b>.
-                            Увеличение бюджета закупки для линейки Прософт REGUL R500 обусловлено применением отказоустойчивой резервированной архитектуры (две шины RegulBus, резерв ЦП и БП)
-                            и поканальной взрывозащиты, что технически обязательно для систем ПАЗ уровня <b>SIL3 (Ростехнадзор)</b> на опасных производственных объектах.
+                        <MudIcon Icon="@Icons.Material.Filled.Insights"
+                                 Style="color: #3cb890;" Size="Size.Large" />
+                        <div style="font-size: 13px; line-height: 1.6;">
+                            <b>📋 Выводы для технико-коммерческого предложения:</b><br />
+
+                            💰 <b style="color: #4caf50;">@GetCheapestVendor().VendorName</b> — минимальная стоимость:
+                            <b>@GetCheapestVendor().TotalHardwareCostRub.ToString("N0") ₽</b><br />
+
+                            📦 <b style="color: #2196F3;">@GetFewestCabinetsVendor().VendorName</b> — самая компактная компоновка:
+                            <b>@GetFewestCabinetsVendor().TotalCabinetsCount шкаф.</b><br />
+
+                            ⚡ <b style="color: #ff9800;">@GetMostExpensiveVendor().VendorName</b> — максимальный бюджет:
+                            <b>@GetMostExpensiveVendor().TotalHardwareCostRub.ToString("N0") ₽</b>
+                            @if (GetMostExpensiveVendor().VendorName.Contains("REGUL"))
+                            {
+                                <span>(включая резервирование и искрозащиту Exi для SIL3)</span>
+                            }
+
+                            <br /><br />
+                            <b>Рекомендация:</b> Для систем ПАЗ с требованиями SIL3 —
+                            <b style="color: #3cb890;">@GetMostExpensiveVendor().VendorName</b>.
+                            Для общепромышленных систем —
+                            <b style="color: #4caf50;">@GetCheapestVendor().VendorName</b>.
                         </div>
                     </div>
                 </MudAlert>
@@ -108,7 +153,8 @@
             else
             {
                 <MudAlert Severity="Severity.Info" Variant="Variant.Outlined" Class="rounded-lg">
-                    Введите количество технологических сигналов проекта в левой панели и нажмите «Рассчитать сравнение» для вывода технико-коммерческой аналитики.
+                    Введите количество технологических сигналов проекта в левой панели 
+                    и нажмите «Рассчитать сравнение» для вывода технико-коммерческой аналитики.
                 </MudAlert>
             }
         </MudItem>
@@ -125,41 +171,58 @@
     private Dictionary<string, PlcComparisonResult>? _tkpReport;
     private PlcBaseRoot _plcDbRoot = new();
 
+    // Модель строки таблицы сравнения
+    private class ComparisonRow
+    {
+        public string ParamName { get; set; } = "";
+        public Dictionary<string, string> Values { get; set; } = new();
+    }
+
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            // 1. Читаем единую базу ПЛК
+            // Читаем единую базу ПЛК
             string jsonPath = Path.Combine(Env.WebRootPath, "Configs", "plc-base.json");
             if (File.Exists(jsonPath))
             {
                 string jsonText = await File.ReadAllTextAsync(jsonPath);
-                _plcDbRoot = System.Text.Json.JsonSerializer.Deserialize<PlcBaseRoot>(jsonText) ?? new();
+                _plcDbRoot = JsonSerializer.Deserialize<PlcBaseRoot>(jsonText) ?? new();
             }
 
-            // 2. ПЕРЕХВАТ ПАРАМЕТРОВ ИЗ КОНФИГУРАТОРА: Парсим URL-строку
+            // Перехват параметров из конфигуратора
             var uri = NavManager.ToAbsoluteUri(NavManager.Uri);
             var queryStrings = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(uri.Query);
 
-            if (queryStrings.TryGetValue("di", out var diVal) && int.TryParse(diVal, out int di)) _diCount = di;
-            if (queryStrings.TryGetValue("do", out var doVal) && int.TryParse(doVal, out int @do)) _doCount = @do;
-            if (queryStrings.TryGetValue("ai", out var aiVal) && int.TryParse(aiVal, out int ai)) _aiCount = ai;
-            if (queryStrings.TryGetValue("ao", out var aoVal) && int.TryParse(aoVal, out int ao)) _aoCount = ao;
+            bool hasParams = false;
+            if (queryStrings.TryGetValue("di", out var diVal) && int.TryParse(diVal, out int di)) { _diCount = di; hasParams = true; }
+            if (queryStrings.TryGetValue("do", out var doVal) && int.TryParse(doVal, out int @do)) { _doCount = @do; hasParams = true; }
+            if (queryStrings.TryGetValue("ai", out var aiVal) && int.TryParse(aiVal, out int ai)) { _aiCount = ai; hasParams = true; }
+            if (queryStrings.TryGetValue("ao", out var aoVal) && int.TryParse(aoVal, out int ao)) { _aoCount = ao; hasParams = true; }
             if (queryStrings.TryGetValue("width", out var wVal) && double.TryParse(wVal, out double w)) _cabinetWidth = w;
 
-            // Если параметры были переданы, сразу автоматически запускаем ТКП расчет без лишних кликов
-            if (diVal.Count > 0 || doVal.Count > 0 || aiVal.Count > 0 || aoVal.Count > 0)
-            {
-                RunComparison();
-            }
+            // Автозапуск, если параметры переданы
+            if (hasParams) RunComparison();
         }
         catch (Exception ex)
         {
             Snackbar.Add($"Ошибка инициализации ТКП: {ex.Message}", Severity.Error);
         }
     }
+    private PlcComparisonResult GetCheapestVendor()
+    {
+        return _tkpReport!.Values.OrderBy(v => v.TotalHardwareCostRub).First();
+    }
 
+    private PlcComparisonResult GetMostExpensiveVendor()
+    {
+        return _tkpReport!.Values.OrderByDescending(v => v.TotalHardwareCostRub).First();
+    }
 
+    private PlcComparisonResult GetFewestCabinetsVendor()
+    {
+        return _tkpReport!.Values.OrderBy(v => v.TotalCabinetsCount).First();
+    }
     private void RunComparison()
     {
         var inputSignals = new List<IoSignalRow>();
@@ -172,11 +235,105 @@
         {
             _tkpReport = ComparisonEngine.CompareSystems(inputSignals, _cabinetWidth, _plcDbRoot);
             Snackbar.Add("Технико-коммерческое сравнение успешно пересчитано!", Severity.Success);
+            StateHasChanged();
         }
         else
         {
             Snackbar.Add("Введите хотя бы один технологический сигнал для расчета!", Severity.Warning);
             _tkpReport = null;
+        }
+    }
+
+    // Формирует строки таблицы сравнения
+    private List<ComparisonRow> GetComparisonRows()
+    {
+        if (_tkpReport == null || !_tkpReport.Any()) return new();
+
+        var rows = new List<ComparisonRow>();
+        var vendorKeys = _tkpReport.Keys.ToList();
+
+        // Строка 1: Серия контроллера
+        var seriesRow = new ComparisonRow { ParamName = "Серия контроллера" };
+        foreach (var v in vendorKeys) seriesRow.Values[v] = _tkpReport[v].SeriesId;
+        rows.Add(seriesRow);
+
+        // Строка 2: Назначение
+        var appRow = new ComparisonRow { ParamName = "Назначение" };
+        foreach (var v in vendorKeys) appRow.Values[v] = _tkpReport[v].TargetApplication;
+        rows.Add(appRow);
+
+        // Строка 3: Количество крейтов
+        var racksRow = new ComparisonRow { ParamName = "Всего крейтов / узлов" };
+        foreach (var v in vendorKeys) racksRow.Values[v] = $"{_tkpReport[v].TotalRacksCount} шт.";
+        rows.Add(racksRow);
+
+        // Строка 4: Количество шкафов
+        var cabinetsRow = new ComparisonRow { ParamName = "Необходимо шкафов" };
+        foreach (var v in vendorKeys) cabinetsRow.Values[v] = $"{_tkpReport[v].TotalCabinetsCount} шт.";
+        rows.Add(cabinetsRow);
+
+        // Строка 5: Стоимость (выделенная)
+        var costRow = new ComparisonRow { ParamName = "💰 Стоимость оборудования" };
+        foreach (var v in vendorKeys) costRow.Values[v] = $"{_tkpReport[v].TotalHardwareCostRub.ToString("N0")} ₽";
+        rows.Add(costRow);
+
+        return rows;
+    }
+
+    // Проверяет, является ли вендор самым дешёвым
+    private bool IsLowestPrice(string vendorKey)
+    {
+        if (_tkpReport == null || !_tkpReport.Any()) return false;
+        var minCost = _tkpReport.Values.Min(v => v.TotalHardwareCostRub);
+        return _tkpReport[vendorKey].TotalHardwareCostRub == minCost;
+    }
+
+    // Вычисляет CSS-стиль для ячейки таблицы
+    private string GetCellStyle(string paramName, string vendorKey)
+    {
+        var styles = new List<string> { "text-align: center" };
+        
+        if (paramName.Contains("Стоимость"))
+        {
+            styles.Add("font-weight: bold");
+            styles.Add("font-size: 16px");
+            
+            if (IsLowestPrice(vendorKey))
+            {
+                styles.Add("color: #4caf50");
+            }
+        }
+        
+        return string.Join("; ", styles) + ";";
+    }
+
+    private async Task DownloadComparisonExcel()
+    {
+        if (_tkpReport == null) return;
+
+        try
+        {
+            // 1. Формируем список сигналов для шапки документа Excel
+            var inputSignals = new List<IoSignalRow>();
+            if (_diCount > 0) inputSignals.Add(new IoSignalRow { SignalType = "Дискретные входы (DI)", TotalWithReserve = _diCount });
+            if (_doCount > 0) inputSignals.Add(new IoSignalRow { SignalType = "Дискретные выходы (DO)", TotalWithReserve = _doCount });
+            if (_aiCount > 0) inputSignals.Add(new IoSignalRow { SignalType = "Аналоговые входы (AI)", TotalWithReserve = _aiCount });
+            if (_aoCount > 0) inputSignals.Add(new IoSignalRow { SignalType = "Аналоговые выходы (AO)", TotalWithReserve = _aoCount });
+
+            // 2. Генерируем массив байтов с помощью нашего EPPlus-сервиса
+            byte[] fileBytes = DocGenerator.GeneratePlcComparisonExcel(_tkpReport, inputSignals, _cabinetWidth);
+
+            // Сборка b2b-имени файла
+            string fileName = $"TKP_Comparison_PLC_{DateTime.Now:yyyyMMdd}.xlsx";
+
+            // 3. Вызываем JS-функцию скачивания, передавая имя и Base64 строку файла
+            await JS.InvokeVoidAsync("downloadFileFromBytes", fileName, Convert.ToBase64String(fileBytes));
+
+            Snackbar.Add("ТКП успешно выгружено в Excel!", Severity.Success);
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Ошибка скачивания файла: {ex.Message}", Severity.Error);
         }
     }
 }
@@ -186,22 +343,7 @@
         height: 100%;
         transition: box-shadow 0.2s ease-in-out;
     }
-
-        .style-tkp-card:hover {
-            box-shadow: var(--mud-elevation-3);
-        }
-
-    .style-card-oven {
-        border-top: 4px solid var(--mud-palette-info);
-    }
-
-    .style-card-regul {
-        border-top: 4px solid #3cb890;
-    }
-
-    .style-regul-chip {
-        color: #3cb890 !important;
-        background-color: rgba(60, 184, 144, 0.1) !important;
-        font-weight: bold;
+    .style-tkp-card:hover {
+        box-shadow: var(--mud-elevation-3);
     }
 </style>

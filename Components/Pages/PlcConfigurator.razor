@@ -172,192 +172,122 @@
                     {
                         @foreach (var cabinet in calcResult.Cabinets)
                         {
-                            int visualUsefulWidthPx = (int)((cabinetWidth - 40 - 60 - 120) * 0.8);
-                            int panelHeightMm = cabinetHeight - 70;
-                            int visualPanelHeightPx = (int)(panelHeightMm * 0.4);
+                            <MudPaper Elevation="4" Class="pa-4 mb-6" Style="background-color: #0f172a; border: 2px solid #334155;">
+                                <MudText Typo="Typo.subtitle1" Style="color: #3cb890;" Class="mb-3">
+                                    <b>МОНТАЖНАЯ ПАНЕЛЬ ШКАФА №@cabinet.CabinetIndex (Провенто @(cabinetWidth)х@(cabinetHeight)х400 мм)</b>
+                                </MudText>
 
-                            <MudText Typo="Typo.subtitle1" Class="font-weight-bold mt-2 mb-1 text-success" Style="font-size: 13px;">
-                                🏢 ШКАФ АВТОМАТИЗАЦИИ №@cabinet.CabinetIndex (@(cabinet.Type == CabinetType.SingleSided ? "Односторонний" : "Двухсторонний"), Панель @panelHeightMm мм)
-                            </MudText>
+                                @* КОРНЕВОЙ КОНТЕЙНЕР ШКАФА (Ширина 100%) *@
+                                <div class="enclosure-panel" style="width: 100%; border: 3px solid #64748b; background-color: #111827; padding: 0; display: flex; flex-direction: row; position: relative;">
 
-                            @if (cabinet.Type == CabinetType.SingleSided)
-                            {
-                                <!-- РЕНДЕР ОДНОСТОРОННЕЙ ЕДИНОЙ ПАНЕЛИ -->
-                                <div class="d-flex cabinet-panel w-100 shadow-sm rounded mb-2" style="height: @(visualPanelHeightPx)px;">
-                                    <div class="cable-duct duct-left"><span style="writing-mode: vertical-rl; transform: rotate(180deg); white-space: nowrap;">40х100</span></div>
-                                    <div class="flex-grow-1 rail-zone" style="max-width: @(visualUsefulWidthPx)px; min-width: @(visualUsefulWidthPx)px;">
-                                        <div class="cable-duct duct-h40">40х100</div>
-                                        <div class="power-supply-zone">
-                                            @if (cabinet.RecommendedPowerSupply is not null)
-                                            {
-                                                <div class="font-weight-bold text-white" style="font-size: 10px;">⚡ @cabinet.RecommendedPowerSupply.Name</div>
-                                                <div style="font-size: 9px; color: #f1c40f; font-family: monospace;">@cabinet.RecommendedPowerSupply.Article (@cabinet.RecommendedPowerSupply.WidthMm мм)</div>
-                                            }
+                                    @* --- 1. ЛЕВЫЙ ВЕРТИКАЛЬНЫЙ КОРОБ 40 мм (~230В) --- *@
+                                    <div class="vertical-duct-left text-center" style="width: 32px; min-width: 32px; background-color: #334155; color: #94a3b8; font-family: monospace; font-size: 9px; display: flex; align-items: center; justify-content: center; border-right: 1px solid #475569; writing-mode: vertical-lr; transform: rotate(180deg); padding: 10px 0;">
+                                        ВЕРТИКАЛЬНЫЙ КОРОБ 40х100 СЕРЫЙ (~230В)
+                                    </div>
+
+                                    @* --- ЦЕНТРАЛЬНАЯ РАБОЧАЯ ЗОНА МОНТАЖНОЙ ПАНЕЛИ --- *@
+                                    <div class="main-panel-content" style="flex-grow: 1; display: flex; flex-direction: column; overflow: hidden;">
+
+                                        @* ВЕРХНИЙ СИЛОВОЙ ОТСЕК ШКАФА *@
+                                        <div class="cable-duct-top" style="height: 32px; background-color: #334155; color: #94a3b8; font-family: monospace; font-size: 10px; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid #475569;">
+                                            ГОРИЗОНТАЛЬНЫЙ КОРОБ 40х100 СЕРЫЙ (~230В)
                                         </div>
-                                        <div class="cable-duct duct-h40">40х100</div>
-                                        <div class="cable-duct duct-h40">40х100</div>
 
+                                        <div class="power-supply-zone d-flex align-end justify-start px-4" style="height: 152px; background-color: rgba(255,255,255,0.02); border-bottom: 1px solid #334155; padding-bottom: 6px;">
+                                            <div class="d-flex gap-2">
+                                                <div class="text-center rounded text-white pa-1" style="width: 55px; height: 130px; background-color: #1e293b; border: 2px solid #3cb890; font-size: 9px; display: flex; flex-direction: column; justify-content: space-between; box-sizing: border-box; padding: 4px 0;">
+                                                    <span class="font-weight-bold" style="color: #3cb890;">=24 В</span>
+                                                    <span style="font-family: monospace; font-size: 8px; font-weight: bold; writing-mode: vertical-lr; transform: rotate(180deg); margin: 0 auto;">БП 220/24 В</span>
+                                                    <span style="font-size: 7px; opacity: 0.6;">10 А</span>
+                                                </div>
+                                                <div class="text-center rounded text-white pa-1" style="width: 55px; height: 130px; background-color: #1e293b; border: 2px solid #3cb890; font-size: 9px; display: flex; flex-direction: column; justify-content: space-between; box-sizing: border-box; padding: 4px 0;">
+                                                    <span class="font-weight-bold" style="color: #3cb890;">=24 В</span>
+                                                    <span style="font-family: monospace; font-size: 8px; font-weight: bold; writing-mode: vertical-lr; transform: rotate(180deg); margin: 0 auto;">БП 220/24 В</span>
+                                                    <span style="font-size: 7px; opacity: 0.6;">10 А</span>
+                                                </div>
+                                            </div>
+                                            <MudText Typo="Typo.caption" Style="color: #475569; margin-left: 20px; font-family: monospace; font-weight: bold; letter-spacing: 0.5px;">
+                                                ПРОСТРАНСТВО ВЫСОТОЙ 190 ММ ДЛЯ БЛОКОВ ПИТАНИЯ ШКАФА
+                                            </MudText>
+                                        </div>
+
+                                        <div class="cable-duct-double" style="height: 64px; background-color: #334155; color: #94a3b8; font-family: monospace; font-size: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; border-bottom: 1px solid #475569; border-top: 1px solid #475569; box-sizing: border-box;">
+                                            <div style="height: 32px; display: flex; align-items: center; justify-content: center; width: 100%;">ГОРИЗОНТАЛЬНЫЙ КОРОБ 40х100 (~230В)</div>
+                                            <div style="height: 32px; display: flex; align-items: center; justify-content: center; width: 100%; border-top: 1px solid #475569;">ГОРИЗОНТАЛЬНЫЙ КОРОБ 40х100 (=24В)</div>
+                                        </div>
+
+                                        @* ЦИКЛ РАССТАНОВКИ КРЕЙТОВ СВЕРХУ ВНИЗ *@
                                         @{
-                                            int singleRailCounter = 1;
+                                            int carrierIdx = 1;
                                         }
                                         @foreach (var node in cabinet.SingleSide.Nodes)
                                         {
                                             @foreach (var basket in node.Baskets)
                                             {
-                                                <div class="din-rail-row">
-                                                    <div class="modules-line d-flex align-center justify-start flex-wrap">
+                                                bool isBarrier = basket.Modules.Any(m => m.Type == "BARRIER_BLOCK");
 
-                                                        @* ИСПРАВЛЕНО: Добавлен цикл перебора модулей внутри корзины *@
-                                                        @foreach (var m in basket.Modules)
-                                                        {
-                                                            <div class="text-center rounded text-white style-plc-module @GetModuleColorClass(m.Type)"
-                                                                 style="min-width: @(m.WidthMm * 0.8)px; max-width: @(m.WidthMm * 0.8)px; height: 50px; margin: 0 1px; overflow: hidden; display: inline-block; vertical-align: top;">
+                                                <div style="height: 32px; background-color: rgba(60, 184, 144, 0.03); border-bottom: 1px dashed rgba(255,255,255,0.05); display: flex; align-items: center; padding-left: 10px;">
+                                                    <span style="font-size: 8px; color: #475569; font-family: monospace;">ТЕХНОЛОГИЧЕСКИЙ ОТСТУП 40 ММ</span>
+                                                </div>
 
-                                                                <!-- Выводим реальный шифр ОУ на основе типа вендора -->
-                                                                <div class="font-weight-bold" style="font-size: 8px; line-height: 1.1; padding-top: 2px;">
-                                                                    @if (selectedVendor == "REGUL")
-                                                                    {
-                                                                        @(m.Type == "CPU" ? "A1" : m.Type == "BUS" ? "G1" : "U" + (basket.Modules.IndexOf(m) + 1))
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        @GetUniqueModuleDesignation(m, cabinet)
-                                                                    }
-                                                                </div>
+                                                <div class="modules-line" style="display: flex; align-items: center; justify-content: flex-start; flex-wrap: nowrap; overflow-x: auto; width: 100%; padding: 4px 10px; box-sizing: border-box;">
+                                                    @foreach (var m in basket.Modules)
+                                                    {
+                                                        <div class="text-center rounded text-white style-plc-module @GetModuleColorClass(m.Type)"
+                                                             style="min-width: @(m.WidthMm * 0.8)px; max-width: @(m.WidthMm * 0.8)px; height: @(m.HeightMm * 0.8)px; margin: 0 1.5px; overflow: hidden; display: inline-flex; flex-direction: column; justify-content: space-between; padding: 6px 0; vertical-align: bottom; box-sizing: border-box;">
 
-                                                                <!-- Вместо зашитого МВ210 выводим реальный артикул m.Article из plc-base.json -->
-                                                                <div style="font-size: 7px; font-family: monospace; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; padding: 0 2px;">
-                                                                    @m.Article
-                                                                </div>
+                                                            <div class="font-weight-bold" style="font-size: 9px; line-height: 1.1;">
+                                                                @(m.Type == "CPU" ? "A1" : m.Type == "BUS" ? "G1" : isBarrier ? "Ex" : "U" + (basket.Modules.IndexOf(m) + 1))
+                                                            </div>
 
-                                                                <div style="font-size: 6px; color: #e0e0e0;">
-                                                                    @m.WidthMm мм
+                                                            <div class="d-flex align-center justify-center flex-grow-1" style="overflow: hidden; width: 100%;">
+                                                                <div style="font-size: @(isBarrier ? "7px" : "8px"); font-family: 'Courier New', monospace; font-weight: bold; white-space: nowrap; writing-mode: vertical-lr; transform: rotate(180deg);">
+                                                                    @(isBarrier ? "Exi BARRIER" : m.Article)
                                                                 </div>
                                                             </div>
-                                                        }
 
-                                                    </div>
-                                                    <div class="rail-label">--- CARRIER @singleRailCounter ---</div>
+                                                            <div style="font-size: 6px; color: #e0e0e0; opacity: 0.75;">
+                                                                @m.WidthMm×@m.HeightMm
+                                                            </div>
+                                                        </div>
+                                                    }
                                                 </div>
-                                                <div class="cable-duct duct-h60">60х100</div>
-                                                { singleRailCounter++; }
+
+                                                <div style="height: 32px; background-color: rgba(60, 184, 144, 0.03); display: flex; align-items: center; padding-left: 10px;">
+                                                    <span style="font-size: 8px; color: #475569; font-family: monospace;">ОТСТУП 40 ММ ВНИЗ</span>
+                                                </div>
+
+                                                <div class="cable-duct-loop" style="height: 32px; background-color: #334155; color: #94a3b8; font-family: monospace; font-size: 10px; display: flex; align-items: center; justify-content: center; border-top: 1px solid #475569; border-bottom: 1px solid #475569;">
+                                                    @if (isBarrier)
+                                                    {
+                                                        <span>--- EXI BARRIERS ZONE --- (ГОРИЗОНТАЛЬНЫЙ КОРОБ 40х100)</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>--- CARRIER @carrierIdx --- (ГОРИЗОНТАЛЬНЫЙ КОРОБ 40х100)</span>
+                                                    }
+                                                </div>
+
+                                                { carrierIdx++; }
                                             }
                                         }
 
-                                        <div class="cable-entry-zone">ЗОНА ЗАВЕДЕНИЯ КАБЕЛЕЙ (СВОБОДНО: @(panelHeightMm - cabinet.SingleSide.TotalAllocatedHeightMm) мм)</div>
+                                        @* НИЖНЯЯ РЕЗЕРВНАЯ ЗОНА ШКАФА *@
+                                        <div class="bottom-free-zone mt-auto d-flex align-center justify-center" style="height: 120px; background-color: rgba(255,255,255,0.01); border-top: 2px dashed #334155;">
+                                            <MudText Typo="Typo.caption" Style="color: #475569; font-family: monospace; font-weight: bold;">НИЖНЯЯ ТЕХНОЛОГИЧЕСКАЯ ЗОНА ШКАФА (&lt; 200 ММ ДО ОСНОВАНИЯ)</MudText>
+                                        </div>
                                     </div>
-                                    <div class="cable-duct duct-right"><span style="writing-mode: vertical-rl; transform: rotate(180deg); white-space: nowrap;">60х100</span></div>
+
+                                    @* --- 2. ПРАВЫЙ ВЕРТИКАЛЬНЫЙ КОРОБ 60 мм (=24В) --- *@
+                                    <div class="vertical-duct-right text-center" style="width: 48px; min-width: 48px; background-color: #334155; color: #94a3b8; font-family: monospace; font-size: 9px; display: flex; align-items: center; justify-content: center; border-left: 1px solid #475569; writing-mode: vertical-lr; transform: rotate(180deg); padding: 10px 0;">
+                                        ВЕРТИКАЛЬНЫЙ КОРОБ 60х100 СЕРЫЙ (=24В)
+                                    </div>
+
                                 </div>
-                            }
-                            else
-                            {
-                                <!-- РЕНДЕР ДВУХСТОРОННЕГО ШКАФА С ТАБАМИ -->
-                                <MudTabs Elevation="0" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-0" Class="border rounded shadow-sm bg-white mb-2">
-                                    
-                                    <!-- ЛИЦЕВАЯ СТОРОНА (ПЛК) -->
-                                    <MudTabPanel Text="ЛИЦЕВАЯ СТОРОНА (ПЛК и БП)" Style="font-size: 11px; font-weight: bold; padding: 4px 12px; height: 32px;">
-                                        <div class="d-flex cabinet-panel w-100" style="height: @(visualPanelHeightPx)px;">
-                                            <div class="cable-duct duct-left"><span style="writing-mode: vertical-rl; transform: rotate(180deg); white-space: nowrap;">40х100</span></div>
-                                            <div class="flex-grow-1 rail-zone" style="max-width: @(visualUsefulWidthPx)px; min-width: @(visualUsefulWidthPx)px;">
-                                                <div class="cable-duct duct-h40">40х100</div>
-                                                <div class="power-supply-zone">
-                                                    @if (cabinet.RecommendedPowerSupply is not null)
-                                                    {
-                                                        <div class="font-weight-bold text-white" style="font-size: 10px;">⚡ @cabinet.RecommendedPowerSupply.Name</div>
-                                                        <div style="font-size: 9px; color: #f1c40f; font-family: monospace;">@cabinet.RecommendedPowerSupply.Article (@cabinet.RecommendedPowerSupply.WidthMm мм)</div>
-                                                    }
-                                                </div>
-                                                <div class="cable-duct duct-h40">40х100</div>
-                                                <div class="cable-duct duct-h40">40х100</div>
-
-                                                @{ int frontRailCounter = 1; }
-                                                @foreach (var node in cabinet.FrontSide.Nodes)
-                                                {
-                                                    @foreach (var basket in node.Baskets)
-                                                    {
-                                                        <div class="din-rail-row">
-                                                            <div class="modules-line d-flex align-center justify-start">
-                                                                @foreach (var m in basket.Modules)
-                                                                {
-                                                                    <div class="text-center rounded text-white style-plc-module @GetModuleColorClass(m.Type)" style="min-width: @(m.WidthMm * 0.8)px; height: 50px;">
-                                                                        <div class="font-weight-bold" style="font-size: 8px;">@GetUniqueModuleDesignation(m, cabinet)</div>
-                                                                        <div style="font-size: 7px; font-family: monospace;">@m.Article</div>
-                                                                        <div style="font-size: 6px; color: #bdc3c7;">@m.WidthMm мм</div>
-                                                                    </div>
-                                                                }
-                                                            </div>
-                                                            <div class="rail-label">--- CARRIER FRONT @frontRailCounter ---</div>
-                                                        </div>
-                                                        <div class="cable-duct duct-h60">60х100</div>
-                                                        { frontRailCounter++; }
-                                                    }
-                                                }
-                                                <div class="cable-entry-zone">СВОБОДНАЯ ЗОНА ПАНЕЛИ: @(panelHeightMm - cabinet.FrontSide.TotalAllocatedHeightMm) мм</div>
-                                            </div>
-                                            <div class="cable-duct duct-right"><span style="writing-mode: vertical-rl; transform: rotate(180deg); white-space: nowrap;">60х100</span></div>
-                                        </div>
-                                    </MudTabPanel>
-                                    <!-- ЗАДНЯЯ СТОРОНА (РЕЛЕ И КЛЕММЫ) -->
-                                    <MudTabPanel Text="ЗАДНЯЯ СТОРОНА (РЕЛЕ И КЛЕММЫ)" Style="font-size: 11px; font-weight: bold; padding: 4px 12px; height: 32px;">
-                                        <div class="d-flex cabinet-panel w-100" style="height: @(visualPanelHeightPx)px;">
-                                            <div class="cable-duct duct-left"><span style="writing-mode: vertical-rl; transform: rotate(180deg); white-space: nowrap;">40х100</span></div>
-                                            <div class="flex-grow-1 rail-zone" style="max-width: @(visualUsefulWidthPx)px; min-width: @(visualUsefulWidthPx)px;">
-                                                <div class="cable-duct duct-h40">40х100</div>
-
-                                                @{
-                                                    int backRailCounter = 1;
-                                                }
-                                                @foreach (var node in cabinet.BackSide.Nodes)
-                                                {
-                                                    @foreach (var basket in node.Baskets)
-                                                    {
-                                                        <div class="din-rail-row" style="background-color: #232d37;">
-                                                            <div class="modules-line d-flex align-center justify-start gap-1">
-                                                                @foreach (var bEq in basket.Modules)
-                                                                {
-                                                                    @if (bEq.Type == "RELAY_BLOCK")
-                                                                    {
-                                                                        <div class="text-center rounded text-white d-flex align-center justify-center font-weight-bold" style="background-color: #d35400; width: @((bEq.WidthMm * 0.8))px; height: 42px; font-size: 9px; border: 1px dashed #fff; min-width: 60px;">
-                                                                            РЕЛЕ FINDER (@cabinet.InterposingRelays.Count шт)
-                                                                        </div>
-                                                                    }
-                                                                    else if (bEq.Type == "TERMINAL_BLOCK")
-                                                                    {
-                                                                        <div class="text-center rounded text-white d-flex align-center justify-center font-weight-bold" style="background-color: #7f8c8d; width: @((bEq.WidthMm * 0.8))px; height: 42px; font-size: 9px; border: 1px dashed #fff; min-width: 60px;">
-                                                                            КЛЕММЫ IEK
-                                                                        </div>
-                                                                    }
-                                                                }
-                                                            </div>
-                                                            <div class="rail-label" style="color: #e67e22;">--- CARRIER BACK @backRailCounter ---</div>
-                                                        </div>
-                                                        <div class="cable-duct duct-h60">60х100</div>
-                                                        { backRailCounter++; }
-                                                    }
-                                                }
-                                                <div class="cable-entry-zone">СВОБОДНАЯ ЗОНА ПАНЕЛИ: @(panelHeightMm - cabinet.BackSide.TotalAllocatedHeightMm) мм</div>
-                                            </div>
-                                            <div class="cable-duct duct-right"><span style="writing-mode: vertical-rl; transform: rotate(180deg); white-space: nowrap;">60х100</span></div>
-                                        </div>
-                                    </MudTabPanel>
-                                </MudTabs>
-                            }
-
-                            <!-- СВОДНЫЙ ИНЖЕНЕРНЫЙ ОТЧЕТ -->
-                            <MudCard Class="mt-1 mb-3 pa-2 bg-light" Outlined="true" Style="font-size: 11px;">
-                                <MudCardContent Class="pa-0">
-                                    @if (cabinet.Type == CabinetType.SingleSided)
-                                    {
-                                        <div>📐 Занято на общей панели: <b>@cabinet.SingleSide.TotalAllocatedHeightMm мм</b> из @panelHeightMm мм. Свободный кабельный канал внизу: <b>@(panelHeightMm - cabinet.SingleSide.TotalAllocatedHeightMm) мм</b>.</div>
-                                    }
-                                    else
-                                    {
-                                        <div>📐 Занято на Лицевой панели: <b>@cabinet.FrontSide.TotalAllocatedHeightMm мм</b>. На Задней панели: <b>@cabinet.BackSide.TotalAllocatedHeightMm мм</b> из @panelHeightMm мм.</div>
-                                    }
-                                    <div class="mt-1 text-primary">📦 Реле Finder 24В: <b>@cabinet.InterposingRelays.Count шт.</b> | Клеммы IEK (серые/синие/PE): @(cabinet.Terminals.GreyTerminalsCount + cabinet.Terminals.BlueTerminalsCount + cabinet.Terminals.PeTerminalsCount) шт.</div>
-                                </MudCardContent>
-                            </MudCard>
+                            </MudPaper>
                         }
+
+
 
                         <MudAlert Severity="Severity.Info" Dense="true" Class="mt-2 font-weight-bold" Style="font-size: 11px;">
                             ✅ ИТОГО СФОРМИРОВАНО ШКАФОВ: @calcResult.Cabinets.Count шт. | Всего DIN-реек под ПЛК: @calcResult.TotalDinRailsRequired шт.
@@ -456,14 +386,28 @@
         box-sizing: border-box;
     }
 
-    /* Ряд, где физически стоят модули на рейке */
+    /* Контейнер строки DIN-рейки — жесткий габарит 581 мм */
     .modules-line {
         display: flex;
-        flex-wrap: nowrap;
-        gap: 2px;
-        height: 50px;
+        align-items: center;
+        justify-content: flex-start;
+        flex-wrap: nowrap !important;
+        overflow: hidden; /* ИСПРАВЛЕНО: Скролл убран, так как софт сам переносит модули на CARRIER 2 */
+        min-height: 150px;
+        padding: 4px 5px;
         width: 100%;
+        box-sizing: border-box;
     }
+
+        /* Скрываем уродливые системные полосы прокрутки, сохраняя b2b-эстетику интерфейса */
+        .modules-line::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .modules-line::-webkit-scrollbar-thumb {
+            background: #3cb890;
+            border-radius: 4px;
+        }
 
     /* ИСПРАВЛЕНО: Надпись CARRIER теперь центрируется строго ПОД модулями */
     .rail-label {
@@ -489,18 +433,18 @@
         background-color: #34495e;
         border-left: 3px solid #e74c3c;
     }
-    /* Модули ПЛК (Высота 125 мм) */
+    /* Базовый класс для графических блоков оборудования */
     .style-plc-module {
-        height: 50px; /* 125mm * 0.4 */
-        border: 1px solid rgba(255,255,255,0.2);
-        box-shadow: inset 0 0 4px rgba(0,0,0,0.6);
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: center;
-        padding: 2px 2px;
-        box-sizing: border-box;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 2px 4px rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        transition: filter 0.1s ease;
     }
+
+        /* Точечная корректировка под узкие барьеры взрывозащиты Exi */
+        .style-plc-module.mud-theme-warning {
+            padding: 4px 0 !important; /* Уменьшаем вертикальные отступы для сверхтонких блоков */
+            border-color: #d97706 !important;
+        }
 
     .bg-cpu {
         background-color: #27ae60;
@@ -641,7 +585,6 @@
             }
             else if (selectedVendor == "REGUL")
             {
-                // 1. СБОР СИГНАЛОВ
                 var inputSignals = new List<IoSignalRow>();
                 int totalDi = signals.DiDryContact + signals.DiWetContact + signals.DiFastCounter;
                 if (totalDi > 0) inputSignals.Add(new IoSignalRow { SignalType = "DI", TotalWithReserve = totalDi });
@@ -649,76 +592,126 @@
                 if (signals.TotalAI > 0) inputSignals.Add(new IoSignalRow { SignalType = "AI", TotalWithReserve = signals.TotalAI });
                 if (signals.TotalAO > 0) inputSignals.Add(new IoSignalRow { SignalType = "AO", TotalWithReserve = signals.TotalAO });
 
-                if (!inputSignals.Any())
-                {
-                    Snackbar.Add("Введите хотя бы один технологический канал поля для генерации крейтов!", Severity.Warning);
-                    return;
-                }
-
-                // Вызов сервиса РЕГУЛ
+                // Вызываем базовый расчет физических модулей ПЛК по ТЗ
                 var regulRacks = RegulService.CalculateSystemWithDbAndBarriers(inputSignals);
 
-                // 2. СБОРКА ГРАФИЧЕСКОЙ МОДЕЛИ РЕНДЕРА
                 calcResult = new PlcCabinetCalculationResult();
-                var visualCabinet = new PlcCabinet
-                {
-                    CabinetIndex = 1,
-                    Type = cabinetType,
-                    InterposingRelays = new(),
-                    Terminals = new()
-                };
 
-                var visualSide = cabinetType == CabinetType.SingleSided ? visualCabinet.SingleSide : visualCabinet.FrontSide;
-                var node = new PlcNode();
+                int currentCabinetIndex = 1;
+                var currentCabinet = new PlcCabinet { CabinetIndex = currentCabinetIndex, Type = cabinetType, InterposingRelays = new(), Terminals = new() };
+                var currentSide = cabinetType == CabinetType.SingleSided ? currentCabinet.SingleSide : currentCabinet.FrontSide;
+                var currentNode = new PlcNode();
 
+                double currentUsedHeightMm = 310.0;
+                double maxUsableHeightMm = cabinetHeight - 200.0;
+                int carrierCounter = 1;
+
+                // Собираем ВСЕ модули ввода-вывода и процессоры в плоский упорядоченный список
+                var allHardwareToPlace = new List<PlcComponent>();
                 foreach (var rack in regulRacks)
                 {
-                    var basket = new PlcBasket();
                     foreach (var item in rack.AddedComponents)
                     {
+                        // Исключаем системные блоки питания шины и оконечники, их мы будем генерировать поканально для каждого ряда самостоятельно!
+                        if (item.PartNumber.Contains("PP") || item.PartNumber.Contains("ST") || item.PartNumber.Contains("CH")) continue;
+
                         int unitWidth = item.PartNumber.Contains("CU") ? 80 : 40;
+                        int unitHeight = 180;
+
                         for (int i = 0; i < item.Quantity; i++)
                         {
-                            basket.Modules.Add(new PlcComponent
+                            allHardwareToPlace.Add(new PlcComponent
                             {
                                 Article = item.PartNumber,
-                                Type = item.PartNumber.Contains("CU") ? "CPU" : item.PartNumber.Contains("PP") ? "BUS" : "DI",
-                                WidthMm = unitWidth
+                                Type = item.PartNumber.Contains("CU") ? "CPU" : "DI",
+                                WidthMm = unitWidth,
+                                HeightMm = unitHeight
                             });
                         }
                     }
-
-                    foreach (var acc in rack.Accessories)
-                    {
-                        for (int i = 0; i < acc.Quantity; i++)
-                        {
-                            basket.Modules.Add(new PlcComponent
-                            {
-                                Article = acc.PartNumber,
-                                Type = "BARRIER_BLOCK",
-                                WidthMm = 12
-                            });
-                        }
-                    }
-
-                    node.Baskets.Add(basket);
                 }
 
-                visualSide.Nodes.Add(node);
-                calcResult.Cabinets.Add(visualCabinet);
+                // Сортируем: сначала ЦП (CPU), затем модули ввода-вывода (DI/DO), чтобы процессоры всегда были в первом крейте слева
+                var hardwareQueue = new Queue<PlcComponent>(allHardwareToPlace.OrderByDescending(h => h.Type == "CPU"));
 
-                // 3. БЕЗОПАСНЫЙ ВЫЗОВ ТКП-ДВИЖКА СРАВНЕНИЯ
-                try
+                // Запускаем цикл нарезки реек CARRIER сверху вниз
+                while (hardwareQueue.Count > 0 || (carrierCounter == 1 && hardwareQueue.Count == 0))
                 {
-                    // ИСПРАВЛЕНО: Передаем честную переменную cabinetWidth, защищая от NullReference
+                    var currentBasket = new PlcBasket();
+
+                    // --- 1. НАЧАЛО КРЕЙТА (СЛЕВА): Оконечник IN + 1 шт. Блок питания PP ---
+                    // Модуль интерфейсный оконечный IN (40 мм, высота 130 мм)
+                    currentBasket.Modules.Add(new PlcComponent { Article = "R500 ST 01 012", Type = "ST", WidthMm = 40, HeightMm = 130 });
+
+                    // ИСПРАВЛЕНО: Ставим строго 1 шт. модуля питания шины PP в начале крейта (40 мм, высота 180 мм)
+                    currentBasket.Modules.Add(new PlcComponent { Article = "R500 PP 00 021", Type = "BUS", WidthMm = 40, HeightMm = 180 });
+
+                    // Занятая ширина системной шапкой слева: 40 (ST) + 40 (PP) = 80 мм
+                    double currentBasketWidthMm = 80.0;
+
+                    // Набиваем платы ввода-вывода/ЦП в текущий CARRIER, пока позволяет лимит 581 мм
+                    while (hardwareQueue.Count > 0)
+                    {
+                        var nextComponent = hardwareQueue.Peek();
+
+                        // ВАЛИДАЦИЯ ГЕОМЕТРИИ: Проверяем, влезет ли модуль в лимит 581 мм с учетом правого обязательного комплекта:
+                        // 1 шт. правый БП PP (40 мм) + 1 шт. правый оконечник OUT (40 мм) = 80 мм запаса в конце рейки!
+                        if (currentBasketWidthMm + nextComponent.WidthMm + 80.0 > 581.0)
+                        {
+                            break; // Ряд заполнен, останавливаем цикл и уходим на перенос строки
+                        }
+
+                        var component = hardwareQueue.Dequeue();
+                        currentBasket.Modules.Add(component);
+                        currentBasketWidthMm += component.WidthMm;
+                    }
+
+                    // --- 2. КОНЕЦ КРЕЙТА (СПРАВА): 1 шт. Блок питания PP + Оконечник OUT ---
+                    // ИСПРАВЛЕНО: Переносим второй системный БП PP в самый конец крейта перед уходом кабеля вниз
+                    currentBasket.Modules.Add(new PlcComponent { Article = "R500 PP 00 021", Type = "BUS", WidthMm = 40, HeightMm = 180 });
+
+                    // Завершаем формирование крейта правым оконечником расширения шины OUT (40 мм, высота 130 мм)
+                    currentBasket.Modules.Add(new PlcComponent { Article = "R500 ST 01 022", Type = "ST", WidthMm = 40, HeightMm = 130 });
+
+                    // Добавляем 80 мм финального правого комплекта в счетчик ширины ряда
+                    currentBasketWidthMm += 80.0;
+
+                    // Проверяем лимит высоты монтажной панели шкафа Провенто (шаг требует 300 мм свободного места)
+                    if (currentUsedHeightMm + 300.0 > maxUsableHeightMm)
+                    {
+                        currentSide.Nodes.Add(currentNode);
+                        calcResult.Cabinets.Add(currentCabinet);
+
+                        currentCabinetIndex++;
+                        currentCabinet = new PlcCabinet { CabinetIndex = currentCabinetIndex, Type = cabinetType, InterposingRelays = new(), Terminals = new() };
+                        currentSide = cabinetType == CabinetType.SingleSided ? currentCabinet.SingleSide : currentCabinet.FrontSide;
+                        currentNode = new PlcNode();
+
+                        currentUsedHeightMm = 310.0; // Сброс высоты для нового шкафа
+                    }
+
+                    currentNode.Baskets.Add(currentBasket);
+                    currentUsedHeightMm += 300.0;
+                    carrierCounter++;
+
+                    // Защита от бесконечного цикла, если очередь пуста, но первый дефолтный ряд мы обязаны отрисовать
+                    if (hardwareQueue.Count == 0) break;
+                }
+
+                currentSide.Nodes.Add(currentNode);
+                calcResult.Cabinets.Add(currentCabinet);
+
+                // Вызываем ТКП-расчет сравнения вариантов для вывода аналитики
+                if (inputSignals.Any())
+                {
                     _tkpComparisonReport = ComparisonEngine.CompareSystems(inputSignals, cabinetWidth, _plcDbRoot);
                 }
-                catch (Exception ex)
-                {
-                    _tkpComparisonReport = null;
-                    Snackbar.Add($"Графика построена, но отчет ТКП не сгенерирован: {ex.Message}", Severity.Warning);
-                }
+
+                this.StateHasChanged();
             }
+
+
+
 
             // Принудительно обновляем UI
             this.StateHasChanged();
