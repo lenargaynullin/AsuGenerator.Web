@@ -132,23 +132,11 @@
 
                         int fId = int.TryParse(modulesSheet.Cells[row, 2].Text, out int fid) ? fid : 1; // B: family_id
                         string shortFamily = familyMap.ContainsKey(fId) ? familyMap[fId] : "R500";
-                        string fullArticul = shortFamily + " " + moduleName; // Сборный b2b-артикул
+                        string fullArticul = moduleName; // Сборный b2b-артикул
 
                         // Автоматически мапим категорию на основе буквенного кода (Лист module_type)
                         string[] catCode = moduleName.Split(' ');
-                        string dbCategory = catCode[0] switch
-                        {
-                            "CH" => "rack",
-                            "PP" => "power",
-                            "PO" => "power",
-                            "CU" => "cpu",
-                            "ST" => "terminal",
-                            "DI" => "DI",
-                            "DO" => "DO",
-                            "AI" => "AI",
-                            "AO" => "AO",
-                            _ => "mixed"
-                        };
+                        
 
                         // Считываем физические и электротехнические параметры
                         int channels = int.TryParse(modulesSheet.Cells[row, 5].Text, out int ch) ? ch : 0; // E: channels
@@ -157,7 +145,9 @@
                         double internalPower = double.TryParse(modulesSheet.Cells[row, 9].Text, out double pBus) ? pBus : 0.1; // I: P от внут шины
 
                         string desc = modulesSheet.Cells[row, 16].Text.Trim(); // P: description
-
+                        // Читаем категорию напрямую из Столбца 4(D) «Категория для БД», которую вы заполнили в Excel!
+                        string dbCategory = modulesSheet.Cells[row, 17].Text.Trim().ToLower();
+                        if (string.IsNullOrEmpty(dbCategory)) dbCategory = "mixed";
                         var comp = new PlcComponentDto
                         {
                             Vendor = "Прософт",

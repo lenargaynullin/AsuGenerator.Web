@@ -7,7 +7,7 @@
   },
   "Vendors": [
     {
-      "Name": "Прософт",
+      "Name": "REGUL",
       "Series": [
         {
           "Id": "R500",
@@ -28,7 +28,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 PP 00 011",
+      "PartNumber": "R500 PP 00 011",
       "Category": "mixed",
       "Description": "Модуль источника питания  \n24 В DC 75 Вт без Г/И \n(гальванической изоляции)",
       "Channels": 0,
@@ -41,7 +41,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 PP 00 021",
+      "PartNumber": "R500 PP 00 021",
       "Category": "mixed",
       "Description": "Модуль источника питания  \n24 В DC 75 Вт \nс Г/И",
       "Channels": 0,
@@ -54,7 +54,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 PP 00 022",
+      "PartNumber": "R500 PP 00 022",
       "Category": "mixed",
       "Description": "Модуль источника питания  \n24 В DC 50 Вт \nс Г/И",
       "Channels": 0,
@@ -67,7 +67,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 PP 00 031",
+      "PartNumber": "R500 PP 00 031",
       "Category": "mixed",
       "Description": "Модуль источника питания  \n220 В AC / DC 75 Вт с Г/И",
       "Channels": 0,
@@ -80,7 +80,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 PP 00 051",
+      "PartNumber": "R500 PP 00 051",
       "Category": "mixed",
       "Description": "Модуль источника питания 24 В DC 75 Вт, \nс поддержкой функции диагностики питания и резервирования внутренней шины питания, без Г/И",
       "Channels": 0,
@@ -93,7 +93,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 PO 08 041",
+      "PartNumber": "R500 PO 08 041",
       "Category": "mixed",
       "Description": "Модуль источника внешнего питания 24 В DC, 70 мА,  \n8 каналов, поканальная Г/И",
       "Channels": 0,
@@ -106,8 +106,8 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 CU 00 051",
-      "Category": "mixed",
+      "PartNumber": "R500 CU 00 051",
+      "Category": "cpu",
       "Description": "Модуль центрального процессора I-го типа\n2 Гб ОЗУ, 1х16 Гб ПЗУ (опционально от 16/60 Гб),  \nRS-232, RS-485, 4xEthernet RJ45, 2хUSB, ГЛОНАСС \n(опционально)",
       "Channels": 0,
       "WidthMm": 80,
@@ -119,8 +119,8 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 CU 00 061",
-      "Category": "mixed",
+      "PartNumber": "R500 CU 00 061",
+      "Category": "cpu",
       "Description": "Модуль центрального процессора I-го типа\n2 Гб ОЗУ, 1х16 Гб ПЗУ (опционально от 16/60 Гб), \nRS-232, RS-485, 2xEthernet RJ45, 2xEthernet SFP, 2хUSB, ГЛОНАСС \n(опционально)",
       "Channels": 0,
       "WidthMm": 80,
@@ -132,8 +132,8 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 CU 00 071",
-      "Category": "mixed",
+      "PartNumber": "R500 CU 00 071",
+      "Category": "cpu",
       "Description": "Модуль центрального процессора I-го типа\n2 Гб ОЗУ, 1х16 Гб ПЗУ (опционально от 16/60 Гб), \nRS-232, RS-485,  2xEthernet RJ45, 2xEthernet SFP, 2хUSB, DVI-D, ГЛОНАСС \n(опционально)",
       "Channels": 0,
       "WidthMm": 80,
@@ -145,8 +145,8 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 CU 00 052",
-      "Category": "mixed",
+      "PartNumber": "R500 CU 00 052",
+      "Category": "cpu",
       "Description": "Модуль центрального процессора I-го типа\n2 Гб ОЗУ,  \n2х16 Гб ПЗУ \n(опционально от  16/60 Гб),  \nRS-232, RS-485, 4x Ethernet RJ45, 2хUSB, ГЛОНАСС (опционально)",
       "Channels": 0,
       "WidthMm": 80,
@@ -158,8 +158,8 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 CU 00 062",
-      "Category": "mixed",
+      "PartNumber": "R500 CU 00 062",
+      "Category": "cpu",
       "Description": "Модуль центрального процессора I-го типа\n2 Гб ОЗУ,  \n2х16 Гб ПЗУ \n(опционально от  16/60 Гб), RS-232, RS-485, \n2x Ethernet RJ45, 2x Ethernet SFP, 2хUSB, ГЛОНАСС (опционально)",
       "Channels": 0,
       "WidthMm": 80,
@@ -171,8 +171,8 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 CU 00 072",
-      "Category": "mixed",
+      "PartNumber": "R500 CU 00 072",
+      "Category": "cpu",
       "Description": "Модуль центрального процессора I-го типа\n2 Гб ОЗУ,  \n2х16 Гб ПЗУ \n(опционально от  16/60 Гб), RS-232, RS-485, \n2x Ethernet RJ45, 2x Ethernet SFP,  2хUSB, DVI-D, ГЛОНАСС \n(опционально)",
       "Channels": 0,
       "WidthMm": 80,
@@ -184,8 +184,8 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 CU 00 082",
-      "Category": "mixed",
+      "PartNumber": "R500 CU 00 082",
+      "Category": "cpu",
       "Description": "Модуль центрального процессора I-го типа\n2 Гб ОЗУ,  \n2х16 Гб ПЗУ \n(опционально от  \n16/60 Гб),  \nRS-232, RS-485, 4xEthernet RJ45, 2хUSB, DVI-D, ГЛОНАСС \n(опционально)",
       "Channels": 0,
       "WidthMm": 80,
@@ -197,8 +197,8 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 CU 00 021",
-      "Category": "mixed",
+      "PartNumber": "R500 CU 00 021",
+      "Category": "cpu",
       "Description": "Модуль центрального процессора II-го типа\n512 Мб ОЗУ, 1 Гб ПЗУ, RS-232, RS-485, \n2x Ethernet RJ45",
       "Channels": 0,
       "WidthMm": 80,
@@ -210,8 +210,8 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 CU 00 031",
-      "Category": "mixed",
+      "PartNumber": "R500 CU 00 031",
+      "Category": "cpu",
       "Description": "Модуль центрального процессора II-го типа\n512 Мб ОЗУ, 1 Гб ПЗУ, RS-232, RS-485, \n2x Ethernet SFP",
       "Channels": 0,
       "WidthMm": 80,
@@ -223,8 +223,8 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 CU 00 151",
-      "Category": "mixed",
+      "PartNumber": "R500 CU 00 151",
+      "Category": "cpu",
       "Description": "Модуль центрального процессора III-го типа\n2 Гб ОЗУ,  \n2x8 Гб ПЗУ \n(опционально  \nот 8/16/32/64 Гб),  RS-232, RS-485, 4x Ethernet RJ45, 2хUSB, ГЛОНАСС (опционально)",
       "Channels": 0,
       "WidthMm": 80,
@@ -236,8 +236,8 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 CU 00 161",
-      "Category": "mixed",
+      "PartNumber": "R500 CU 00 161",
+      "Category": "cpu",
       "Description": "Модуль центрального процессора III-го типа\n2 Гб ОЗУ,  \n2x8 Гб ПЗУ \n(опционально  от 8/16/32/64 Гб), RS-232, RS-485, 2x Ethernet RJ45, 2x Ethernet SFP,  2хUSB,  ГЛОНАСС \n(опционально)",
       "Channels": 0,
       "WidthMm": 80,
@@ -249,8 +249,8 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 CU 00 171",
-      "Category": "mixed",
+      "PartNumber": "R500 CU 00 171",
+      "Category": "cpu",
       "Description": "Модуль центрального процессора III-го типа\n2 Гб ОЗУ,  \n2x8 Гб ПЗУ \n(опционально  от 8/16/32/64 Гб), RS-232, RS-485, 2x Ethernet RJ45, 2x Ethernet SFP,  2хUSB, DVI-D, ГЛОНАСС \n(опционально)",
       "Channels": 0,
       "WidthMm": 80,
@@ -262,8 +262,8 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 CU 00 181",
-      "Category": "mixed",
+      "PartNumber": "R500 CU 00 181",
+      "Category": "cpu",
       "Description": "Модуль центрального процессора III-го типа\n2 Гб ОЗУ,  \n2x8 Гб ПЗУ \n(опционально  от 8/16/32/64 Гб), RS-232, RS-485, 4xEthernet RJ45, 2хUSB, DVI-D, ГЛОНАСС \n(опционально)",
       "Channels": 0,
       "WidthMm": 80,
@@ -275,7 +275,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 EU 04 021",
+      "PartNumber": "R500 EU 04 021",
       "Category": "mixed",
       "Description": "Блок расширения центрального процессора III-го типа, 4xEthernet RJ45 (Устанавливается справа от процессора)",
       "Channels": 0,
@@ -288,7 +288,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 EU 04 031",
+      "PartNumber": "R500 EU 04 031",
       "Category": "mixed",
       "Description": "Блок расширения центрального процессора III-го типа, 4xEthernet SFP (Устанавливается справа от процессора)",
       "Channels": 0,
@@ -301,7 +301,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 CP 04 011",
+      "PartNumber": "R500 CP 04 011",
       "Category": "mixed",
       "Description": "Модуль коммуникационного процессора RS-485, 4 порта",
       "Channels": 0,
@@ -314,7 +314,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 CP 02 021",
+      "PartNumber": "R500 CP 02 021",
       "Category": "mixed",
       "Description": "Модуль коммуникационного процессора Ethernet, 2 порта",
       "Channels": 0,
@@ -327,7 +327,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 CP 01 031",
+      "PartNumber": "R500 CP 01 031",
       "Category": "mixed",
       "Description": "Модуль коммуникационного процессора PROFIBUS, 1 порт",
       "Channels": 0,
@@ -340,7 +340,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 CP 06 111",
+      "PartNumber": "R500 CP 06 111",
       "Category": "mixed",
       "Description": "Модуль коммуникационного процессора расширение шины RegulBus, 6 портов",
       "Channels": 0,
@@ -353,7 +353,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 CP 04 041",
+      "PartNumber": "R500 CP 04 041",
       "Category": "mixed",
       "Description": "Модуль коммуникационного процессора FOUNDATION Fieldbus H1, 4 порта",
       "Channels": 0,
@@ -366,7 +366,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 CP 04 012",
+      "PartNumber": "R500 CP 04 012",
       "Category": "mixed",
       "Description": "Модуль коммуникационного процессора RS-485, 4 порта",
       "Channels": 0,
@@ -379,7 +379,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 AI 08 022",
+      "PartNumber": "R500 AI 08 022",
       "Category": "mixed",
       "Description": "Модуль аналогового ввода,  \nток от 0 до 20 мА,  от 4 до 20 мА, поддержка HART протокола, \n8 каналов, поканальная Г/И, индивидуальные АЦП и HART-модем на каждый канал",
       "Channels": 0,
@@ -392,7 +392,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 AI 08 031",
+      "PartNumber": "R500 AI 08 031",
       "Category": "mixed",
       "Description": "Модуль аналогового ввода,  термосопротивление, термопары, напряжение от минус 400 до плюс 400 мВ, 8 каналов, общая Г/И",
       "Channels": 0,
@@ -405,7 +405,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 AI 08 131",
+      "PartNumber": "R500 AI 08 131",
       "Category": "mixed",
       "Description": "Модуль аналогового ввода,  термосопротивление, термопары, напряжение от минус 400 до плюс 400 мВ,  \n8 каналов, поканальная Г/И, индивидуальный АЦП на каждый канал",
       "Channels": 0,
@@ -418,7 +418,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 AI 08 041",
+      "PartNumber": "R500 AI 08 041",
       "Category": "mixed",
       "Description": "Модуль аналогового ввода,  \nток от 0 до 20 мА, от 4 до 20 мА, напряжение от 0 до плюс 10 В,  \nот минус 10 до плюс 10 В,  \n8 каналов, поканальная Г/И,  индивидуальный АЦП на каждый канал",
       "Channels": 0,
@@ -431,7 +431,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 AI 08 042",
+      "PartNumber": "R500 AI 08 042",
       "Category": "mixed",
       "Description": "Модуль аналогового ввода,  ток от 0 до 20 мА, от 4 до 20 мА, напряжение  \nот 0 до плюс 5 В,  от минус 5 до плюс 5 В,  \nот 0 до плюс 10 В,  от минус 10 до плюс 10 В,  \n8 каналов, поканальная Г/И,  индивидуальный АЦП на каждый канал",
       "Channels": 0,
@@ -444,7 +444,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 AI 08 142",
+      "PartNumber": "R500 AI 08 142",
       "Category": "mixed",
       "Description": "Модуль аналогового ввода,  \nток от 0 до 20 мА,  от 4 до 20 мА, напряжение  \nот 0 до плюс 5 В,  от минус 5 до  \nплюс 5 В,  \nот 0 до плюс 10 В,  от минус 10 до плюс 10 В,  \n8 каналов, поканальная Г/И,  индивидуальный АЦП на каждый канал, с функцией питания датчика",
       "Channels": 0,
@@ -457,7 +457,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 AI 08 242",
+      "PartNumber": "R500 AI 08 242",
       "Category": "mixed",
       "Description": "Модуль аналогового ввода,  \nток от 0 до 20 мА, от 4 до 20 мА, напряжение  \nот 0 до плюс 5 В,  \nот минус 5 до плюс 5 В,  \nот 0 до плюс 10 В,  от минус 10 до плюс 10 В,  \nс частотой дискретизации  \nот 1 до 20 кГц \n8 каналов, поканальная Г/И,  индивидуальный АЦП на каждый канал",
       "Channels": 0,
@@ -470,7 +470,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 AI 08 342",
+      "PartNumber": "R500 AI 08 342",
       "Category": "mixed",
       "Description": "Модуль аналогового ввода,  \nток от 0 до 20 мА, от 4 до 20 мА, напряжение  \nот 0 до плюс 5 В,  от минус 5  \nдо плюс 5 В,  \nот 0 до плюс 10 В,  от минус 10 до плюс 10 В,  \nс частотой дискретизации  \nот 1 до 20 кГц \n8 каналов, поканальная Г/И,  индивидуальный АЦП на каждый канал, с функцией питания датчика",
       "Channels": 0,
@@ -483,7 +483,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 AI 08 051",
+      "PartNumber": "R500 AI 08 051",
       "Category": "mixed",
       "Description": "Модуль аналогового ввода, ток от 0 до 20 мА,  от 4 до 20 мА, напряжение  \nот 0 до плюс 10 В,  от минус 10 до плюс 10 В,  \n8 каналов, поканальная Г/И, один АЦП на все каналы",
       "Channels": 0,
@@ -496,7 +496,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 AI 08 052",
+      "PartNumber": "R500 AI 08 052",
       "Category": "mixed",
       "Description": "Модуль аналогового ввода,  ток от 0 до 20 мА,  от 4 до 20 мА, напряжение от 0 до плюс 10 В, от минус 10 до плюс 10 В,  \n8 каналов, поканальная Г/И, один АЦП на все каналы",
       "Channels": 0,
@@ -509,7 +509,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 AI 08 053",
+      "PartNumber": "R500 AI 08 053",
       "Category": "mixed",
       "Description": "Модуль аналогового ввода,  ток от 0 до 20 мА,  от 4 до 20 мА, напряжение от 0 до плюс 10 В, от минус 10 до плюс 10 В,  \n8 каналов, поканальная Г/И, один АЦП на все каналы",
       "Channels": 0,
@@ -522,7 +522,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 AI 16 081",
+      "PartNumber": "R500 AI 16 081",
       "Category": "mixed",
       "Description": "Модуль  аналогового ввода, ток от 4 до 20 мА, поддержка HART протокола,  \n16 каналов,  групповая Г/И",
       "Channels": 0,
@@ -535,7 +535,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 AI 16 011",
+      "PartNumber": "R500 AI 16 011",
       "Category": "mixed",
       "Description": "Модуль аналогового ввода, \nток от 0 до 20 мА, от 4 до 20 мА, \n16 каналов, общая Г/И",
       "Channels": 0,
@@ -548,7 +548,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 AI 16 012",
+      "PartNumber": "R500 AI 16 012",
       "Category": "mixed",
       "Description": "Модуль аналогового ввода, ток от 0 до 20 мА,  от 4 до 20 мА, \n16 каналов, групповая Г/И,  два АЦП",
       "Channels": 0,
@@ -561,7 +561,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 AI 08 023",
+      "PartNumber": "R500 AI 08 023",
       "Category": "mixed",
       "Description": "Модуль аналогового ввода, ток от 0 до 20 мА,  от 4 до 20 мА, поддержка HART протокола, \n8 каналов, поканальная Г/И, индивидуальные АЦП и HART-модем на каждый канал",
       "Channels": 0,
@@ -574,7 +574,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 AI 08 061",
+      "PartNumber": "R500 AI 08 061",
       "Category": "mixed",
       "Description": "Модуль аналогового ввода,  ток от 0 до 20 мА, от 4 до 20 мА, напряжение  \nот 0 до плюс 5 В,  от минус 5 до плюс 5 В,  \nот 0 до плюс 10 В,  от минус 10 до плюс 10 В,  \n8 каналов, поканальная Г/И,  индивидуальный АЦП на каждый канал",
       "Channels": 0,
@@ -587,7 +587,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 AO 08 011",
+      "PartNumber": "R500 AO 08 011",
       "Category": "mixed",
       "Description": "Модуль аналогового вывода,  \nток от 0 до 20 мА,  \nот 4 до 20 мА, \n8 каналов, поканальная Г/И",
       "Channels": 0,
@@ -600,7 +600,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 AO 08 021",
+      "PartNumber": "R500 AO 08 021",
       "Category": "mixed",
       "Description": "Модуль аналогового вывода,  \nток от 0 до 20 мА,  от 4 до 20 мА, поддержка HART протокола, 8 каналов, поканальная Г/И",
       "Channels": 0,
@@ -613,7 +613,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 AO 08 031",
+      "PartNumber": "R500 AO 08 031",
       "Category": "mixed",
       "Description": "Модуль аналогового вывода, ток от 0 до 20 мА, от 4 до 20 мА, напряжение от минус 10 до плюс 10 В, от 0 до плюс 10 В, 8 каналов, поканальная Г/И",
       "Channels": 0,
@@ -626,7 +626,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 AS 08 011",
+      "PartNumber": "R500 AS 08 011",
       "Category": "mixed",
       "Description": "Модуль аналоговый комбинированный \n6 каналов ввода, ток от 0 до 20 мА, от 4 до 20 мА,  напряжение от минус 10 до плюс 10 В, от 0 до плюс 10 В, 2 канала вывода, ток от 0 до 20 мА, от 4 до 20 мА, напряжение от минус 10 до плюс 10 В, от 0 до плюс 10 В, поканальная Г/И",
       "Channels": 0,
@@ -639,7 +639,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 DI 32 011",
+      "PartNumber": "R500 DI 32 011",
       "Category": "mixed",
       "Description": "Модуль дискретного ввода, 24 В DC, \n32 канала (4 группы по 8 каналов, общий «минус» в группе), групповая Г/И",
       "Channels": 0,
@@ -652,7 +652,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 DI 32 012",
+      "PartNumber": "R500 DI 32 012",
       "Category": "mixed",
       "Description": "Модуль дискретного ввода, 24 В DC, \n32 канала (4 группы по 8 каналов, общий провод любой полярности), групповая Г/И",
       "Channels": 0,
@@ -665,7 +665,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 DI 32 013",
+      "PartNumber": "R500 DI 32 013",
       "Category": "mixed",
       "Description": "Модуль дискретного ввода, 24 В DC, \n32 канала (4 группы по 8 каналов, общий провод любой полярности), групповая Г/И",
       "Channels": 0,
@@ -678,7 +678,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 DI 32 111",
+      "PartNumber": "R500 DI 32 111",
       "Category": "mixed",
       "Description": "Модуль дискретного ввода, 24 В DC, \n32 канала (4 группы по 8 каналов, общий «плюс» в группе), групповая Г/И",
       "Channels": 0,
@@ -691,7 +691,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 DI 16 021",
+      "PartNumber": "R500 DI 16 021",
       "Category": "mixed",
       "Description": "Модуль дискретного ввода, 220 В AC/DC, 16 каналов, поканальная Г/И",
       "Channels": 0,
@@ -704,7 +704,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 DI 16 032",
+      "PartNumber": "R500 DI 16 032",
       "Category": "mixed",
       "Description": "Модуль дискретного ввода NAMUR,  \n16 каналов, общая Г/И",
       "Channels": 0,
@@ -717,7 +717,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 DО 32 011",
+      "PartNumber": "R500 DО 32 011",
       "Category": "mixed",
       "Description": "Модуль дискретного вывода 24 В DC, 0,5  А, 32 канала  \n(4 группы по 8 каналов),  групповая Г/И",
       "Channels": 0,
@@ -730,7 +730,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 DО 32 012",
+      "PartNumber": "R500 DО 32 012",
       "Category": "mixed",
       "Description": "Модуль дискретного вывода 24 В AC/DC, 0,5 А, 32 канала  \n(4 группы по 8 каналов),  групповая Г/И",
       "Channels": 0,
@@ -743,7 +743,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 DО 32 013",
+      "PartNumber": "R500 DО 32 013",
       "Category": "mixed",
       "Description": "Модуль дискретного вывода 24 В AC/DC, 0,5 А, 32 канала  \n(4 группы по 8 каналов),  групповая Г/И",
       "Channels": 0,
@@ -756,7 +756,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 DО 16 021",
+      "PartNumber": "R500 DО 16 021",
       "Category": "mixed",
       "Description": "Модуль дискретного вывода 220 В AC/DC,  \n16 каналов, поканальная Г/И",
       "Channels": 0,
@@ -769,7 +769,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 DО 32 041",
+      "PartNumber": "R500 DО 32 041",
       "Category": "mixed",
       "Description": "Модуль дискретного вывода 24 В DC, 0,5 А, 32 канала \n (2 группы по 16 каналов), 4 канала с ШИМ,  \nгрупповая Г/И",
       "Channels": 0,
@@ -782,7 +782,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 DS 32 011",
+      "PartNumber": "R500 DS 32 011",
       "Category": "mixed",
       "Description": "Модуль дискретный комбинированный  \n24 канала ввода (3 группы по 8 каналов), 24 В DC, 8 каналов вывода (1 группа), 24 В DC,  0,5 А, групповая Г/И",
       "Channels": 0,
@@ -795,7 +795,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 DS 32 012",
+      "PartNumber": "R500 DS 32 012",
       "Category": "mixed",
       "Description": "Модуль дискретный комбинированный  \n24 канала ввода (3 группы по 8 каналов), 24 В DC, 8 каналов вывода (1 группа), 24 В AC/DC, 0,5 А, групповая Г/И",
       "Channels": 0,
@@ -808,7 +808,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 DA 03 011",
+      "PartNumber": "R500 DA 03 011",
       "Category": "mixed",
       "Description": "Модуль счета импульсов, \n3 канала ввода импульсов с частотой от 1 Гц до 500 кГц, поканальная Г/И каналов счета, \nноминальное напряжение сигнала  от 5 до 24 В,  \n6 каналов дискретного ввода 24 В DC,  \n6 каналов дискретного вывода 24 В DC, 0,5 А",
       "Channels": 0,
@@ -821,7 +821,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 DA 03 021",
+      "PartNumber": "R500 DA 03 021",
       "Category": "mixed",
       "Description": "Модуль счета импульсов, \n3 канала ввода импульсов с частотой \nот 1 Гц до 500 кГц, \nпоканальная Г/И каналов счета, номинальное напряжение сигнала 5, 12, 24 В, 1 канал генератора частоты от 1 Гц до 10 кГц (тестовый), \n6 каналов дискретного ввода 24 В DC, \n6 каналов дискретного вывода 24 В DC, 0,5 А, возможность автономной работы в режиме автомата безопасности",
       "Channels": 0,
@@ -834,7 +834,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 ST 00 001",
+      "PartNumber": "R500 ST 00 001",
       "Category": "mixed",
       "Description": "Модуль оконечный без поддержки функции расширения шины RegulBus",
       "Channels": 0,
@@ -847,7 +847,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 ST 01 012",
+      "PartNumber": "R500 ST 01 012",
       "Category": "mixed",
       "Description": "Модуль оконечный с поддержкой функции расширения шины RegulBus (IN) и резервирования шины питания, интерфейс RJ45",
       "Channels": 0,
@@ -860,7 +860,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 ST 01 022",
+      "PartNumber": "R500 ST 01 022",
       "Category": "mixed",
       "Description": "Модуль оконечный с поддержкой функции расширения шины RegulBus (OUT) и резервирования шины питания, интерфейс RJ45",
       "Channels": 0,
@@ -873,7 +873,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 ST 02 012",
+      "PartNumber": "R500 ST 02 012",
       "Category": "mixed",
       "Description": "Модуль оконечный с поддержкой функции расширения шины RegulBus, резервирования шины RegulBus (IN) и шины питания, интерфейс RJ45",
       "Channels": 0,
@@ -886,7 +886,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 ST 02 022",
+      "PartNumber": "R500 ST 02 022",
       "Category": "mixed",
       "Description": "Модуль оконечный с поддержкой функции расширения шины RegulBus, резервирования шины RegulBus \n(OUT) и шины питания, интерфейс RJ45",
       "Channels": 0,
@@ -899,7 +899,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 ST 02 111",
+      "PartNumber": "R500 ST 02 111",
       "Category": "mixed",
       "Description": "Модуль оконечный с поддержкой функции расширения и резервирования шины RegulBus \n(IN), интерфейс SFP",
       "Channels": 0,
@@ -912,7 +912,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 ST 02 121",
+      "PartNumber": "R500 ST 02 121",
       "Category": "mixed",
       "Description": "Модуль оконечный с поддержкой функции расширения и резервирования шины RegulBus \n(OUT), интерфейс SFP",
       "Channels": 0,
@@ -925,7 +925,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 ST 01 013",
+      "PartNumber": "R500 ST 01 013",
       "Category": "mixed",
       "Description": "Модуль оконечный с поддержкой функции расширения шины RegulBus (IN) и резервирования шины питания, интерфейс RJ45",
       "Channels": 0,
@@ -938,7 +938,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 ST 01 023",
+      "PartNumber": "R500 ST 01 023",
       "Category": "mixed",
       "Description": "Модуль оконечный с поддержкой функции расширения шины RegulBus (OUT) и резервирования шины питания, интерфейс RJ45",
       "Channels": 0,
@@ -951,7 +951,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 ST 01 113",
+      "PartNumber": "R500 ST 01 113",
       "Category": "mixed",
       "Description": "Модуль оконечный с поддержкой функции расширения шины RegulBus (IN) и резервирования шины питания, интерфейс SFP",
       "Channels": 0,
@@ -964,7 +964,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 ST 01 123",
+      "PartNumber": "R500 ST 01 123",
       "Category": "mixed",
       "Description": "Модуль оконечный с поддержкой функции расширения шины RegulBus (OUT) и резервирования шины питания, интерфейс SFP",
       "Channels": 0,
@@ -977,7 +977,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 ST 02 013",
+      "PartNumber": "R500 ST 02 013",
       "Category": "mixed",
       "Description": "Модуль оконечный с поддержкой функции расширения шины RegulBus, резервирования шины RegulBus (IN) и шины питания, интерфейс RJ45",
       "Channels": 0,
@@ -990,7 +990,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 ST 02 023",
+      "PartNumber": "R500 ST 02 023",
       "Category": "mixed",
       "Description": "Модуль оконечный с поддержкой функции расширения шины RegulBus, резервирования шины RegulBus \n(OUT) и шины питания, интерфейс RJ45",
       "Channels": 0,
@@ -1003,7 +1003,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 ST 02 113",
+      "PartNumber": "R500 ST 02 113",
       "Category": "mixed",
       "Description": "Модуль оконечный с поддержкой функции расширения шины RegulBus, резервирования шины RegulBus \n(IN) и шины питания, интерфейс SFP",
       "Channels": 0,
@@ -1016,7 +1016,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 ST 02 123",
+      "PartNumber": "R500 ST 02 123",
       "Category": "mixed",
       "Description": "Модуль оконечный с поддержкой функции расширения шины RegulBus, резервирования шины RegulBus \n(IN) и шины питания, интерфейс SFP",
       "Channels": 0,
@@ -1029,7 +1029,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 CH 01 011",
+      "PartNumber": "R500 CH 01 011",
       "Category": "mixed",
       "Description": "Модуль шасси",
       "Channels": 0,
@@ -1042,7 +1042,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 CH 01 012",
+      "PartNumber": "R500 CH 01 012",
       "Category": "mixed",
       "Description": "Модуль шасси с поддержкой резервирования шины питания",
       "Channels": 0,
@@ -1055,7 +1055,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 CH 02 011",
+      "PartNumber": "R500 CH 02 011",
       "Category": "mixed",
       "Description": "Модуль шасси с поддержкой резервирования шины RegulBus",
       "Channels": 0,
@@ -1068,7 +1068,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 CH 02 811",
+      "PartNumber": "R500 CH 02 811",
       "Category": "mixed",
       "Description": "Модуль шасси с поддержкой резервирования шины RegulBus и шины питания",
       "Channels": 0,
@@ -1081,7 +1081,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 CH 02 022",
+      "PartNumber": "R500 CH 02 022",
       "Category": "mixed",
       "Description": "Модуль шасси для модулей центрального процессора I/III-го типа",
       "Channels": 0,
@@ -1094,7 +1094,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 CH 02 023",
+      "PartNumber": "R500 CH 02 023",
       "Category": "mixed",
       "Description": "Модуль шасси для модулей центрального процессора I/III-го типа с поддержкой блоков расширения",
       "Channels": 0,
@@ -1107,7 +1107,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 CH 02 032",
+      "PartNumber": "R500 CH 02 032",
       "Category": "mixed",
       "Description": "Модуль шасси для модулей центрального процессора II-го типа",
       "Channels": 0,
@@ -1120,7 +1120,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 CH 02 041",
+      "PartNumber": "R500 CH 02 041",
       "Category": "mixed",
       "Description": "Модуль шасси для блока расширения центрального процессора III-го типа",
       "Channels": 0,
@@ -1133,7 +1133,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 CH 02 012",
+      "PartNumber": "R500 CH 02 012",
       "Category": "mixed",
       "Description": "Модуль шасси с поддержкой резервирования шины RegulBus и шины питания",
       "Channels": 0,
@@ -1146,7 +1146,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 CH 02 033",
+      "PartNumber": "R500 CH 02 033",
       "Category": "mixed",
       "Description": "Модуль шасси для модулей центрального процессора II-го типа",
       "Channels": 0,
@@ -1159,7 +1159,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 CL 36 001",
+      "PartNumber": "R500 CL 36 001",
       "Category": "mixed",
       "Description": "Клеммная колодка для модулей ввода/вывода,  \n36 контактов",
       "Channels": 0,
@@ -1172,7 +1172,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 CL 20 001",
+      "PartNumber": "R500 CL 20 001",
       "Category": "mixed",
       "Description": "Клеммная колодка для модулей ввода/вывода,  \n20 контактов",
       "Channels": 0,
@@ -1185,7 +1185,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 DN 060",
+      "PartNumber": "R500 DN 060",
       "Category": "mixed",
       "Description": "DIN-рейка L=600мм",
       "Channels": 0,
@@ -1198,7 +1198,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 DN 080",
+      "PartNumber": "R500 DN 080",
       "Category": "mixed",
       "Description": "DIN-рейка L=800мм",
       "Channels": 0,
@@ -1211,7 +1211,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 DN 100",
+      "PartNumber": "R500 DN 100",
       "Category": "mixed",
       "Description": "DIN-рейка L=1000мм",
       "Channels": 0,
@@ -1224,7 +1224,7 @@
     {
       "Vendor": "Прософт",
       "FamilyId": "R500",
-      "PartNumber": "R500 R500 ОО 00 000",
+      "PartNumber": "R500 ОО 00 000",
       "Category": "mixed",
       "Description": "Заглушка",
       "Channels": 0,
