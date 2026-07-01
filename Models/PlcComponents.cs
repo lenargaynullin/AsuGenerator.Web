@@ -11,24 +11,59 @@ namespace AsuGenerator.Web.Models
 
     public class SignalRequirement
     {
-        public int DiDryContact { get; set; }
-        public int DiWetContact { get; set; }
-        public int DiFastCounter { get; set; }
-        public int DoRelay { get; set; }
-        public int DoTransistor { get; set; }
-        public int AiCurrent2W { get; set; }
-        public int AiCurrent4W { get; set; }
-        public int AiVoltage { get; set; }
-        public int AiRtd { get; set; }
-        public int AiTc { get; set; }
-        public int AoCurrent { get; set; }
-        public int AoVoltage { get; set; }
-        public double ReservePercent { get; set; } = 20.0;
+        // Аналоговые входы неискробезопасные (AI-NIS)
+        public int AiNisCurrent2W { get; set; }      // AI-NIS (4-20 mA, 2 w)
+        public int AiNisCurrent4W { get; set; }      // AI-NIS (4-20 mA, 4 w)
+        public int AiRtdNis3W { get; set; }          // AI-RTD-NIS (3 w)
+        public int AiNisPl3W { get; set; }           // AI-NIS (Pl, 3 w)
 
-        public int TotalDI => DiDryContact + DiWetContact + DiFastCounter;
-        public int TotalDO => DoRelay + DoTransistor;
-        public int TotalAI => AiCurrent2W + AiCurrent4W + AiVoltage + AiRtd + AiTc;
-        public int TotalAO => AoCurrent + AoVoltage;
+        // Аналоговые входы искробезопасные (AI-IS)
+        public int AiIsCurrent2W { get; set; }       // AI-IS (4-20 mA, 2 w)
+        public int AiIsCurrent4W { get; set; }       // AI-IS (4-20 mA, 4 w)
+        public int AiIsPl3W { get; set; }            // AI-IS (Pl, 3 w)
+
+        // Аналоговые входы резервированные (AI-R)
+        public int AiRNisCurrent2W { get; set; }     // AI-R-NIS (4-20 mA, 2 w)
+        public int AiRNisCurrent4W { get; set; }     // AI-R-NIS (4-20 mA, 4 w)
+        public int AiRIsCurrent2W { get; set; }      // AI-R-IS (4-20 mA, 2 w)
+        public int AiRIsCurrent4W { get; set; }      // AI-R-IS (4-20 mA, 4 w)
+
+        // Аналоговые выходы (AO)
+        public int AoNisCurrent { get; set; }        // AO-NIS (4-20 mA)
+        public int AoNisVoltage { get; set; }         // AO-NIS (0-10 В)
+        public int AoIsVoltage { get; set; }         // AO-IS (0-10 В)
+        public int AoIsCurrent { get; set; }         // AO-IS (4-20 mA)
+        
+        // Аналоговые выходы резервированные (AO-R)
+        public int AoRIsCurrent { get; set; }        // AO-R-IS (4-20 mA)
+        public int AoRNisCurrent { get; set; }       // AO-R-NIS (4-20 mA)
+
+        // Дискретные входы (DI)
+        public int DiIsNamur { get; set; }           // DI-IS (NAMUR)
+        public int DiNisDryContact { get; set; }     // DI-NIS с.к.
+        public int DiNis24VDC { get; set; }          // DI-NIS (24VDC)
+        public int DiNisVfg { get; set; }            // DI-NIS (VFG)
+        public int DiNisMcc230VAC { get; set; }      // DI-NIS (MCC 230VAC)
+        public int DiNisMcc220VDC { get; set; }      // DI-NIS (MCC 220VDC)
+
+        // Дискретные выходы (DO)
+        public int DoNisVfcNO { get; set; }          // DO-NIS (VFC NO)
+        public int DoNis24VDC { get; set; }          // DO-NIS (24VDC)
+        public int DoNisMcc230VAC { get; set; }      // DO-NIS (MCC 230VAC)
+        public int DoNisMcc220VDC { get; set; }      // DO-NIS (MCC 220VDC)
+
+        public int ReservePercent { get; set; } = 20;
+
+        // Суммы по группам для счётчика
+        public int TotalAI => AiNisCurrent2W + AiNisCurrent4W + AiRtdNis3W + AiNisPl3W
+                            + AiIsCurrent2W + AiIsCurrent4W + AiIsPl3W
+                            + AiRNisCurrent2W + AiRNisCurrent4W + AiRIsCurrent2W + AiRIsCurrent4W;
+
+        public int TotalAO => AoIsVoltage + AoIsCurrent + AoNisCurrent + AoRIsCurrent + AoRNisCurrent;
+
+        public int TotalDI => DiIsNamur + DiNisDryContact + DiNis24VDC + DiNisVfg + DiNisMcc230VAC + DiNisMcc220VDC;
+
+        public int TotalDO => DoNisVfcNO + DoNis24VDC + DoNisMcc230VAC + DoNisMcc220VDC;
     }
 
     public class PlcComponent
@@ -43,6 +78,8 @@ namespace AsuGenerator.Web.Models
         public int WidthMm { get; set; }
         public int HeightMm { get; set; } = 125;
         public int SlotsOccupied { get; set; } = 1;
+
+
     }
 
     public class PlcBasket

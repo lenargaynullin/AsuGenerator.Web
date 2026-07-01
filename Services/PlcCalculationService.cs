@@ -28,8 +28,8 @@ namespace AsuGenerator.Web.Services
             double coeff = 1 + (totalSignals.ReservePercent / 100);
             int totalReqDi = (int)Math.Ceiling(totalSignals.TotalDI * coeff);
             int totalReqDo = (int)Math.Ceiling(totalSignals.TotalDO * coeff);
-            int totalReqAiStd = (int)Math.Ceiling((totalSignals.AiCurrent2W + totalSignals.AiCurrent4W + totalSignals.AiVoltage) * coeff);
-            int totalReqAiTemp = (int)Math.Ceiling((totalSignals.AiRtd + totalSignals.AiTc) * coeff);
+            int totalReqAiStd = (int)Math.Ceiling((totalSignals.AiNisCurrent2W + totalSignals.AiNisCurrent4W) * coeff);
+            int totalReqAiTemp = (int)Math.Ceiling(totalSignals.AiRtdNis3W * coeff);
             int totalReqAo = (int)Math.Ceiling(totalSignals.TotalAO * coeff);
 
             // 3. Вычитаем встроенные ресурсы первого процессора
@@ -53,7 +53,7 @@ namespace AsuGenerator.Web.Services
             var remainingModules = new Queue<PlcComponent>(allRequiredModules);
 
             // Агрегируем реле и клеммы для распределения
-            int relayCount = totalSignals.DiWetContact + totalSignals.DoTransistor;
+            int relayCount = totalSignals.DiNisMcc230VAC + totalSignals.DiNisMcc220VDC + totalSignals.DoNisMcc230VAC + totalSignals.DoNisMcc220VDC;
             var frontSideMock = new CabinetSide();
             var mockBasket = new PlcBasket();
             mockBasket.Modules.AddRange(allRequiredModules);

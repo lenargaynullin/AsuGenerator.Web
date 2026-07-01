@@ -22,13 +22,14 @@
                     <MudGrid Dense="true" Spacing="1">
                         <MudItem xs="4">
                             <MudSelect T="string" Label="Производитель" @bind-Value="selectedVendor" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 11px;">
-                                <MudSelectItem Value="@("ОВЕН")">ОВЕН</MudSelectItem>
                                 <MudSelectItem Value="@("REGUL")">REGUL</MudSelectItem>
+                                <MudSelectItem Value="@("ОВЕН")">ОВЕН</MudSelectItem>
+                                <MudSelectItem Value="@("АБАК")">АБАК</MudSelectItem>
                             </MudSelect>
                         </MudItem>
                         <MudItem xs="4">
                             <MudSelect T="PlcComponent" Label="Контроллер (CPU)" @bind-Value="selectedCpu" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 11px;">
-                                @foreach (var cpu in availableCpus.Where(c => c.Name.Contains(selectedVendor)))
+                                @foreach (var cpu in availableCpus)
                                 {
                                     <MudSelectItem Value="@cpu">@cpu.Article</MudSelectItem>
                                 }
@@ -53,6 +54,49 @@
                         </MudItem>
                     </MudGrid>
                 </MudCardContent>
+                @* Кнопка включения режима сравнения *@
+                <MudButton Variant="Variant.Outlined"
+                           Color="Color.Warning"
+                           Size="Size.Small"
+                           FullWidth="true"
+                           OnClick="ToggleComparisonMode"
+                           Class="mt-2"
+                           StartIcon="@Icons.Material.Filled.CompareArrows"
+                           Style="font-size: 11px; height: 32px;">
+                    @(isComparisonMode ? "Скрыть сравнение" : "Сравнить с другим ПЛК")
+                </MudButton>
+                @* Блок выбора второго ПЛК — показывается только в режиме сравнения *@
+                @if (isComparisonMode)
+                {
+                    <MudCard Elevation="2" Class="mt-3 pa-2" Style="border-left: 4px solid #e67e22; background-color: #1e293b;">
+                        <MudText Typo="Typo.caption" Class="font-weight-bold mb-2" Style="color: #e67e22;">
+                            ⚡ ВАРИАНТ ДЛЯ СРАВНЕНИЯ
+                        </MudText>
+                        <MudGrid Dense="true" Spacing="1">
+                            <MudItem xs="6">
+                                <MudSelect T="string" Label="Производитель 2"
+                                           @bind-Value="selectedVendor2"
+                                           Variant="Variant.Outlined" Dense="true"
+                                           Margin="Margin.Dense" Style="font-size: 11px; color: white;">
+                                    <MudSelectItem Value="@("ОВЕН")">ОВЕН</MudSelectItem>
+                                    <MudSelectItem Value="@("REGUL")">REGUL</MudSelectItem>
+                                    <MudSelectItem Value="@("АБАК")">АБАК К3</MudSelectItem>
+                                </MudSelect>
+                            </MudItem>
+                            <MudItem xs="6">
+                                <MudSelect T="PlcComponent" Label="Контроллер 2 (CPU)"
+                                           @bind-Value="selectedCpu2"
+                                           Variant="Variant.Outlined" Dense="true"
+                                           Margin="Margin.Dense" Style="font-size: 11px; color: white;">
+                                    @foreach (var cpu in availableCpus2)
+                                    {
+                                        <MudSelectItem Value="@cpu">@cpu.Article</MudSelectItem>
+                                    }
+                                </MudSelect>
+                            </MudItem>
+                        </MudGrid>
+                    </MudCard>
+                }
             </MudCard>
 
             <!-- ОТКРЫТЫЙ СПИСОК СИГНАЛОВ -->
@@ -63,59 +107,120 @@
                         <MudChip T="string" Color="@(TotalSignalsCount > 1000 ? Color.Warning : Color.Default)" Size="Size.Small" Style="font-size: 10px; height: 18px;"><b>@TotalSignalsCount / 1000 на 1 ПЛК</b></MudChip>
                     </div>
 
-                    <!-- Дискретные входы (DI) -->
-                    <MudText Typo="Typo.caption" Class="font-weight-bold d-block mb-1" Style="font-size: 10px; color: #2980b9;">ДИСКРЕТНЫЕ ВХОДЫ (DI)</MudText>
-                    <MudGrid Dense="true" Spacing="1" Class="mb-3">
-                        <MudItem xs="4">
-                            <MudNumericField @bind-Value="signals.DiDryContact" Label="Сухой контакт =24В" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 11px;" />
-                        </MudItem>
-                        <MudItem xs="4">
-                            <MudNumericField @bind-Value="signals.DiWetContact" Label="Мокрый ~220В" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 11px;" />
-                        </MudItem>
-                        <MudItem xs="4">
-                            <MudNumericField @bind-Value="signals.DiFastCounter" Label="Счетчики/Импульс" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 11px;" />
-                        </MudItem>
-                    </MudGrid>
-
-                    <!-- Дискретные выходы (DO) -->
-                    <MudText Typo="Typo.caption" Class="font-weight-bold d-block mb-1" Style="font-size: 10px; color: #d35400;">ДИСКРЕТНЫЕ ВХОДЫ (DO)</MudText>
-                    <MudGrid Dense="true" Spacing="1" Class="mb-3">
-                        <MudItem xs="6">
-                            <MudNumericField @bind-Value="signals.DoRelay" Label="Релейные выходы" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 11px;" />
-                        </MudItem>
-                        <MudItem xs="6">
-                            <MudNumericField @bind-Value="signals.DoTransistor" Label="Транзисторные (через реле)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 11px;" />
-                        </MudItem>
-                    </MudGrid>
-
-                    <!-- Аналоговые входы (AI) -->
+                    <!-- ========== АНАЛОГОВЫЕ ВХОДЫ (AI) ========== -->
                     <MudText Typo="Typo.caption" Class="font-weight-bold d-block mb-1" Style="font-size: 10px; color: #8e44ad;">АНАЛОГОВЫЕ ВХОДЫ (AI)</MudText>
                     <MudGrid Dense="true" Spacing="1" Class="mb-3">
-                        <MudItem xs="4">
-                            <MudNumericField @bind-Value="signals.AiCurrent2W" Label="4-20мА 2-пров (актив)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" />
+                        <MudItem xs="6">
+                            <MudNumericField @bind-Value="signals.AiNisCurrent2W" Label="AI-NIS (4-20 mA, 2 w)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" />
                         </MudItem>
-                        <MudItem xs="4">
-                            <MudNumericField @bind-Value="signals.AiCurrent4W" Label="4-20мА 4-пров (пассив)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" />
+                        <MudItem xs="6">
+                            <MudNumericField @bind-Value="signals.AiNisCurrent4W" Label="AI-NIS (4-20 mA, 4 w)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" />
                         </MudItem>
-                        <MudItem xs="4">
-                            <MudNumericField @bind-Value="signals.AiVoltage" Label="Напряжение 0-10В" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" />
+                        <MudItem xs="6">
+                            <MudNumericField @bind-Value="signals.AiRtdNis3W" Label="AI-RTD-NIS (3 w)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" />
                         </MudItem>
-                        <MudItem xs="6" Class="mt-1">
-                            <MudNumericField @bind-Value="signals.AiRtd" Label="Термосопротивления (Pt)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 11px;" />
-                        </MudItem>
-                        <MudItem xs="6" Class="mt-1">
-                            <MudNumericField @bind-Value="signals.AiTc" Label="Термопары (Тип K, J)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 11px;" />
+                        <MudItem xs="6">
+                            <MudNumericField @bind-Value="signals.AiNisPl3W" Label="AI-NIS (Pl, 3 w)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" />
                         </MudItem>
                     </MudGrid>
 
-                    <!-- Аналоговые выходы (AO) -->
-                    <MudText Typo="Typo.caption" Class="font-weight-bold d-block mb-1" Style="font-size: 10px; color: #16a085;">АНАЛОГОВЫЕ ВХОДЫ (AO)</MudText>
-                    <MudGrid Dense="true" Spacing="1">
+                    <!-- ========== ИСКРОБЕЗОПАСНЫЕ АНАЛОГОВЫЕ ВХОДЫ (AI-IS) ========== -->
+                    <MudText Typo="Typo.caption" Class="font-weight-bold d-block mb-1" Style="font-size: 10px; color: #e67e22;">ИСКРОБЕЗОПАСНЫЕ АНАЛОГОВЫЕ ВХОДЫ (AI-IS)</MudText>
+                    <MudGrid Dense="true" Spacing="1" Class="mb-3">
                         <MudItem xs="6">
-                            <MudNumericField @bind-Value="signals.AoCurrent" Label="Ток 4-20 мА" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 11px;" />
+                            <MudNumericField @bind-Value="signals.AiIsCurrent2W" Label="AI-IS (4-20 mA, 2 w)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" />
                         </MudItem>
                         <MudItem xs="6">
-                            <MudNumericField @bind-Value="signals.AoVoltage" Label="Напряжение 0-10 В" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 11px;" />
+                            <MudNumericField @bind-Value="signals.AiIsCurrent4W" Label="AI-IS (4-20 mA, 4 w)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" />
+                        </MudItem>
+                        <MudItem xs="6">
+                            <MudNumericField @bind-Value="signals.AiIsPl3W" Label="AI-IS (Pl, 3 w)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" />
+                        </MudItem>
+                    </MudGrid>
+
+                    <!-- ========== РЕЗЕРВИРОВАННЫЕ АНАЛОГОВЫЕ ВХОДЫ (AI-R) ========== -->
+                    <MudText Typo="Typo.caption" Class="font-weight-bold d-block mb-1" Style="font-size: 10px; color: #c0392b;">РЕЗЕРВИРОВАННЫЕ АНАЛОГОВЫЕ ВХОДЫ (AI-R)</MudText>
+                    <MudGrid Dense="true" Spacing="1" Class="mb-3">
+                        <MudItem xs="6">
+                            <MudNumericField @bind-Value="signals.AiRNisCurrent2W" Label="AI-R-NIS (4-20 mA, 2 w)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" />
+                        </MudItem>
+                        <MudItem xs="6">
+                            <MudNumericField @bind-Value="signals.AiRNisCurrent4W" Label="AI-R-NIS (4-20 mA, 4 w)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" />
+                        </MudItem>
+                        <MudItem xs="6">
+                            <MudNumericField @bind-Value="signals.AiRIsCurrent2W" Label="AI-R-IS (4-20 mA, 2 w)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" />
+                        </MudItem>
+                        <MudItem xs="6">
+                            <MudNumericField @bind-Value="signals.AiRIsCurrent4W" Label="AI-R-IS (4-20 mA, 4 w)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" />
+                        </MudItem>
+                    </MudGrid>
+
+                    <!-- ========== АНАЛОГОВЫЕ ВЫХОДЫ (AO) ========== -->
+                    <MudText Typo="Typo.caption" Class="font-weight-bold d-block mb-1" Style="font-size: 10px; color: #16a085;">АНАЛОГОВЫЕ ВЫХОДЫ (AO)</MudText>
+                    <MudGrid Dense="true" Spacing="1" Class="mb-3">
+
+                        <MudItem xs="6">
+                            <MudNumericField @bind-Value="signals.AoNisCurrent" Label="AO-NIS (4-20 mA)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" />
+                        </MudItem>
+                        <MudItem xs="6">
+                            <MudNumericField @bind-Value="signals.AoNisVoltage" Label="AO-NIS (0-10 В)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" />
+                        </MudItem>
+                        <MudItem xs="6">
+                            <MudNumericField @bind-Value="signals.AoIsCurrent" Label="AO-IS (4-20 mA)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" />
+                        </MudItem>
+                        <MudItem xs="6">
+                            <MudNumericField @bind-Value="signals.AoIsVoltage" Label="AO-IS (0-10 В)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" />
+                        </MudItem>
+                    </MudGrid>
+
+                    <!-- ========== РЕЗЕРВИРОВАННЫЕ АНАЛОГОВЫЕ ВЫХОДЫ (AO-R) ========== -->
+                    <MudText Typo="Typo.caption" Class="font-weight-bold d-block mb-1" Style="font-size: 10px; color: #c0392b;">РЕЗЕРВИРОВАННЫЕ АНАЛОГОВЫЕ ВЫХОДЫ (AO-R)</MudText>
+                    <MudGrid Dense="true" Spacing="1" Class="mb-3">
+                        <MudItem xs="6">
+                            <MudNumericField @bind-Value="signals.AoRIsCurrent" Label="AO-R-IS (4-20 mA)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" />
+                        </MudItem>
+                        <MudItem xs="6">
+                            <MudNumericField @bind-Value="signals.AoRNisCurrent" Label="AO-R-NIS (4-20 mA)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" />
+                        </MudItem>
+                    </MudGrid>
+
+                    <!-- ========== ДИСКРЕТНЫЕ ВХОДЫ (DI) ========== -->
+                    <MudText Typo="Typo.caption" Class="font-weight-bold d-block mb-1" Style="font-size: 10px; color: #2980b9;">ДИСКРЕТНЫЕ ВХОДЫ (DI)</MudText>
+                    <MudGrid Dense="true" Spacing="1" Class="mb-3">
+                        <MudItem xs="6">
+                            <MudNumericField @bind-Value="signals.DiIsNamur" Label="DI-IS (NAMUR)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" />
+                        </MudItem>
+                        <MudItem xs="6">
+                            <MudNumericField @bind-Value="signals.DiNisDryContact" Label="DI-NIS с.к." Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" />
+                        </MudItem>
+                        <MudItem xs="6">
+                            <MudNumericField @bind-Value="signals.DiNis24VDC" Label="DI-NIS (=24VDC)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" />
+                        </MudItem>
+                        <MudItem xs="6">
+                            <MudNumericField @bind-Value="signals.DiNisVfg" Label="DI-NIS (VFG)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" />
+                        </MudItem>
+                        <MudItem xs="6">
+                            <MudNumericField @bind-Value="signals.DiNisMcc230VAC" Label="DI-NIS (MCC 230VAC)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" />
+                        </MudItem>
+                        <MudItem xs="6">
+                            <MudNumericField @bind-Value="signals.DiNisMcc220VDC" Label="DI-NIS (MCC 220VDC)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" />
+                        </MudItem>
+                    </MudGrid>
+
+                    <!-- ========== ДИСКРЕТНЫЕ ВЫХОДЫ (DO) ========== -->
+                    <MudText Typo="Typo.caption" Class="font-weight-bold d-block mb-1" Style="font-size: 10px; color: #d35400;">ДИСКРЕТНЫЕ ВЫХОДЫ (DO)</MudText>
+                    <MudGrid Dense="true" Spacing="1">
+                        <MudItem xs="6">
+                            <MudNumericField @bind-Value="signals.DoNisVfcNO" Label="DO-NIS (VFC NO)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" />
+                        </MudItem>
+                        <MudItem xs="6">
+                            <MudNumericField @bind-Value="signals.DoNis24VDC" Label="DO-NIS (24VDC)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" />
+                        </MudItem>
+                        <MudItem xs="6">
+                            <MudNumericField @bind-Value="signals.DoNisMcc230VAC" Label="DO-NIS (MCC 230VAC)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" />
+                        </MudItem>
+                        <MudItem xs="6">
+                            <MudNumericField @bind-Value="signals.DoNisMcc220VDC" Label="DO-NIS (MCC 220VDC)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" />
                         </MudItem>
                     </MudGrid>
 
@@ -535,9 +640,21 @@
     private PlcBaseRoot _plcDbRoot = new();
     private Dictionary<string, PlcComparisonResult>? _tkpComparisonReport;
 
+    // Второй ПЛК для сравнения
+    private bool isComparisonMode = false;
+    private string selectedVendor2 = "ОВЕН";
+    private PlcComponent? selectedCpu2;
+    private List<PlcComponent> availableCpus2 = new();
 
     private int TotalSignalsCount => signals.TotalDI + signals.TotalDO + signals.TotalAI + signals.TotalAO;
 
+    protected override void OnParametersSet()
+    {
+        if (isComparisonMode)
+        {
+            UpdateAvailableCpusForComparison();
+        }
+    }
     protected override async Task OnInitializedAsync()
     {
         try
@@ -590,7 +707,7 @@
             else if (selectedVendor == "REGUL")
             {
                 var inputSignals = new List<IoSignalRow>();
-                int totalDi = signals.DiDryContact + signals.DiWetContact + signals.DiFastCounter;
+                int totalDi = signals.TotalDI;
                 if (totalDi > 0) inputSignals.Add(new IoSignalRow { SignalType = "DI", TotalWithReserve = totalDi });
                 if (signals.TotalDO > 0) inputSignals.Add(new IoSignalRow { SignalType = "DO", TotalWithReserve = signals.TotalDO });
                 if (signals.TotalAI > 0) inputSignals.Add(new IoSignalRow { SignalType = "AI", TotalWithReserve = signals.TotalAI });
@@ -598,7 +715,6 @@
 
                 // Вызываем базовый расчет физических модулей ПЛК по ТЗ
                 var regulRacks = RegulService.CalculateSystemWithDbAndBarriers(inputSignals);
-
                 calcResult = new PlcCabinetCalculationResult();
 
                 int currentCabinetIndex = 1;
@@ -728,7 +844,44 @@
         }
     }
 
+    private void ToggleComparisonMode()
+    {
+        isComparisonMode = !isComparisonMode;
 
+        if (isComparisonMode)
+        {
+            // По умолчанию второй вендор — ОВЕН (или другой, не совпадающий с первым)
+            selectedVendor2 = selectedVendor == "REGUL" ? "ОВЕН" : "REGUL";
+            UpdateAvailableCpusForComparison();
+        }
+
+        StateHasChanged();
+    }
+
+    private void UpdateAvailableCpusForComparison()
+    {
+        if (_plcDbRoot?.Components == null) return;
+
+        availableCpus2 = _plcDbRoot.Components
+                .Where(c => c.Vendor == selectedVendor2 && c.Category == "cpu")
+                .Select(c => new PlcComponent
+                {
+                    Article = c.PartNumber,
+                    Name = c.Description,
+                    Type = "CPU",
+                    WidthMm = (int)c.WidthMm
+                }).ToList();
+
+        selectedCpu2 = availableCpus2.FirstOrDefault();
+        StateHasChanged();
+    }
+
+    // Обработчик смены второго вендора
+    private void OnSecondVendorChanged(string vendor)
+    {
+        selectedVendor2 = vendor;
+        UpdateAvailableCpusForComparison();
+    }
 
 
     // Метод сквозного расчета уникальных позиционных обозначений (ГОСТ) в рамках Шкафа
@@ -908,7 +1061,7 @@
                 Id = Guid.NewGuid().ToString(),
                 TemplateName = projectCipher,
                 CabinetName = $"Шкаф управления на базе {selectedVendor} R500",
-                ObjectLocation = $"Объект: Система РСУ/ПАЗ ({signals.DiDryContact} DI, {signals.TotalDO} DO)",
+                ObjectLocation = $"Объект: Система РСУ/ПАЗ ({signals.TotalDI} DI, {signals.TotalDO} DO)",
                 LastModified = DateTime.Now,
                 Items = savedItems
             };
@@ -934,16 +1087,20 @@
     }
     private void NavigateToComparison()
     {
-        // Суммируем дискретные входы из полей ввода страницы
-        int totalDi = signals.DiDryContact + signals.DiWetContact + signals.DiFastCounter;
+        // Суммируем сигналы из новой модели
+        int totalDi = signals.TotalDI;
         int totalDo = signals.TotalDO;
         int totalAi = signals.TotalAI;
         int totalAo = signals.TotalAO;
 
-        // Формируем b2b URL-ссылку с параметрами, чтобы страница сравнения сразу открылась с расчетом
+        // Формируем b2b URL-ссылку с параметрами
         string url = $"/plc-comparison?di={totalDi}&do={totalDo}&ai={totalAi}&ao={totalAo}&width={cabinetWidth}";
+        // Если режим сравнения активен — добавляем второго вендора
+        if (isComparisonMode && selectedCpu2 != null)
+        {
+            url += $"&vendor1={selectedVendor}&vendor2={selectedVendor2}";
+        }
 
-        // Открываем ТКП-анализ в новой вкладке браузера, чтобы инженер не потерял текущую схему
         JS.InvokeVoidAsync("open", url, "_blank");
     }
 

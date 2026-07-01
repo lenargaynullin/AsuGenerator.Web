@@ -1,0 +1,282 @@
+﻿@page "/db-uploader"
+@using System.IO
+@using System.Text.Json
+@using OfficeOpenXml
+@using AsuGenerator.Web.Models
+@inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment Env
+@inject ISnackbar Snackbar
+
+<MudContainer MaxWidth="MaxWidth.Medium" Class="mt-6 mb-12">
+    <MudPaper Elevation="3" Class="pa-6 rounded-lg" Style="border-top: 5px solid #3cb890;">
+        <MudText Typo="Typo.h5" Class="mb-2"><b>📦 Импорт и конвертация базы данных ПЛК</b></MudText>
+        <MudText Typo="Typo.body2" Color="Color.Secondary" Class="mb-6">
+            Загрузите ваш мастер-файл Excel для автоматической генерации и обновления системного файла <code>plc-base.json</code>.
+        </MudText>
+
+        <MudFileUpload T="IBrowserFile" FilesChanged="UploadExcelCatalog" Accept=".xlsx">
+            <ActivatorContent>
+                <MudButton Variant="Variant.Filled"
+                           Style="background-color: #3cb890; color: white; font-weight: bold;"
+                           StartIcon="@Icons.Material.Filled.CloudUpload">
+                    ВЫБРАТЬ ФАЙЛ EXCEL (.XLSX)
+                </MudButton>
+            </ActivatorContent>
+        </MudFileUpload>
+
+        @if (_isProcessing)
+        {
+            <div class="mt-6 text-center">
+                <MudProgressCircular Color="Color.Success" Indeterminate="true" Class="mb-2" />
+                <MudText Typo="Typo.body2">Парсинг именованных листов Excel и генерация JSON...</MudText>
+            </div>
+        }
+
+        @if (_parsedLogs.Any())
+        {
+            <MudPaper Outlined="true" Class="pa-4 mt-6 mud-background-gray" Style="max-height: 450px; overflow-y: auto; font-family: monospace; font-size: 11px;">
+                <MudText Typo="Typo.subtitle2" Class="mb-2">📋 Лог обработки таблиц:</MudText>
+                @foreach (var log in _parsedLogs)
+                {
+                    <div>@log</div>
+                }
+            </MudPaper>
+        }
+    </MudPaper>
+</MudContainer>
+
+@code {
+    private bool _isProcessing = false;
+    private List<string> _parsedLogs = new();
+
+    private async Task UploadExcelCatalog(IBrowserFile file)
+    {
+        if (file == null) return;
+
+        _isProcessing = true;
+        _parsedLogs.Clear();
+        StateHasChanged();
+
+        try
+        {
+            ExcelPackage.License.SetNonCommercialPersonal("AsuGeneratorSaaS");
+
+            using (var stream = new MemoryStream())
+            {
+                await file.OpenReadStream(maxAllowedSize: 20 * 1024 * 1024).CopyToAsync(stream);
+                using (var package = new ExcelPackage(stream))
+                {
+                    var rootDb = new PlcBaseRoot();
+
+                    // =================================================================
+                    // 1. ЛИСТ "manufacturers" (Столбцы: 1-id, 2-name, 3-country)
+                    // =================================================================
+                    var manufacturerSheet = package.Workbook.Worksheets["manufacturers"];
+                    if (manufacturerSheet == null) throw new Exception("Лист 'manufacturers' не найден в файле!");
+
+                    var vendorMap = new Dictionary<int, PlcVendorDto>();
+                    for (int row = 2; row <= manufacturerSheet.Dimension.End.Row; row++)
+                    {
+                        string idText = manufacturerSheet.Cells[row, 1].Text.Trim();
+                        if (string.IsNullOrEmpty(idText)) continue;
+
+                        int id = int.Parse(idText);
+                        string name = manufacturerSheet.Cells[row, 2].Text.Trim();
+                        vendorMap[id] = new PlcVendorDto { Name = name, Series = new() };
+                    }
+                    _parsedLogs.Add($"[ОК] Считан лист manufacturers. Найдено брендов: {vendorMap.Count}");
+
+                    // =================================================================
+                    // 2. ЛИСТ "plc_families" (Столбцы: 1-id, 2-m_id, 3-family_name, 4-max_mod, 5-price)
+                    // =================================================================
+                    var familySheet = package.Workbook.Worksheets["plc_families"];
+                    if (familySheet == null) throw new Exception("Лист 'plc_families' не найден в файле!");
+
+                    var familyMap = new Dictionary<int, string>();
+                    for (int row = 2; row <= familySheet.Dimension.End.Row; row++)
+                    {
+                        string idText = familySheet.Cells[row, 1].Text.Trim();
+                        if (string.IsNullOrEmpty(idText)) continue;
+
+                        int fId = int.Parse(idText);
+                        int mId = int.Parse(familySheet.Cells[row, 2].Text.Trim());
+                        string familyName = familySheet.Cells[row, 3].Text.Trim();
+                        int maxModules = int.TryParse(familySheet.Cells[row, 4].Text, out int mm) ? mm : 40;
+                        decimal price = decimal.TryParse(familySheet.Cells[row, 5].Text, out decimal pr) ? pr : 0;
+
+                        string shortFamilyName = familyName.Replace("REGUL ", "");
+                        familyMap[fId] = shortFamilyName;
+                        if (vendorMap.ContainsKey(mId))
+                        {
+                            vendorMap[mId].Series.Add(new PlcSeriesDto
+                            {
+                                Id = shortFamilyName,
+                                MaxModulesPerRack = maxModules,
+                                RackPriceRub = price,
+                                TargetApplication = shortFamilyName.Contains("R500") ? "ПАЗ до SIL3 (Ростехнадзор)" : "Общепромышленная АСУ"
+                            });
+                        }
+                    }
+                    rootDb.Vendors = vendorMap.Values.ToList();
+                    _parsedLogs.Add($"[ОК] Считан лист plc_families. Загружено линеек: {familyMap.Count}");
+
+                    // =================================================================
+                    // 3. ЛИСТ "modules" (Строго по структуре ваших 16 столбцов)
+                    // =================================================================
+                    var modulesSheet = package.Workbook.Worksheets["modules"];
+                    if (modulesSheet == null) throw new Exception("Лист 'modules' не найден в файле!");
+
+                    for (int row = 2; row <= modulesSheet.Dimension.End.Row; row++)
+                    {
+                        string moduleName = modulesSheet.Cells[row, 3].Text.Trim(); // C: module_name
+                        if (string.IsNullOrEmpty(moduleName)) continue;
+
+                        int fId = int.TryParse(modulesSheet.Cells[row, 2].Text, out int fid) ? fid : 1; // B: family_id
+                        string shortFamily = familyMap.ContainsKey(fId) ? familyMap[fId] : "R500";
+                        string fullArticul = shortFamily + " " + moduleName; // Сборный b2b-артикул
+
+                        // Автоматически мапим категорию на основе буквенного кода (Лист module_type)
+                        string[] catCode = moduleName.Split(' ');
+                        string dbCategory = catCode[0] switch
+                        {
+                            "CH" => "rack",
+                            "PP" => "power",
+                            "PO" => "power",
+                            "CU" => "cpu",
+                            "ST" => "terminal",
+                            "DI" => "DI",
+                            "DO" => "DO",
+                            "AI" => "AI",
+                            "AO" => "AO",
+                            _ => "mixed"
+                        };
+
+                        // Считываем физические и электротехнические параметры
+                        int channels = int.TryParse(modulesSheet.Cells[row, 5].Text, out int ch) ? ch : 0; // E: channels
+                        double width = double.TryParse(modulesSheet.Cells[row, 7].Text, out double w) ? w : 40; // G: ширина
+                        double height = double.TryParse(modulesSheet.Cells[row, 8].Text, out double h) ? h : 180; // H: высота
+                        double internalPower = double.TryParse(modulesSheet.Cells[row, 9].Text, out double pBus) ? pBus : 0.1; // I: P от внут шины
+
+                        string desc = modulesSheet.Cells[row, 16].Text.Trim(); // P: description
+
+                        var comp = new PlcComponentDto
+                        {
+                            Vendor = "Прософт",
+                            FamilyId = shortFamily,
+                            PartNumber = fullArticul,
+                            Category = dbCategory,
+                            Description = desc,
+                            Channels = channels,
+                            WidthMm = width,
+                            HeightMm = height,
+                            PowerConsumptionW = internalPower,
+                            TwoBusSupport = modulesSheet.Cells[row, 14].Text.Contains("да"), // N: Поддержка резервир. шины питания
+                            CompatibleChassis = modulesSheet.Cells[row, 12].Text.Trim() // L: Совместимый модуль шасси
+                        };
+
+                        // Если это шасси (CH) — дублируем его в b2b-коллекцию Chassis для Шага 1 Конфигуратора
+                        if (dbCategory == "rack")
+                        {
+                            rootDb.Chassis.Add(new PlcChassisDto { PartNumber = fullArticul, WidthMm = width, Description = desc });
+                        }
+
+                        rootDb.Components.Add(comp);
+                    }
+                    _parsedLogs.Add($"[ОК] Считан лист modules. Сформировано компонентов ПЛК: {rootDb.Components.Count} шт.");
+                    // =================================================================
+                    // 4. ЛИСТ "barriers" (Столбцы: 1-id, 2-name, 3-signal_type, 4-channels_per_barrier, 5-price_rub)
+                    // =================================================================
+                    var barrierSheet = package.Workbook.Worksheets["barriers"];
+                    if (barrierSheet != null)
+                    {
+                        for (int row = 2; row <= barrierSheet.Dimension.End.Row; row++)
+                        {
+                            string idText = barrierSheet.Cells[row, 1].Text.Trim();
+                            if (string.IsNullOrEmpty(idText)) continue;
+
+                            int bId = int.Parse(idText);
+                            string bName = barrierSheet.Cells[row, 2].Text.Trim(); // B: name
+                            string bSigType = barrierSheet.Cells[row, 3].Text.Trim(); // C: signal_type
+                            int bChannels = int.TryParse(barrierSheet.Cells[row, 4].Text, out int bc) ? bc : 1; // D: channels_per_barrier
+
+                            rootDb.Barriers.Add(new PlcBarrierDto
+                            {
+                                Id = bId,
+                                Type = bSigType,
+                                ChannelsPerBarrier = bChannels,
+                                Description = bName
+                            });
+
+                            // Добавляем барьер как физический блок 12х115 мм на нижнюю рейку монтажной панели Провенто
+                            rootDb.Components.Add(new PlcComponentDto
+                            {
+                                Vendor = "Прософт",
+                                FamilyId = "Exi",
+                                PartNumber = bName,
+                                Category = "BARRIER_BLOCK",
+                                Description = bName,
+                                Channels = bChannels,
+                                WidthMm = 12,
+                                HeightMm = 115,
+                                PowerConsumptionW = 0.05
+                            });
+                        }
+                        _parsedLogs.Add($"[ОК] Считан лист barriers. Проиндексировано Exi барьеров: {rootDb.Barriers.Count} шт.");
+                    }
+
+                    // =================================================================
+                    // 5. ЛИСТ "defaults" (Настройки по умолчанию: таймауты, лимиты, токи шины)
+                    // =================================================================
+                    var defaultsSheet = package.Workbook.Worksheets["defaults"];
+                    double maxBusCurrent = 4.5;
+                    if (defaultsSheet != null)
+                    {
+                        for (int row = 2; row <= defaultsSheet.Dimension.End.Row; row++)
+                        {
+                            string setting = defaultsSheet.Cells[row, 1].Text.Trim();
+                            if (setting.Contains("max_bus_current") || setting.Contains("current"))
+                            {
+                                double.TryParse(defaultsSheet.Cells[row, 2].Text, out maxBusCurrent);
+                            }
+                        }
+                    }
+
+                    rootDb.GlobalSettings = new GlobalPlcSettings
+                    {
+                        ReserveAiPercent = 20,
+                        ReserveDiPercent = 20,
+                        DefaultCabinetWidthMm = 800,
+                        MaxBusCurrentA = maxBusCurrent
+                    };
+                    _parsedLogs.Add($"[ОК] Считан лист defaults. Ток шины зафиксирован: {maxBusCurrent} А");
+
+                    // =================================================================
+                    // 6. ЗАПИСЬ НА ДИСК СЕРВЕРА VDS (Генерация plc-base.json)
+                    // =================================================================
+                    string jsonDir = Path.Combine(Env.WebRootPath, "Configs");
+                    if (!Directory.Exists(jsonDir)) Directory.CreateDirectory(jsonDir);
+                    string jsonPath = Path.Combine(jsonDir, "plc-base.json");
+
+                    var options = new JsonSerializerOptions
+                    {
+                        WriteIndented = true,
+                        Encoder = System.Text.Encodings.Web.JavaScriptEncoder.Create(System.Text.Unicode.UnicodeRanges.All)
+                    };
+                    await File.WriteAllTextAsync(jsonPath, JsonSerializer.Serialize(rootDb, options));
+
+                    _parsedLogs.Add($"✔️ СИНХРОНИЗАЦИЯ УСПЕШНА! Файл сгенерирован: {jsonPath}");
+                    Snackbar.Add("База данных plc-base.json успешно сгенерирована!", Severity.Success);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            _parsedLogs.Add($"[КРИТИЧЕСКИЙ СБОЙ ПАРСЕРА]: {ex.Message}");
+            Snackbar.Add($"Ошибка импорта: {ex.Message}", Severity.Error);
+        }
+        finally
+        {
+            _isProcessing = false;
+            StateHasChanged();
+        }
+    }
+}
