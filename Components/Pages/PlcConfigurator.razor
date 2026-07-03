@@ -9,7 +9,7 @@
 @inject MudBlazor.ISnackbar Snackbar
 @inject AsuGenerator.Web.Services.PlcComparisonEngine ComparisonEngine
 @inject IJSRuntime JS
-
+@inject UniversalCalculationService UniversalService;
 
 <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-4 px-4">
     <MudText Typo="Typo.h5" Class="mb-3 font-weight-bold" Style="font-size: 16px;">⚙️ Расширенная конфигурация ПЛК и сигналов</MudText>
@@ -31,7 +31,6 @@
                                        Margin="Margin.Dense"
                                        Style="font-size: 11px;">
                                 <MudSelectItem Value="@("REGUL")">REGUL</MudSelectItem>
-                                <MudSelectItem Value="@("ОВЕН")">ОВЕН</MudSelectItem>
                                 <MudSelectItem Value="@("АБАК")">АБАК</MudSelectItem>
                             </MudSelect>
                         </MudItem>
@@ -696,189 +695,111 @@
 
     private void GenerateLayout()
     {
-        // ЗАЩИТА: Если корень базы или компоненты не прочитались с диска VDS, не даем сайту упасть
         if (_plcDbRoot == null || _plcDbRoot.Components == null || !_plcDbRoot.Components.Any())
         {
             Snackbar.Add("Критическая ошибка: База данных plc-base.json пуста или не найдена на сервере!", Severity.Error);
             return;
         }
 
-        if (selectedCpu is null)
-        {
-            Snackbar.Add("Выберите центральный процессор для расчета!", Severity.Warning);
-            return;
-        }
-
         try
         {
-            if (selectedVendor == "ОВЕН")
+            // Собираем сигналы из 25 полей в плоский список IoSignalRow
+            var inputSignals = new List<IoSignalRow>();
+
+            double reserveFactor = 1 + ((double)signals.ReservePercent / 100.0);
+
+            int totalDi = (int)Math.Ceiling((signals.DiIsNamur + signals.DiNisDryContact + signals.DiNis24VDC
+                          + signals.DiNisVfg + signals.DiNisMcc230VAC + signals.DiNisMcc220VDC) * reserveFactor);
+            int totalDo = (int)Math.Ceiling((signals.DoNisVfcNO + signals.DoNis24VDC
+                          + signals.DoNisMcc230VAC + signals.DoNisMcc220VDC) * reserveFactor);
+            int totalAi = (int)Math.Ceiling((signals.AiNisCurrent2W + signals.AiNisCurrent4W + signals.AiRtdNis3W
+                          + signals.AiNisPl3W + signals.AiIsCurrent2W + signals.AiIsCurrent4W + signals.AiIsPl3W
+                          + signals.AiRNisCurrent2W + signals.AiRNisCurrent4W + signals.AiRIsCurrent2W
+                          + signals.AiRIsCurrent4W) * reserveFactor);
+            int totalAo = (int)Math.Ceiling((signals.AoNisCurrent + signals.AoNisVoltage + signals.AoIsCurrent
+                          + signals.AoIsVoltage + signals.AoRIsCurrent + signals.AoRNisCurrent) * reserveFactor);
+
+            if (totalDi > 0) inputSignals.Add(new IoSignalRow { SignalType = "DI", TotalWithReserve = totalDi });
+            if (totalDo > 0) inputSignals.Add(new IoSignalRow { SignalType = "DO", TotalWithReserve = totalDo });
+            if (totalAi > 0) inputSignals.Add(new IoSignalRow { SignalType = "AI", TotalWithReserve = totalAi });
+            if (totalAo > 0) inputSignals.Add(new IoSignalRow { SignalType = "AO", TotalWithReserve = totalAo });
+
+            if (!inputSignals.Any())
             {
-                // Сохраняем вызов вашего базового метода для ОВЕН МВ210
-                calcResult = PlcCalcService.CalculateMultiPlcCabinet(
-                    signals, selectedCpu, availableModulesInDb, busCoupler,
-                    maxSlotsPerBasket: 12, cabinetWidthMm: cabinetWidth,
-                    cabinetHeightMm: cabinetHeight, cabinetType: cabinetType
-                );
+                Snackbar.Add("Введите хотя бы один технологический сигнал!", Severity.Warning);
+                return;
             }
-            else if (selectedVendor == "REGUL")
+
+            // Используем UniversalCalculationService для любого вендора
+            var universalService = new UniversalCalculationService(_plcDbRoot);
+            var result = universalService.CalculateSystem(selectedVendor, inputSignals, cabinetWidth);
+
+            // Формируем визуальный результат в старом формате calcResult
+            calcResult = new PlcCabinetCalculationResult();
+            var cabinet = new PlcCabinet
             {
-                calcResult = new PlcCabinetCalculationResult();
-
-                int currentCabinetIndex = 1;
-                var currentCabinet = new PlcCabinet { CabinetIndex = currentCabinetIndex, Type = cabinetType, InterposingRelays = new(), Terminals = new() };
-                var currentSide = cabinetType == CabinetType.SingleSided ? currentCabinet.SingleSide : currentCabinet.FrontSide;
-                var currentNode = new PlcNode();
-
-                // Базовая высота шапки: 40 (короб) + 190 (БП 220/24В) + 40 (короб) + 40 (короб) = 310 мм
-                double currentUsedHeightMm = 310.0;
-                double maxUsableHeightMm = cabinetHeight - 200.0; // До низа панели должно остаться не менее 200 мм
-                int carrierCounter = 1;
-
-                // Очередь для покомпонентной b2b-раскладки модулей на рейки
-                var hardwareQueue = new Queue<PlcComponent>();
-
-                // Внедряем жесткий инженерный подбор процессора из базы данных
-                hardwareQueue.Enqueue(new PlcComponent { Article = selectedCpu.Article, Type = "CPU", WidthMm = 80, HeightMm = 180 });
-
-                // Коэффициент запаса по ГОСТ берется из вашего ползунка слайдера
-                double reserveFactor = 1 + ((double)signals.ReservePercent / 100.0);
-
-                // Считываем доступные b2b-компоненты из загруженного JSON
-                var availableComps = _plcDbRoot.Components.Where(c => c.FamilyId == "R500").ToList();
-
-                // =================================================================
-                // ИНТЕЛЛЕКТУАЛЬНЫЙ МЭППИНГ 25 ТИПОВ СИГНАЛОВ НА РЕАЛЬНЫЕ АРТИКУЛЫ ПРОСОФТ
-                // =================================================================
-                var signalMapping = new Dictionary<string, int>
-            {
-                // Аналоговые входы (AI)
-                { "R500 AI 08 052", (int)Math.Ceiling(signals.AiNisCurrent2W * reserveFactor) },
-                { "R500 AI 08 041", (int)Math.Ceiling(signals.AiNisCurrent4W * reserveFactor) },
-                { "R500 AI 08 131", (int)Math.Ceiling(signals.AiRtdNis3W * reserveFactor) },
-                { "R500 AI 08 242", (int)Math.Ceiling(signals.AiNisPl3W * reserveFactor) },
-                { "R500 AI 08 022", (int)Math.Ceiling((signals.AiIsCurrent2W + signals.AiRIsCurrent4W) * reserveFactor) },
-                { "R500 AI 08 023", (int)Math.Ceiling(signals.AiIsCurrent4W * reserveFactor) },
-                { "R500 AI 08 342", (int)Math.Ceiling(signals.AiIsPl3W * reserveFactor) },
-                { "R500 AI 08 061", (int)Math.Ceiling(signals.AiRNisCurrent2W * reserveFactor) },
-                { "R500 AI 08 042", (int)Math.Ceiling(signals.AiRNisCurrent4W * reserveFactor) },
-                { "R500 AI 08 142", (int)Math.Ceiling(signals.AiRIsCurrent2W * reserveFactor) },
-
-                // Аналоговые выходы (AO)
-                { "R500 AO 08 031", (int)Math.Ceiling(signals.AoNisVoltage * reserveFactor) },
-                { "R500 AO 08 011", (int)Math.Ceiling((signals.AoNisCurrent + signals.AoRNisCurrent) * reserveFactor) },
-                { "R500 AO 08 021", (int)Math.Ceiling((signals.AoIsCurrent + signals.AoRIsCurrent) * reserveFactor) },
-
-                // Дискретные входы (DI)
-                { "R500 DI 16 032", (int)Math.Ceiling(signals.DiIsNamur * reserveFactor) },
-                { "R500 DI 32 011", (int)Math.Ceiling(signals.DiNisDryContact * reserveFactor) },
-                { "R500 DI 32 012", (int)Math.Ceiling(signals.DiNis24VDC * reserveFactor) },
-                { "R500 DA 03 011", (int)Math.Ceiling(signals.DiNisVfg * reserveFactor) },
-                { "R500 DI 16 021", (int)Math.Ceiling((signals.DiNisMcc230VAC + signals.DiNisMcc220VDC) * reserveFactor) },
-
-                // Дискретные выходы (DO)
-                { "R500 DO 32 012", (int)Math.Ceiling(signals.DoNisVfcNO * reserveFactor) },
-                { "R500 DO 32 011", (int)Math.Ceiling(signals.DoNis24VDC * reserveFactor) },
-                { "R500 DO 16 021", (int)Math.Ceiling((signals.DoNisMcc230VAC + signals.DoNisMcc220VDC) * reserveFactor) }
+                CabinetIndex = 1,
+                Type = cabinetType,
+                InterposingRelays = new(),
+                Terminals = new()
             };
 
-                // Рассчитываем физическое количество плат расширения на основе емкости каналов модуля
-                foreach (var map in signalMapping)
+            var side = cabinetType == CabinetType.SingleSided ? cabinet.SingleSide : cabinet.FrontSide;
+            var node = new PlcNode();
+            var basket = new PlcBasket();
+
+            // Добавляем CPU
+            var cpu = _plcDbRoot.Components.FirstOrDefault(c =>
+                c.Vendor == selectedVendor && c.Category.ToLower() == "cpu");
+            if (cpu != null)
+            {
+                basket.Modules.Add(new PlcComponent
                 {
-                    if (map.Value <= 0) continue;
+                    Article = cpu.PartNumber,
+                    Type = "CPU",
+                    WidthMm = (int)cpu.WidthMm,
+                    HeightMm = (int)cpu.HeightMm
+                });
+            }
 
-                    var dbComp = availableComps.FirstOrDefault(c => c.PartNumber == map.Key);
-                    if (dbComp == null) continue;
+            // Добавляем модули ввода-вывода по результатам расчёта
+            foreach (var signal in inputSignals)
+            {
+                var category = signal.SignalType switch { "DI" => "DI", "DO" => "DO", "AI" => "AI", "AO" => "AO", _ => "" };
+                var module = _plcDbRoot.Components
+                    .Where(c => c.Vendor == selectedVendor && c.Category == category && c.Channels > 0)
+                    .OrderByDescending(c => c.Channels)
+                    .FirstOrDefault();
 
-                    int channelsPerModule = dbComp.Channels > 0 ? dbComp.Channels : 8; // Защита от деления на 0
-                    int modulesCount = (int)Math.Ceiling((double)map.Value / channelsPerModule);
-
-                    string typeLabel = dbComp.Category;
-
-                    for (int i = 0; i < modulesCount; i++)
+                if (module != null)
+                {
+                    int count = (int)Math.Ceiling((double)signal.TotalWithReserve / module.Channels);
+                    for (int i = 0; i < count; i++)
                     {
-                        hardwareQueue.Enqueue(new PlcComponent
+                        basket.Modules.Add(new PlcComponent
                         {
-                            Article = dbComp.PartNumber,
-                            Type = typeLabel,
-                            WidthMm = (int)dbComp.WidthMm,
-                            HeightMm = (int)dbComp.HeightMm
+                            Article = module.PartNumber,
+                            Type = category,
+                            WidthMm = (int)module.WidthMm,
+                            HeightMm = (int)module.HeightMm
                         });
                     }
                 }
-
-                // =================================================================
-                // ГЕОМЕТРИЧЕСКИЙ ЦИКЛ НАРЕЗКИ РЕЕК CARRIER (ЛИМИТ 581 ММ)
-                // =================================================================
-                while (hardwareQueue.Count > 0 || (carrierCounter == 1 && hardwareQueue.Count == 0))
-                {
-                    var currentBasket = new PlcBasket();
-
-                    // В НАЧАЛО КРЕЙТА: 1 шт. Модуль IN (R500 ST 01 012) + 1 шт. БП (R500 PP 00 021)
-                    currentBasket.Modules.Add(new PlcComponent { Article = "R500 ST 01 012", Type = "BUS", WidthMm = 40, HeightMm = 130 });
-                    currentBasket.Modules.Add(new PlcComponent { Article = "R500 PP 00 021", Type = "BUS", WidthMm = 40, HeightMm = 180 });
-
-                    double currentBasketWidthMm = 80.0; // Стартовый шаг геометрии
-
-                    while (hardwareQueue.Count > 0)
-                    {
-                        var nextComponent = hardwareQueue.Peek();
-
-                        // Валидация: Проверяем лимит 581 мм с учетом правого обязательного хвоста (БП PP + Оконечник OUT = 80 мм)
-                        if (currentBasketWidthMm + nextComponent.WidthMm + 80.0 > 581.0)
-                        {
-                            break; // Крейт заполнен, уходим на нарезку следующего CARRIER
-                        }
-
-                        var component = hardwareQueue.Dequeue();
-                        currentBasket.Modules.Add(component);
-                        currentBasketWidthMm += component.WidthMm;
-                    }
-
-                    // В КОНЕЦ КРЕЙТА: 1 шт. Блок питания PP + 1 шт. Оконечник OUT (R500 ST 01 022)
-                    currentBasket.Modules.Add(new PlcComponent { Article = "R500 PP 00 021", Type = "BUS", WidthMm = 40, HeightMm = 180 });
-                    currentBasket.Modules.Add(new PlcComponent { Article = "R500 ST 01 022", Type = "BUS", WidthMm = 40, HeightMm = 130 });
-                    currentBasketWidthMm += 80.0;
-
-                    // Валидация вертикального пространства шкафа Провенто (шаг требует 300 мм)
-                    if (currentUsedHeightMm + 300.0 > maxUsableHeightMm)
-                    {
-                        currentSide.Nodes.Add(currentNode);
-                        calcResult.Cabinets.Add(currentCabinet);
-
-                        currentCabinetIndex++;
-                        currentCabinet = new PlcCabinet { CabinetIndex = currentCabinetIndex, Type = cabinetType, InterposingRelays = new(), Terminals = new() };
-                        currentSide = cabinetType == CabinetType.SingleSided ? currentCabinet.SingleSide : currentCabinet.FrontSide;
-                        currentNode = new PlcNode();
-
-                        currentUsedHeightMm = 310.0; // Сброс счетчика высоты монтажного листа
-                    }
-
-                    currentNode.Baskets.Add(currentBasket);
-                    currentUsedHeightMm += 300.0;
-                    carrierCounter++;
-
-                    if (hardwareQueue.Count == 0) break;
-                }
-
-                currentSide.Nodes.Add(currentNode);
-                calcResult.Cabinets.Add(currentCabinet);
-
-                // Обновляем счетчик дин-реек для MudAlert
-                //calcResult.TotalDinRailsRequired = carrierCounter - 1;
-
-                // Сквозной вызов ТКП-движка для параллельного сопоставления с ОВЕН
-                var inputSignalsForComparison = new List<IoSignalRow>
-            {
-                new IoSignalRow { SignalType = "DI", TotalWithReserve = (int)Math.Ceiling(TotalSignalsCount * reserveFactor) }
-            };
-                _tkpComparisonReport = ComparisonEngine.CompareSystems(inputSignalsForComparison, cabinetWidth, _plcDbRoot);
             }
 
-            this.StateHasChanged();
+            node.Baskets.Add(basket);
+            side.Nodes.Add(node);
+            calcResult.Cabinets.Add(cabinet);
+
+            // Запускаем сравнение для ТКП
+            _tkpComparisonReport = ComparisonEngine.CompareSystems(inputSignals, cabinetWidth, _plcDbRoot);
+
+            Snackbar.Add($"Система {result.VendorName} рассчитана: {result.TotalRacksCount} крейтов, {result.TotalCabinetsCount} шкафов, {result.TotalHardwareCostRub:N0} ₽", Severity.Success);
+            StateHasChanged();
         }
         catch (Exception ex)
         {
-            Snackbar.Add($"Ошибка автоматического подбора плат Прософт: {ex.Message}", Severity.Error);
+            Snackbar.Add($"Ошибка расчёта: {ex.Message}", Severity.Error);
             calcResult = null;
         }
     }
@@ -1000,37 +921,34 @@
 
     private void UpdateAvailableCpus()
     {
-        // ЗАЩИТА: Если корень базы или компоненты не инициализированы, выходим из метода
         if (_plcDbRoot?.Components == null) return;
 
-        // ИСПРАВЛЕНО ДЛЯ B2B-НАДЕЖНОСТИ: Приводим все строки к нижнему регистру (.ToLower()) для обхода конфликтов
+        // Ищем CPU, у которых Vendor совпадает с выбранным
         availableCpus = _plcDbRoot.Components
             .Where(c => c.Category.ToLower() == "cpu" &&
-                       (c.FamilyId.ToLower() == selectedVendor.ToLower() || (selectedVendor == "REGUL" && c.FamilyId.ToLower() == "r500")))
+                        c.Vendor.ToLower() == selectedVendor.ToLower())
             .Select(c => new PlcComponent
             {
-                Article = c.PartNumber,   // Сюда запишется честный артикул, например "R500 CU 00 151"
+                Article = c.PartNumber,
                 Name = c.Description,
-                Type = "CPU",
+                Type = "cpu",
                 WidthMm = (int)c.WidthMm
             }).ToList();
 
-        // Фолбэк-защита: Оставляем на случай, если для других вендоров (АБАК/ОВЕН) в базе пока нет строк
+        // Если для вендора нет CPU в базе — заглушка
         if (!availableCpus.Any())
         {
             availableCpus.Add(new PlcComponent
             {
-                Article = $"{selectedVendor} CPU-STANDART",
-                Name = $"Центральный процессор {selectedVendor} (Базовая конфигурация)",
+                Article = $"{selectedVendor}-CPU-UNKNOWN",
+                Name = $"Процессор {selectedVendor} (нет в базе)",
                 Type = "CPU",
                 WidthMm = 80
             });
         }
 
         selectedCpu = availableCpus.FirstOrDefault();
-
-        // Принудительно заставляем MudBlazor v7 мгновенно перерисовать выпадающий список на экране
-        this.StateHasChanged();
+        StateHasChanged();
     }
 
 

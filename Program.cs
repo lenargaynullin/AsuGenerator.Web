@@ -1,8 +1,10 @@
 using AsuGenerator.Web.Components;
+using AsuGenerator.Web.Models;
 using AsuGenerator.Web.Services;
-using AsuGenerator.Web.Services.Strategies.Implementations;
 using AsuGenerator.Web.Services.Strategies;
+using AsuGenerator.Web.Services.Strategies.Implementations;
 using MudBlazor.Services;
+using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,7 +38,14 @@ builder.Services.AddScoped<UniversalCalculationEngine>();
 builder.Services.AddScoped<PlcCalculationService>();
 builder.Services.AddScoped<AsuGenerator.Web.Services.RegulCalculationService>();
 builder.Services.AddScoped<AsuGenerator.Web.Services.PlcComparisonEngine>();
-
+builder.Services.AddScoped<UniversalCalculationService>();
+builder.Services.AddSingleton(sp =>
+{
+    var env = sp.GetRequiredService<IWebHostEnvironment>();
+    string jsonPath = Path.Combine(env.WebRootPath, "Configs", "plc-base.json");
+    string jsonText = File.ReadAllText(jsonPath);
+    return JsonSerializer.Deserialize<PlcBaseRoot>(jsonText) ?? new PlcBaseRoot();
+});
 
 // Регистрация b2b фабрики управления шкафами
 
