@@ -223,10 +223,28 @@ public class UniversalCalculationService
     /// </summary>
     public List<string> GetAvailableVendors()
     {
-        return _db.Vendors?
-            .Where(v => _db.Components.Any(c =>
-                c.Vendor.Equals(v.Name, StringComparison.OrdinalIgnoreCase)))
-            .Select(v => v.Name)
-            .ToList() ?? new List<string>();
+        // ИСПРАВЛЕНО: Используем локальное имя переменной базы данных _db из вашего сервиса
+        if (_db == null || _db.Vendors == null) return new List<string> { "REGUL", "АБАК" };
+
+        // 1. Извлекаем из plc_families (Chassis) все активные ID производителей
+        var activeManufacturerIds = _db.Chassis
+            .Select(f => f.ManufacturerId)
+            .Distinct()
+            .ToList();
+
+        // 2. Ищем в листе manufacturers (Vendors) только тех, чьи ID совпали с активными линейками
+        var resultVendors = _db.Vendors
+            .Where(v => activeManufacturerIds.Contains(v.Id))
+            .Select(v => v.Name.Trim())
+            .Distinct()
+            .ToList();
+
+        if (!resultVendors.Any())
+        {
+            return new List<string> { "REGUL", "АБАК" };
+        }
+
+        return resultVendors;
     }
+
 }

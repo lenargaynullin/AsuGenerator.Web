@@ -1,10 +1,4 @@
 {
-  "GlobalSettings": {
-    "ReserveAiPercent": 20,
-    "ReserveDiPercent": 20,
-    "DefaultCabinetWidthMm": 800,
-    "MaxBusCurrentA": 4.5
-  },
   "Vendors": [
     {
       "Name": "REGUL",
@@ -21,7 +15,8 @@
           "RackPriceRub": 120000,
           "TargetApplication": "Общепромышленная АСУ"
         }
-      ]
+      ],
+      "Id": 0
     },
     {
       "Name": "АБАК",
@@ -56,17 +51,21 @@
           "RackPriceRub": 0,
           "TargetApplication": "Общепромышленная АСУ"
         }
-      ]
+      ],
+      "Id": 0
     },
     {
       "Name": "TREI",
-      "Series": []
+      "Series": [],
+      "Id": 0
     },
     {
       "Name": "RealLaB",
-      "Series": []
+      "Series": [],
+      "Id": 0
     }
   ],
+  "Chassis": [],
   "Components": [
     {
       "Vendor": "REGUL",
@@ -1278,8 +1277,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "TREI",
-      "FamilyId": "ПЛК АБАК K2",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K2.CPU.00.00.00",
       "Category": "cpu",
       "Description": "2 Ethernet, 4 RS485, 2 USBhost, μUSBdevice, μSD, без резервирования системной шины питания и данных с модулями ввода-вывода (необходимо 3 шинных соединителя)",
@@ -1291,8 +1290,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "TREI",
-      "FamilyId": "ПЛК АБАК K2",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K2.DI.00.16.00",
       "Category": "di",
       "Description": "16 каналов, гальваническая изоляция по 2 каналам с общим минусом, уровни ГОСТ, горячая замена, без резервирования системной шины, 30VDC",
@@ -1304,8 +1303,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "TREI",
-      "FamilyId": "ПЛК АБАК K2",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K2.DO.00.16.00",
       "Category": "do",
       "Description": "16 каналов, гальваническая изоляция по 2 канала с общим минусом, горячая замена, без резервирования системной шины, 30VDC",
@@ -1317,8 +1316,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "TREI",
-      "FamilyId": "ПЛК АБАК K2",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K2.AI.00.08.01",
       "Category": "ai",
       "Description": "8 каналов, 0-20 мА (4-20 мА) и 0-10 В (1-5 В), гальваническая изоляция между каналами и схемой управления, гальваническая изоляция между каналами и вводом электропитания, общий минус, горячая замена, без резервирования системной шины",
@@ -1330,8 +1329,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "TREI",
-      "FamilyId": "ПЛК АБАК K2",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K2.AO.00.08.00",
       "Category": "ao",
       "Description": "8 каналов, 4-20мА, гальваническая изоляция, общий минус, горячая замена, без резервирования системной шины, активные выходы",
@@ -1343,8 +1342,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "TREI",
-      "FamilyId": "ПЛК АБАК K2",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K2.AO.01.08.01",
       "Category": "ao",
       "Description": "8 каналов, 0-10 В, общий минус, горячая замена, без резервирования системной шины, активные выходы",
@@ -1356,8 +1355,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "TREI",
-      "FamilyId": "ПЛК АБАК K2",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K2.TM.03.02.00",
       "Category": "st",
       "Description": "С функцией ретранслятора CAN, 2 физических интерфейса CAN, кольцевой режим резервирования.",
@@ -1369,8 +1368,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "TREI",
-      "FamilyId": "ПЛК АБАК K2",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K2.FM.00.08.00",
       "Category": "da",
       "Description": "8 каналов, 10кГц, поканальная гальваническая изоляция, гальваническая изоляция от шины питания, горячая замена, без резервирования системной шины, 30VDC",
@@ -1382,8 +1381,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "TREI",
-      "FamilyId": "ПЛК АБАК K2",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K2.DO.00.16.00",
       "Category": "do",
       "Description": "16 каналов, гальваническая изоляция по 2 канала с общим минусом, горячая замена, без резервирования системной шины, 30VDC",
@@ -1395,8 +1394,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "TREI",
-      "FamilyId": "ПЛК АБАК K2",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K2.FM.00.08.00",
       "Category": "da",
       "Description": "8 каналов, 10кГц, поканальная гальваническая изоляция, горячая замена, без резервирования системной шины, 30VDC",
@@ -1408,8 +1407,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "RealLaB",
-      "FamilyId": "ПЛК АБАК K3",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K3.CPU.00.00.00",
       "Category": "cpu",
       "Description": "3 Ethernet, 4 RS485, 4 USBhost, μUSBdevice, μSD, резервированная системная шина питания и данных с модулями ввода-вывода (необходимо 2 шинных соединителя), питание через модуль питания PM",
@@ -1421,8 +1420,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "RealLaB",
-      "FamilyId": "ПЛК АБАК K3",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K3.PM.01.00.00",
       "Category": "power",
       "Description": "для K3.CPU.00.00.00",
@@ -1434,8 +1433,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "RealLaB",
-      "FamilyId": "ПЛК АБАК K3",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K3.IM.01.00.00",
       "Category": "eu",
       "Description": "1 Ethernet, 4 RS485, 2 USBhost, обновленная версия с поддержкой резервированных ЦПУ",
@@ -1447,8 +1446,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "RealLaB",
-      "FamilyId": "ПЛК АБАК K3",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K3.TM.01.00.00",
       "Category": "st",
       "Description": "с функцией обеспечения питания модулей ввода-вывода с опцией подключения шины CAN к пружинной клемме",
@@ -1460,8 +1459,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "RealLaB",
-      "FamilyId": "ПЛК АБАК K3",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K3.TM.02.00.00",
       "Category": "st",
       "Description": "с функцией обеспечения питания модулей для резервированных систем с опцией подключения шины CAN к пружинной клемме",
@@ -1473,8 +1472,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "RealLaB",
-      "FamilyId": "ПЛК АБАК K3",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K3.DI.00.16.00",
       "Category": "di",
       "Description": "16 каналов, поканальная гальваническая изоляция, горячая замена, резервированная системная шина, 30VDC",
@@ -1486,8 +1485,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "RealLaB",
-      "FamilyId": "ПЛК АБАК K3",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K3.DO.00.16.00",
       "Category": "do",
       "Description": "16 каналов, поканальная гальваническая изоляция, горячая замена, резервированная системная шина, контроль цепей, 30VDC",
@@ -1499,8 +1498,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "RealLaB",
-      "FamilyId": "ПЛК АБАК K3",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K3.AI.00.08.00",
       "Category": "ai",
       "Description": "8 каналов 0-20мА (0-5В), поканальная гальваническая изоляция, горячая замена, резервированная системная шина, HART",
@@ -1512,8 +1511,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "RealLaB",
-      "FamilyId": "ПЛК АБАК K3",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K3.AI.02.08.00",
       "Category": "ai термосопротивлений",
       "Description": "8 каналов, гальваническая изоляция от шины, горячая замена, резервированная системная шина",
@@ -1525,8 +1524,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "RealLaB",
-      "FamilyId": "ПЛК АБАК K3",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K3.AI.03.08.00",
       "Category": "ai термопар",
       "Description": "8 каналов, гальваническая изоляция от шины, горячая замена, резервированная системная шина, типы термопар: R, S, B, J, T, E, K, N, A1, A2, A3, L, M",
@@ -1538,8 +1537,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "RealLaB",
-      "FamilyId": "ПЛК АБАК K3",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K3.AI.04.16.00",
       "Category": "ai",
       "Description": "16 каналов, 0-20мА (0-10В), гальваническая изоляция от шины, общий минус, горячая замена, резервированная системная шина",
@@ -1551,8 +1550,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "RealLaB",
-      "FamilyId": "ПЛК АБАК K3",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K3.AO.00.04.00",
       "Category": "ao",
       "Description": "4 канала, 4-20мА, поканальная гальваническая изоляция, горячая замена, резервированная системная шина, HART, активные выходы, контроль цепей (КЗ/обрыв)",
@@ -1564,8 +1563,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "RealLaB",
-      "FamilyId": "ПЛК АБАК K3",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K3.AO.01.08.00",
       "Category": "ao",
       "Description": "8 каналов, 0-10В, гальваническая изоляция от шины, общий минус, горячая замена, резервированная системная шина, активные выходы",
@@ -1577,8 +1576,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "RealLaB",
-      "FamilyId": "ПЛК АБАК K3",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K3.AO.04.08.00",
       "Category": "ao",
       "Description": "8 каналов, 0-20мА, гальваническая изоляция от шины, общий минус, горячая замена, резервированная системная шина, активные выходы, контроль цепей (КЗ/обрыв, ЦАП)",
@@ -1590,8 +1589,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "RealLaB",
-      "FamilyId": "ПЛК АБАК K3",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K3.FM.01.08.00",
       "Category": "модуль функциональный",
       "Description": "для пожарной сигнализации и управления, 8 каналов, групповая гальваническая изоляция, горячая замена, резервированная системная шина, контроль цепей",
@@ -1603,8 +1602,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "RealLaB",
-      "FamilyId": "ПЛК АБАК K3",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K3.AO.04.08.00",
       "Category": "ao",
       "Description": "8 каналов, 0-20мА, гальваническая изоляция от шины, общий минус, горячая замена, резервированная системная шина, активные выходы, контроль цепей (КЗ/обрыв)",
@@ -1616,8 +1615,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "RealLaB",
-      "FamilyId": "ПЛК АБАК K3",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K3.AI.04.16.00",
       "Category": "ai",
       "Description": "16 каналов, 0-20мА (0-10В), гальваническая изоляция от шины, общий минус, горячая замена, резервированная системная шина",
@@ -1629,8 +1628,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "RealLaB",
-      "FamilyId": "ПЛК АБАК K3",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K3.AO.00.04.00",
       "Category": "ao",
       "Description": "4 канала, 4-20мА, поканальная гальваническая изоляция, горячая замена, резервированная системная шина, HART, активные выходы",
@@ -1642,8 +1641,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "Unknown",
-      "FamilyId": "ПЛK АБАK K3 редизайн",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K3.CPU.10.00.00",
       "Category": "cpu",
       "Description": "3 Ethernet, 4 RS-485, 4 USB Host, Service USB Type C, μSD, резервированная системная шина питания и данных с модулями ввода-вывода, питание напрямую через шину TBUS (В СЕРОМ КОРПУСЕ)",
@@ -1655,8 +1654,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "Unknown",
-      "FamilyId": "ПЛK АБАK K3 редизайн",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K3.CPU.11.00.00",
       "Category": "cpu",
       "Description": "4х ядерный процессор, 4 Ethernet, 4 RS-485, 3 USB Host, Service USB Type C, μSD, резервированная системная шина питания и данных с модулями ввода-вывода, питание напрямую через шину TBUS (В СЕРОМ КОРПУСЕ)",
@@ -1668,8 +1667,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "Unknown",
-      "FamilyId": "ПЛK АБАK K3 редизайн",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K3.CPU.10.00.00",
       "Category": "cpu",
       "Description": "3 Ethernet, 4 RS-485, 4 USB Host, Service USB Type C, μSD, резервированная системная шина питания и данных с модулями ввода-вывода, питание напрямую через шину TBUS, редизайн",
@@ -1681,8 +1680,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "Unknown",
-      "FamilyId": "ПЛK АБАK K3 редизайн",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K3.CPU.11.00.00",
       "Category": "cpu",
       "Description": "4х ядерный процессор, 4 Ethernet, 4 RS-485, 3 USB Host, Service USB Type C, μSD, резервированная системная шина питания и данных с модулями ввода-вывода",
@@ -1694,8 +1693,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "Unknown",
-      "FamilyId": "ПЛK АБАK K3 редизайн",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K3.IM.11.00.00",
       "Category": "eu",
       "Description": "1 Ethernet, 4 RS485, 2 USBhost, обновленная версия с поддержкой резервированных ЦПУ, редизайн",
@@ -1707,8 +1706,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "Unknown",
-      "FamilyId": "ПЛK АБАK K3 редизайн",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K3.IM.12.04.00",
       "Category": "eu",
       "Description": "4 Profibus DP, версия с поддержкой резервированных ЦПУ",
@@ -1720,8 +1719,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "Unknown",
-      "FamilyId": "ПЛK АБАK K3 редизайн",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K3.TM.11.00.00",
       "Category": "st",
       "Description": "обеспечение питания модулей ввода-вывода, подключение к системной шине по интерфейсу CAN",
@@ -1733,8 +1732,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "Unknown",
-      "FamilyId": "ПЛK АБАK K3 редизайн",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K3.TM.12.00.00",
       "Category": "st",
       "Description": "обеспечение питания модулей ввода-вывода в резервированных системах, подключение к системной шине по интерфейсу CAN",
@@ -1746,8 +1745,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "Unknown",
-      "FamilyId": "ПЛK АБАK K3 редизайн",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K3.DI.10.16.00",
       "Category": "di",
       "Description": "16 каналов, поканальная гальваническая изоляция, горячая замена, резервированная системная шина, 30VDC, редизайн",
@@ -1759,8 +1758,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "Unknown",
-      "FamilyId": "ПЛK АБАK K3 редизайн",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K3.DI.12.32.00",
       "Category": "di",
       "Description": "32 канала, групповая гальваническая изоляция, горячая замена, резервированная системная шина, 30VDC",
@@ -1772,8 +1771,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "Unknown",
-      "FamilyId": "ПЛK АБАK K3 редизайн",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K3.DI.11.16.00",
       "Category": "di",
       "Description": "16 каналов, гальваническая изоляция 2 группы по 8 каналов, горячая замена, резервированная системная шина, 30VDC, контроль цепи (Namur)",
@@ -1785,8 +1784,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "Unknown",
-      "FamilyId": "ПЛK АБАK K3 редизайн",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K3.DO.10.16.00",
       "Category": "do",
       "Description": "16 каналов, поканальная гальваническая изоляция, горячая замена, резервированная системная шина, контроль цепей, 30VDC, редизайн",
@@ -1798,8 +1797,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "Unknown",
-      "FamilyId": "ПЛK АБАK K3 редизайн",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K3.DO.11.32.00",
       "Category": "do",
       "Description": "32 канала, групповая (4 группы по 8 каналов) гальваническая изоляция, горячая замена, резервированная системная шина, 30VDC",
@@ -1811,8 +1810,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "Unknown",
-      "FamilyId": "ПЛK АБАK K3 редизайн",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K3.AI.10.08.00",
       "Category": "ai",
       "Description": "8 каналов 0-20мА (0-5В), поканальная гальваническая изоляция, горячая замена, резервированная системная шина, HART, редизайн",
@@ -1824,8 +1823,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "Unknown",
-      "FamilyId": "ПЛK АБАK K3 редизайн",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K3.AI.12.08.00",
       "Category": "ai термосопротивлений",
       "Description": "8 каналов, гальваническая изоляция от шины, горячая замена, резервированная системная шина",
@@ -1837,8 +1836,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "Unknown",
-      "FamilyId": "ПЛK АБАK K3 редизайн",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K3.AI.14.16.00",
       "Category": "ai",
       "Description": "16 каналов, 0-20мА (0-10В), гальваническая изоляция от шины, общий минус, горячая замена, резервированная системная шина, редизайн",
@@ -1850,8 +1849,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "Unknown",
-      "FamilyId": "ПЛK АБАK K3 редизайн",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K3.AI.13.08.00",
       "Category": "ai термопар",
       "Description": "8 каналов, гальваническая изоляция от шины, горячая замена, резервированная системная шина, типы термопар: R, S, B, J, T, E, K, N, A1, A2, A3, L, M",
@@ -1863,8 +1862,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "Unknown",
-      "FamilyId": "ПЛK АБАK K3 редизайн",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K3.AO.10.04.00",
       "Category": "ao",
       "Description": "4 канала, 4-20мА, поканальная гальваническая изоляция, горячая замена, резервированная системная шина, HART, активные выходы, контроль цепей (КЗ/обрыв)",
@@ -1876,8 +1875,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "Unknown",
-      "FamilyId": "ПЛK АБАK K3 редизайн",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K3.AO.11.08.00",
       "Category": "ao",
       "Description": "8 каналов, 0-10 В, гальваническая изоляция между каналами и схемой управления, гальваническая изоляция между каналами и вводом электропитания, общий минус, горячая замена, резервированная системная шина, активные выходы",
@@ -1889,8 +1888,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "Unknown",
-      "FamilyId": "ПЛK АБАK K3 редизайн",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K3.AO.14.08.00",
       "Category": "ao",
       "Description": "8 каналов, 0-20мА, гальваническая изоляция от шины, общий минус, горячая замена, резервированная системная шина, активные выходы, контроль цепей (КЗ, обрыв, ЦАП), редизайн",
@@ -1902,8 +1901,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "Unknown",
-      "FamilyId": "ПЛK АБАK K3 редизайн",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K3.FM.12.08.00",
       "Category": "da",
       "Description": "8 каналов, до 10 кГц, поканальная гальваническая изоляция, горячая замена, резервированная системная шина, 30VDC",
@@ -1915,8 +1914,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "Unknown",
-      "FamilyId": "ПЛK АБАK K3 редизайн",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K3.TM.11.00.00",
       "Category": "st",
       "Description": "С функцией обеспечения питания модулей ввода-вывода с опцией подключения шины CAN к пружинной клемме, редизайн",
@@ -1928,8 +1927,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "Unknown",
-      "FamilyId": "ПЛK АБАK K3 редизайн",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K3.TM.12.00.00",
       "Category": "st",
       "Description": "с функцией обеспечения питания модулей для резервированных систем с опцией подключения шины CAN к пружинной клемме, редизайн",
@@ -1941,8 +1940,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "Unknown",
-      "FamilyId": "ПЛK АБАK K3 редизайн",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K3.AO.14.08.00",
       "Category": "ao",
       "Description": "8 каналов, 0-20 мА, общий минус, горячая замена, резервированная системная шина, активные выходы, контроль цепей (КЗ/обрыв)",
@@ -1954,8 +1953,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "Unknown",
-      "FamilyId": "ПЛK АБАK K3 редизайн",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K3.AI.10.08.00",
       "Category": "ai",
       "Description": "8 каналов 0-20мА (0-5В), поканальная гальваническая изоляция, горячая замена, резервированная системная шина, HART, редизайн",
@@ -1967,8 +1966,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "Unknown",
-      "FamilyId": "АБАК ПЛК для систем противоаварийной защиты (ПАЗ) с сертификатом УПБ2(SIL2)",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K3.CPU.00.00.00",
       "Category": "cpu",
       "Description": "3 Ethernet, 4 RS485, 4 USBhost, μUSBdevice, μSD, резервированная системная шина питания и данных с модулями ввода-вывода, питание через модуль питания PM",
@@ -1980,8 +1979,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "Unknown",
-      "FamilyId": "АБАК ПЛК для систем противоаварийной защиты (ПАЗ) с сертификатом УПБ2(SIL2)",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K3.PM.01.00.00",
       "Category": "power",
       "Description": "Для K3.CPU.00.00.00",
@@ -1993,8 +1992,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "Unknown",
-      "FamilyId": "АБАК ПЛК для систем противоаварийной защиты (ПАЗ) с сертификатом УПБ2(SIL2)",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K3.TM.02.00.01",
       "Category": "st",
       "Description": "С функцией обеспечения питания модулей для резервированных систем с опцией подключения шины CAN к пружинной клемме",
@@ -2006,8 +2005,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "Unknown",
-      "FamilyId": "АБАК ПЛК для систем противоаварийной защиты (ПАЗ) с сертификатом УПБ2(SIL2)",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K3.DI.00.16.00",
       "Category": "di",
       "Description": "16 каналов, поканальная гальваническая изоляция, горячая замена, резервированная системная шина, 30 В, SIL2 при ОАС (HFT=0), корпус серый с жёлтой лицевой панелью.",
@@ -2019,8 +2018,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "Unknown",
-      "FamilyId": "АБАК ПЛК для систем противоаварийной защиты (ПАЗ) с сертификатом УПБ2(SIL2)",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K3.DO.00.16.01",
       "Category": "do",
       "Description": "16 каналов, поканальная гальваническая изоляция, горячая замена, резервированная системная шина, контроль цепей, 30 В, SIL2 при ОАС (HFT=1), корпус серый с жёлтой лицевой панелью.",
@@ -2032,8 +2031,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "Unknown",
-      "FamilyId": "АБАК ПЛК для систем противоаварийной защиты (ПАЗ) с сертификатом УПБ2(SIL2)",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K3.AI.00.08.00",
       "Category": "ai",
       "Description": "8 каналов 0-20 мА (0-5 В), поканальная гальваническая изоляция, горячая замена, резервированная системная шина, HART, SIL2 при ОАС (HFT=1), корпус серый с жёлтой лицевой панелью.",
@@ -2045,8 +2044,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "Unknown",
-      "FamilyId": "АБАК ПЛК для систем противоаварийной защиты (ПАЗ) с сертификатом УПБ2(SIL2)",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K3.AI.04.16.00",
       "Category": "ai",
       "Description": "16 каналов, 0-20 мА (0-10 В), общий минус, горячая замена, резервированная системная шина,SIL2 при ОАС (HFT=1), корпус серый с жёлтой лицевой панелью.",
@@ -2058,8 +2057,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "Unknown",
-      "FamilyId": "АБАК ПЛК для систем противоаварийной защиты (ПАЗ) с сертификатом УПБ2(SIL2)",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K3.AO.00.04.00",
       "Category": "ao",
       "Description": "4 канала, 4-20 мА, поканальная гальваническая изоляция, горячая замена, резервированная системная шина, HART, активные выходы, SIL2 при ОАС (HFT=1), корпус серый с жёлтой лицевой панелью.",
@@ -2071,8 +2070,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "Unknown",
-      "FamilyId": "АБАК ПЛК для систем противоаварийной защиты (ПАЗ) с сертификатом УПБ2(SIL2)",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K3.AO.04.08.00",
       "Category": "ao",
       "Description": "8 каналов, 0-20 мА, общий минус, горячая замена, резервированная системная шина, активные выходы, контроль цепей (КЗ/обрыв), SIL2 при ОАС (HFT=1), корпус серый с жёлтой лицевой панелью.",
@@ -2084,8 +2083,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "Unknown",
-      "FamilyId": "АБАК ПЛК для систем противоаварийной защиты (ПАЗ) с сертификатом УПБ2(SIL2)",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K3.CPU.11.00.00",
       "Category": "cpu",
       "Description": "4 ядра, 4 Ethernet, 4 RS-485, 3 USB Host, Service USB Type C, μSD, резервированная системная шина питания и данных с модулями ввода-вывода, SIL2 при ОАС (HFT=0), корпус желтый",
@@ -2097,8 +2096,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "Unknown",
-      "FamilyId": "АБАК ПЛК для систем противоаварийной защиты (ПАЗ) с сертификатом УПБ2(SIL2)",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K3.CPU.11.00.00",
       "Category": "cpu",
       "Description": "4 ядра, 4 Ethernet, 4 RS-485, 3 USB Host, Service USB Type C, μSD, резервированная системная шина питания и данных с модулями ввода-вывода, SIL2 при ОАС (HFT=0), корпус серый, с желтой лицевой панелью, для модулей К3",
@@ -2110,8 +2109,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "Unknown",
-      "FamilyId": "АБАК ПЛК для систем противоаварийной защиты (ПАЗ) с сертификатом УПБ2(SIL2)",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K3.TM.12.00.00",
       "Category": "st",
       "Description": "питание резервированной системной шины, SIL2, пружинные клеммы, корпус жёлтый",
@@ -2123,8 +2122,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "Unknown",
-      "FamilyId": "АБАК ПЛК для систем противоаварийной защиты (ПАЗ) с сертификатом УПБ2(SIL2)",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K3.DI.10.16.00",
       "Category": "di",
       "Description": "16 каналов, поканальная гальваническая изоляция, горячая замена, резервированная системная шина, 30 В, SIL2 при ОАС (HFT=0), корпус желтый",
@@ -2136,8 +2135,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "Unknown",
-      "FamilyId": "АБАК ПЛК для систем противоаварийной защиты (ПАЗ) с сертификатом УПБ2(SIL2)",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K3.DI.11.16.00",
       "Category": "di",
       "Description": "16 каналов, групповая (2 группы по 8 каналов) гальваническая изоляция между каналами, горячая замена, резервированная системная шина, 30 В, контроль цепей (Namur), SIL2 при ОАС(HFT=0), корпус жёлтый",
@@ -2149,8 +2148,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "Unknown",
-      "FamilyId": "АБАК ПЛК для систем противоаварийной защиты (ПАЗ) с сертификатом УПБ2(SIL2)",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K3.AI.10.08.00",
       "Category": "ai",
       "Description": "8 каналов 0-20 мА (0-5 В), поканальная гальваническая изоляция, горячая замена, резервированная системная шина, HART, SIL2 при ОАС (HFT=0), корпус жёлтый",
@@ -2162,8 +2161,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "Unknown",
-      "FamilyId": "АБАК ПЛК для систем противоаварийной защиты (ПАЗ) с сертификатом УПБ2(SIL2)",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K3.AO.10.04.00",
       "Category": "ao",
       "Description": "4 канала 0-20 мА, поканальная гальваническая изоляция, горячая замена, резервированная системная шина, HART, SIL2 при ОАС (HFT=0), активные выходы, контроль цепей (КЗ/обрыв), корпус жёлтый",
@@ -2175,8 +2174,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "Unknown",
-      "FamilyId": "АБАК ПЛК с низким энергопотреблением (LE)",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K2.CPU.00.00.00",
       "Category": "cpu",
       "Description": "1 Ethernet, 2 RS485, μUSBdevice, μSD, без резервирования системной шины питания и данных с модулями ввода-вывода",
@@ -2188,8 +2187,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "Unknown",
-      "FamilyId": "АБАК ПЛК с низким энергопотреблением (LE)",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K2.DI.00.16.00",
       "Category": "di",
       "Description": "16 каналов, групповая (8 групп по 2 канала) гальваническая изоляция между каналами, с общим минусом, горячая замена, без резервирования системной шины, 30 В, 2 частотно-импульсных входа до 10 кГц",
@@ -2201,8 +2200,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "Unknown",
-      "FamilyId": "АБАК ПЛК с низким энергопотреблением (LE)",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K2.DO.00.16.00",
       "Category": "do",
       "Description": "16 каналов, групповая (8 групп по 2 канала) гальваническая изоляция между каналами, с общим минусом, горячая замена, без резервирования системной шины, 30 В",
@@ -2214,8 +2213,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "Unknown",
-      "FamilyId": "АБАК ПЛК с низким энергопотреблением (LE)",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K2.AI.00.08.01",
       "Category": "ai",
       "Description": "8 каналов, 0-20 мА (4-20 мА) и 0-10 В (1-5 В), гальваническая изоляция между каналами и схемой управления, общий минус, горячая замена, без резервирования системной шины",
@@ -2227,8 +2226,8 @@
       "CompatibleChassis": ""
     },
     {
-      "Vendor": "Unknown",
-      "FamilyId": "АБАК ПЛК с низким энергопотреблением (LE)",
+      "Vendor": "REGUL",
+      "FamilyId": "R500",
       "PartNumber": "K2.AO.00.08.00",
       "Category": "ao",
       "Description": "8 каналов, 4-20мА, гальваническая изоляция, общий минус, горячая замена, без резервирования системной шины, активные выходы",
@@ -3436,7 +3435,6 @@
       "CompatibleChassis": ""
     }
   ],
-  "Chassis": [],
   "Barriers": [
     {
       "Id": 1,
@@ -3468,5 +3466,39 @@
       "ChannelsPerBarrier": 4,
       "Description": "Барьер искрозащиты DI 4-канальный"
     }
-  ]
+  ],
+  "GlobalSettings": {
+    "ReserveAiPercent": 20,
+    "ReserveDiPercent": 20,
+    "DefaultCabinetWidthMm": 800,
+    "MaxBusCurrentA": 4.5
+  },
+  "TableMappings": [
+    {
+      "FamilyId": 1,
+      "SignalType": "AI",
+      "RecommendedModuleId": "1 (R500S AI 04)"
+    },
+    {
+      "FamilyId": 1,
+      "SignalType": "DI",
+      "RecommendedModuleId": "2 (R500S DI 16)"
+    },
+    {
+      "FamilyId": 1,
+      "SignalType": "DO",
+      "RecommendedModuleId": "3 (R500S DO 16)"
+    },
+    {
+      "FamilyId": 2,
+      "SignalType": "AI",
+      "RecommendedModuleId": "4 (ПЛК-160 AI 8)"
+    },
+    {
+      "FamilyId": 2,
+      "SignalType": "DI",
+      "RecommendedModuleId": "5 (ПЛК-160 DI 16)"
+    }
+  ],
+  "SystemDefaults": {}
 }

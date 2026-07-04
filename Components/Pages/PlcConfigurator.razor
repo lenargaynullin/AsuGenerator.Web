@@ -30,8 +30,11 @@
                                        Dense="true"
                                        Margin="Margin.Dense"
                                        Style="font-size: 11px;">
-                                <MudSelectItem Value="@("REGUL")">REGUL</MudSelectItem>
-                                <MudSelectItem Value="@("АБАК")">АБАК</MudSelectItem>
+                                @* ИСПРАВЛЕНО: Вендоры берутся напрямую из JSON-базы, без ручного хардкода *@
+                                @foreach (var vendor in UniversalService.GetAvailableVendors())
+                                {
+                                    <MudSelectItem Value="@vendor">@vendor</MudSelectItem>
+                                }
                             </MudSelect>
                         </MudItem>
                         <MudItem xs="4">
@@ -82,13 +85,16 @@
                         <MudGrid Dense="true" Spacing="1">
                             <MudItem xs="6">
                                 <MudSelect T="string" Label="Производитель 2"
-                                           @bind-Value="selectedVendor2"
+                                           Value="selectedVendor2"
+                                           ValueChanged="OnSecondVendorChanged"
                                            Variant="Variant.Outlined" Dense="true"
                                            Margin="Margin.Dense" Style="font-size: 11px; color: white;">
-                                    <MudSelectItem Value="@("ОВЕН")">ОВЕН</MudSelectItem>
-                                    <MudSelectItem Value="@("REGUL")">REGUL</MudSelectItem>
-                                    <MudSelectItem Value="@("АБАК")">АБАК К3</MudSelectItem>
+                                    @foreach (var vendor in UniversalService.GetAvailableVendors())
+                                    {
+                                        <MudSelectItem Value="@vendor">@vendor</MudSelectItem>
+                                    }
                                 </MudSelect>
+
                             </MudItem>
                             <MudItem xs="6">
                                 <MudSelect T="PlcComponent" Label="Контроллер 2 (CPU)"
@@ -819,23 +825,70 @@
         StateHasChanged();
     }
 
+    // =================================================================
+    // УПРОЩЕННЫЙ МЕТОД 1: ПОДБОР ЦПУ ПО НАПРЯМУЮ ЗАПИСАННОМУ БРЕНДУ
+    // =================================================================
+    private void UpdateAvailableCpus()
+    {
+        if (_plcDbRoot?.Components == null) return;
+
+        // Ищем компоненты, где категория "cpu" и в поле FamilyId жестко прописан бренд (REGUL или АБАК)
+        availableCpus = _plcDbRoot.Components
+            .Where(c => c.Category != null &&
+                        c.Category.Equals("cpu", StringComparison.OrdinalIgnoreCase) &&
+                        c.FamilyId != null &&
+                        c.FamilyId.Trim().Equals(selectedVendor, StringComparison.OrdinalIgnoreCase))
+            .Select(c => new PlcComponent
+            {
+                Article = c.PartNumber,
+                Name = c.Description,
+                Type = "cpu",
+                WidthMm = (int)c.WidthMm
+            }).ToList();
+
+        // Защитная заглушка, если база не считалась
+        if (!availableCpus.Any())
+        {
+            availableCpus.Add(new PlcComponent { Article = $"{selectedVendor}-CPU-UNKNOWN", Name = $"Процессор {selectedVendor} (нет в базе)", Type = "CPU", WidthMm = 80 });
+        }
+
+        selectedCpu = availableCpus.FirstOrDefault();
+        StateHasChanged();
+    }
+
+    // =================================================================
+    // УПРОЩЕННЫЙ МЕТОД 2: ДЛЯ РЕЖИМА СРАВНЕНИЯ ТКП
+    // =================================================================
     private void UpdateAvailableCpusForComparison()
     {
         if (_plcDbRoot?.Components == null) return;
 
         availableCpus2 = _plcDbRoot.Components
-                .Where(c => c.Vendor == selectedVendor2 && c.Category == "cpu")
-                .Select(c => new PlcComponent
-                {
-                    Article = c.PartNumber,
-                    Name = c.Description,
-                    Type = "CPU",
-                    WidthMm = (int)c.WidthMm
-                }).ToList();
+            .Where(c => c.Category != null &&
+                        c.Category.Equals("cpu", StringComparison.OrdinalIgnoreCase) &&
+                        c.FamilyId != null &&
+                        c.FamilyId.Trim().Equals(selectedVendor2, StringComparison.OrdinalIgnoreCase))
+            .Select(c => new PlcComponent
+            {
+                Article = c.PartNumber,
+                Name = c.Description,
+                Type = "CPU",
+                WidthMm = (int)c.WidthMm
+            }).ToList();
+
+        if (!availableCpus2.Any())
+        {
+            availableCpus2.Add(new PlcComponent { Article = $"{selectedVendor2}-CPU-UNKNOWN", Name = $"Процессор {selectedVendor2} (нет в базе)", Type = "CPU", WidthMm = 80 });
+        }
 
         selectedCpu2 = availableCpus2.FirstOrDefault();
         StateHasChanged();
     }
+
+
+
+
+
 
     // Обработчик смены второго вендора
     private void OnSecondVendorChanged(string vendor)
@@ -919,37 +972,9 @@
         _ => "mud-theme-secondary"
     };
 
-    private void UpdateAvailableCpus()
-    {
-        if (_plcDbRoot?.Components == null) return;
+    
 
-        // Ищем CPU, у которых Vendor совпадает с выбранным
-        availableCpus = _plcDbRoot.Components
-            .Where(c => c.Category.ToLower() == "cpu" &&
-                        c.Vendor.ToLower() == selectedVendor.ToLower())
-            .Select(c => new PlcComponent
-            {
-                Article = c.PartNumber,
-                Name = c.Description,
-                Type = "cpu",
-                WidthMm = (int)c.WidthMm
-            }).ToList();
-
-        // Если для вендора нет CPU в базе — заглушка
-        if (!availableCpus.Any())
-        {
-            availableCpus.Add(new PlcComponent
-            {
-                Article = $"{selectedVendor}-CPU-UNKNOWN",
-                Name = $"Процессор {selectedVendor} (нет в базе)",
-                Type = "CPU",
-                WidthMm = 80
-            });
-        }
-
-        selectedCpu = availableCpus.FirstOrDefault();
-        StateHasChanged();
-    }
+    
 
 
     private async Task SavePlcProjectToDashboard()

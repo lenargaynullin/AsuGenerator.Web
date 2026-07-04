@@ -246,6 +246,54 @@
                         MaxBusCurrentA = maxBusCurrent
                     };
                     _parsedLogs.Add($"[ОК] Считан лист defaults. Ток шины зафиксирован: {maxBusCurrent} А");
+                    // =================================================================
+                    // НОВОЕ: 4.5. ЛИСТ "mapping" (Столбцы: 1-family_id, 2-signal_type, 3-recommended_module_id)
+                    // =================================================================
+                    var mappingSheet = package.Workbook.Worksheets["mapping"];
+                    if (mappingSheet != null)
+                    {
+                        for (int row = 2; row <= mappingSheet.Dimension.End.Row; row++)
+                        {
+                            string fIdText = mappingSheet.Cells[row, 1].Text.Trim();
+                            if (string.IsNullOrEmpty(fIdText)) continue;
+
+                            rootDb.TableMappings.Add(new PlcMappingDto
+                            {
+                                FamilyId = int.Parse(fIdText),
+                                SignalType = mappingSheet.Cells[row, 2].Text.Trim().ToUpper(),
+                                RecommendedModuleId = mappingSheet.Cells[row, 3].Text.Trim()
+                            });
+                        }
+                        _parsedLogs.Add($"[ОК] Считан инженерный лист mapping. Загружено связей: {rootDb.TableMappings.Count} шт.");
+                    }
+
+                    // =================================================================
+                    // НОВОЕ: 5. ЛИСТ "defaults" (Динамическое чтение всех настроек и резервов)
+                    // =================================================================
+                    if (defaultsSheet != null)
+                    {
+                        rootDb.SystemDefaults = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+                        for (int row = 2; row <= defaultsSheet.Dimension.End.Row; row++)
+                        {
+                            string settingName = defaultsSheet.Cells[row, 1].Text.Trim();
+                            string settingValue = defaultsSheet.Cells[row, 2].Text.Trim();
+
+                            if (!string.IsNullOrEmpty(settingName))
+                            {
+                                rootDb.SystemDefaults[settingName] = settingValue;
+                            }
+                        }
+
+                        // Интегрируем уставки резерва в старые глобальные переменные для совместимости
+                        rootDb.GlobalSettings = new GlobalPlcSettings
+                        {
+                            ReserveAiPercent = rootDb.SystemDefaults.ContainsKey("reserve_ai_percent") ? int.Parse(rootDb.SystemDefaults["reserve_ai_percent"]) : 20,
+                            ReserveDiPercent = rootDb.SystemDefaults.ContainsKey("reserve_di_percent") ? int.Parse(rootDb.SystemDefaults["reserve_di_percent"]) : 20,
+                            DefaultCabinetWidthMm = 800,
+                            MaxBusCurrentA = 4.5
+                        };
+                        _parsedLogs.Add($"[ОК] Считан лист defaults. Резервы зафиксированы: AI={rootDb.GlobalSettings.ReserveAiPercent}%, DI={rootDb.GlobalSettings.ReserveDiPercent}%");
+                    }
 
                     // =================================================================
                     // 6. ЗАПИСЬ НА ДИСК СЕРВЕРА VDS (Генерация plc-base.json)
