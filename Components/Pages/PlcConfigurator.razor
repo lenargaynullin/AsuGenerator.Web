@@ -274,6 +274,11 @@
                        Disabled="@(calcResult == null || !calcResult.Cabinets.Any())">
                 Сохранить спецификацию ПЛК в проекты
             </MudButton>
+
+            <MudButton Variant="Variant.Outlined" Color="Color.Error" Size="Size.Small"
+                       OnClick="DiagnoseDatabase" Style="font-size: 10px;">
+                🔍 ДИАГНОСТИКА БАЗЫ
+            </MudButton>
         </MudItem>
 
                 <!-- ВЫВОД РЕЗУЛЬТАТОВ (ПРАВАЯ КОЛОНКА) -->
@@ -756,7 +761,10 @@
 
             // Добавляем CPU
             var cpu = _plcDbRoot.Components.FirstOrDefault(c =>
-                c.Vendor == selectedVendor && c.Category.ToLower() == "cpu");
+    c.Vendor != null &&
+    c.Vendor.Equals(selectedVendor, StringComparison.OrdinalIgnoreCase) &&
+    c.Category != null &&
+    c.Category.Equals("cpu", StringComparison.OrdinalIgnoreCase));
             if (cpu != null)
             {
                 basket.Modules.Add(new PlcComponent
@@ -773,9 +781,11 @@
             {
                 var category = signal.SignalType switch { "DI" => "DI", "DO" => "DO", "AI" => "AI", "AO" => "AO", _ => "" };
                 var module = _plcDbRoot.Components
-                    .Where(c => c.Vendor == selectedVendor && c.Category == category && c.Channels > 0)
-                    .OrderByDescending(c => c.Channels)
-                    .FirstOrDefault();
+    .Where(c => c.Vendor != null &&
+                c.Vendor.Equals(selectedVendor, StringComparison.OrdinalIgnoreCase) &&
+                c.Category == category && c.Channels > 0)
+    .OrderByDescending(c => c.Channels)
+    .FirstOrDefault();
 
                 if (module != null)
                 {
@@ -825,19 +835,15 @@
         StateHasChanged();
     }
 
-    // =================================================================
-    // УПРОЩЕННЫЙ МЕТОД 1: ПОДБОР ЦПУ ПО НАПРЯМУЮ ЗАПИСАННОМУ БРЕНДУ
-    // =================================================================
     private void UpdateAvailableCpus()
     {
         if (_plcDbRoot?.Components == null) return;
 
-        // Ищем компоненты, где категория "cpu" и в поле FamilyId жестко прописан бренд (REGUL или АБАК)
         availableCpus = _plcDbRoot.Components
             .Where(c => c.Category != null &&
                         c.Category.Equals("cpu", StringComparison.OrdinalIgnoreCase) &&
-                        c.FamilyId != null &&
-                        c.FamilyId.Trim().Equals(selectedVendor, StringComparison.OrdinalIgnoreCase))
+                        c.Vendor != null &&
+                        c.Vendor.Equals(selectedVendor, StringComparison.OrdinalIgnoreCase))
             .Select(c => new PlcComponent
             {
                 Article = c.PartNumber,
@@ -846,10 +852,15 @@
                 WidthMm = (int)c.WidthMm
             }).ToList();
 
-        // Защитная заглушка, если база не считалась
         if (!availableCpus.Any())
         {
-            availableCpus.Add(new PlcComponent { Article = $"{selectedVendor}-CPU-UNKNOWN", Name = $"Процессор {selectedVendor} (нет в базе)", Type = "CPU", WidthMm = 80 });
+            availableCpus.Add(new PlcComponent
+            {
+                Article = $"{selectedVendor}-CPU-UNKNOWN",
+                Name = $"Процессор {selectedVendor} (нет в базе)",
+                Type = "cpu",
+                WidthMm = 80
+            });
         }
 
         selectedCpu = availableCpus.FirstOrDefault();
@@ -866,19 +877,25 @@
         availableCpus2 = _plcDbRoot.Components
             .Where(c => c.Category != null &&
                         c.Category.Equals("cpu", StringComparison.OrdinalIgnoreCase) &&
-                        c.FamilyId != null &&
-                        c.FamilyId.Trim().Equals(selectedVendor2, StringComparison.OrdinalIgnoreCase))
+                        c.Vendor != null &&
+                        c.Vendor.Equals(selectedVendor2, StringComparison.OrdinalIgnoreCase))
             .Select(c => new PlcComponent
             {
                 Article = c.PartNumber,
                 Name = c.Description,
-                Type = "CPU",
+                Type = "cpu",
                 WidthMm = (int)c.WidthMm
             }).ToList();
 
         if (!availableCpus2.Any())
         {
-            availableCpus2.Add(new PlcComponent { Article = $"{selectedVendor2}-CPU-UNKNOWN", Name = $"Процессор {selectedVendor2} (нет в базе)", Type = "CPU", WidthMm = 80 });
+            availableCpus2.Add(new PlcComponent
+            {
+                Article = $"{selectedVendor2}-CPU-UNKNOWN",
+                Name = $"Процессор {selectedVendor2} (нет в базе)",
+                Type = "cpu",
+                WidthMm = 80
+            });
         }
 
         selectedCpu2 = availableCpus2.FirstOrDefault();
@@ -1097,6 +1114,34 @@
 
         JS.InvokeVoidAsync("open", url, "_blank");
     }
+    // Диагностика
+    private void DiagnoseDatabase()
+    {
+        if (_plcDbRoot?.Components == null)
+        {
+            Snackbar.Add("База не загружена!", Severity.Error);
+            return;
+        }
 
+        var vendors = _plcDbRoot.Components
+            .Select(c => c.Vendor)
+            .Distinct()
+            .ToList();
+
+        var cpus = _plcDbRoot.Components
+            .Where(c => c.Category != null && c.Category.Equals("cpu", StringComparison.OrdinalIgnoreCase))
+            .ToList();
+
+        var message = $"Вендоры в базе: {string.Join(", ", vendors)}\n";
+        message += $"CPU в базе: {cpus.Count} шт.\n";
+        foreach (var cpu in cpus)
+        {
+            message += $"  - {cpu.PartNumber} | Vendor='{cpu.Vendor}' | Category='{cpu.Category}' | FamilyId='{cpu.FamilyId}'\n";
+        }
+        message += $"\nТекущий selectedVendor='{selectedVendor}'";
+        message += $"\navailableCpus.Count={availableCpus.Count}";
+
+        Snackbar.Add(message, Severity.Info);
+    }
 
 }

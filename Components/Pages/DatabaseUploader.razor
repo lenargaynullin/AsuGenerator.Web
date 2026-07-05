@@ -104,13 +104,17 @@
                         int maxModules = int.TryParse(familySheet.Cells[row, 4].Text, out int mm) ? mm : 40;
                         decimal price = decimal.TryParse(familySheet.Cells[row, 5].Text, out decimal pr) ? pr : 0;
 
-                        string shortFamilyName = familyName.Replace("REGUL ", "");
+                        string shortFamilyName = familyName.Replace("REGUL ", "").Replace("АБАК ", "").Replace("ОВЕН ", "");
                         familyMap[fId] = shortFamilyName;
+
+                        // ✅ ДОБАВЬТЕ ЭТУ СТРОКУ:
+                        familyToVendor[fId] = vendorMap.ContainsKey(mId) ? vendorMap[mId].Name : "Unknown";
+
                         if (vendorMap.ContainsKey(mId))
                         {
                             vendorMap[mId].Series.Add(new PlcSeriesDto
                             {
-                                Id = shortFamilyName,
+                                Id = idText,
                                 MaxModulesPerRack = maxModules,
                                 RackPriceRub = price,
                                 TargetApplication = shortFamilyName.Contains("R500") ? "ПАЗ до SIL3 (Ростехнадзор)" : "Общепромышленная АСУ"
@@ -128,37 +132,84 @@
                     _parsedLogs.Add($"[ОК] Считан лист plc_families. Загружено линеек: {familyMap.Count}");
 
                     // =================================================================
-                    // 3. ЛИСТ "modules" (Строго по структуре ваших 16 столбцов)
+                    // 3. ЛИСТ "modules"
                     // =================================================================
                     var modulesSheet = package.Workbook.Worksheets["modules"];
                     if (modulesSheet == null) throw new Exception("Лист 'modules' не найден в файле!");
 
+                    // Найти столбец "category" по заголовку в первой строке
+                    int colCategory = 17; // по умолчанию Q
+                    for (int col = 1; col <= modulesSheet.Dimension.End.Column; col++)
+                    {
+                        string header = modulesSheet.Cells[1, col].Text.Trim();
+                        if (header.Equals("category", StringComparison.OrdinalIgnoreCase))
+                        {
+                            colCategory = col;
+                            _parsedLogs.Add($"[OK] Столбец 'category' найден: колонка {col} ({ColIndexToLetter(col)})");
+                            break;
+                        }
+                    }
+
                     for (int row = 2; row <= modulesSheet.Dimension.End.Row; row++)
                     {
-                        string moduleName = modulesSheet.Cells[row, 3].Text.Trim(); // C: module_name
+                        string moduleName = modulesSheet.Cells[row, 3].Text.Trim();
                         if (string.IsNullOrEmpty(moduleName)) continue;
 
-                        int fId = int.TryParse(modulesSheet.Cells[row, 2].Text, out int fid) ? fid : 1; // B: family_id
+                        int fId = int.TryParse(modulesSheet.Cells[row, 2].Text, out int fid) ? fid : 1;
+
+                        // Ищем manufacturer_id для этого family_id
+                        int mId = 1;
+                        for (int r = 2; r <= familySheet.Dimension.End.Row; r++)
+                        {
+                            if (int.TryParse(familySheet.Cells[r, 1].Text, out int fCheck) && fCheck == fId)
+                            {
+                                mId = int.TryParse(familySheet.Cells[r, 2].Text, out int mid) ? mid : 1;
+                                break;
+                            }
+                        }
+
+                        string vendorName = vendorMap.ContainsKey(mId) ? vendorMap[mId].Name : "Unknown";
                         string shortFamily = familyMap.ContainsKey(fId) ? familyMap[fId] : "R500";
-                        string fullArticul = moduleName; // Сборный b2b-артикул
+                        string fullArticul = moduleName;
 
-                        // Автоматически мапим категорию на основе буквенного кода (Лист module_type)
-                        string[] catCode = moduleName.Split(' ');
-                        
+                        // Читаем category из найденного столбца
+                        string rawCategory = modulesSheet.Cells[row, colCategory].Text.Trim();
+                        string dbCategory = rawCategory.ToLowerInvariant();
 
-                        // Считываем физические и электротехнические параметры
-                        int channels = int.TryParse(modulesSheet.Cells[row, 5].Text, out int ch) ? ch : 0; // E: channels
-                        double width = double.TryParse(modulesSheet.Cells[row, 7].Text, out double w) ? w : 40; // G: ширина
-                        double height = double.TryParse(modulesSheet.Cells[row, 8].Text, out double h) ? h : 180; // H: высота
-                        double internalPower = double.TryParse(modulesSheet.Cells[row, 9].Text, out double pBus) ? pBus : 0.1; // I: P от внут шины
+                        // Если категория пустая — определяем по артикулу
+                        if (string.IsNullOrEmpty(dbCategory) || dbCategory == "-" || dbCategory == "—")
+                        {
+                            dbCategory = fullArticul switch
+                            {
+                                string a when a.Contains("CU") || a.Contains("CPU") || a.Contains("ЦП") => "cpu",
+                                string a when a.Contains("PP") || a.Contains("PM") || a.Contains("PO") => "power",
+                                string a when a.Contains("DI") => "di",
+                                string a when a.Contains("DO") => "do",
+                                string a when a.Contains("AI") => "ai",
+                                string a when a.Contains("AO") => "ao",
+                                string a when a.Contains("CH") => "rack",
+                                string a when a.Contains("ST") || a.Contains("TM") => "terminal",
+                                string a when a.Contains("CL") => "terminal",
+                                string a when a.Contains("DN") => "rack",
+                                _ => "mixed"
+                            };
+                        }
 
-                        string desc = modulesSheet.Cells[row, 16].Text.Trim(); // P: description
-                        // Читаем категорию напрямую из Столбца 4(D) «Категория для БД», которую вы заполнили в Excel!
-                        string dbCategory = modulesSheet.Cells[row, 17].Text.Trim().ToLower();
-                        if (string.IsNullOrEmpty(dbCategory)) dbCategory = "mixed";
+                        // ДИАГНОСТИКА: первые 3 строки
+                        if (row <= 4)
+                        {
+                            _parsedLogs.Add($"[ДИАГНОСТИКА] Строка {row}: '{moduleName}' → category='{dbCategory}', vendor='{vendorName}', raw='{rawCategory}'");
+                        }
+
+                        int channels = int.TryParse(modulesSheet.Cells[row, 5].Text, out int ch) ? ch : 0;
+                        double width = double.TryParse(modulesSheet.Cells[row, 7].Text, out double w) ? w : 40;
+                        double height = double.TryParse(modulesSheet.Cells[row, 8].Text, out double h) ? h : 180;
+                        double internalPower = double.TryParse(modulesSheet.Cells[row, 9].Text, out double pBus) ? pBus : 0.1;
+                        string desc = modulesSheet.Cells[row, 16].Text.Trim();
+
                         var comp = new PlcComponentDto
                         {
-                            Vendor = vendorMap.ContainsKey(fId) ? vendorMap[fId].Name : "Unknown",
+                            Vendor = vendorName,
                             FamilyId = shortFamily,
                             PartNumber = fullArticul,
                             Category = dbCategory,
@@ -167,11 +218,10 @@
                             WidthMm = width,
                             HeightMm = height,
                             PowerConsumptionW = internalPower,
-                            TwoBusSupport = modulesSheet.Cells[row, 14].Text.Contains("да"), // N: Поддержка резервир. шины питания
-                            CompatibleChassis = modulesSheet.Cells[row, 12].Text.Trim() // L: Совместимый модуль шасси
+                            TwoBusSupport = modulesSheet.Cells[row, 14].Text.Contains("да"),
+                            CompatibleChassis = modulesSheet.Cells[row, 12].Text.Trim()
                         };
 
-                        // Если это шасси (CH) — дублируем его в b2b-коллекцию Chassis для Шага 1 Конфигуратора
                         if (dbCategory == "rack")
                         {
                             rootDb.Chassis.Add(new PlcChassisDto { PartNumber = fullArticul, WidthMm = width, Description = desc });
@@ -179,6 +229,7 @@
 
                         rootDb.Components.Add(comp);
                     }
+
                     _parsedLogs.Add($"[ОК] Считан лист modules. Сформировано компонентов ПЛК: {rootDb.Components.Count} шт.");
                     // =================================================================
                     // 4. ЛИСТ "barriers" (Столбцы: 1-id, 2-name, 3-signal_type, 4-channels_per_barrier, 5-price_rub)
@@ -324,5 +375,32 @@
             _isProcessing = false;
             StateHasChanged();
         }
+    }
+    private string ColIndexToLetter(int col)
+    {
+        return col switch
+        {
+            1 => "A",
+            2 => "B",
+            3 => "C",
+            4 => "D",
+            5 => "E",
+            6 => "F",
+            7 => "G",
+            8 => "H",
+            9 => "I",
+            10 => "J",
+            11 => "K",
+            12 => "L",
+            13 => "M",
+            14 => "N",
+            15 => "O",
+            16 => "P",
+            17 => "Q",
+            18 => "R",
+            19 => "S",
+            20 => "T",
+            _ => col.ToString()
+        };
     }
 }
