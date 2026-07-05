@@ -38,7 +38,7 @@ public class PlcComparisonEngine
         {
             try
             {
-                var result = _universalService.CalculateSystem(vendor, signals, cabinetWidth);
+                var (result, _) = _universalService.CalculateSystemWithDiagnostics(vendor, signals, cabinetWidth);
                 report[vendor] = result;
             }
             catch (Exception ex)

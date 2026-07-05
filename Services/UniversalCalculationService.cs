@@ -143,16 +143,21 @@ public class UniversalCalculationService
 
             int countWithReserve = (int)Math.Ceiling(count * reserveFactor);
 
+            // Базовый фильтр: категория + есть каналы
             var matchingModules = modules
                 .Where(m => m.Category != null &&
                             m.Category.Equals(category, StringComparison.OrdinalIgnoreCase) &&
-                            m.Channels > 0)
+                            m.Channels > 0);
+
+            // Дополнительный фильтр по типу сигнала
+            matchingModules = matchingModules.Where(m => IsModuleCompatible(key, m));
+
+            var bestModule = matchingModules
                 .OrderByDescending(m => m.Channels)
-                .ToList();
+                .FirstOrDefault();
 
-            if (!matchingModules.Any()) continue;
+            if (bestModule == null) continue;
 
-            var bestModule = matchingModules.First();
             int modulesNeeded = (int)Math.Ceiling((double)countWithReserve / bestModule.Channels);
             totalModules += modulesNeeded;
         }
@@ -179,7 +184,84 @@ public class UniversalCalculationService
             DeliveryTime = DeliveryTimes.GetValueOrDefault(vendorName, "Уточняется"),
         };
     }
+    /// <summary>
+    /// Проверяет, совместим ли модуль с конкретным типом сигнала.
+    /// Анализирует Description и PartNumber модуля.
+    /// </summary>
+    private bool IsModuleCompatible(string signalKey, PlcComponentDto module)
+    {
+        var desc = (module.Description ?? "").ToLower();
+        var part = (module.PartNumber ?? "").ToLower();
 
+        return signalKey switch
+        {
+            // AI токовые — в описании должны быть "4" и "20" (4-20 мА)
+            "AI_NIS_2W" or "AI_NIS_4W" or "AI_IS_2W" or "AI_IS_4W"
+                or "AI_R_NIS_2W" or "AI_R_NIS_4W" or "AI_R_IS_2W" or "AI_R_IS_4W"
+                => desc.Contains("4") && desc.Contains("20"),
+
+            // AI RTD — термосопротивления
+            "AI_RTD_NIS_3W"
+                => desc.Contains("термосопротивлени") || desc.Contains("rtd") || desc.Contains("pt100"),
+
+            // AI термопары
+            "AI_TC"
+                => desc.Contains("термопар") || desc.Contains("tc"),
+
+            // AI частота
+            "AI_NIS_PL_3W" or "AI_IS_PL_3W"
+                => desc.Contains("частот") || desc.Contains("импульс") || desc.Contains("кГц"),
+
+            // AO токовые
+            "AO_NIS" or "AO_IS" or "AO_R_IS" or "AO_R_NIS"
+                => desc.Contains("4") && desc.Contains("20") && desc.Contains("вывод"),
+
+            // AO напряжение
+            "AO_NIS_V" or "AO_IS_V"
+                => desc.Contains("0") && desc.Contains("10") && desc.Contains("в"),
+
+            // DI NAMUR
+            "DI_IS_NAMUR"
+                => desc.Contains("namur"),
+
+            // DI сухой контакт
+            "DI_NIS_DRY"
+                => desc.Contains("сухой") || desc.Contains("контакт"),
+
+            // DI 24V
+            "DI_NIS_24V"
+                => desc.Contains("24") && desc.Contains("в") && desc.Contains("ввод"),
+
+            // DI VFG (частотный)
+            "DI_NIS_VFG"
+                => desc.Contains("частот") || desc.Contains("импульс") || desc.Contains("vfg"),
+
+            // DI MCC 230VAC
+            "DI_NIS_MCC_230VAC"
+                => desc.Contains("230") || desc.Contains("220") && desc.Contains("ac"),
+
+            // DI MCC 220VDC
+            "DI_NIS_MCC_220VDC"
+                => desc.Contains("220") && desc.Contains("dc"),
+
+            // DO VFC
+            "DO_NIS_VFC"
+                => desc.Contains("vfc") || desc.Contains("сухой"),
+
+            // DO 24V
+            "DO_NIS_24V"
+                => desc.Contains("24") && desc.Contains("вывод"),
+
+            // DO MCC
+            "DO_NIS_MCC_230VAC"
+                => desc.Contains("230") || desc.Contains("220") && desc.Contains("ac") && desc.Contains("вывод"),
+            "DO_NIS_MCC_220VDC"
+                => desc.Contains("220") && desc.Contains("dc") && desc.Contains("вывод"),
+
+            // По умолчанию — подходит
+            _ => true,
+        };
+    }
     private decimal EstimateCost(string vendor, int totalModules, int racksCount)
     {
         decimal modulePrice = vendor switch
@@ -259,7 +341,6 @@ public class UniversalCalculationService
 
         log.Add($"🔍 Вендор: {vendorName}");
         log.Add($"📦 Всего модулей в базе: {modules.Count} шт.");
-        log.Add($"📦 Категории: {string.Join(", ", modules.Select(m => m.Category).Distinct())}");
         log.Add("");
 
         if (!modules.Any())
@@ -309,7 +390,6 @@ public class UniversalCalculationService
 
         double reserveFactor = 1 + ((double)signals.ReservePercent / 100.0);
         int totalModules = 1; // CPU
-        decimal totalCost = 0;
 
         foreach (var (key, label, count) in signalList)
         {
@@ -317,30 +397,42 @@ public class UniversalCalculationService
 
             if (!SignalToCategory.TryGetValue(key, out var category))
             {
-                log.Add($"⚠️ {label}: {count} шт. → категория не найдена");
+                log.Add($"⚠️ {label}: {count} шт. → категория не найдена в словаре");
                 continue;
             }
 
             int countWithReserve = (int)Math.Ceiling(count * reserveFactor);
 
-            var matchingModules = modules
+            // Все модули этой категории с каналами
+            var allCategoryModules = modules
                 .Where(m => m.Category != null &&
                             m.Category.Equals(category, StringComparison.OrdinalIgnoreCase) &&
                             m.Channels > 0)
+                .ToList();
+
+            log.Add($"🔎 {label}: {count} шт. (с резервом: {countWithReserve}) → категория '{category}'. Найдено модулей в категории: {allCategoryModules.Count}");
+
+            // Фильтруем по совместимости описания
+            var compatibleModules = allCategoryModules
+                .Where(m => IsModuleCompatible(key, m))
                 .OrderByDescending(m => m.Channels)
                 .ToList();
 
-            if (!matchingModules.Any())
+            if (!compatibleModules.Any())
             {
-                log.Add($"❌ {label}: {count} шт. (с резервом: {countWithReserve}) → нет модулей категории '{category}' в базе!");
+                log.Add($"❌ {label}: из {allCategoryModules.Count} модулей категории '{category}' ни один не совместим по описанию!");
+                if (allCategoryModules.Any())
+                {
+                    log.Add($"   Примеры модулей в категории: {string.Join(", ", allCategoryModules.Take(3).Select(m => $"{m.PartNumber} (desc: '{m.Description?.Substring(0, Math.Min(m.Description?.Length ?? 0, 60))}...')"))}");
+                }
                 continue;
             }
 
-            var bestModule = matchingModules.First();
+            var bestModule = compatibleModules.First();
             int modulesNeeded = (int)Math.Ceiling((double)countWithReserve / bestModule.Channels);
             totalModules += modulesNeeded;
 
-            log.Add($"✅ {label}: {count} шт. (с резервом: {countWithReserve}) → {modulesNeeded} × {bestModule.PartNumber} ({bestModule.Channels} кан.)");
+            log.Add($"✅ {label}: {modulesNeeded} × {bestModule.PartNumber} (каналов: {bestModule.Channels}, ширина: {bestModule.WidthMm}мм)");
         }
 
         int maxPerRack = series.MaxModulesPerRack > 0 ? series.MaxModulesPerRack : 40;
@@ -350,6 +442,7 @@ public class UniversalCalculationService
 
         log.Add("");
         log.Add($"📊 ИТОГО: модулей={totalModules}, крейтов={racksCount}, шкафов={cabinetsCount}");
+        log.Add($"💰 Стоимость: {EstimateCost(vendorName, totalModules, racksCount):N0} ₽");
 
         var result = new PlcComparisonResult
         {

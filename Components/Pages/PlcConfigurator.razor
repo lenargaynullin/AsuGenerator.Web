@@ -256,15 +256,12 @@
                        Style="font-size: 11px; height: 32px; background-color: #3cb890; color: white; font-weight: bold;">
                 Сгенерировать корзины
             </MudButton>
-            @* ДИАГНОСТИЧЕСКИЙ ЛОГ *@
-            @if (diagLog != null && diagLog.Any())
+            @if (diagLog != null && diagLog.Count > 0)
             {
-                <MudPaper Class="pa-3 mt-4" Style="max-height: 400px; overflow-y: auto; background-color: #1e293b; color: #94a3b8; font-family: monospace; font-size: 10px;">
+                <MudPaper Class="pa-3 mt-3" Style="background-color: #0f172a; border: 1px solid #334155;">
                     @foreach (var line in diagLog)
                     {
-                        <div style="color: @(line.StartsWith("✅") ? "#4caf50" : line.StartsWith("❌") ? "#f44336" : line.StartsWith("⚠️") ? "#ff9800" : "#94a3b8")">
-                            @line
-                        </div>
+                        <div style="color: #94a3b8; font-family: monospace; font-size: 10px;">@line</div>
                     }
                 </MudPaper>
             }
@@ -756,14 +753,17 @@
 
             
             // Используем UniversalCalculationService для любого вендора
-            var (result, diagLog) = UniversalService.CalculateSystemWithDiagnostics(selectedVendor, signals, cabinetWidth);
+            var (result, log) = UniversalService.CalculateSystemWithDiagnostics(selectedVendor, signals, cabinetWidth);
+            diagLog = log;  // <-- вот эта строка важна!
+
+            // ВРЕМЕННАЯ ОТЛАДКА
+            Snackbar.Add($"Строк в логе: {diagLog?.Count ?? 0}", Severity.Warning);
+            if (diagLog != null && diagLog.Any())
+            {
+                Snackbar.Add($"Первая строка: {diagLog[0]}", Severity.Info);
+            }
 
             // Выводим диагностику
-            foreach (var line in diagLog)
-            {
-                Console.WriteLine(line);
-            }
-            // Выводим ВЕСЬ лог диагностики
             foreach (var line in diagLog)
             {
                 Console.WriteLine(line);
@@ -773,6 +773,9 @@
             int notFound = diagLog.Count(l => l.StartsWith("❌"));
             int warnings = diagLog.Count(l => l.StartsWith("⚠️"));
             Snackbar.Add($"Подобрано: {found} типов сигналов. Не найдено: {notFound}. Предупреждений: {warnings}.", Severity.Info);
+
+            // Принудительно показываем лог
+            StateHasChanged();
 
             // Формируем визуальный результат в старом формате calcResult
             calcResult = new PlcCabinetCalculationResult();
@@ -805,30 +808,85 @@
                 });
             }
 
-            // Добавляем модули ввода-вывода по результатам расчёта
-            foreach (var signal in inputSignals)
-            {
-                var category = signal.SignalType switch { "DI" => "DI", "DO" => "DO", "AI" => "AI", "AO" => "AO", _ => "" };
-                var module = _plcDbRoot.Components
-    .Where(c => c.Vendor != null &&
-                c.Vendor.Equals(selectedVendor, StringComparison.OrdinalIgnoreCase) &&
-                c.Category == category && c.Channels > 0)
-    .OrderByDescending(c => c.Channels)
-    .FirstOrDefault();
+            // Добавляем модули ввода-вывода из signals (25 типов)
+            reserveFactor = 1 + ((double)signals.ReservePercent / 100.0);
 
-                if (module != null)
+            var signalList = new List<(string Category, int Count)>
+{
+    ("ai", (int)Math.Ceiling(signals.AiNisCurrent2W * reserveFactor)),
+    ("ai", (int)Math.Ceiling(signals.AiNisCurrent4W * reserveFactor)),
+    ("ai", (int)Math.Ceiling(signals.AiRtdNis3W * reserveFactor)),
+    ("ai", (int)Math.Ceiling(signals.AiNisPl3W * reserveFactor)),
+    ("ai", (int)Math.Ceiling(signals.AiIsCurrent2W * reserveFactor)),
+    ("ai", (int)Math.Ceiling(signals.AiIsCurrent4W * reserveFactor)),
+    ("ai", (int)Math.Ceiling(signals.AiIsPl3W * reserveFactor)),
+    ("ai", (int)Math.Ceiling(signals.AiRNisCurrent2W * reserveFactor)),
+    ("ai", (int)Math.Ceiling(signals.AiRNisCurrent4W * reserveFactor)),
+    ("ai", (int)Math.Ceiling(signals.AiRIsCurrent2W * reserveFactor)),
+    ("ai", (int)Math.Ceiling(signals.AiRIsCurrent4W * reserveFactor)),
+    ("ao", (int)Math.Ceiling(signals.AoNisCurrent * reserveFactor)),
+    ("ao", (int)Math.Ceiling(signals.AoNisVoltage * reserveFactor)),
+    ("ao", (int)Math.Ceiling(signals.AoIsCurrent * reserveFactor)),
+    ("ao", (int)Math.Ceiling(signals.AoIsVoltage * reserveFactor)),
+    ("ao", (int)Math.Ceiling(signals.AoRIsCurrent * reserveFactor)),
+    ("ao", (int)Math.Ceiling(signals.AoRNisCurrent * reserveFactor)),
+    ("di", (int)Math.Ceiling(signals.DiIsNamur * reserveFactor)),
+    ("di", (int)Math.Ceiling(signals.DiNisDryContact * reserveFactor)),
+    ("di", (int)Math.Ceiling(signals.DiNis24VDC * reserveFactor)),
+    ("di", (int)Math.Ceiling(signals.DiNisVfg * reserveFactor)),
+    ("di", (int)Math.Ceiling(signals.DiNisMcc230VAC * reserveFactor)),
+    ("di", (int)Math.Ceiling(signals.DiNisMcc220VDC * reserveFactor)),
+    ("do", (int)Math.Ceiling(signals.DoNisVfcNO * reserveFactor)),
+    ("do", (int)Math.Ceiling(signals.DoNis24VDC * reserveFactor)),
+    ("do", (int)Math.Ceiling(signals.DoNisMcc230VAC * reserveFactor)),
+    ("do", (int)Math.Ceiling(signals.DoNisMcc220VDC * reserveFactor)),
+};
+
+            const int MaxModulesPerBasket = 40;
+            const int MaxWidthPerBasket = 581;
+
+            int currentBasketWidth = 0; // Ширина CPU уже в корзине
+
+            foreach (var (category, count) in signalList)
+            {
+                if (count <= 0) continue;
+
+                var bestModule = _plcDbRoot.Components
+                    .Where(c => c.Vendor != null &&
+                                c.Vendor.Equals(selectedVendor, StringComparison.OrdinalIgnoreCase) &&
+                                c.Category != null &&
+                                c.Category.Equals(category, StringComparison.OrdinalIgnoreCase) &&
+                                c.Channels > 0)
+                    .OrderByDescending(c => c.Channels)
+                    .FirstOrDefault();
+
+                if (bestModule == null) continue;
+
+                int modulesNeeded = (int)Math.Ceiling((double)count / bestModule.Channels);
+
+                for (int i = 0; i < modulesNeeded; i++)
                 {
-                    int count = (int)Math.Ceiling((double)signal.TotalWithReserve / module.Channels);
-                    for (int i = 0; i < count; i++)
+                    // Проверяем, нужно ли создать новую корзину
+                    if (basket.Modules.Count >= MaxModulesPerBasket ||
+                        currentBasketWidth + bestModule.WidthMm > MaxWidthPerBasket)
                     {
-                        basket.Modules.Add(new PlcComponent
-                        {
-                            Article = module.PartNumber,
-                            Type = category,
-                            WidthMm = (int)module.WidthMm,
-                            HeightMm = (int)module.HeightMm
-                        });
+                        // Сохраняем текущую корзину
+                        node.Baskets.Add(basket);
+
+                        // Создаём новую
+                        basket = new PlcBasket();
+                        currentBasketWidth = 0;
                     }
+
+                    basket.Modules.Add(new PlcComponent
+                    {
+                        Article = bestModule.PartNumber,
+                        Type = category.ToUpper(),
+                        WidthMm = (int)bestModule.WidthMm,
+                        HeightMm = (int)bestModule.HeightMm
+                    });
+
+                    currentBasketWidth += (int)bestModule.WidthMm;
                 }
             }
 
