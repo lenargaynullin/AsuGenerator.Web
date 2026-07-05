@@ -26,10 +26,10 @@ public class PlcComparisonEngine
     }
 
     public Dictionary<string, PlcComparisonResult> CompareSystems(
-        List<IoSignalRow> inputSignals,
-        double cabinetWidth,
-        PlcBaseRoot plcDbRoot,
-        List<string>? vendorFilter = null)
+    SignalRequirement signals,      // ← было List<IoSignalRow> inputSignals
+    double cabinetWidth,
+    PlcBaseRoot plcDbRoot,
+    List<string>? vendorFilter = null)
     {
         var report = new Dictionary<string, PlcComparisonResult>();
         var vendorsToCompare = vendorFilter ?? _universalService.GetAvailableVendors();
@@ -38,7 +38,7 @@ public class PlcComparisonEngine
         {
             try
             {
-                var result = _universalService.CalculateSystem(vendor, inputSignals, cabinetWidth);
+                var result = _universalService.CalculateSystem(vendor, signals, cabinetWidth);
                 report[vendor] = result;
             }
             catch (Exception ex)

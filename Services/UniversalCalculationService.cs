@@ -5,25 +5,51 @@ using System.Linq;
 
 namespace AsuGenerator.Web.Services;
 
-/// <summary>
-/// Универсальный сервис расчёта системы ПЛК для любого вендора из plc-base.json.
-/// Заменяет разрозненные RegulCalculationService, PlcCalculationService и AbakCalculationService.
-/// </summary>
 public class UniversalCalculationService
 {
     private readonly PlcBaseRoot _db;
 
-    // Соответствие категорий сигналов → категории модулей в базе
-    private static readonly Dictionary<string, string> SignalToModuleCategory = new()
+    // Маппинг 25 типов сигналов на категории модулей
+    private static readonly Dictionary<string, string> SignalToCategory = new(StringComparer.OrdinalIgnoreCase)
     {
-        ["DI"] = "DI",
-        ["DO"] = "DO",
-        ["AI"] = "AI",
-        ["AO"] = "AO",
+        // Аналоговые входы (AI)
+        ["AI_NIS_2W"] = "ai",
+        ["AI_NIS_4W"] = "ai",
+        ["AI_RTD_NIS_3W"] = "ai",
+        ["AI_NIS_PL_3W"] = "ai",
+        ["AI_IS_2W"] = "ai",
+        ["AI_IS_4W"] = "ai",
+        ["AI_IS_PL_3W"] = "ai",
+        ["AI_R_NIS_2W"] = "ai",
+        ["AI_R_NIS_4W"] = "ai",
+        ["AI_R_IS_2W"] = "ai",
+        ["AI_R_IS_4W"] = "ai",
+
+        // Аналоговые выходы (AO)
+        ["AO_NIS"] = "ao",
+        ["AO_NIS_V"] = "ao",
+        ["AO_IS"] = "ao",
+        ["AO_IS_V"] = "ao",
+        ["AO_R_IS"] = "ao",
+        ["AO_R_NIS"] = "ao",
+
+        // Дискретные входы (DI)
+        ["DI_IS_NAMUR"] = "di",
+        ["DI_NIS_DRY"] = "di",
+        ["DI_NIS_24V"] = "di",
+        ["DI_NIS_VFG"] = "di",
+        ["DI_NIS_MCC_230VAC"] = "di",
+        ["DI_NIS_MCC_220VDC"] = "di",
+
+        // Дискретные выходы (DO)
+        ["DO_NIS_VFC"] = "do",
+        ["DO_NIS_24V"] = "do",
+        ["DO_NIS_MCC_230VAC"] = "do",
+        ["DO_NIS_MCC_220VDC"] = "do",
     };
 
-    // Сроки поставки по вендорам (недели)
-    private static readonly Dictionary<string, string> DeliveryTimes = new()
+    // Сроки поставки
+    private static readonly Dictionary<string, string> DeliveryTimes = new(StringComparer.OrdinalIgnoreCase)
     {
         ["REGUL"] = "4–8 недель",
         ["ОВЕН"] = "1–2 недели",
@@ -37,17 +63,13 @@ public class UniversalCalculationService
 
     /// <summary>
     /// Рассчитать систему для указанного вендора.
+    /// Принимает SignalRequirement с 25 типами сигналов.
     /// </summary>
-    /// <param name="vendorName">Имя вендора: REGUL, ОВЕН, АБАК</param>
-    /// <param name="signals">Список сигналов с количеством</param>
-    /// <param name="cabinetWidthMm">Ширина шкафа в мм</param>
-    /// <returns>Результат расчёта для ТКП-сравнения</returns>
     public PlcComparisonResult CalculateSystem(
         string vendorName,
-        List<IoSignalRow> signals,
+        SignalRequirement signals,
         double cabinetWidthMm)
     {
-        // 1. Проверяем, есть ли вендор в базе
         var vendor = _db.Vendors?.FirstOrDefault(v =>
             v.Name.Equals(vendorName, StringComparison.OrdinalIgnoreCase));
 
@@ -58,67 +80,93 @@ public class UniversalCalculationService
         if (series == null)
             return CreateError(vendorName, "Нет данных о серии ПЛК");
 
-        // 2. Получаем все модули этого вендора
         var modules = _db.Components
-            .Where(c => c.Vendor.Equals(vendorName, StringComparison.OrdinalIgnoreCase))
+            .Where(c => c.Vendor != null &&
+                        c.Vendor.Equals(vendorName, StringComparison.OrdinalIgnoreCase))
             .ToList();
 
         if (!modules.Any())
             return CreateError(vendorName, "Нет модулей в базе");
 
-        // 3. Ищем CPU
         var cpu = modules.FirstOrDefault(m =>
-            m.Category.Equals("cpu", StringComparison.OrdinalIgnoreCase));
+            m.Category != null && m.Category.Equals("cpu", StringComparison.OrdinalIgnoreCase));
 
         if (cpu == null)
             return CreateError(vendorName, "ЦПУ не найден в базе");
 
-        // 4. Подбираем модули под каждый тип сигнала
-        int totalModules = 1; // Начинаем с CPU
-        decimal totalCost = 0;
-        var selectedModules = new List<(PlcComponentDto Module, int Count)>();
-
-        foreach (var signal in signals)
+        // Собираем все сигналы в плоский список с ключами типа
+        var signalList = new List<(string Key, int Count)>
         {
-            if (signal.TotalWithReserve <= 0) continue;
+            // AI
+            ("AI_NIS_2W", signals.AiNisCurrent2W),
+            ("AI_NIS_4W", signals.AiNisCurrent4W),
+            ("AI_RTD_NIS_3W", signals.AiRtdNis3W),
+            ("AI_NIS_PL_3W", signals.AiNisPl3W),
+            ("AI_IS_2W", signals.AiIsCurrent2W),
+            ("AI_IS_4W", signals.AiIsCurrent4W),
+            ("AI_IS_PL_3W", signals.AiIsPl3W),
+            ("AI_R_NIS_2W", signals.AiRNisCurrent2W),
+            ("AI_R_NIS_4W", signals.AiRNisCurrent4W),
+            ("AI_R_IS_2W", signals.AiRIsCurrent2W),
+            ("AI_R_IS_4W", signals.AiRIsCurrent4W),
+            // AO
+            ("AO_NIS", signals.AoNisCurrent),
+            ("AO_NIS_V", signals.AoNisVoltage),
+            ("AO_IS", signals.AoIsCurrent),
+            ("AO_IS_V", signals.AoIsVoltage),
+            ("AO_R_IS", signals.AoRIsCurrent),
+            ("AO_R_NIS", signals.AoRNisCurrent),
+            // DI
+            ("DI_IS_NAMUR", signals.DiIsNamur),
+            ("DI_NIS_DRY", signals.DiNisDryContact),
+            ("DI_NIS_24V", signals.DiNis24VDC),
+            ("DI_NIS_VFG", signals.DiNisVfg),
+            ("DI_NIS_MCC_230VAC", signals.DiNisMcc230VAC),
+            ("DI_NIS_MCC_220VDC", signals.DiNisMcc220VDC),
+            // DO
+            ("DO_NIS_VFC", signals.DoNisVfcNO),
+            ("DO_NIS_24V", signals.DoNis24VDC),
+            ("DO_NIS_MCC_230VAC", signals.DoNisMcc230VAC),
+            ("DO_NIS_MCC_220VDC", signals.DoNisMcc220VDC),
+        };
 
-            // Определяем категорию модуля под тип сигнала
-            if (!SignalToModuleCategory.TryGetValue(signal.SignalType, out var category))
+        double reserveFactor = 1 + ((double)signals.ReservePercent / 100.0);
+        int totalModules = 1; // CPU
+        decimal totalCost = 0;
+
+        foreach (var (key, count) in signalList)
+        {
+            if (count <= 0) continue;
+
+            if (!SignalToCategory.TryGetValue(key, out var category))
                 continue;
 
-            // Ищем модули этой категории, сортируем по убыванию каналов
+            int countWithReserve = (int)Math.Ceiling(count * reserveFactor);
+
             var matchingModules = modules
-                .Where(m => m.Category.Equals(category, StringComparison.OrdinalIgnoreCase)
-                         && m.Channels > 0)
+                .Where(m => m.Category != null &&
+                            m.Category.Equals(category, StringComparison.OrdinalIgnoreCase) &&
+                            m.Channels > 0)
                 .OrderByDescending(m => m.Channels)
                 .ToList();
 
             if (!matchingModules.Any()) continue;
 
-            // Берём самый ёмкий модуль
             var bestModule = matchingModules.First();
-            int modulesNeeded = (int)Math.Ceiling((double)signal.TotalWithReserve / bestModule.Channels);
-
+            int modulesNeeded = (int)Math.Ceiling((double)countWithReserve / bestModule.Channels);
             totalModules += modulesNeeded;
-            selectedModules.Add((bestModule, modulesNeeded));
         }
 
-        // 5. Считаем крейты
-        int maxPerRack = series.MaxModulesPerRack > 0 ? series.MaxModulesPerRack : 12;
+        // Крейты
+        int maxPerRack = series.MaxModulesPerRack > 0 ? series.MaxModulesPerRack : 40;
         int racksCount = (int)Math.Ceiling((double)totalModules / maxPerRack);
 
-        // 6. Считаем шкафы
-        // Упрощённо: полезная высота панели = высота шкафа (2000 мм) – 200 мм (короба и кабельный ввод) = 1800 мм
-        // Высота одного крейта с модулями ≈ 250 мм (модули + шасси + короб)
-        const double rackHeightMm = 250.0;
-        double usefulPanelHeightMm = cabinetWidthMm >= 800 ? 1800 : 1400;
-        int racksPerCabinet = (int)Math.Floor(usefulPanelHeightMm / rackHeightMm);
-        if (racksPerCabinet < 1) racksPerCabinet = 1;
-
+        // Шкафы (упрощённо)
+        int racksPerCabinet = cabinetWidthMm >= 800 ? 2 : 1;
         int cabinetsCount = (int)Math.Ceiling((double)racksCount / racksPerCabinet);
 
-        // 7. Считаем стоимость (заглушки — замените на API ЭТМ)
-        totalCost = EstimateCost(vendorName, cpu, selectedModules, racksCount);
+        // Стоимость
+        totalCost = EstimateCost(vendorName, totalModules, racksCount);
 
         return new PlcComparisonResult
         {
@@ -132,78 +180,45 @@ public class UniversalCalculationService
         };
     }
 
-    /// <summary>
-    /// Оценка стоимости (заглушка до интеграции API ЭТМ).
-    /// </summary>
-    private decimal EstimateCost(
-        string vendor,
-        PlcComponentDto cpu,
-        List<(PlcComponentDto Module, int Count)> selectedModules,
-        int racksCount)
+    private decimal EstimateCost(string vendor, int totalModules, int racksCount)
     {
-        decimal total = 0;
+        decimal modulePrice = vendor switch
+        {
+            "REGUL" => 30000m,
+            "АБАК" => 15000m,
+            "ОВЕН" => 12000m,
+            _ => 10000m,
+        };
 
-        // CPU
-        total += vendor switch
+        decimal rackPrice = vendor switch
+        {
+            "REGUL" => 85000m,
+            "АБАК" => 45000m,
+            "ОВЕН" => 30000m,
+            _ => 25000m,
+        };
+
+        decimal cpuPrice = vendor switch
         {
             "REGUL" => 185000m,
-            "ОВЕН" => 45000m,
             "АБАК" => 65000m,
+            "ОВЕН" => 45000m,
             _ => 50000m,
         };
 
-        // Модули
-        foreach (var (module, count) in selectedModules)
-        {
-            decimal unitPrice = module.Category?.ToUpper() switch
-            {
-                "DI" => vendor switch
-                {
-                    "REGUL" => module.Channels >= 32 ? 38000m : 28000m,
-                    "ОВЕН" => 12000m,
-                    "АБАК" => 15000m,
-                    _ => 10000m,
-                },
-                "DO" => vendor switch
-                {
-                    "REGUL" => module.Channels >= 32 ? 35000m : 25000m,
-                    "ОВЕН" => 14000m,
-                    "АБАК" => 17000m,
-                    _ => 12000m,
-                },
-                "AI" => vendor switch
-                {
-                    "REGUL" => module.Channels >= 8 ? 42000m : 28000m,
-                    "ОВЕН" => 18000m,
-                    "АБАК" => 22000m,
-                    _ => 15000m,
-                },
-                "AO" => vendor switch
-                {
-                    "REGUL" => 32000m,
-                    "ОВЕН" => 16000m,
-                    "АБАК" => 20000m,
-                    _ => 14000m,
-                },
-                _ => 10000m,
-            };
-
-            total += unitPrice * count;
-        }
-
-        // Крейты и шасси
-        total += vendor switch
-        {
-            "REGUL" => 85000m * racksCount,
-            _ => 30000m * racksCount,
-        };
-
-        return total;
+        return cpuPrice + (modulePrice * totalModules) + (rackPrice * racksCount);
     }
 
-    /// <summary>
-    /// Создать результат с ошибкой.
-    /// </summary>
+    public List<string> GetAvailableVendors()
+    {
+        return _db.Vendors?
+            .Where(v => _db.Components.Any(c =>
+                c.Vendor != null &&
+                c.Vendor.Equals(v.Name, StringComparison.OrdinalIgnoreCase)))
+            .Select(v => v.Name)
+            .ToList() ?? new List<string>();
+    }
+
     private static PlcComparisonResult CreateError(string vendor, string error)
     {
         return new PlcComparisonResult
@@ -217,34 +232,136 @@ public class UniversalCalculationService
             DeliveryTime = "—",
         };
     }
-
     /// <summary>
-    /// Получить список всех вендоров из базы.
+    /// Рассчитать систему с диагностикой — возвращает и результат, и лог подбора.
     /// </summary>
-    public List<string> GetAvailableVendors()
+    public (PlcComparisonResult Result, List<string> Log) CalculateSystemWithDiagnostics(
+        string vendorName,
+        SignalRequirement signals,
+        double cabinetWidthMm)
     {
-        // ИСПРАВЛЕНО: Используем локальное имя переменной базы данных _db из вашего сервиса
-        if (_db == null || _db.Vendors == null) return new List<string> { "REGUL", "АБАК" };
+        var log = new List<string>();
 
-        // 1. Извлекаем из plc_families (Chassis) все активные ID производителей
-        var activeManufacturerIds = _db.Chassis
-            .Select(f => f.ManufacturerId)
-            .Distinct()
+        var vendor = _db.Vendors?.FirstOrDefault(v =>
+            v.Name.Equals(vendorName, StringComparison.OrdinalIgnoreCase));
+
+        if (vendor == null)
+            return (CreateError(vendorName, "Вендор не найден в базе"), log);
+
+        var series = vendor.Series?.FirstOrDefault();
+        if (series == null)
+            return (CreateError(vendorName, "Нет данных о серии ПЛК"), log);
+
+        var modules = _db.Components
+            .Where(c => c.Vendor != null &&
+                        c.Vendor.Equals(vendorName, StringComparison.OrdinalIgnoreCase))
             .ToList();
 
-        // 2. Ищем в листе manufacturers (Vendors) только тех, чьи ID совпали с активными линейками
-        var resultVendors = _db.Vendors
-            .Where(v => activeManufacturerIds.Contains(v.Id))
-            .Select(v => v.Name.Trim())
-            .Distinct()
-            .ToList();
+        log.Add($"🔍 Вендор: {vendorName}");
+        log.Add($"📦 Всего модулей в базе: {modules.Count} шт.");
+        log.Add($"📦 Категории: {string.Join(", ", modules.Select(m => m.Category).Distinct())}");
+        log.Add("");
 
-        if (!resultVendors.Any())
+        if (!modules.Any())
+            return (CreateError(vendorName, "Нет модулей в базе"), log);
+
+        var cpu = modules.FirstOrDefault(m =>
+            m.Category != null && m.Category.Equals("cpu", StringComparison.OrdinalIgnoreCase));
+
+        if (cpu == null)
         {
-            return new List<string> { "REGUL", "АБАК" };
+            log.Add("❌ CPU не найден!");
+            return (CreateError(vendorName, "ЦПУ не найден в базе"), log);
         }
 
-        return resultVendors;
-    }
+        log.Add($"✅ CPU: {cpu.PartNumber}");
 
+        var signalList = new List<(string Key, string Label, int Count)>
+    {
+        ("AI_NIS_2W", "AI-NIS (4-20 mA, 2w)", signals.AiNisCurrent2W),
+        ("AI_NIS_4W", "AI-NIS (4-20 mA, 4w)", signals.AiNisCurrent4W),
+        ("AI_RTD_NIS_3W", "AI-RTD-NIS (3w)", signals.AiRtdNis3W),
+        ("AI_NIS_PL_3W", "AI-NIS (Pl, 3w)", signals.AiNisPl3W),
+        ("AI_IS_2W", "AI-IS (4-20 mA, 2w)", signals.AiIsCurrent2W),
+        ("AI_IS_4W", "AI-IS (4-20 mA, 4w)", signals.AiIsCurrent4W),
+        ("AI_IS_PL_3W", "AI-IS (Pl, 3w)", signals.AiIsPl3W),
+        ("AI_R_NIS_2W", "AI-R-NIS (4-20 mA, 2w)", signals.AiRNisCurrent2W),
+        ("AI_R_NIS_4W", "AI-R-NIS (4-20 mA, 4w)", signals.AiRNisCurrent4W),
+        ("AI_R_IS_2W", "AI-R-IS (4-20 mA, 2w)", signals.AiRIsCurrent2W),
+        ("AI_R_IS_4W", "AI-R-IS (4-20 mA, 4w)", signals.AiRIsCurrent4W),
+        ("AO_NIS", "AO-NIS (4-20 mA)", signals.AoNisCurrent),
+        ("AO_NIS_V", "AO-NIS (0-10 В)", signals.AoNisVoltage),
+        ("AO_IS", "AO-IS (4-20 mA)", signals.AoIsCurrent),
+        ("AO_IS_V", "AO-IS (0-10 В)", signals.AoIsVoltage),
+        ("AO_R_IS", "AO-R-IS (4-20 mA)", signals.AoRIsCurrent),
+        ("AO_R_NIS", "AO-R-NIS (4-20 mA)", signals.AoRNisCurrent),
+        ("DI_IS_NAMUR", "DI-IS (NAMUR)", signals.DiIsNamur),
+        ("DI_NIS_DRY", "DI-NIS (сухой контакт)", signals.DiNisDryContact),
+        ("DI_NIS_24V", "DI-NIS (24VDC)", signals.DiNis24VDC),
+        ("DI_NIS_VFG", "DI-NIS (VFG)", signals.DiNisVfg),
+        ("DI_NIS_MCC_230VAC", "DI-NIS (MCC 230VAC)", signals.DiNisMcc230VAC),
+        ("DI_NIS_MCC_220VDC", "DI-NIS (MCC 220VDC)", signals.DiNisMcc220VDC),
+        ("DO_NIS_VFC", "DO-NIS (VFC NO)", signals.DoNisVfcNO),
+        ("DO_NIS_24V", "DO-NIS (24VDC)", signals.DoNis24VDC),
+        ("DO_NIS_MCC_230VAC", "DO-NIS (MCC 230VAC)", signals.DoNisMcc230VAC),
+        ("DO_NIS_MCC_220VDC", "DO-NIS (MCC 220VDC)", signals.DoNisMcc220VDC),
+    };
+
+        double reserveFactor = 1 + ((double)signals.ReservePercent / 100.0);
+        int totalModules = 1; // CPU
+        decimal totalCost = 0;
+
+        foreach (var (key, label, count) in signalList)
+        {
+            if (count <= 0) continue;
+
+            if (!SignalToCategory.TryGetValue(key, out var category))
+            {
+                log.Add($"⚠️ {label}: {count} шт. → категория не найдена");
+                continue;
+            }
+
+            int countWithReserve = (int)Math.Ceiling(count * reserveFactor);
+
+            var matchingModules = modules
+                .Where(m => m.Category != null &&
+                            m.Category.Equals(category, StringComparison.OrdinalIgnoreCase) &&
+                            m.Channels > 0)
+                .OrderByDescending(m => m.Channels)
+                .ToList();
+
+            if (!matchingModules.Any())
+            {
+                log.Add($"❌ {label}: {count} шт. (с резервом: {countWithReserve}) → нет модулей категории '{category}' в базе!");
+                continue;
+            }
+
+            var bestModule = matchingModules.First();
+            int modulesNeeded = (int)Math.Ceiling((double)countWithReserve / bestModule.Channels);
+            totalModules += modulesNeeded;
+
+            log.Add($"✅ {label}: {count} шт. (с резервом: {countWithReserve}) → {modulesNeeded} × {bestModule.PartNumber} ({bestModule.Channels} кан.)");
+        }
+
+        int maxPerRack = series.MaxModulesPerRack > 0 ? series.MaxModulesPerRack : 40;
+        int racksCount = (int)Math.Ceiling((double)totalModules / maxPerRack);
+        int racksPerCabinet = cabinetWidthMm >= 800 ? 2 : 1;
+        int cabinetsCount = (int)Math.Ceiling((double)racksCount / racksPerCabinet);
+
+        log.Add("");
+        log.Add($"📊 ИТОГО: модулей={totalModules}, крейтов={racksCount}, шкафов={cabinetsCount}");
+
+        var result = new PlcComparisonResult
+        {
+            VendorName = $"{vendor.Name} {series.Id}",
+            SeriesId = series.Id,
+            TargetApplication = series.TargetApplication ?? "Общепромышленная автоматизация",
+            TotalHardwareCostRub = EstimateCost(vendorName, totalModules, racksCount),
+            TotalRacksCount = racksCount,
+            TotalCabinetsCount = cabinetsCount,
+            DeliveryTime = DeliveryTimes.GetValueOrDefault(vendorName, "Уточняется"),
+        };
+
+        return (result, log);
+    }
 }

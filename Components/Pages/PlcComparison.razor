@@ -225,15 +225,19 @@
     }
     private void RunComparison()
     {
-        var inputSignals = new List<IoSignalRow>();
-        if (_diCount > 0) inputSignals.Add(new IoSignalRow { SignalType = "DI", TotalWithReserve = _diCount });
-        if (_doCount > 0) inputSignals.Add(new IoSignalRow { SignalType = "DO", TotalWithReserve = _doCount });
-        if (_aiCount > 0) inputSignals.Add(new IoSignalRow { SignalType = "AI", TotalWithReserve = _aiCount });
-        if (_aoCount > 0) inputSignals.Add(new IoSignalRow { SignalType = "AO", TotalWithReserve = _aoCount });
-
-        if (inputSignals.Any())
+        // Формируем SignalRequirement вместо List<IoSignalRow>
+        var signals = new SignalRequirement
         {
-            _tkpReport = ComparisonEngine.CompareSystems(inputSignals, _cabinetWidth, _plcDbRoot);
+            DiNis24VDC = _diCount,
+            DoNis24VDC = _doCount,
+            AiNisCurrent2W = _aiCount,
+            AoNisCurrent = _aoCount,
+            ReservePercent = 20
+        };
+
+        if (signals.TotalDI > 0 || signals.TotalDO > 0 || signals.TotalAI > 0 || signals.TotalAO > 0)
+        {
+            _tkpReport = ComparisonEngine.CompareSystems(signals, _cabinetWidth, _plcDbRoot);
             Snackbar.Add("Технико-коммерческое сравнение успешно пересчитано!", Severity.Success);
             StateHasChanged();
         }

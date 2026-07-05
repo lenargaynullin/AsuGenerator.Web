@@ -256,6 +256,18 @@
                        Style="font-size: 11px; height: 32px; background-color: #3cb890; color: white; font-weight: bold;">
                 Сгенерировать корзины
             </MudButton>
+            @* ДИАГНОСТИЧЕСКИЙ ЛОГ *@
+            @if (diagLog != null && diagLog.Any())
+            {
+                <MudPaper Class="pa-3 mt-4" Style="max-height: 400px; overflow-y: auto; background-color: #1e293b; color: #94a3b8; font-family: monospace; font-size: 10px;">
+                    @foreach (var line in diagLog)
+                    {
+                        <div style="color: @(line.StartsWith("✅") ? "#4caf50" : line.StartsWith("❌") ? "#f44336" : line.StartsWith("⚠️") ? "#ff9800" : "#94a3b8")">
+                            @line
+                        </div>
+                    }
+                </MudPaper>
+            }
             <MudButton Variant="Variant.Outlined"
                        Color="Color.Info"
                        FullWidth="true"
@@ -279,6 +291,7 @@
                        OnClick="DiagnoseDatabase" Style="font-size: 10px;">
                 🔍 ДИАГНОСТИКА БАЗЫ
             </MudButton>
+
         </MudItem>
 
                 <!-- ВЫВОД РЕЗУЛЬТАТОВ (ПРАВАЯ КОЛОНКА) -->
@@ -649,7 +662,7 @@
 </style>
 
 @code {
-
+    private List<string>? diagLog;
     private CabinetType cabinetType = CabinetType.SingleSided;
     private string selectedVendor = "ОВЕН";
     private int cabinetWidth = 800;
@@ -741,9 +754,25 @@
                 return;
             }
 
+            
             // Используем UniversalCalculationService для любого вендора
-            var universalService = new UniversalCalculationService(_plcDbRoot);
-            var result = universalService.CalculateSystem(selectedVendor, inputSignals, cabinetWidth);
+            var (result, diagLog) = UniversalService.CalculateSystemWithDiagnostics(selectedVendor, signals, cabinetWidth);
+
+            // Выводим диагностику
+            foreach (var line in diagLog)
+            {
+                Console.WriteLine(line);
+            }
+            // Выводим ВЕСЬ лог диагностики
+            foreach (var line in diagLog)
+            {
+                Console.WriteLine(line);
+            }
+            // Показываем количество найденных/ненайденных сигналов
+            int found = diagLog.Count(l => l.StartsWith("✅"));
+            int notFound = diagLog.Count(l => l.StartsWith("❌"));
+            int warnings = diagLog.Count(l => l.StartsWith("⚠️"));
+            Snackbar.Add($"Подобрано: {found} типов сигналов. Не найдено: {notFound}. Предупреждений: {warnings}.", Severity.Info);
 
             // Формируем визуальный результат в старом формате calcResult
             calcResult = new PlcCabinetCalculationResult();
@@ -808,7 +837,7 @@
             calcResult.Cabinets.Add(cabinet);
 
             // Запускаем сравнение для ТКП
-            _tkpComparisonReport = ComparisonEngine.CompareSystems(inputSignals, cabinetWidth, _plcDbRoot);
+            _tkpComparisonReport = ComparisonEngine.CompareSystems(signals, cabinetWidth, _plcDbRoot);
 
             Snackbar.Add($"Система {result.VendorName} рассчитана: {result.TotalRacksCount} крейтов, {result.TotalCabinetsCount} шкафов, {result.TotalHardwareCostRub:N0} ₽", Severity.Success);
             StateHasChanged();
