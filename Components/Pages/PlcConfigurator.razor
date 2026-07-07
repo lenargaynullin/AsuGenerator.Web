@@ -10,6 +10,7 @@
 @inject AsuGenerator.Web.Services.PlcComparisonEngine ComparisonEngine
 @inject IJSRuntime JS
 @inject UniversalCalculationService UniversalService;
+@inject DocumentGenerator DocGenerator
 
 <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-4 px-4">
     <MudText Typo="Typo.h5" Class="mb-3 font-weight-bold" Style="font-size: 16px;">⚙️ Расширенная конфигурация ПЛК и сигналов</MudText>
@@ -343,12 +344,24 @@
             <MudButton Variant="Variant.Filled"
                        Color="Color.Success"
                        FullWidth="true"
-                       Class="mt-4 py-2"
+                       Class="mt-2 py-2"
                        StartIcon="@Icons.Material.Filled.Save"
                        OnClick="SavePlcProjectToDashboard"
                        Disabled="@(calcResult == null || !calcResult.Cabinets.Any())">
                 Сохранить спецификацию ПЛК в проекты
             </MudButton>
+
+            @if (calcResult != null && calcResult.Cabinets.Any())
+            {
+                <MudButton Variant="Variant.Filled"
+                           Color="Color.Tertiary"
+                           FullWidth="true"
+                           Class="mt-2 py-2"
+                           StartIcon="@Icons.Material.Filled.Download"
+                           OnClick="DownloadPlcSpecification">
+                    Скачать спецификацию в Excel
+                </MudButton>
+            }
 
             <MudButton Variant="Variant.Outlined" Color="Color.Error" Size="Size.Small"
                        OnClick="DiagnoseDatabase" Style="font-size: 10px;">
@@ -747,6 +760,7 @@
     private List<PlcComponent> availableCpus2 = new();
 
     private int TotalSignalsCount => signals.TotalDI + signals.TotalDO + signals.TotalAI + signals.TotalAO;
+    private List<PickedModuleInfo> _lastPickedModules = new();
 
     protected override void OnParametersSet()
     {
@@ -793,6 +807,7 @@
             // Используем UniversalCalculationService для любого вендора
             var (result, log, pickedModules) = UniversalService.CalculateSystemWithDiagnostics(selectedVendor, signals, cabinetWidth);
             diagLog = log;
+            _lastPickedModules = pickedModules;
 
             // Показываем количество найденных/ненайденных сигналов
             int found = diagLog.Count(l => l.StartsWith("✅"));
@@ -1198,6 +1213,31 @@
 
         JS.InvokeVoidAsync("open", url, "_blank");
     }
+    private async Task DownloadPlcSpecification()
+    {
+        if (_lastPickedModules == null || !_lastPickedModules.Any())
+        {
+            Snackbar.Add("Нет данных для экспорта. Сначала сгенерируйте корзины.", Severity.Warning);
+            return;
+        }
+
+        try
+        {
+            string cabinetInfo = $"Шкаф {cabinetWidth}х{cabinetHeight}мм";
+            byte[] fileBytes = DocGenerator.GeneratePlcSpecificationExcel(
+                _lastPickedModules, selectedVendor, cabinetInfo);
+
+            string fileName = $"PLC_Spec_{selectedVendor}_{DateTime.Now:yyyyMMdd}.xlsx";
+            await JS.InvokeVoidAsync("downloadFileFromBytes", fileName, Convert.ToBase64String(fileBytes));
+
+            Snackbar.Add("Спецификация ПЛК скачана в Excel!", Severity.Success);
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Ошибка скачивания: {ex.Message}", Severity.Error);
+        }
+    }
+
     // Диагностика
     private void DiagnoseDatabase()
     {

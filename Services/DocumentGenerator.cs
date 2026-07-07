@@ -203,4 +203,93 @@ public class DocumentGenerator
 
         return package.GetAsByteArray();
     }
+
+    /// <summary>
+    /// Генерирует XLSX-спецификацию подобранных модулей ПЛК.
+    /// </summary>
+    public byte[] GeneratePlcSpecificationExcel(
+        List<PickedModuleInfo> pickedModules,
+        string vendorName,
+        string cabinetInfo)
+    {
+        ExcelPackage.License.SetNonCommercialPersonal("AsuGeneratorSaaS");
+
+        using var package = new ExcelPackage();
+        var ws = package.Workbook.Worksheets.Add("Спецификация ПЛК");
+
+        ws.View.ShowGridLines = true;
+
+        // 1. Шапка
+        ws.Cells["A1"].Value = "СПЕЦИФИКАЦИЯ МОДУЛЕЙ ПЛК";
+        ws.Cells["A1:F1"].Merge = true;
+        ws.Cells["A1"].Style.Font.Size = 14;
+        ws.Cells["A1"].Style.Font.Bold = true;
+        ws.Cells["A1"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+
+        ws.Cells["A2"].Value = $"Вендор: {vendorName} | {cabinetInfo} | {DateTime.Now:dd.MM.yyyy}";
+        ws.Cells["A2:F2"].Merge = true;
+        ws.Cells["A2"].Style.Font.Size = 10;
+        ws.Cells["A2"].Style.Font.Italic = true;
+
+        // 2. Заголовки таблицы
+        string[] headers = { "Тип сигнала", "Описание", "Артикул", "Каналов/мод.", "Кол-во модулей", "Ширина, мм" };
+        int row = 4;
+        for (int i = 0; i < headers.Length; i++)
+        {
+            var cell = ws.Cells[row, i + 1];
+            cell.Value = headers[i];
+            cell.Style.Font.Bold = true;
+            cell.Style.Font.Size = 10;
+            cell.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            cell.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+            cell.Style.Border.BorderAround(ExcelBorderStyle.Thin);
+            cell.Style.Fill.PatternType = ExcelFillStyle.Solid;
+            cell.Style.Fill.BackgroundColor.SetColor(Color.LightGray);
+        }
+        ws.Row(row).Height = 24;
+        row++;
+
+        // 3. Данные
+        foreach (var mod in pickedModules)
+        {
+            ws.Cells[row, 1].Value = mod.SignalLabel;
+            ws.Cells[row, 2].Value = mod.Description;
+            ws.Cells[row, 3].Value = mod.PartNumber;
+            ws.Cells[row, 4].Value = mod.ChannelsPerModule;
+            ws.Cells[row, 5].Value = mod.ModulesNeeded;
+            ws.Cells[row, 6].Value = mod.WidthMm;
+
+            for (int i = 1; i <= 6; i++)
+            {
+                var cell = ws.Cells[row, i];
+                cell.Style.Font.Size = 10;
+                cell.Style.Border.BorderAround(ExcelBorderStyle.Thin);
+                cell.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                if (i >= 3) cell.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            }
+            ws.Row(row).Height = 20;
+            row++;
+        }
+
+        // 4. Итоговая строка
+        row++;
+        ws.Cells[row, 1].Value = "ИТОГО модулей:";
+        ws.Cells[row, 1].Style.Font.Bold = true;
+        ws.Cells[row, 5].Value = pickedModules.Sum(m => m.ModulesNeeded);
+        ws.Cells[row, 5].Style.Font.Bold = true;
+        ws.Cells[row, 5].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+        ws.Cells[row, 6].Value = pickedModules.Sum(m => (int)(m.WidthMm * m.ModulesNeeded));
+        ws.Cells[row, 6].Style.Font.Bold = true;
+        ws.Cells[row, 6].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+
+        // 5. Ширина колонок
+        ws.Column(1).Width = 35;
+        ws.Column(2).Width = 40;
+        ws.Column(3).Width = 20;
+        ws.Column(4).Width = 15;
+        ws.Column(5).Width = 15;
+        ws.Column(6).Width = 15;
+
+        return package.GetAsByteArray();
+    }
 }
