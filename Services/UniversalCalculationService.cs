@@ -15,7 +15,7 @@ public class UniversalCalculationService
         // Аналоговые входы (AI)
         ["AI_NIS_2W"] = "ai",
         ["AI_NIS_4W"] = "ai",
-        ["AI_RTD_NIS_3W"] = "ai",
+        ["AI_RTD_NIS_3W"] = "ai-rtd",
         ["AI_NIS_PL_3W"] = "ai",
         ["AI_IS_2W"] = "ai",
         ["AI_IS_4W"] = "ai",
