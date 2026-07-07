@@ -13,6 +13,136 @@
 
 <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-4 px-4">
     <MudText Typo="Typo.h5" Class="mb-3 font-weight-bold" Style="font-size: 16px;">⚙️ Расширенная конфигурация ПЛК и сигналов</MudText>
+    @* ИСПРАВЛЕНО: Двухуровневая B2B-структура панели настроек. Ширина вынесена на нижний уровень *@
+    <MudGrid Spacing="2" Class="mb-2">
+
+        @* --- ЯРУС 1: Основные селекторы ПЛК по 50% ширины строки --- *@
+        <MudItem xs="6">
+            <MudSelect T="string"
+                       Label="Производитель"
+                       @bind-Value="selectedVendor"
+                       @bind-Value:after="UpdateAvailableCpus"
+                       Variant="Variant.Outlined"
+                       Dense="true"
+                       Margin="Margin.Dense"
+                       Style="font-size: 11px;">
+                <MudSelectItem Value="@("REGUL")">REGUL</MudSelectItem>
+                <MudSelectItem Value="@("АБАК")">АБАК</MudSelectItem>
+            </MudSelect>
+        </MudItem>
+
+        <MudItem xs="6">
+            <MudSelect T="PlcComponent"
+                       Label="Контроллер (CPU)"
+                       @bind-Value="selectedCpu"
+                       Variant="Variant.Outlined"
+                       Dense="true"
+                       Margin="Margin.Dense"
+                       Style="font-size: 11px;">
+                @foreach (var cpu in availableCpus)
+                {
+                    <MudSelectItem Value="@cpu">
+                        <div class="d-flex flex-column">
+                            <MudText Typo="Typo.body2" Style="font-size: 11px; font-weight: bold;">@cpu.Article</MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary" Style="font-size: 9px; line-height: 1;">@cpu.Name</MudText>
+                        </div>
+                    </MudSelectItem>
+                }
+            </MudSelect>
+        </MudItem>
+
+        @* --- ДИНАМИЧЕСКИЙ БЛОК ОПИСАНИЯ ЦП ВО ВСЮ ШИРИНУ ПЕРВОГО ЯРУСА --- *@
+        @if (selectedCpu != null && !string.IsNullOrEmpty(selectedCpu.Name))
+        {
+            <MudItem xs="12" Class="pt-1">
+                <div class="pa-3 rounded-lg" style="width: 100%; background-color: #1e293b; border: 1px solid #334155;">
+                    <div class="d-flex align-center mb-1">
+                        <MudIcon Icon="@Icons.Material.Filled.Info" Size="Size.Small" Style="color: #3cb890; margin-right: 6px;" />
+                        <span style="font-size: 11px; color: #94a3b8; font-family: monospace; font-weight: bold; text-transform: uppercase;">
+                            Техническое описание ЦП
+                        </span>
+                    </div>
+                    <p style="font-size: 12px; color: #f1f5f9; font-weight: 500; line-height: 1.4; margin: 0; font-family: sans-serif;">
+                        @selectedCpu.Name
+                    </p>
+                </div>
+            </MudItem>
+        }
+        @* --- КНОПКА ВКЛЮЧЕНИЯ РЕЖИМА СРАВНЕНИЯ (ПЕРЕНЕСЕНА НА ВЕРХНИЙ ЯРУС) --- *@
+        <MudItem xs="12" Class="pt-1">
+            <MudButton Variant="Variant.Outlined"
+                       Color="Color.Warning"
+                       Size="Size.Small"
+                       FullWidth="true"
+                       OnClick="ToggleComparisonMode"
+                       StartIcon="@Icons.Material.Filled.CompareArrows"
+                       Style="font-size: 11px; height: 32px; border-color: #3b82f6; color: #3b82f6;">
+                @(isComparisonMode ? "Скрыть сравнение" : "Сравнить с другим ПЛК")
+            </MudButton>
+        </MudItem>
+
+        @* --- ИСПРАВЛЕННЫЙ БЛОК ВЫБОРА ВТОРОГО ПЛК (СТРОГО СИММЕТРИЧНО ПО ЦЕНТРУ ПО xs="6") --- *@
+        @if (isComparisonMode)
+        {
+            <MudItem xs="12" Class="pt-1">
+                <div class="pa-3 rounded-lg border-solid" style="width: 100%; border: 1px solid #3b82f6; background-color: rgba(59, 130, 246, 0.02);">
+                    <div class="d-flex align-center mb-2" style="color: #3b82f6;">
+                        <MudIcon Icon="@Icons.Material.Filled.CompareArrows" Size="Size.Small" Class="mr-1" />
+                        <span style="font-size: 11px; font-family: monospace; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px;">⚡ ВАРИАНТ ДЛЯ СРАВНЕНИЯ</span>
+                    </div>
+
+                    @* ИСПРАВЛЕНО: Вместо d-flex разворачиваем MudGrid для жесткого выравнивания осей по центру шкафа *@
+                    <MudGrid Spacing="2">
+                        <MudItem xs="6">
+                            <MudSelect T="string" Label="Производитель 2"
+                                       Value="selectedVendor2"
+                                       ValueChanged="OnSecondVendorChanged"
+                                       Variant="Variant.Outlined" Dense="true"
+                                       Margin="Margin.Dense" Style="font-size: 11px; color: white;">
+                                @foreach (var vendor in UniversalService.GetAvailableVendors())
+                                {
+                                    <MudSelectItem Value="@vendor">@vendor</MudSelectItem>
+                                }
+                            </MudSelect>
+                        </MudItem>
+
+                        <MudItem xs="6">
+                            <MudSelect T="PlcComponent" Label="Контроллер 2 (CPU)"
+                                       @bind-Value="selectedCpu2"
+                                       Variant="Variant.Outlined" Dense="true"
+                                       Margin="Margin.Dense" Style="font-size: 11px; color: white;">
+                                @foreach (var cpu in availableCpus2)
+                                {
+                                    <MudSelectItem Value="@cpu">
+                                        <div class="d-flex flex-column">
+                                            <MudText Typo="Typo.body2" Style="font-size: 11px; font-weight: bold;">@cpu.Article</MudText>
+                                            <MudText Typo="Typo.caption" Style="font-size: 9px; line-height: 1; color: var(--mud-palette-error);">@cpu.Name</MudText>
+                                        </div>
+                                    </MudSelectItem>
+                                }
+                            </MudSelect>
+                        </MudItem>
+                    </MudGrid>
+
+                </div>
+            </MudItem>
+
+            @* --- ТЕХНИЧЕСКОЕ ОПИСАНИЕ ЦП СРАВНЕНИЯ ВО ВСЮ ШИРИНУ --- *@
+            @if (selectedCpu2 != null && !string.IsNullOrEmpty(selectedCpu2.Name))
+            {
+                <MudItem xs="12" Class="pt-0">
+                    <div class="pa-3 rounded-lg" style="width: 100%; background-color: #1e293b; border: 1px solid #334155;">
+                        <div class="d-flex align-center mb-1">
+                            <MudIcon Icon="@Icons.Material.Filled.Info" Size="Size.Small" Style="color: #3b82f6; margin-right: 6px;" />
+                            <span style="font-size: 11px; color: #94a3b8; font-family: monospace; font-weight: bold; text-transform: uppercase;">Техническое описание ЦП Сравнения</span>
+                        </div>
+                        <p style="font-size: 12px; color: #f1f5f9; font-weight: 500; line-height: 1.4; margin: 0; font-family: sans-serif;">@selectedCpu2.Name</p>
+                    </div>
+                </MudItem>
+            }
+        }
+
+    </MudGrid>
 
     <MudGrid Spacing="2">
         <!-- ВВОД СИГНАЛОВ (ЛЕВАЯ КОЛОНКА) -->
@@ -20,67 +150,7 @@
             <MudCard Elevation="1" Class="mb-3">
                 <MudCardContent Class="pa-2">
                     <MudGrid Dense="true" Spacing="1">
-                        <MudItem xs="4">
-                            @* ИСПРАВЛЕНО ДЛЯ .NET 8: Добавлен триггер :after для мгновенного пересчета процессоров при смене бренда *@
-                            <MudSelect T="string"
-                                       Label="Производитель"
-                                       @bind-Value="selectedVendor"
-                                       @bind-Value:after="UpdateAvailableCpus"
-                                       Variant="Variant.Outlined"
-                                       Dense="true"
-                                       Margin="Margin.Dense"
-                                       Style="font-size: 11px;">
-                                @* ИСПРАВЛЕНО: Вендоры берутся напрямую из JSON-базы, без ручного хардкода *@
-                                @foreach (var vendor in UniversalService.GetAvailableVendors())
-                                {
-                                    <MudSelectItem Value="@vendor">@vendor</MudSelectItem>
-                                }
-                            </MudSelect>
-                        </MudItem>
-                        <MudItem xs="4">
-                            @* ИСПРАВЛЕНО ДЛЯ B2B-ЭСТЕТИКИ: Выпадающий список CPU с отображением артикула и описания по ГОСТ *@
-                            <MudSelect T="PlcComponent"
-                                       Label="Контроллер (CPU)"
-                                       @bind-Value="selectedCpu"
-                                       Variant="Variant.Outlined"
-                                       Dense="true"
-                                       Margin="Margin.Dense"
-                                       Style="font-size: 11px;">
-                                @foreach (var cpu in availableCpus)
-                                {
-                                    <MudSelectItem Value="@cpu">
-                                        <div class="d-flex flex-column">
-                                            <MudText Typo="Typo.body2" Style="font-size: 11px; font-weight: bold;">@cpu.Article</MudText>
-                                            <MudText Typo="Typo.caption" Color="Color.Secondary" Style="font-size: 9px; line-height: 1;">@cpu.Name</MudText>
-                                        </div>
-                                    </MudSelectItem>
-                                }
-                            </MudSelect>
-                            @* ИСПРАВЛЕНО: Блок описания ЦП во всю ширину с высокой B2B-контрастностью текста *@
-                            @if (selectedCpu != null && !string.IsNullOrEmpty(selectedCpu.Name))
-                            {
-                                <div class="mt-3 pa-3 rounded-lg border-solid"
-                                     style="width: 100%; flex-basis: 100%; clear: both; background-color: #1e293b; border: 1px solid #334155; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-
-                                    <div class="d-flex align-center mb-1">
-                                        <MudIcon Icon="@Icons.Material.Filled.Info" Size="Size.Small" Style="color: #3cb890; margin-right: 6px;" />
-                                        <span style="font-size: 11px; color: #94a3b8; font-family: monospace; font-weight: bold; letter-spacing: 0.5px; text-transform: uppercase;">
-                                            Техническое описание ЦП
-                                        </span>
-                                    </div>
-
-                                    @* Текст описания: крупный, контрастный и идеально читаемый *@
-                                    <p style="font-size: 12px; color: #f1f5f9; font-weight: 500; line-height: 1.4; margin: 0; padding: 2px 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
-                                        @selectedCpu.Name
-                                    </p>
-                                </div>
-                            }
-                        </MudItem>
-                        <MudItem xs="4">
-                            <MudNumericField @bind-Value="cabinetWidth" Label="Ширина (мм)" Min="600" Max="1200" Step="100" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 11px; font-weight: bold;" />
-                        </MudItem>
-
-
+                        
                         <!-- ДОБАВЛЕНО: СЕЛЕКТОР ТИПА ШКАФА СТРОГО С ЗАКРЫТЫМИ ТЕГАМИ MUDITEM -->
                         <MudItem xs="12" Class="mt-1 border-top pt-2">
                             <MudText Typo="Typo.caption" Class="font-weight-bold grey-text d-block mb-1" Style="font-size: 10px;">КОНСТРУКТИВ МОНТАЖНОЙ ПАНЕЛИ:</MudText>
@@ -92,55 +162,20 @@
                                     <span style="font-size: 11px; font-weight: bold;">Двухсторонний (Лицевая/Задняя)</span>
                                 </MudRadio>
                             </MudRadioGroup>
+                            @* --- ЯРУС 2: Конструктивные параметры шкафа Провенто --- *@
+                            <MudItem xs="6" Class="mt-2">
+                                <MudNumericField @bind-Value="cabinetWidth"
+                                                 Label="Ширина (мм)"
+                                                 Variant="Variant.Outlined"
+                                                 Dense="true"
+                                                 Margin="Margin.Dense"
+                                                 Style="font-size: 11px;"
+                                                 Min="600" Max="1200" Step="200" />
+                            </MudItem>
                         </MudItem>
                     </MudGrid>
                 </MudCardContent>
-                @* Кнопка включения режима сравнения *@
-                <MudButton Variant="Variant.Outlined"
-                           Color="Color.Warning"
-                           Size="Size.Small"
-                           FullWidth="true"
-                           OnClick="ToggleComparisonMode"
-                           Class="mt-2"
-                           StartIcon="@Icons.Material.Filled.CompareArrows"
-                           Style="font-size: 11px; height: 32px;">
-                    @(isComparisonMode ? "Скрыть сравнение" : "Сравнить с другим ПЛК")
-                </MudButton>
-                @* Блок выбора второго ПЛК — показывается только в режиме сравнения *@
-                @if (isComparisonMode)
-                {
-                    <MudCard Elevation="2" Class="mt-3 pa-2" Style="border-left: 4px solid #e67e22; background-color: #1e293b;">
-                        <MudText Typo="Typo.caption" Class="font-weight-bold mb-2" Style="color: #e67e22;">
-                            ⚡ ВАРИАНТ ДЛЯ СРАВНЕНИЯ
-                        </MudText>
-                        <MudGrid Dense="true" Spacing="1">
-                            <MudItem xs="6">
-                                <MudSelect T="string" Label="Производитель 2"
-                                           Value="selectedVendor2"
-                                           ValueChanged="OnSecondVendorChanged"
-                                           Variant="Variant.Outlined" Dense="true"
-                                           Margin="Margin.Dense" Style="font-size: 11px; color: white;">
-                                    @foreach (var vendor in UniversalService.GetAvailableVendors())
-                                    {
-                                        <MudSelectItem Value="@vendor">@vendor</MudSelectItem>
-                                    }
-                                </MudSelect>
-
-                            </MudItem>
-                            <MudItem xs="6">
-                                <MudSelect T="PlcComponent" Label="Контроллер 2 (CPU)"
-                                           @bind-Value="selectedCpu2"
-                                           Variant="Variant.Outlined" Dense="true"
-                                           Margin="Margin.Dense" Style="font-size: 11px; color: white;">
-                                    @foreach (var cpu in availableCpus2)
-                                    {
-                                        <MudSelectItem Value="@cpu">@cpu.Article</MudSelectItem>
-                                    }
-                                </MudSelect>
-                            </MudItem>
-                        </MudGrid>
-                    </MudCard>
-                }
+                
             </MudCard>
 
             <!-- ОТКРЫТЫЙ СПИСОК СИГНАЛОВ -->
@@ -692,7 +727,7 @@
 @code {
     private List<string>? diagLog;
     private CabinetType cabinetType = CabinetType.SingleSided;
-    private string selectedVendor = "ОВЕН";
+    private string selectedVendor = "АБАК";
     private int cabinetWidth = 800;
     private int cabinetHeight = 2000; // Высота шкафа по умолчанию
     private SignalRequirement signals = new();
@@ -755,50 +790,10 @@
 
         try
         {
-            // Собираем сигналы из 25 полей в плоский список IoSignalRow
-            var inputSignals = new List<IoSignalRow>();
-
-            double reserveFactor = 1 + ((double)signals.ReservePercent / 100.0);
-
-            int totalDi = (int)Math.Ceiling((signals.DiIsNamur + signals.DiNisDryContact + signals.DiNis24VDC
-                          + signals.DiNisVfg + signals.DiNisMcc230VAC + signals.DiNisMcc220VDC) * reserveFactor);
-            int totalDo = (int)Math.Ceiling((signals.DoNisVfcNO + signals.DoNis24VDC
-                          + signals.DoNisMcc230VAC + signals.DoNisMcc220VDC) * reserveFactor);
-            int totalAi = (int)Math.Ceiling((signals.AiNisCurrent2W + signals.AiNisCurrent4W + signals.AiRtdNis3W
-                          + signals.AiNisPl3W + signals.AiIsCurrent2W + signals.AiIsCurrent4W + signals.AiIsPl3W
-                          + signals.AiRNisCurrent2W + signals.AiRNisCurrent4W + signals.AiRIsCurrent2W
-                          + signals.AiRIsCurrent4W) * reserveFactor);
-            int totalAo = (int)Math.Ceiling((signals.AoNisCurrent + signals.AoNisVoltage + signals.AoIsCurrent
-                          + signals.AoIsVoltage + signals.AoRIsCurrent + signals.AoRNisCurrent) * reserveFactor);
-
-            if (totalDi > 0) inputSignals.Add(new IoSignalRow { SignalType = "DI", TotalWithReserve = totalDi });
-            if (totalDo > 0) inputSignals.Add(new IoSignalRow { SignalType = "DO", TotalWithReserve = totalDo });
-            if (totalAi > 0) inputSignals.Add(new IoSignalRow { SignalType = "AI", TotalWithReserve = totalAi });
-            if (totalAo > 0) inputSignals.Add(new IoSignalRow { SignalType = "AO", TotalWithReserve = totalAo });
-
-            if (!inputSignals.Any())
-            {
-                Snackbar.Add("Введите хотя бы один технологический сигнал!", Severity.Warning);
-                return;
-            }
-
-            
             // Используем UniversalCalculationService для любого вендора
-            var (result, log) = UniversalService.CalculateSystemWithDiagnostics(selectedVendor, signals, cabinetWidth);
-            diagLog = log;  // <-- вот эта строка важна!
+            var (result, log, pickedModules) = UniversalService.CalculateSystemWithDiagnostics(selectedVendor, signals, cabinetWidth);
+            diagLog = log;
 
-            // ВРЕМЕННАЯ ОТЛАДКА
-            Snackbar.Add($"Строк в логе: {diagLog?.Count ?? 0}", Severity.Warning);
-            if (diagLog != null && diagLog.Any())
-            {
-                Snackbar.Add($"Первая строка: {diagLog[0]}", Severity.Info);
-            }
-
-            // Выводим диагностику
-            foreach (var line in diagLog)
-            {
-                Console.WriteLine(line);
-            }
             // Показываем количество найденных/ненайденных сигналов
             int found = diagLog.Count(l => l.StartsWith("✅"));
             int notFound = diagLog.Count(l => l.StartsWith("❌"));
@@ -824,10 +819,10 @@
 
             // Добавляем CPU
             var cpu = _plcDbRoot.Components.FirstOrDefault(c =>
-    c.Vendor != null &&
-    c.Vendor.Equals(selectedVendor, StringComparison.OrdinalIgnoreCase) &&
-    c.Category != null &&
-    c.Category.Equals("cpu", StringComparison.OrdinalIgnoreCase));
+                c.Vendor != null &&
+                c.Vendor.Equals(selectedVendor, StringComparison.OrdinalIgnoreCase) &&
+                c.Category != null &&
+                c.Category.Equals("cpu", StringComparison.OrdinalIgnoreCase));
             if (cpu != null)
             {
                 basket.Modules.Add(new PlcComponent
@@ -839,85 +834,33 @@
                 });
             }
 
-            // Добавляем модули ввода-вывода из signals (25 типов)
-            reserveFactor = 1 + ((double)signals.ReservePercent / 100.0);
-
-            var signalList = new List<(string Category, int Count)>
-{
-    ("ai", (int)Math.Ceiling(signals.AiNisCurrent2W * reserveFactor)),
-    ("ai", (int)Math.Ceiling(signals.AiNisCurrent4W * reserveFactor)),
-    ("ai", (int)Math.Ceiling(signals.AiRtdNis3W * reserveFactor)),
-    ("ai", (int)Math.Ceiling(signals.AiNisPl3W * reserveFactor)),
-    ("ai", (int)Math.Ceiling(signals.AiIsCurrent2W * reserveFactor)),
-    ("ai", (int)Math.Ceiling(signals.AiIsCurrent4W * reserveFactor)),
-    ("ai", (int)Math.Ceiling(signals.AiIsPl3W * reserveFactor)),
-    ("ai", (int)Math.Ceiling(signals.AiRNisCurrent2W * reserveFactor)),
-    ("ai", (int)Math.Ceiling(signals.AiRNisCurrent4W * reserveFactor)),
-    ("ai", (int)Math.Ceiling(signals.AiRIsCurrent2W * reserveFactor)),
-    ("ai", (int)Math.Ceiling(signals.AiRIsCurrent4W * reserveFactor)),
-    ("ao", (int)Math.Ceiling(signals.AoNisCurrent * reserveFactor)),
-    ("ao", (int)Math.Ceiling(signals.AoNisVoltage * reserveFactor)),
-    ("ao", (int)Math.Ceiling(signals.AoIsCurrent * reserveFactor)),
-    ("ao", (int)Math.Ceiling(signals.AoIsVoltage * reserveFactor)),
-    ("ao", (int)Math.Ceiling(signals.AoRIsCurrent * reserveFactor)),
-    ("ao", (int)Math.Ceiling(signals.AoRNisCurrent * reserveFactor)),
-    ("di", (int)Math.Ceiling(signals.DiIsNamur * reserveFactor)),
-    ("di", (int)Math.Ceiling(signals.DiNisDryContact * reserveFactor)),
-    ("di", (int)Math.Ceiling(signals.DiNis24VDC * reserveFactor)),
-    ("di", (int)Math.Ceiling(signals.DiNisVfg * reserveFactor)),
-    ("di", (int)Math.Ceiling(signals.DiNisMcc230VAC * reserveFactor)),
-    ("di", (int)Math.Ceiling(signals.DiNisMcc220VDC * reserveFactor)),
-    ("do", (int)Math.Ceiling(signals.DoNisVfcNO * reserveFactor)),
-    ("do", (int)Math.Ceiling(signals.DoNis24VDC * reserveFactor)),
-    ("do", (int)Math.Ceiling(signals.DoNisMcc230VAC * reserveFactor)),
-    ("do", (int)Math.Ceiling(signals.DoNisMcc220VDC * reserveFactor)),
-};
-
+            // Добавляем модули из результатов UniversalCalculationService
             const int MaxModulesPerBasket = 40;
             const int MaxWidthPerBasket = 581;
+            int currentBasketWidth = basket.Modules.Sum(m => m.WidthMm);
 
-            int currentBasketWidth = 0; // Ширина CPU уже в корзине
-
-            foreach (var (category, count) in signalList)
+            foreach (var picked in pickedModules)
             {
-                if (count <= 0) continue;
-
-                var bestModule = _plcDbRoot.Components
-                    .Where(c => c.Vendor != null &&
-                                c.Vendor.Equals(selectedVendor, StringComparison.OrdinalIgnoreCase) &&
-                                c.Category != null &&
-                                c.Category.Equals(category, StringComparison.OrdinalIgnoreCase) &&
-                                c.Channels > 0)
-                    .OrderByDescending(c => c.Channels)
-                    .FirstOrDefault();
-
-                if (bestModule == null) continue;
-
-                int modulesNeeded = (int)Math.Ceiling((double)count / bestModule.Channels);
-
-                for (int i = 0; i < modulesNeeded; i++)
+                for (int i = 0; i < picked.ModulesNeeded; i++)
                 {
                     // Проверяем, нужно ли создать новую корзину
                     if (basket.Modules.Count >= MaxModulesPerBasket ||
-                        currentBasketWidth + bestModule.WidthMm > MaxWidthPerBasket)
+                        currentBasketWidth + picked.WidthMm > MaxWidthPerBasket)
                     {
-                        // Сохраняем текущую корзину
                         node.Baskets.Add(basket);
-
-                        // Создаём новую
                         basket = new PlcBasket();
                         currentBasketWidth = 0;
                     }
 
                     basket.Modules.Add(new PlcComponent
                     {
-                        Article = bestModule.PartNumber,
-                        Type = category.ToUpper(),
-                        WidthMm = (int)bestModule.WidthMm,
-                        HeightMm = (int)bestModule.HeightMm
+                        Article = picked.PartNumber,
+                        Type = picked.Category.ToUpper(),
+                        WidthMm = (int)picked.WidthMm,
+                        HeightMm = 125
                     });
 
-                    currentBasketWidth += (int)bestModule.WidthMm;
+                    currentBasketWidth += (int)picked.WidthMm;
                 }
             }
 
@@ -946,7 +889,7 @@
         if (isComparisonMode)
         {
             // По умолчанию второй вендор — ОВЕН (или другой, не совпадающий с первым)
-            selectedVendor2 = selectedVendor == "REGUL" ? "ОВЕН" : "REGUL";
+            selectedVendor2 = selectedVendor == "REGUL" ? "АБАК" : "REGUL";
             UpdateAvailableCpusForComparison();
         }
 
@@ -1216,14 +1159,37 @@
     }
     private void NavigateToComparison()
     {
-        // Суммируем сигналы из новой модели
-        int totalDi = signals.TotalDI;
-        int totalDo = signals.TotalDO;
-        int totalAi = signals.TotalAI;
-        int totalAo = signals.TotalAO;
-
-        // Формируем b2b URL-ссылку с параметрами
-        string url = $"/plc-comparison?di={totalDi}&do={totalDo}&ai={totalAi}&ao={totalAo}&width={cabinetWidth}";
+        // Формируем URL с 25 типами сигналов
+        string url = $"/plc-comparison?" +
+            $"ai_nis2w={signals.AiNisCurrent2W}" +
+            $"&ai_nis4w={signals.AiNisCurrent4W}" +
+            $"&ai_rtd3w={signals.AiRtdNis3W}" +
+            $"&ai_pl3w={signals.AiNisPl3W}" +
+            $"&ai_is2w={signals.AiIsCurrent2W}" +
+            $"&ai_is4w={signals.AiIsCurrent4W}" +
+            $"&ai_isp3w={signals.AiIsPl3W}" +
+            $"&ai_rn2w={signals.AiRNisCurrent2W}" +
+            $"&ai_rn4w={signals.AiRNisCurrent4W}" +
+            $"&ai_ri2w={signals.AiRIsCurrent2W}" +
+            $"&ai_ri4w={signals.AiRIsCurrent4W}" +
+            $"&ao_nis={signals.AoNisCurrent}" +
+            $"&ao_nisv={signals.AoNisVoltage}" +
+            $"&ao_is={signals.AoIsCurrent}" +
+            $"&ao_isv={signals.AoIsVoltage}" +
+            $"&ao_ri={signals.AoRIsCurrent}" +
+            $"&ao_rn={signals.AoRNisCurrent}" +
+            $"&di_nam={signals.DiIsNamur}" +
+            $"&di_dry={signals.DiNisDryContact}" +
+            $"&di_24v={signals.DiNis24VDC}" +
+            $"&di_vfg={signals.DiNisVfg}" +
+            $"&di_mcc230={signals.DiNisMcc230VAC}" +
+            $"&di_mcc220={signals.DiNisMcc220VDC}" +
+            $"&do_vfc={signals.DoNisVfcNO}" +
+            $"&do_24v={signals.DoNis24VDC}" +
+            $"&do_mcc230={signals.DoNisMcc230VAC}" +
+            $"&do_mcc220={signals.DoNisMcc220VDC}" +
+            $"&reserve={signals.ReservePercent}" +
+            $"&width={cabinetWidth}";
         // Если режим сравнения активен — добавляем второго вендора
         if (isComparisonMode && selectedCpu2 != null)
         {

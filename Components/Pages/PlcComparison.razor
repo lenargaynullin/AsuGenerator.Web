@@ -25,37 +25,61 @@
     </div>
 
     <MudGrid>
-        @* Левая колонка: Ввод сигналов *@
+        @* Левая колонка: Ввод сигналов (25 типов) *@
         <MudItem xs="12" md="4">
             <MudPaper Class="pa-4 rounded-lg" Outlined="true">
                 <MudText Typo="Typo.subtitle2" Class="mb-3">
-                    <b>1. Информационная мощность из ТЗ</b>
+                    <b>1. Информационная мощность из ТЗ (25 типов сигналов)</b>
                 </MudText>
                 
-                <MudNumericField @bind-Value="_aiCount" 
-                                 Label="Аналоговые входы (AI 4-20мА)" 
-                                 Variant="Variant.Outlined" Margin="Margin.Dense" 
-                                 Min="0" Class="mb-2" />
-                <MudNumericField @bind-Value="_aoCount" 
-                                 Label="Аналоговые выходы (AO 4-20мА)" 
-                                 Variant="Variant.Outlined" Margin="Margin.Dense" 
-                                 Min="0" Class="mb-2" />
-                <MudNumericField @bind-Value="_diCount" 
-                                 Label="Дискретные входы (DI =24В)" 
-                                 Variant="Variant.Outlined" Margin="Margin.Dense" 
-                                 Min="0" Class="mb-2" />
-                <MudNumericField @bind-Value="_doCount" 
-                                 Label="Дискретные выходы (DO =24В, 0.5А)" 
-                                 Variant="Variant.Outlined" Margin="Margin.Dense" 
-                                 Min="0" Class="mb-4" />
+                <MudText Typo="Typo.caption" Class="font-weight-bold d-block mb-1" Style="font-size: 10px; color: #8e44ad;">АНАЛОГОВЫЕ ВХОДЫ (AI)</MudText>
+                <MudNumericField @bind-Value="_signals.AiNisCurrent2W" Label="AI-NIS (4-20 mA, 2w)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" Class="mb-1" />
+                <MudNumericField @bind-Value="_signals.AiNisCurrent4W" Label="AI-NIS (4-20 mA, 4w)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" Class="mb-1" />
+                <MudNumericField @bind-Value="_signals.AiRtdNis3W" Label="AI-RTD-NIS (3w)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" Class="mb-1" />
+                <MudNumericField @bind-Value="_signals.AiNisPl3W" Label="AI-NIS (Pl, 3w)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" Class="mb-2" />
+
+                <MudText Typo="Typo.caption" Class="font-weight-bold d-block mb-1" Style="font-size: 10px; color: #e67e22;">AI-IS (Искробезопасные)</MudText>
+                <MudNumericField @bind-Value="_signals.AiIsCurrent2W" Label="AI-IS (4-20 mA, 2w)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" Class="mb-1" />
+                <MudNumericField @bind-Value="_signals.AiIsCurrent4W" Label="AI-IS (4-20 mA, 4w)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" Class="mb-1" />
+                <MudNumericField @bind-Value="_signals.AiIsPl3W" Label="AI-IS (Pl, 3w)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" Class="mb-2" />
+
+                <MudText Typo="Typo.caption" Class="font-weight-bold d-block mb-1" Style="font-size: 10px; color: #c0392b;">AI-R (Резервированные)</MudText>
+                <MudNumericField @bind-Value="_signals.AiRNisCurrent2W" Label="AI-R-NIS (4-20 mA, 2w)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" Class="mb-1" />
+                <MudNumericField @bind-Value="_signals.AiRNisCurrent4W" Label="AI-R-NIS (4-20 mA, 4w)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" Class="mb-1" />
+                <MudNumericField @bind-Value="_signals.AiRIsCurrent2W" Label="AI-R-IS (4-20 mA, 2w)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" Class="mb-1" />
+                <MudNumericField @bind-Value="_signals.AiRIsCurrent4W" Label="AI-R-IS (4-20 mA, 4w)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" Class="mb-2" />
+
+                <MudText Typo="Typo.caption" Class="font-weight-bold d-block mb-1" Style="font-size: 10px; color: #16a085;">АНАЛОГОВЫЕ ВЫХОДЫ (AO)</MudText>
+                <MudNumericField @bind-Value="_signals.AoNisCurrent" Label="AO-NIS (4-20 mA)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" Class="mb-1" />
+                <MudNumericField @bind-Value="_signals.AoNisVoltage" Label="AO-NIS (0-10 В)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" Class="mb-1" />
+                <MudNumericField @bind-Value="_signals.AoIsCurrent" Label="AO-IS (4-20 mA)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" Class="mb-1" />
+                <MudNumericField @bind-Value="_signals.AoIsVoltage" Label="AO-IS (0-10 В)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" Class="mb-1" />
+                <MudNumericField @bind-Value="_signals.AoRIsCurrent" Label="AO-R-IS (4-20 mA)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" Class="mb-1" />
+                <MudNumericField @bind-Value="_signals.AoRNisCurrent" Label="AO-R-NIS (4-20 mA)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" Class="mb-2" />
+
+                <MudText Typo="Typo.caption" Class="font-weight-bold d-block mb-1" Style="font-size: 10px; color: #2980b9;">ДИСКРЕТНЫЕ ВХОДЫ (DI)</MudText>
+                <MudNumericField @bind-Value="_signals.DiIsNamur" Label="DI-IS (NAMUR)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" Class="mb-1" />
+                <MudNumericField @bind-Value="_signals.DiNisDryContact" Label="DI-NIS с.к." Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" Class="mb-1" />
+                <MudNumericField @bind-Value="_signals.DiNis24VDC" Label="DI-NIS (=24VDC)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" Class="mb-1" />
+                <MudNumericField @bind-Value="_signals.DiNisVfg" Label="DI-NIS (VFG)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" Class="mb-1" />
+                <MudNumericField @bind-Value="_signals.DiNisMcc230VAC" Label="DI-NIS (MCC 230VAC)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" Class="mb-1" />
+                <MudNumericField @bind-Value="_signals.DiNisMcc220VDC" Label="DI-NIS (MCC 220VDC)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" Class="mb-2" />
+
+                <MudText Typo="Typo.caption" Class="font-weight-bold d-block mb-1" Style="font-size: 10px; color: #d35400;">ДИСКРЕТНЫЕ ВЫХОДЫ (DO)</MudText>
+                <MudNumericField @bind-Value="_signals.DoNisVfcNO" Label="DO-NIS (VFC NO)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" Class="mb-1" />
+                <MudNumericField @bind-Value="_signals.DoNis24VDC" Label="DO-NIS (24VDC)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" Class="mb-1" />
+                <MudNumericField @bind-Value="_signals.DoNisMcc230VAC" Label="DO-NIS (MCC 230VAC)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" Class="mb-1" />
+                <MudNumericField @bind-Value="_signals.DoNisMcc220VDC" Label="DO-NIS (MCC 220VDC)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" Class="mb-2" />
 
                 <MudSelect T="double" @bind-Value="_cabinetWidth" 
                            Label="Ширина шкафа (мм)" Variant="Variant.Outlined" 
-                           Margin="Margin.Dense" Class="mb-4">
+                           Margin="Margin.Dense" Class="mb-2">
                     <MudSelectItem Value="600.0">600 мм</MudSelectItem>
                     <MudSelectItem Value="800.0">800 мм</MudSelectItem>
                     <MudSelectItem Value="1000.0">1000 мм</MudSelectItem>
                 </MudSelect>
+
+                <MudNumericField @bind-Value="_signals.ReservePercent" Label="Резерв %" Min="0" Max="40" Step="5" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Class="mb-2" />
 
                 <MudButton Variant="Variant.Filled" 
                            Color="Color.Primary"
@@ -115,8 +139,6 @@
                 </MudTable>
 
                 @* Сводный блок: итоги и рекомендация *@
-                
-                
                 <MudAlert Severity="Severity.Normal"
                           Variant="Variant.Filled"
                           Square="true"
@@ -162,10 +184,37 @@
 </MudContainer>
 
 @code {
-    private int _aiCount = 24;
-    private int _aoCount = 8;
-    private int _diCount = 120;
-    private int _doCount = 32;
+    private SignalRequirement _signals = new()
+    {
+        AiNisCurrent2W = 8,
+        AiNisCurrent4W = 4,
+        AiRtdNis3W = 6,
+        AiNisPl3W = 2,
+        AiIsCurrent2W = 4,
+        AiIsCurrent4W = 0,
+        AiIsPl3W = 0,
+        AiRNisCurrent2W = 0,
+        AiRNisCurrent4W = 0,
+        AiRIsCurrent2W = 0,
+        AiRIsCurrent4W = 0,
+        AoNisCurrent = 4,
+        AoNisVoltage = 2,
+        AoIsCurrent = 2,
+        AoIsVoltage = 0,
+        AoRIsCurrent = 0,
+        AoRNisCurrent = 0,
+        DiIsNamur = 8,
+        DiNisDryContact = 20,
+        DiNis24VDC = 40,
+        DiNisVfg = 4,
+        DiNisMcc230VAC = 24,
+        DiNisMcc220VDC = 12,
+        DoNisVfcNO = 8,
+        DoNis24VDC = 16,
+        DoNisMcc230VAC = 4,
+        DoNisMcc220VDC = 4,
+        ReservePercent = 20
+    };
     private double _cabinetWidth = 800.0;
 
     private Dictionary<string, PlcComparisonResult>? _tkpReport;
@@ -190,16 +239,50 @@
                 _plcDbRoot = JsonSerializer.Deserialize<PlcBaseRoot>(jsonText) ?? new();
             }
 
-            // Перехват параметров из конфигуратора
+            // Перехват параметров из конфигуратора — 25 типов сигналов
             var uri = NavManager.ToAbsoluteUri(NavManager.Uri);
             var queryStrings = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(uri.Query);
 
             bool hasParams = false;
-            if (queryStrings.TryGetValue("di", out var diVal) && int.TryParse(diVal, out int di)) { _diCount = di; hasParams = true; }
-            if (queryStrings.TryGetValue("do", out var doVal) && int.TryParse(doVal, out int @do)) { _doCount = @do; hasParams = true; }
-            if (queryStrings.TryGetValue("ai", out var aiVal) && int.TryParse(aiVal, out int ai)) { _aiCount = ai; hasParams = true; }
-            if (queryStrings.TryGetValue("ao", out var aoVal) && int.TryParse(aoVal, out int ao)) { _aoCount = ao; hasParams = true; }
-            if (queryStrings.TryGetValue("width", out var wVal) && double.TryParse(wVal, out double w)) _cabinetWidth = w;
+
+            // AI
+            if (TryParseInt(queryStrings, "ai_nis2w", out int v)) { _signals.AiNisCurrent2W = v; hasParams = true; }
+            if (TryParseInt(queryStrings, "ai_nis4w", out v)) { _signals.AiNisCurrent4W = v; hasParams = true; }
+            if (TryParseInt(queryStrings, "ai_rtd3w", out v)) { _signals.AiRtdNis3W = v; hasParams = true; }
+            if (TryParseInt(queryStrings, "ai_pl3w", out v)) { _signals.AiNisPl3W = v; hasParams = true; }
+            if (TryParseInt(queryStrings, "ai_is2w", out v)) { _signals.AiIsCurrent2W = v; hasParams = true; }
+            if (TryParseInt(queryStrings, "ai_is4w", out v)) { _signals.AiIsCurrent4W = v; hasParams = true; }
+            if (TryParseInt(queryStrings, "ai_isp3w", out v)) { _signals.AiIsPl3W = v; hasParams = true; }
+            if (TryParseInt(queryStrings, "ai_rn2w", out v)) { _signals.AiRNisCurrent2W = v; hasParams = true; }
+            if (TryParseInt(queryStrings, "ai_rn4w", out v)) { _signals.AiRNisCurrent4W = v; hasParams = true; }
+            if (TryParseInt(queryStrings, "ai_ri2w", out v)) { _signals.AiRIsCurrent2W = v; hasParams = true; }
+            if (TryParseInt(queryStrings, "ai_ri4w", out v)) { _signals.AiRIsCurrent4W = v; hasParams = true; }
+
+            // AO
+            if (TryParseInt(queryStrings, "ao_nis", out v)) { _signals.AoNisCurrent = v; hasParams = true; }
+            if (TryParseInt(queryStrings, "ao_nisv", out v)) { _signals.AoNisVoltage = v; hasParams = true; }
+            if (TryParseInt(queryStrings, "ao_is", out v)) { _signals.AoIsCurrent = v; hasParams = true; }
+            if (TryParseInt(queryStrings, "ao_isv", out v)) { _signals.AoIsVoltage = v; hasParams = true; }
+            if (TryParseInt(queryStrings, "ao_ri", out v)) { _signals.AoRIsCurrent = v; hasParams = true; }
+            if (TryParseInt(queryStrings, "ao_rn", out v)) { _signals.AoRNisCurrent = v; hasParams = true; }
+
+            // DI
+            if (TryParseInt(queryStrings, "di_nam", out v)) { _signals.DiIsNamur = v; hasParams = true; }
+            if (TryParseInt(queryStrings, "di_dry", out v)) { _signals.DiNisDryContact = v; hasParams = true; }
+            if (TryParseInt(queryStrings, "di_24v", out v)) { _signals.DiNis24VDC = v; hasParams = true; }
+            if (TryParseInt(queryStrings, "di_vfg", out v)) { _signals.DiNisVfg = v; hasParams = true; }
+            if (TryParseInt(queryStrings, "di_mcc230", out v)) { _signals.DiNisMcc230VAC = v; hasParams = true; }
+            if (TryParseInt(queryStrings, "di_mcc220", out v)) { _signals.DiNisMcc220VDC = v; hasParams = true; }
+
+            // DO
+            if (TryParseInt(queryStrings, "do_vfc", out v)) { _signals.DoNisVfcNO = v; hasParams = true; }
+            if (TryParseInt(queryStrings, "do_24v", out v)) { _signals.DoNis24VDC = v; hasParams = true; }
+            if (TryParseInt(queryStrings, "do_mcc230", out v)) { _signals.DoNisMcc230VAC = v; hasParams = true; }
+            if (TryParseInt(queryStrings, "do_mcc220", out v)) { _signals.DoNisMcc220VDC = v; hasParams = true; }
+
+            // Общие
+            if (TryParseInt(queryStrings, "reserve", out v)) { _signals.ReservePercent = v; }
+            if (TryParseDouble(queryStrings, "width", out double w)) { _cabinetWidth = w; }
 
             // Автозапуск, если параметры переданы
             if (hasParams) RunComparison();
@@ -209,6 +292,29 @@
             Snackbar.Add($"Ошибка инициализации ТКП: {ex.Message}", Severity.Error);
         }
     }
+
+    private bool TryParseInt(Dictionary<string, Microsoft.Extensions.Primitives.StringValues> dict, string key, out int value)
+    {
+        value = 0;
+        if (dict.TryGetValue(key, out var val) && int.TryParse(val, out int parsed))
+        {
+            value = parsed;
+            return true;
+        }
+        return false;
+    }
+
+    private bool TryParseDouble(Dictionary<string, Microsoft.Extensions.Primitives.StringValues> dict, string key, out double value)
+    {
+        value = 0;
+        if (dict.TryGetValue(key, out var val) && double.TryParse(val, out double parsed))
+        {
+            value = parsed;
+            return true;
+        }
+        return false;
+    }
+
     private PlcComparisonResult GetCheapestVendor()
     {
         return _tkpReport!.Values.OrderBy(v => v.TotalHardwareCostRub).First();
@@ -225,19 +331,9 @@
     }
     private void RunComparison()
     {
-        // Формируем SignalRequirement вместо List<IoSignalRow>
-        var signals = new SignalRequirement
+        if (_signals.TotalDI > 0 || _signals.TotalDO > 0 || _signals.TotalAI > 0 || _signals.TotalAO > 0)
         {
-            DiNis24VDC = _diCount,
-            DoNis24VDC = _doCount,
-            AiNisCurrent2W = _aiCount,
-            AoNisCurrent = _aoCount,
-            ReservePercent = 20
-        };
-
-        if (signals.TotalDI > 0 || signals.TotalDO > 0 || signals.TotalAI > 0 || signals.TotalAO > 0)
-        {
-            _tkpReport = ComparisonEngine.CompareSystems(signals, _cabinetWidth, _plcDbRoot);
+            _tkpReport = ComparisonEngine.CompareSystems(_signals, _cabinetWidth, _plcDbRoot);
             Snackbar.Add("Технико-коммерческое сравнение успешно пересчитано!", Severity.Success);
             StateHasChanged();
         }
@@ -276,7 +372,12 @@
         foreach (var v in vendorKeys) cabinetsRow.Values[v] = $"{_tkpReport[v].TotalCabinetsCount} шт.";
         rows.Add(cabinetsRow);
 
-        // Строка 5: Стоимость (выделенная)
+        // Строка 5: Cрок поставки
+        var deliveryRow = new ComparisonRow { ParamName = "Срок поставки" };
+        foreach (var v in vendorKeys) deliveryRow.Values[v] = _tkpReport[v].DeliveryTime;
+        rows.Add(deliveryRow);
+
+        // Строка 6: Стоимость (выделенная)
         var costRow = new ComparisonRow { ParamName = "💰 Стоимость оборудования" };
         foreach (var v in vendorKeys) costRow.Values[v] = $"{_tkpReport[v].TotalHardwareCostRub.ToString("N0")} ₽";
         rows.Add(costRow);
@@ -318,19 +419,19 @@
         try
         {
             // 1. Формируем список сигналов для шапки документа Excel
-            var inputSignals = new List<IoSignalRow>();
-            if (_diCount > 0) inputSignals.Add(new IoSignalRow { SignalType = "Дискретные входы (DI)", TotalWithReserve = _diCount });
-            if (_doCount > 0) inputSignals.Add(new IoSignalRow { SignalType = "Дискретные выходы (DO)", TotalWithReserve = _doCount });
-            if (_aiCount > 0) inputSignals.Add(new IoSignalRow { SignalType = "Аналоговые входы (AI)", TotalWithReserve = _aiCount });
-            if (_aoCount > 0) inputSignals.Add(new IoSignalRow { SignalType = "Аналоговые выходы (AO)", TotalWithReserve = _aoCount });
+            var inputSignals = new List<(string SignalType, int Count)>();
+            if (_signals.TotalDI > 0) inputSignals.Add(("Дискретные входы (DI)", _signals.TotalDI));
+            if (_signals.TotalDO > 0) inputSignals.Add(("Дискретные выходы (DO)", _signals.TotalDO));
+            if (_signals.TotalAI > 0) inputSignals.Add(("Аналоговые входы (AI)", _signals.TotalAI));
+            if (_signals.TotalAO > 0) inputSignals.Add(("Аналоговые выходы (AO)", _signals.TotalAO));
 
-            // 2. Генерируем массив байтов с помощью нашего EPPlus-сервиса
+            // 2. Генерируем массив байтов с помощью DocGenerator
             byte[] fileBytes = DocGenerator.GeneratePlcComparisonExcel(_tkpReport, inputSignals, _cabinetWidth);
 
             // Сборка b2b-имени файла
             string fileName = $"TKP_Comparison_PLC_{DateTime.Now:yyyyMMdd}.xlsx";
 
-            // 3. Вызываем JS-функцию скачивания, передавая имя и Base64 строку файла
+            // 3. Вызываем JS-функцию скачивания
             await JS.InvokeVoidAsync("downloadFileFromBytes", fileName, Convert.ToBase64String(fileBytes));
 
             Snackbar.Add("ТКП успешно выгружено в Excel!", Severity.Success);

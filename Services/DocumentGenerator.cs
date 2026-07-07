@@ -107,136 +107,100 @@ public class DocumentGenerator
             return package.GetAsByteArray();
         }
     }
-    public byte[] GeneratePlcComparisonExcel(Dictionary<string, PlcComparisonResult> report, List<IoSignalRow> signals, double cabinetWidth)
+    /// <summary>
+    /// Генерирует XLSX-файл сравнения ПЛК для нескольких вендоров.
+    /// </summary>
+    public byte[] GeneratePlcComparisonExcel(
+        Dictionary<string, PlcComparisonResult> tkpReport,
+        List<(string SignalType, int Count)> inputSignals,
+        double cabinetWidthMm)
     {
-        // Установка некоммерческой лицензии EPPlus, как на первой странице вашего файла
         ExcelPackage.License.SetNonCommercialPersonal("AsuGeneratorSaaS");
 
-        using (var package = new ExcelPackage())
+        using var package = new ExcelPackage();
+        var ws = package.Workbook.Worksheets.Add("TKP Сравнение ПЛК");
+
+        ws.View.ShowGridLines = true;
+
+        // 1. Шапка
+        ws.Cells["A1"].Value = "ТЕХНИКО-КОММЕРЧЕСКОЕ ПРЕДЛОЖЕНИЕ: СРАВНЕНИЕ СИСТЕМ ПЛК";
+        ws.Cells["A1:G1"].Merge = true;
+        ws.Cells["A1"].Style.Font.Size = 14;
+        ws.Cells["A1"].Style.Font.Bold = true;
+        ws.Cells["A1"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+
+        ws.Cells["A2"].Value = $"Дата: {DateTime.Now:dd.MM.yyyy} | Ширина шкафа: {cabinetWidthMm} мм";
+        ws.Cells["A2:G2"].Merge = true;
+        ws.Cells["A2"].Style.Font.Size = 10;
+
+        // 2. Входные сигналы
+        int row = 4;
+        ws.Cells[row, 1].Value = "ВХОДНЫЕ СИГНАЛЫ:";
+        ws.Cells[row, 1].Style.Font.Bold = true;
+        row++;
+        foreach (var sig in inputSignals)
         {
-            var worksheet = package.Workbook.Worksheets.Add("ТКП Сравнение ПЛК");
-            worksheet.View.ShowGridLines = true; // Включаем отображение сетки таблицы по ГОСТ
-
-            // --- 1. ОФОРМЛЕНИЕ ШАПКИ СТРАНИЦЫ ---
-            worksheet.Cells["A1"].Value = "ТЕХНИКО-КОММЕРЧЕСКОЕ СРАВНЕНИЕ СИСТЕМ ПЛК";
-            worksheet.Cells["A1:D1"].Merge = true;
-            worksheet.Cells["A1"].Style.Font.Size = 14;
-            worksheet.Cells["A1"].Style.Font.Bold = true;
-            worksheet.Cells["A1"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-
-            worksheet.Cells["A2"].Value = $"Сгенерировано автоматической b2b-платформой asugenerator.ru";
-            worksheet.Cells["A2:D2"].Merge = true;
-            worksheet.Cells["A2"].Style.Font.Italic = true;
-            worksheet.Cells["A2"].Style.Font.Size = 10;
-
-            // --- 2. ИСХОДНАЯ ИНФОРМАЦИОННАЯ МОЩНОСТЬ ПРОЕКТА ---
-            worksheet.Cells["A4"].Value = "Исходные параметры информационной мощности из ТЗ:";
-            worksheet.Cells["A4"].Style.Font.Bold = true;
-            worksheet.Cells["A4:D4"].Merge = true;
-
-            int row = 5;
-            foreach (var sig in signals)
-            {
-                worksheet.Cells[row, 1].Value = $"Тип сигналов: {sig.SignalType}";
-                worksheet.Cells[row, 3].Value = $"Количество с резервом: {sig.TotalWithReserve} каналов";
-                worksheet.Cells[row, 1, row, 2].Merge = true;
-                worksheet.Cells[row, 3, row, 4].Merge = true;
-                row++;
-            }
-            worksheet.Cells[row, 1].Value = $"Выбранный габарит шкафа Провенто: {cabinetWidth} мм";
-            worksheet.Cells[row, 1, row, 4].Merge = true;
-            row += 2;
-
-            // --- 3. СОЗДАНИЕ СТРОГОЙ ШАПКИ СРАВНИТЕЛЬНОЙ ТАБЛИЦЫ ---
-            worksheet.Cells[row, 1].Value = "Параметр сравнения системы";
-            worksheet.Cells[row, 2].Value = report["REGUL"].VendorName;
-            worksheet.Cells[row, 3].Value = report["ОВЕН"].VendorName;
-
-            for (int col = 1; col <= 3; col++)
-            {
-                var cell = worksheet.Cells[row, col];
-                cell.Style.Font.Bold = true;
-                cell.Style.Font.Size = 11;
-                cell.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                cell.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
-                cell.Style.Border.BorderAround(ExcelBorderStyle.Thin);
-                cell.Style.Fill.PatternType = ExcelFillStyle.Solid;
-                cell.Style.Fill.BackgroundColor.SetColor(Color.FromArgb(30, 41, 59)); // Серый Slate-Blue стиль
-                cell.Style.Font.Color.SetColor(Color.White);
-            }
-            worksheet.Row(row).Height = 25;
+            ws.Cells[row, 1].Value = sig.SignalType;
+            ws.Cells[row, 2].Value = sig.Count;
+            ws.Cells[row, 2].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
             row++;
-
-            // --- 4. ЗАПОЛНЕНИЕ ТЕХНИЧЕСКИХ ДАННЫХ СЕТКИ ---
-            string[] parameters = { "Серия контроллера", "Техническое назначение", "Всего крейтов / узлов", "Необходимо шкафов Провенто" };
-
-            string[,] dataMatrix = {
-                { parameters[0], report["REGUL"].SeriesId, report["ОВЕН"].SeriesId },
-                { parameters[1], report["REGUL"].TargetApplication, report["ОВЕН"].TargetApplication },
-                { parameters[2], report["REGUL"].TotalRacksCount.ToString(), report["ОВЕН"].TotalRacksCount.ToString() },
-                { parameters[3], report["REGUL"].TotalCabinetsCount.ToString(), report["ОВЕН"].TotalCabinetsCount.ToString() }
-            };
-
-            for (int i = 0; i < 4; i++)
-            {
-                for (int j = 0; j < 3; j++)
-                {
-                    var cell = worksheet.Cells[row, j + 1];
-                    cell.Value = dataMatrix[i, j];
-                    cell.Style.Font.Size = 10;
-                    cell.Style.Border.BorderAround(ExcelBorderStyle.Thin);
-                    cell.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
-                    if (j > 0)
-                    {
-                        cell.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                    }
-                }
-                worksheet.Row(row).Height = 20;
-                row++;
-            }
-
-            // --- 5. ВЫВОД ИТОГОВОЙ МЯТНОЙ СТОИМОСТИ ЖЕЛЕЗА ---
-            worksheet.Cells[row, 1].Value = "Финансовая стоимость оборудования";
-            worksheet.Cells[row, 2].Value = $"{report["REGUL"].TotalHardwareCostRub:N0} ₽";
-            worksheet.Cells[row, 3].Value = $"{report["ОВЕН"].TotalHardwareCostRub:N0} ₽";
-
-            for (int col = 1; col <= 3; col++)
-            {
-                var cell = worksheet.Cells[row, col];
-                cell.Style.Font.Bold = true;
-                cell.Style.Font.Size = 11;
-                cell.Style.Border.BorderAround(ExcelBorderStyle.Thin);
-                cell.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
-
-                if (col == 2) cell.Style.Font.Color.SetColor(Color.FromArgb(60, 184, 144)); // Мятно-зеленый #3cb890
-                if (col == 3) cell.Style.Font.Color.SetColor(Color.FromArgb(0, 120, 212));  // Синий ОВЕН
-            }
-            worksheet.Row(row).Height = 22;
-            row += 2;
-
-            // --- 6. АНАЛИТИЧЕСКИЙ ВЫВОД ДЛЯ ГИПА ---
-            worksheet.Cells[row, 1].Value = "ЗАКЛЮЧЕНИЕ ГЛАВНОГО ИНЖЕНЕРА ПРОЕКТА:";
-            worksheet.Cells[row, 1].Style.Font.Bold = true;
-            row++;
-
-            var conclusionRange = worksheet.Cells[row, 1, row + 2, 4];
-            conclusionRange.Merge = true;
-            conclusionRange.Value = $"Разница бюджетов составляет {(report["REGUL"].TotalHardwareCostRub - report["ОВЕН"].TotalHardwareCostRub):N0} ₽. " +
-                                  $"Применение отказоустойчивой резервированной архитектуры Прософт REGUL R500 (две шины RegulBus, резерв ЦП и БП) " +
-                                  $"и поканальной искрозащиты Exi технически обязательно для систем ПАЗ уровня SIL3 (Ростехнадзор).";
-
-            conclusionRange.Style.Font.Size = 10;
-            conclusionRange.Style.WrapText = true;
-            conclusionRange.Style.VerticalAlignment = ExcelVerticalAlignment.Top;
-            conclusionRange.Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
-
-            // ЖЕСТКАЯ КАЛИБРОВКА ШИРИНЫ КОЛОНОК ПОД СТАНДАРТЫ СПДС
-            worksheet.Column(1).Width = 35;
-            worksheet.Column(2).Width = 30;
-            worksheet.Column(3).Width = 30;
-            worksheet.Column(4).Width = 15;
-
-            return package.GetAsByteArray();
         }
+
+        // 3. Таблица сравнения
+        row++;
+        ws.Cells[row, 1].Value = "ПАРАМЕТР";
+        ws.Cells[row, 1].Style.Font.Bold = true;
+        ws.Cells[row, 1].Style.Fill.PatternType = ExcelFillStyle.Solid;
+        ws.Cells[row, 1].Style.Fill.BackgroundColor.SetColor(Color.LightGray);
+
+        int col = 2;
+        var vendorKeys = tkpReport.Keys.ToList();
+        foreach (var key in vendorKeys)
+        {
+            ws.Cells[row, col].Value = tkpReport[key].VendorName;
+            ws.Cells[row, col].Style.Font.Bold = true;
+            ws.Cells[row, col].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            ws.Cells[row, col].Style.Fill.BackgroundColor.SetColor(Color.LightGray);
+            ws.Cells[row, col].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            col++;
+        }
+        row++;
+
+        // Строки параметров
+        var paramRows = new List<(string Param, Func<PlcComparisonResult, string> Getter)>
+        {
+            ("Серия контроллера", r => r.SeriesId),
+            ("Назначение", r => r.TargetApplication),
+            ("Количество крейтов", r => $"{r.TotalRacksCount} шт."),
+            ("Необходимо шкафов", r => $"{r.TotalCabinetsCount} шт."),
+            ("Срок поставки", r => r.DeliveryTime),
+            ("Стоимость оборудования, ₽", r => r.TotalHardwareCostRub.ToString("N0")),
+        };
+
+        foreach (var (param, getter) in paramRows)
+        {
+            ws.Cells[row, 1].Value = param;
+            ws.Cells[row, 1].Style.Font.Bold = param.Contains("Стоимость");
+            col = 2;
+            foreach (var key in vendorKeys)
+            {
+                ws.Cells[row, col].Value = getter(tkpReport[key]);
+                ws.Cells[row, col].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                if (param.Contains("Стоимость"))
+                {
+                    ws.Cells[row, col].Style.Font.Bold = true;
+                    ws.Cells[row, col].Style.Font.Size = 14;
+                }
+                col++;
+            }
+            row++;
+        }
+
+        // 4. Ширина колонок
+        ws.Column(1).Width = 30;
+        for (int i = 2; i <= vendorKeys.Count + 1; i++)
+            ws.Column(i).Width = 35;
+
+        return package.GetAsByteArray();
     }
 }

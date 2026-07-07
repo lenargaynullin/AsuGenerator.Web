@@ -5,6 +5,22 @@ using System.Linq;
 
 namespace AsuGenerator.Web.Services;
 
+/// <summary>
+/// Информация о подобранном модуле ПЛК для конкретного типа сигнала.
+/// </summary>
+public class PickedModuleInfo
+{
+    public string SignalType { get; set; } = "";
+    public string SignalLabel { get; set; } = "";
+    public int RequiredCount { get; set; }
+    public int ModulesNeeded { get; set; }
+    public string PartNumber { get; set; } = "";
+    public string Description { get; set; } = "";
+    public int ChannelsPerModule { get; set; }
+    public double WidthMm { get; set; }
+    public string Category { get; set; } = "";
+}
+
 public class UniversalCalculationService
 {
     private readonly PlcBaseRoot _db;
@@ -315,24 +331,25 @@ public class UniversalCalculationService
         };
     }
     /// <summary>
-    /// Рассчитать систему с диагностикой — возвращает и результат, и лог подбора.
+    /// Рассчитать систему с диагностикой — возвращает результат, лог подбора и детальный список модулей.
     /// </summary>
-    public (PlcComparisonResult Result, List<string> Log) CalculateSystemWithDiagnostics(
+    public (PlcComparisonResult Result, List<string> Log, List<PickedModuleInfo> Modules) CalculateSystemWithDiagnostics(
         string vendorName,
         SignalRequirement signals,
         double cabinetWidthMm)
     {
         var log = new List<string>();
+        var pickedModules = new List<PickedModuleInfo>();
 
         var vendor = _db.Vendors?.FirstOrDefault(v =>
             v.Name.Equals(vendorName, StringComparison.OrdinalIgnoreCase));
 
         if (vendor == null)
-            return (CreateError(vendorName, "Вендор не найден в базе"), log);
+            return (CreateError(vendorName, "Вендор не найден в базе"), log, new List<PickedModuleInfo>());
 
         var series = vendor.Series?.FirstOrDefault();
         if (series == null)
-            return (CreateError(vendorName, "Нет данных о серии ПЛК"), log);
+            return (CreateError(vendorName, "Нет данных о серии ПЛК"), log, new List<PickedModuleInfo>());
 
         var modules = _db.Components
             .Where(c => c.Vendor != null &&
@@ -344,7 +361,7 @@ public class UniversalCalculationService
         log.Add("");
 
         if (!modules.Any())
-            return (CreateError(vendorName, "Нет модулей в базе"), log);
+            return (CreateError(vendorName, "Нет модулей в базе"), log, new List<PickedModuleInfo>());
 
         var cpu = modules.FirstOrDefault(m =>
             m.Category != null && m.Category.Equals("cpu", StringComparison.OrdinalIgnoreCase));
@@ -352,7 +369,7 @@ public class UniversalCalculationService
         if (cpu == null)
         {
             log.Add("❌ CPU не найден!");
-            return (CreateError(vendorName, "ЦПУ не найден в базе"), log);
+            return (CreateError(vendorName, "ЦПУ не найден в базе"), log, new List<PickedModuleInfo>());
         }
 
         log.Add($"✅ CPU: {cpu.PartNumber}");
@@ -432,6 +449,19 @@ public class UniversalCalculationService
             int modulesNeeded = (int)Math.Ceiling((double)countWithReserve / bestModule.Channels);
             totalModules += modulesNeeded;
 
+            pickedModules.Add(new PickedModuleInfo
+            {
+                SignalType = key,
+                SignalLabel = label,
+                RequiredCount = countWithReserve,
+                ModulesNeeded = modulesNeeded,
+                PartNumber = bestModule.PartNumber,
+                Description = bestModule.Description ?? "",
+                ChannelsPerModule = bestModule.Channels,
+                WidthMm = bestModule.WidthMm,
+                Category = category
+            });
+
             log.Add($"✅ {label}: {modulesNeeded} × {bestModule.PartNumber} (каналов: {bestModule.Channels}, ширина: {bestModule.WidthMm}мм)");
         }
 
@@ -455,6 +485,6 @@ public class UniversalCalculationService
             DeliveryTime = DeliveryTimes.GetValueOrDefault(vendorName, "Уточняется"),
         };
 
-        return (result, log);
+        return (result, log, pickedModules);
     }
 }
