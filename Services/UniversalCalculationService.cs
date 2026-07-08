@@ -25,43 +25,37 @@ public class UniversalCalculationService
 {
     private readonly PlcBaseRoot _db;
 
-    // Маппинг 25 типов сигналов на категории модулей
+    // Маппинг типов сигналов (supported_signals) на категории модулей
     private static readonly Dictionary<string, string> SignalToCategory = new(StringComparer.OrdinalIgnoreCase)
     {
         // Аналоговые входы (AI)
-        ["AI_NIS_2W"] = "ai",
-        ["AI_NIS_4W"] = "ai",
-        ["AI_RTD_NIS_3W"] = "ai-rtd",
-        ["AI_NIS_PL_3W"] = "ai",
-        ["AI_IS_2W"] = "ai",
-        ["AI_IS_4W"] = "ai",
-        ["AI_IS_PL_3W"] = "ai",
-        ["AI_R_NIS_2W"] = "ai",
-        ["AI_R_NIS_4W"] = "ai",
-        ["AI_R_IS_2W"] = "ai",
-        ["AI_R_IS_4W"] = "ai",
+        ["AiNis4_20mA_2W"] = "ai",
+        ["AiNis4_20mA_4W"] = "ai",
+        ["AiRtdNis3W"] = "ai-rtd",
+        ["AiIs4_20mA_2W"] = "ai",
+        ["AiIs4_20mA_4W"] = "ai",
+        ["AiRNis4_20mA_2W"] = "ai",
+        ["AiRNis4_20mA_4W"] = "ai",
+        ["AiRIs4_20mA_2W"] = "ai",
+        ["AiRIs4_20mA_4W"] = "ai",
 
         // Аналоговые выходы (AO)
-        ["AO_NIS"] = "ao",
-        ["AO_NIS_V"] = "ao",
-        ["AO_IS"] = "ao",
-        ["AO_IS_V"] = "ao",
-        ["AO_R_IS"] = "ao",
-        ["AO_R_NIS"] = "ao",
+        ["AoIs0_10V"] = "ao",
+        ["AoIs4_20mA"] = "ao",
+        ["AoNis4_20mA"] = "ao",
+        ["AoRIs4_20mA"] = "ao",
+        ["AoRNis4_20mA"] = "ao",
 
         // Дискретные входы (DI)
-        ["DI_IS_NAMUR"] = "di",
-        ["DI_NIS_DRY"] = "di",
-        ["DI_NIS_24V"] = "di",
-        ["DI_NIS_VFG"] = "di",
-        ["DI_NIS_MCC_230VAC"] = "di",
-        ["DI_NIS_MCC_220VDC"] = "di",
+        ["DiIsNamur"] = "di",
+        ["DiNisDryContact"] = "di",
+        ["DiNis24VDC"] = "di",
+        ["DiNisMcc230VAC"] = "di",
 
         // Дискретные выходы (DO)
-        ["DO_NIS_VFC"] = "do",
-        ["DO_NIS_24V"] = "do",
-        ["DO_NIS_MCC_230VAC"] = "do",
-        ["DO_NIS_MCC_220VDC"] = "do",
+        ["DoNisVfcNO"] = "do",
+        ["DoNis24VDC"] = "do",
+        ["DoNisMcc230VAC"] = "do",
     };
 
     // Сроки поставки
@@ -79,7 +73,7 @@ public class UniversalCalculationService
 
     /// <summary>
     /// Рассчитать систему для указанного вендора.
-    /// Принимает SignalRequirement с 25 типами сигналов.
+    /// Принимает SignalRequirement с типами сигналов.
     /// </summary>
     public PlcComparisonResult CalculateSystem(
         string vendorName,
@@ -114,36 +108,30 @@ public class UniversalCalculationService
         var signalList = new List<(string Key, int Count)>
         {
             // AI
-            ("AI_NIS_2W", signals.AiNisCurrent2W),
-            ("AI_NIS_4W", signals.AiNisCurrent4W),
-            ("AI_RTD_NIS_3W", signals.AiRtdNis3W),
-            ("AI_NIS_PL_3W", signals.AiNisPl3W),
-            ("AI_IS_2W", signals.AiIsCurrent2W),
-            ("AI_IS_4W", signals.AiIsCurrent4W),
-            ("AI_IS_PL_3W", signals.AiIsPl3W),
-            ("AI_R_NIS_2W", signals.AiRNisCurrent2W),
-            ("AI_R_NIS_4W", signals.AiRNisCurrent4W),
-            ("AI_R_IS_2W", signals.AiRIsCurrent2W),
-            ("AI_R_IS_4W", signals.AiRIsCurrent4W),
+            ("AiNis4_20mA_2W", signals.AiNisCurrent2W),
+            ("AiNis4_20mA_4W", signals.AiNisCurrent4W),
+            ("AiRtdNis3W", signals.AiRtdNis3W),
+            ("AiIs4_20mA_2W", signals.AiIsCurrent2W),
+            ("AiIs4_20mA_4W", signals.AiIsCurrent4W),
+            ("AiRNis4_20mA_2W", signals.AiRNisCurrent2W),
+            ("AiRNis4_20mA_4W", signals.AiRNisCurrent4W),
+            ("AiRIs4_20mA_2W", signals.AiRIsCurrent2W),
+            ("AiRIs4_20mA_4W", signals.AiRIsCurrent4W),
             // AO
-            ("AO_NIS", signals.AoNisCurrent),
-            ("AO_NIS_V", signals.AoNisVoltage),
-            ("AO_IS", signals.AoIsCurrent),
-            ("AO_IS_V", signals.AoIsVoltage),
-            ("AO_R_IS", signals.AoRIsCurrent),
-            ("AO_R_NIS", signals.AoRNisCurrent),
+            ("AoNis4_20mA", signals.AoNisCurrent),
+            ("AoIs0_10V", signals.AoIsVoltage),
+            ("AoIs4_20mA", signals.AoIsCurrent),
+            ("AoRIs4_20mA", signals.AoRIsCurrent),
+            ("AoRNis4_20mA", signals.AoRNisCurrent),
             // DI
-            ("DI_IS_NAMUR", signals.DiIsNamur),
-            ("DI_NIS_DRY", signals.DiNisDryContact),
-            ("DI_NIS_24V", signals.DiNis24VDC),
-            ("DI_NIS_VFG", signals.DiNisVfg),
-            ("DI_NIS_MCC_230VAC", signals.DiNisMcc230VAC),
-            ("DI_NIS_MCC_220VDC", signals.DiNisMcc220VDC),
+            ("DiIsNamur", signals.DiIsNamur),
+            ("DiNisDryContact", signals.DiNisDryContact),
+            ("DiNis24VDC", signals.DiNis24VDC),
+            ("DiNisMcc230VAC", signals.DiNisMcc230VAC),
             // DO
-            ("DO_NIS_VFC", signals.DoNisVfcNO),
-            ("DO_NIS_24V", signals.DoNis24VDC),
-            ("DO_NIS_MCC_230VAC", signals.DoNisMcc230VAC),
-            ("DO_NIS_MCC_220VDC", signals.DoNisMcc220VDC),
+            ("DoNisVfcNO", signals.DoNisVfcNO),
+            ("DoNis24VDC", signals.DoNis24VDC),
+            ("DoNisMcc230VAC", signals.DoNisMcc230VAC),
         };
 
         double reserveFactor = 1 + ((double)signals.ReservePercent / 100.0);
@@ -307,35 +295,29 @@ public class UniversalCalculationService
         log.Add($"✅ CPU: {cpu.PartNumber}");
 
         var signalList = new List<(string Key, string Label, int Count)>
-    {
-        ("AI_NIS_2W", "AI-NIS (4-20 mA, 2w)", signals.AiNisCurrent2W),
-        ("AI_NIS_4W", "AI-NIS (4-20 mA, 4w)", signals.AiNisCurrent4W),
-        ("AI_RTD_NIS_3W", "AI-RTD-NIS (3w)", signals.AiRtdNis3W),
-        ("AI_NIS_PL_3W", "AI-NIS (Pl, 3w)", signals.AiNisPl3W),
-        ("AI_IS_2W", "AI-IS (4-20 mA, 2w)", signals.AiIsCurrent2W),
-        ("AI_IS_4W", "AI-IS (4-20 mA, 4w)", signals.AiIsCurrent4W),
-        ("AI_IS_PL_3W", "AI-IS (Pl, 3w)", signals.AiIsPl3W),
-        ("AI_R_NIS_2W", "AI-R-NIS (4-20 mA, 2w)", signals.AiRNisCurrent2W),
-        ("AI_R_NIS_4W", "AI-R-NIS (4-20 mA, 4w)", signals.AiRNisCurrent4W),
-        ("AI_R_IS_2W", "AI-R-IS (4-20 mA, 2w)", signals.AiRIsCurrent2W),
-        ("AI_R_IS_4W", "AI-R-IS (4-20 mA, 4w)", signals.AiRIsCurrent4W),
-        ("AO_NIS", "AO-NIS (4-20 mA)", signals.AoNisCurrent),
-        ("AO_NIS_V", "AO-NIS (0-10 В)", signals.AoNisVoltage),
-        ("AO_IS", "AO-IS (4-20 mA)", signals.AoIsCurrent),
-        ("AO_IS_V", "AO-IS (0-10 В)", signals.AoIsVoltage),
-        ("AO_R_IS", "AO-R-IS (4-20 mA)", signals.AoRIsCurrent),
-        ("AO_R_NIS", "AO-R-NIS (4-20 mA)", signals.AoRNisCurrent),
-        ("DI_IS_NAMUR", "DI-IS (NAMUR)", signals.DiIsNamur),
-        ("DI_NIS_DRY", "DI-NIS (сухой контакт)", signals.DiNisDryContact),
-        ("DI_NIS_24V", "DI-NIS (24VDC)", signals.DiNis24VDC),
-        ("DI_NIS_VFG", "DI-NIS (VFG)", signals.DiNisVfg),
-        ("DI_NIS_MCC_230VAC", "DI-NIS (MCC 230VAC)", signals.DiNisMcc230VAC),
-        ("DI_NIS_MCC_220VDC", "DI-NIS (MCC 220VDC)", signals.DiNisMcc220VDC),
-        ("DO_NIS_VFC", "DO-NIS (VFC NO)", signals.DoNisVfcNO),
-        ("DO_NIS_24V", "DO-NIS (24VDC)", signals.DoNis24VDC),
-        ("DO_NIS_MCC_230VAC", "DO-NIS (MCC 230VAC)", signals.DoNisMcc230VAC),
-        ("DO_NIS_MCC_220VDC", "DO-NIS (MCC 220VDC)", signals.DoNisMcc220VDC),
-    };
+        {
+            ("AiNis4_20mA_2W", "AI-NIS (4-20 mA, 2w)", signals.AiNisCurrent2W),
+            ("AiNis4_20mA_4W", "AI-NIS (4-20 mA, 4w)", signals.AiNisCurrent4W),
+            ("AiRtdNis3W", "AI-RTD-NIS (3w)", signals.AiRtdNis3W),
+            ("AiIs4_20mA_2W", "AI-IS (4-20 mA, 2w)", signals.AiIsCurrent2W),
+            ("AiIs4_20mA_4W", "AI-IS (4-20 mA, 4w)", signals.AiIsCurrent4W),
+            ("AiRNis4_20mA_2W", "AI-R-NIS (4-20 mA, 2w)", signals.AiRNisCurrent2W),
+            ("AiRNis4_20mA_4W", "AI-R-NIS (4-20 mA, 4w)", signals.AiRNisCurrent4W),
+            ("AiRIs4_20mA_2W", "AI-R-IS (4-20 mA, 2w)", signals.AiRIsCurrent2W),
+            ("AiRIs4_20mA_4W", "AI-R-IS (4-20 mA, 4w)", signals.AiRIsCurrent4W),
+            ("AoNis4_20mA", "AO-NIS (4-20 mA)", signals.AoNisCurrent),
+            ("AoIs0_10V", "AO-IS (0-10 В)", signals.AoIsVoltage),
+            ("AoIs4_20mA", "AO-IS (4-20 mA)", signals.AoIsCurrent),
+            ("AoRIs4_20mA", "AO-R-IS (4-20 mA)", signals.AoRIsCurrent),
+            ("AoRNis4_20mA", "AO-R-NIS (4-20 mA)", signals.AoRNisCurrent),
+            ("DiIsNamur", "DI-IS (NAMUR)", signals.DiIsNamur),
+            ("DiNisDryContact", "DI-NIS (сухой контакт)", signals.DiNisDryContact),
+            ("DiNis24VDC", "DI-NIS (24VDC)", signals.DiNis24VDC),
+            ("DiNisMcc230VAC", "DI-NIS (MCC 230VAC)", signals.DiNisMcc230VAC),
+            ("DoNisVfcNO", "DO-NIS (VFC NO)", signals.DoNisVfcNO),
+            ("DoNis24VDC", "DO-NIS (24VDC)", signals.DoNis24VDC),
+            ("DoNisMcc230VAC", "DO-NIS (MCC 230VAC)", signals.DoNisMcc230VAC),
+        };
 
         double reserveFactor = 1 + ((double)signals.ReservePercent / 100.0);
         int totalModules = 1; // CPU
@@ -361,7 +343,7 @@ public class UniversalCalculationService
 
             log.Add($"🔎 {label}: {count} шт. (с резервом: {countWithReserve}) → категория '{category}'. Найдено модулей в категории: {allCategoryModules.Count}");
 
-            // Фильтруем по совместимости описания
+            // Фильтруем по совместимости supported_signals
             var compatibleModules = allCategoryModules
                 .Where(m => IsModuleCompatible(key, m))
                 .OrderByDescending(m => m.Channels)
@@ -369,10 +351,10 @@ public class UniversalCalculationService
 
             if (!compatibleModules.Any())
             {
-                log.Add($"❌ {label}: из {allCategoryModules.Count} модулей категории '{category}' ни один не совместим по описанию!");
+                log.Add($"❌ {label}: из {allCategoryModules.Count} модулей категории '{category}' ни один не совместим по SupportedSignals!");
                 if (allCategoryModules.Any())
                 {
-                    log.Add($"   Примеры модулей в категории: {string.Join(", ", allCategoryModules.Take(3).Select(m => $"{m.PartNumber} (desc: '{m.Description?.Substring(0, Math.Min(m.Description?.Length ?? 0, 60))}...')"))}");
+                    log.Add($"   Примеры модулей в категории: {string.Join(", ", allCategoryModules.Take(3).Select(m => $"{m.PartNumber} (signals: '{string.Join(",", m.SupportedSignals ?? new List<string>())}')"))}");
                 }
                 continue;
             }
