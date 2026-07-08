@@ -6,61 +6,63 @@
     <MudText Typo="Typo.h6" Color="Color.Inherit"><b>AsuGenerator</b></MudText>
 </div>
 
-@* Навигационное меню *@
 <MudNavMenu Bordered="true" Class="pa-2">
 
-    @* Ссылка на главную страницу (Лендинг/Презентация) *@
-    <MudNavLink Href="/" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home" IconColor="Color.Default">
-        Главная страница
-    </MudNavLink>
-
-    @* Ссылка на панель управления проектами инженера — ПЕРЕНЕСЕНА НАВЕРХ ДЛЯ УДОБСТВА ИНЖЕНЕРА *@
-    <MudNavLink Href="/dashboard" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Dashboard" IconColor="Color.Info">
-        Мои проекты
-    </MudNavLink>
-
-    @* Ссылка на импорт спецификации из буфера обмена Excel (ИСПРАВЛЕНА ССЫЛКА НА ИМЯ ВАШЕГО СТРАНИЧНОГО РОУТА И ИКОНКА) *@
-    <MudNavLink Href="/import-spec" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.ContentPaste" IconColor="Color.Success">
-        Импорт спецификации
-    </MudNavLink>
-
-    @* Ссылка на сам рабочий конфигуратор с вкладками Конструктив/Оборудование *@
-    <MudNavLink Href="/configurator" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Build" IconColor="Color.Primary">
-        Конфигуратор шкафа
-    </MudNavLink>
-
-    @* Ссылка на конфигуратор ПЛК *@
-    <MudNavLink Href="/plc-configurator" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Memory" IconColor="Color.Info">
+    @* ========== 🟢 ОСНОВНОЕ: КОНФИГУРАТОР ПЛК ========== *@
+    <MudText Typo="Typo.overline" Class="px-3 mt-2 mb-1" Style="color: #3cb890; font-weight: bold; font-size: 10px;">
+        КОНФИГУРАТОР СИСТЕМ ПЛК
+    </MudText>
+    <MudNavLink Href="/plc-configurator" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Memory" IconColor="Color.Success">
         Конфигуратор ПЛК
     </MudNavLink>
-
-    @* Ссылка на типовые шкафы (ВРУ, ЩС, ЩО) — ПЕРЕВЕДЕНА НА ТИПОВОЙ СТИЛЬ СВЕРХУ *@
-    <MudNavLink Href="/standard-cabinets" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Inventory2" IconColor="Color.Default">
-        Типовые шкафы
-    </MudNavLink>
-
-    <MudNavLink Href="/db-uploader" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.SettingsSuggest" IconColor="Color.Warning">
-        Загрузка каталога ПЛК (Админ)
+    <MudNavLink Href="/plc-comparison" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.BarChart" IconColor="Color.Info">
+        Сравнение ПЛК (ТКП)
     </MudNavLink>
 
     <MudDivider Class="my-2" />
 
-    @* Ссылка на коммерческую страницу с тарифами и запросом счета по ИНН *@
+    @* ========== 🔵 КОНФИГУРАТОРЫ ШКАФОВ ========== *@
+    <MudText Typo="Typo.overline" Class="px-3 mb-1" Style="color: #94a3b8; font-weight: bold; font-size: 10px;">
+        КОНФИГУРАТОРЫ ШКАФОВ
+    </MudText>
+    <MudNavLink Href="/configurator" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Build" IconColor="Color.Primary">
+        Конфигуратор шкафа
+    </MudNavLink>
+    <MudNavLink Href="/import-spec" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.ContentPaste" IconColor="Color.Success">
+        Импорт спецификации
+    </MudNavLink>
+    <MudNavLink Href="/dashboard" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Dashboard" IconColor="Color.Info">
+        Мои проекты
+    </MudNavLink>
+    <MudNavLink Href="/standard-cabinets" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Inventory2" IconColor="Color.Default">
+        Типовые шкафы
+    </MudNavLink>
+
+    <MudDivider Class="my-2" />
+
+    @* ========== ⚙️ БАЗЫ ДАННЫХ ========== *@
+    <MudText Typo="Typo.overline" Class="px-3 mb-1" Style="color: #64748b; font-weight: bold; font-size: 10px;">
+        БАЗЫ ДАННЫХ
+    </MudText>
+    <MudNavLink Href="/db-uploader" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.SettingsSuggest" IconColor="Color.Warning">
+        Загрузка каталога ПЛК
+    </MudNavLink>
+
+    <MudDivider Class="my-2" />
+
+    @* ========== 📄 ОСТАЛЬНОЕ ========== *@
+    <MudText Typo="Typo.overline" Class="px-3 mb-1" Style="color: #475569; font-weight: bold; font-size: 10px;">
+        ДОКУМЕНТЫ И СВЯЗЬ
+    </MudText>
+    <MudNavLink Href="/" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home" IconColor="Color.Default">
+        Главная страница
+    </MudNavLink>
     <MudNavLink Href="/pricing" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Payments" IconColor="Color.Success">
         Тарифы и Бизнес
     </MudNavLink>
-
-    @* Ссылка на страницу блога со статьями (Полезно для статьи на Хабре) *@
-    <MudNavLink Href="/blog" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.RssFeed" IconColor="Color.Warning">
-        Блог и статьи
-    </MudNavLink>
-
-    @* Ссылка на стандарты ГОСТ *@
     <MudNavLink Href="/standards" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.MenuBook" IconColor="Color.Warning">
         Стандарты ГОСТ
     </MudNavLink>
-
-    @* Страница отзывов и предложений из базы JSON *@
     <MudNavLink Href="/feedback" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Feedback" IconColor="Color.Default">
         Отзывы и предложения
     </MudNavLink>

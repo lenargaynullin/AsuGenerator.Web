@@ -11,6 +11,7 @@
 @inject IJSRuntime JS
 @inject UniversalCalculationService UniversalService;
 @inject DocumentGenerator DocGenerator
+@inject EmailNotificationService EmailService
 
 <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-4 px-4">
     <MudText Typo="Typo.h5" Class="mb-3 font-weight-bold" Style="font-size: 16px;">⚙️ Расширенная конфигурация ПЛК и сигналов</MudText>
@@ -870,7 +871,23 @@
             _tkpComparisonReport = ComparisonEngine.CompareSystems(signals, cabinetWidth, _plcDbRoot);
 
             Snackbar.Add($"Система {result.VendorName} рассчитана: {result.TotalRacksCount} крейтов, {result.TotalCabinetsCount} шкафов, {result.TotalHardwareCostRub:N0} ₽", Severity.Success);
+
+            // Отправка уведомления на почту (не блокирует UI)
+            _ = Task.Run(async () =>
+            {
+                try
+                {
+                    await EmailService.SendPlcCalculationAsync(selectedVendor, signals, result, pickedModules, cabinetWidth);
+                }
+                catch
+                {
+                    // Тихо падаем — почта не должна ломать основной функционал
+                }
+            });
+
             StateHasChanged();
+
+
         }
         catch (Exception ex)
         {

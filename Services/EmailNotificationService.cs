@@ -125,5 +125,111 @@ namespace AsuGenerator.Web.Services
             await client.SendAsync(mail);
             await client.DisconnectAsync(true);
         }
+        public async Task SendPlcCalculationAsync(string vendor, SignalRequirement signals, PlcComparisonResult result, List<PickedModuleInfo> modules, int cabinetWidth)
+        {
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress("ASU Generator", SenderEmail));
+            message.To.Add(new MailboxAddress("Ленар Гайнуллин", SenderEmail));
+            message.Subject = $"⚙️ Расчёт ПЛК: {vendor} | {DateTime.Now:dd.MM.yyyy HH:mm}";
+
+            string htmlBody = $@"
+<div style='font-family: Arial, sans-serif; max-width: 650px; margin: 0 auto; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; background-color: #f8fafc;'>
+    <div style='background-color: #1e293b; padding: 24px; text-align: center; border-bottom: 4px solid #3cb890;'>
+        <h2 style='color: #ffffff; margin: 0; font-size: 20px;'>⚙️ НОВЫЙ РАСЧЁТ СИСТЕМЫ ПЛК</h2>
+        <p style='color: #94a3b8; margin: 4px 0 0 0; font-size: 13px;'>Платформа: asugenerator.ru | Время: {DateTime.Now:dd.MM.yyyy HH:mm}</p>
+    </div>
+    <div style='padding: 24px;'>
+        <div style='margin-bottom: 20px;'>
+            <h3 style='color: #1e3a8a; margin: 0 0 8px 0; font-size: 15px; border-bottom: 1px solid #bfdbfe; padding-bottom: 4px;'>📋 Параметры расчёта</h3>
+            <table style='width: 100%; font-size: 13px; color: #334155; border-collapse: collapse;'>
+                <tr><td style='padding: 4px 0; font-weight: bold; width: 200px;'>Производитель:</td><td>{vendor}</td></tr>
+                <tr><td style='padding: 4px 0; font-weight: bold;'>Ширина шкафа:</td><td>{cabinetWidth} мм</td></tr>
+                <tr><td style='padding: 4px 0; font-weight: bold;'>Резерв каналов:</td><td>{signals.ReservePercent}%</td></tr>
+                <tr><td style='padding: 4px 0; font-weight: bold;'>Крейтов / Шкафов:</td><td style='color: #b45309; font-weight: bold;'>{result.TotalRacksCount} / {result.TotalCabinetsCount}</td></tr>
+                <tr><td style='padding: 4px 0; font-weight: bold;'>Стоимость:</td><td style='color: #047857; font-weight: bold; font-size: 16px;'>{result.TotalHardwareCostRub:N0} ₽</td></tr>
+            </table>
+        </div>
+        <div style='margin-bottom: 20px;'>
+            <h3 style='color: #065f46; margin: 0 0 8px 0; font-size: 15px; border-bottom: 1px solid #a7f3d0; padding-bottom: 4px;'>📊 Введённые сигналы</h3>
+            <table style='width: 100%; font-size: 12px; border-collapse: collapse; text-align: left;'>
+                <tr style='background-color: #f1f5f9; font-weight: bold;'>
+                    <th style='padding: 6px;'>Тип сигнала</th><th style='padding: 6px;'>Количество</th>
+                </tr>";
+
+            // Выводим только ненулевые сигналы
+            var signalList = new List<(string Label, int Count)>
+    {
+        ("AI-NIS (4-20 mA, 2w)", signals.AiNisCurrent2W),
+        ("AI-NIS (4-20 mA, 4w)", signals.AiNisCurrent4W),
+        ("AI-RTD-NIS (3w)", signals.AiRtdNis3W),
+        ("AI-IS (4-20 mA, 2w)", signals.AiIsCurrent2W),
+        ("AI-IS (4-20 mA, 4w)", signals.AiIsCurrent4W),
+        ("AI-R-NIS (4-20 mA, 2w)", signals.AiRNisCurrent2W),
+        ("AI-R-NIS (4-20 mA, 4w)", signals.AiRNisCurrent4W),
+        ("AI-R-IS (4-20 mA, 2w)", signals.AiRIsCurrent2W),
+        ("AI-R-IS (4-20 mA, 4w)", signals.AiRIsCurrent4W),
+        ("AO-IS (0-10 В)", signals.AoIsVoltage),
+        ("AO-IS (4-20 mA)", signals.AoIsCurrent),
+        ("AO-NIS (4-20 mA)", signals.AoNisCurrent),
+        ("AO-R-IS (4-20 mA)", signals.AoRIsCurrent),
+        ("AO-R-NIS (4-20 mA)", signals.AoRNisCurrent),
+        ("DI-IS (NAMUR)", signals.DiIsNamur),
+        ("DI-NIS с.к.", signals.DiNisDryContact),
+        ("DI-NIS (24VDC)", signals.DiNis24VDC),
+        ("DI-NIS (MCC 230VAC)", signals.DiNisMcc230VAC),
+        ("DO-NIS (VFC NO)", signals.DoNisDryContact),
+        ("DO-NIS (24VDC)", signals.DoNis24VDC),
+        ("DO-NIS (MCC 230VAC)", signals.DoNisMcc230VAC),
+    };
+
+            foreach (var (label, count) in signalList.Where(s => s.Count > 0))
+            {
+                htmlBody += $"<tr style='border-bottom: 1px solid #e2e8f0;'><td style='padding: 6px;'>{label}</td><td style='padding: 6px; font-weight: bold;'>{count}</td></tr>";
+            }
+
+            htmlBody += $@"
+            </table>
+        </div>";
+
+            // Подобранные модули
+            if (modules.Any())
+            {
+                htmlBody += @"
+        <div style='margin-bottom: 20px;'>
+            <h3 style='color: #9a3412; margin: 0 0 8px 0; font-size: 15px; border-bottom: 1px solid #ffedd5; padding-bottom: 4px;'>🧩 Подобранные модули</h3>
+            <table style='width: 100%; font-size: 12px; border-collapse: collapse; text-align: left;'>
+                <tr style='background-color: #f1f5f9; font-weight: bold;'>
+                    <th style='padding: 6px;'>Сигнал</th><th style='padding: 6px;'>Артикул</th><th style='padding: 6px;'>Кол-во</th><th style='padding: 6px;'>Каналов</th>
+                </tr>";
+
+                foreach (var mod in modules)
+                {
+                    htmlBody += $"<tr style='border-bottom: 1px solid #e2e8f0;'><td style='padding: 6px;'>{mod.SignalLabel}</td><td style='padding: 6px; font-weight: bold;'>{mod.PartNumber}</td><td style='padding: 6px;'>{mod.ModulesNeeded}</td><td style='padding: 6px;'>{mod.ChannelsPerModule}</td></tr>";
+                }
+
+                htmlBody += @"
+            </table>
+        </div>";
+            }
+
+            htmlBody += $@"
+    </div>
+    <div style='background-color: #1e293b; padding: 14px; text-align: center; font-size: 12px; color: #94a3b8;'>
+        Лог лида asugenerator.ru | © 2026 Разработчик: Ленар Гайнуллин
+    </div>
+</div>";
+
+            var bodyBuilder = new BodyBuilder { HtmlBody = htmlBody };
+            message.Body = bodyBuilder.ToMessageBody();
+
+            using var client = new SmtpClient();
+            client.Timeout = 5000;
+            client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+
+            await client.ConnectAsync(SmtpServer, SmtpPort, true);
+            await client.AuthenticateAsync(SenderEmail, SenderPassword);
+            await client.SendAsync(message);
+            await client.DisconnectAsync(true);
+        }
     }
 }
