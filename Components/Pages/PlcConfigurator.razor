@@ -1099,7 +1099,7 @@
             var savedItems = new List<CustomTemplateItem>();
 
             // 3. Собираем все модули ПЛК из графических корзин рендера в плоскую спецификацию ГОСТ
-            var visualCabinet = calcResult.Cabinets.FirstOrDefault();
+            var visualCabinet = calcResult?.Cabinets?.FirstOrDefault();
             if (visualCabinet != null)
             {
                 var visualSide = cabinetType == CabinetType.SingleSided ? visualCabinet.SingleSide : visualCabinet.FrontSide;
