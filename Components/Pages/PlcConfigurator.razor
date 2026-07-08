@@ -199,9 +199,7 @@
                         <MudItem xs="6">
                             <MudNumericField @bind-Value="signals.AiRtdNis3W" Label="AI-RTD-NIS (3 w)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" />
                         </MudItem>
-                        <MudItem xs="6">
-                            <MudNumericField @bind-Value="signals.AiNisPl3W" Label="AI-NIS (Pl, 3 w)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" />
-                        </MudItem>
+                        
                     </MudGrid>
 
                     <!-- ========== ИСКРОБЕЗОПАСНЫЕ АНАЛОГОВЫЕ ВХОДЫ (AI-IS) ========== -->
@@ -213,10 +211,7 @@
                         <MudItem xs="6">
                             <MudNumericField @bind-Value="signals.AiIsCurrent4W" Label="AI-IS (4-20 mA, 4 w)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" />
                         </MudItem>
-                        <MudItem xs="6">
-                            <MudNumericField @bind-Value="signals.AiIsPl3W" Label="AI-IS (Pl, 3 w)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" />
-                        </MudItem>
-                    </MudGrid>
+                     </MudGrid>
 
                     <!-- ========== РЕЗЕРВИРОВАННЫЕ АНАЛОГОВЫЕ ВХОДЫ (AI-R) ========== -->
                     <MudText Typo="Typo.caption" Class="font-weight-bold d-block mb-1" Style="font-size: 10px; color: #c0392b;">РЕЗЕРВИРОВАННЫЕ АНАЛОГОВЫЕ ВХОДЫ (AI-R)</MudText>
@@ -241,9 +236,6 @@
 
                         <MudItem xs="6">
                             <MudNumericField @bind-Value="signals.AoNisCurrent" Label="AO-NIS (4-20 mA)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" />
-                        </MudItem>
-                        <MudItem xs="6">
-                            <MudNumericField @bind-Value="signals.AoNisVoltage" Label="AO-NIS (0-10 В)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" />
                         </MudItem>
                         <MudItem xs="6">
                             <MudNumericField @bind-Value="signals.AoIsCurrent" Label="AO-IS (4-20 mA)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" />
@@ -277,32 +269,23 @@
                             <MudNumericField @bind-Value="signals.DiNis24VDC" Label="DI-NIS (=24VDC)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" />
                         </MudItem>
                         <MudItem xs="6">
-                            <MudNumericField @bind-Value="signals.DiNisVfg" Label="DI-NIS (VFG)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" />
-                        </MudItem>
-                        <MudItem xs="6">
                             <MudNumericField @bind-Value="signals.DiNisMcc230VAC" Label="DI-NIS (MCC 230VAC)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" />
                         </MudItem>
-                        <MudItem xs="6">
-                            <MudNumericField @bind-Value="signals.DiNisMcc220VDC" Label="DI-NIS (MCC 220VDC)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" />
-                        </MudItem>
-                    </MudGrid>
+                     </MudGrid>
 
                     <!-- ========== ДИСКРЕТНЫЕ ВЫХОДЫ (DO) ========== -->
                     <MudText Typo="Typo.caption" Class="font-weight-bold d-block mb-1" Style="font-size: 10px; color: #d35400;">ДИСКРЕТНЫЕ ВЫХОДЫ (DO)</MudText>
                     <MudGrid Dense="true" Spacing="1">
                         <MudItem xs="6">
-                            <MudNumericField @bind-Value="signals.DoNisVfcNO" Label="DO-NIS (VFC NO)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" />
+                            <MudNumericField @bind-Value="signals.DoNisDryContact" Label="DO-NIS с.к." Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" />
                         </MudItem>
                         <MudItem xs="6">
-                            <MudNumericField @bind-Value="signals.DoNis24VDC" Label="DO-NIS (24VDC)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" />
+                            <MudNumericField @bind-Value="signals.DoNis24VDC" Label="DO-NIS (=24VDC)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" />
                         </MudItem>
                         <MudItem xs="6">
                             <MudNumericField @bind-Value="signals.DoNisMcc230VAC" Label="DO-NIS (MCC 230VAC)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" />
                         </MudItem>
-                        <MudItem xs="6">
-                            <MudNumericField @bind-Value="signals.DoNisMcc220VDC" Label="DO-NIS (MCC 220VDC)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" />
-                        </MudItem>
-                    </MudGrid>
+                     </MudGrid>
 
                 </MudCardContent>
             </MudCard>
@@ -1199,7 +1182,7 @@
             $"&di_vfg={signals.DiNisVfg}" +
             $"&di_mcc230={signals.DiNisMcc230VAC}" +
             $"&di_mcc220={signals.DiNisMcc220VDC}" +
-            $"&do_vfc={signals.DoNisVfcNO}" +
+            $"&do_vfc={signals.DoNisDryContact}" +
             $"&do_24v={signals.DoNis24VDC}" +
             $"&do_mcc230={signals.DoNisMcc230VAC}" +
             $"&do_mcc220={signals.DoNisMcc220VDC}" +

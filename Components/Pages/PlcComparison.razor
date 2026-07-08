@@ -66,7 +66,7 @@
                 <MudNumericField @bind-Value="_signals.DiNisMcc220VDC" Label="DI-NIS (MCC 220VDC)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" Class="mb-2" />
 
                 <MudText Typo="Typo.caption" Class="font-weight-bold d-block mb-1" Style="font-size: 10px; color: #d35400;">ДИСКРЕТНЫЕ ВЫХОДЫ (DO)</MudText>
-                <MudNumericField @bind-Value="_signals.DoNisVfcNO" Label="DO-NIS (VFC NO)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" Class="mb-1" />
+                <MudNumericField @bind-Value="_signals.DoNisDryContact" Label="DO-NIS (VFC NO)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" Class="mb-1" />
                 <MudNumericField @bind-Value="_signals.DoNis24VDC" Label="DO-NIS (24VDC)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" Class="mb-1" />
                 <MudNumericField @bind-Value="_signals.DoNisMcc230VAC" Label="DO-NIS (MCC 230VAC)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" Class="mb-1" />
                 <MudNumericField @bind-Value="_signals.DoNisMcc220VDC" Label="DO-NIS (MCC 220VDC)" Min="0" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Style="font-size: 10px;" Class="mb-2" />
@@ -209,7 +209,7 @@
         DiNisVfg = 4,
         DiNisMcc230VAC = 24,
         DiNisMcc220VDC = 12,
-        DoNisVfcNO = 8,
+        DoNisDryContact = 8,
         DoNis24VDC = 16,
         DoNisMcc230VAC = 4,
         DoNisMcc220VDC = 4,
@@ -275,7 +275,7 @@
             if (TryParseInt(queryStrings, "di_mcc220", out v)) { _signals.DiNisMcc220VDC = v; hasParams = true; }
 
             // DO
-            if (TryParseInt(queryStrings, "do_vfc", out v)) { _signals.DoNisVfcNO = v; hasParams = true; }
+            if (TryParseInt(queryStrings, "do_vfc", out v)) { _signals.DoNisDryContact = v; hasParams = true; }
             if (TryParseInt(queryStrings, "do_24v", out v)) { _signals.DoNis24VDC = v; hasParams = true; }
             if (TryParseInt(queryStrings, "do_mcc230", out v)) { _signals.DoNisMcc230VAC = v; hasParams = true; }
             if (TryParseInt(queryStrings, "do_mcc220", out v)) { _signals.DoNisMcc220VDC = v; hasParams = true; }

@@ -47,7 +47,7 @@ namespace AsuGenerator.Web.Models
         public int DiNisMcc220VDC { get; set; }      // DI-NIS (MCC 220VDC)
 
         // Дискретные выходы (DO)
-        public int DoNisVfcNO { get; set; }          // DO-NIS (VFC NO)
+        public int DoNisDryContact { get; set; }          // DO-NIS (VFC NO)
         public int DoNis24VDC { get; set; }          // DO-NIS (24VDC)
         public int DoNisMcc230VAC { get; set; }      // DO-NIS (MCC 230VAC)
         public int DoNisMcc220VDC { get; set; }      // DO-NIS (MCC 220VDC)
@@ -63,7 +63,7 @@ namespace AsuGenerator.Web.Models
 
         public int TotalDI => DiIsNamur + DiNisDryContact + DiNis24VDC + DiNisVfg + DiNisMcc230VAC + DiNisMcc220VDC;
 
-        public int TotalDO => DoNisVfcNO + DoNis24VDC + DoNisMcc230VAC + DoNisMcc220VDC;
+        public int TotalDO => DoNisDryContact + DoNis24VDC + DoNisMcc230VAC + DoNisMcc220VDC;
     }
 
     public class PlcComponent

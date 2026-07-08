@@ -53,7 +53,7 @@ public class UniversalCalculationService
         ["DiNisMcc230VAC"] = "di",
 
         // Дискретные выходы (DO)
-        ["DoNisVfcNO"] = "do",
+        ["DoNisDryContact"] = "do",
         ["DoNis24VDC"] = "do",
         ["DoNisMcc230VAC"] = "do",
     };
@@ -129,7 +129,7 @@ public class UniversalCalculationService
             ("DiNis24VDC", signals.DiNis24VDC),
             ("DiNisMcc230VAC", signals.DiNisMcc230VAC),
             // DO
-            ("DoNisVfcNO", signals.DoNisVfcNO),
+            ("DoNisDryContact", signals.DoNisDryContact),
             ("DoNis24VDC", signals.DoNis24VDC),
             ("DoNisMcc230VAC", signals.DoNisMcc230VAC),
         };
@@ -194,9 +194,12 @@ public class UniversalCalculationService
     /// </summary>
     private bool IsModuleCompatible(string signalKey, PlcComponentDto module)
     {
-        return module.SupportedSignals == null
-            || module.SupportedSignals.Count == 0
-            || module.SupportedSignals.Contains(signalKey, StringComparer.OrdinalIgnoreCase);
+        // Пустой список — не подходит никому
+    if (module.SupportedSignals.Count == 0)
+            return false;
+
+        // Проверяем совпадение
+        return module.SupportedSignals.Contains(signalKey, StringComparer.OrdinalIgnoreCase);
     }
     private decimal EstimateCost(string vendor, int totalModules, int racksCount)
     {
@@ -314,7 +317,7 @@ public class UniversalCalculationService
             ("DiNisDryContact", "DI-NIS (сухой контакт)", signals.DiNisDryContact),
             ("DiNis24VDC", "DI-NIS (24VDC)", signals.DiNis24VDC),
             ("DiNisMcc230VAC", "DI-NIS (MCC 230VAC)", signals.DiNisMcc230VAC),
-            ("DoNisVfcNO", "DO-NIS (VFC NO)", signals.DoNisVfcNO),
+            ("DoNisDryContact", "DO-NIS (VFC NO)", signals.DoNisDryContact),
             ("DoNis24VDC", "DO-NIS (24VDC)", signals.DoNis24VDC),
             ("DoNisMcc230VAC", "DO-NIS (MCC 230VAC)", signals.DoNisMcc230VAC),
         };
@@ -376,7 +379,7 @@ public class UniversalCalculationService
                 Category = category
             });
 
-            log.Add($"✅ {label}: {modulesNeeded} × {bestModule.PartNumber} (каналов: {bestModule.Channels}, ширина: {bestModule.WidthMm}мм)");
+            log.Add($"✅ {label}: {modulesNeeded} × {bestModule.PartNumber} — {bestModule.Description} (каналов: {bestModule.Channels}, ширина: {bestModule.WidthMm}мм)");
         }
 
         int maxPerRack = series.MaxModulesPerRack > 0 ? series.MaxModulesPerRack : 40;

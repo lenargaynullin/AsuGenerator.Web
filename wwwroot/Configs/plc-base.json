@@ -78,7 +78,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.29,
       "TwoBusSupport": false,
-      "CompatibleChassis": "CH ХХ 011/ CH ХХ 012 / CH ХХ 811"
+      "CompatibleChassis": "CH ХХ 011/ CH ХХ 012 / CH ХХ 811",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -91,7 +92,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 2,
       "TwoBusSupport": false,
-      "CompatibleChassis": "CH ХХ 011/ CH ХХ 012 / CH ХХ 811"
+      "CompatibleChassis": "CH ХХ 011/ CH ХХ 012 / CH ХХ 811",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -104,7 +106,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 2,
       "TwoBusSupport": false,
-      "CompatibleChassis": "CH ХХ 011/ CH ХХ 012 / CH ХХ 811"
+      "CompatibleChassis": "CH ХХ 011/ CH ХХ 012 / CH ХХ 811",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -117,7 +120,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 1,
       "TwoBusSupport": false,
-      "CompatibleChassis": "CH ХХ 011/ CH ХХ 012 / CH ХХ 811"
+      "CompatibleChassis": "CH ХХ 011/ CH ХХ 012 / CH ХХ 811",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -130,7 +134,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.5,
       "TwoBusSupport": false,
-      "CompatibleChassis": "CH ХХ 011/ CH ХХ 012 / CH ХХ 811"
+      "CompatibleChassis": "CH ХХ 011/ CH ХХ 012 / CH ХХ 811",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -143,7 +148,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -156,7 +162,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 15.6,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -169,7 +176,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 15.9,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -182,7 +190,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 18.3,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -195,7 +204,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 14,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -208,7 +218,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 14,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -221,7 +232,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 15,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -234,7 +246,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 15,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -247,7 +260,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 5,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -260,7 +274,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 6.2,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -273,7 +288,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 16,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -286,7 +302,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 16,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -299,7 +316,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 19,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -312,7 +330,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 19,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -325,7 +344,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 6,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -338,7 +358,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 6,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -351,7 +372,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 3.3,
       "TwoBusSupport": false,
-      "CompatibleChassis": "CH ХХ 011/ CH ХХ 012 /CH ХХ 811"
+      "CompatibleChassis": "CH ХХ 011/ CH ХХ 012 /CH ХХ 811",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -364,7 +386,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 3.17,
       "TwoBusSupport": false,
-      "CompatibleChassis": "CH ХХ 011/ CH ХХ 012 /CH ХХ 811"
+      "CompatibleChassis": "CH ХХ 011/ CH ХХ 012 /CH ХХ 811",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -377,7 +400,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 6,
       "TwoBusSupport": false,
-      "CompatibleChassis": "CH ХХ 011/ CH ХХ 012 /CH ХХ 811"
+      "CompatibleChassis": "CH ХХ 011/ CH ХХ 012 /CH ХХ 811",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -390,7 +414,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 6.4,
       "TwoBusSupport": false,
-      "CompatibleChassis": "CH ХХ 011/ CH ХХ 012 /CH ХХ 811"
+      "CompatibleChassis": "CH ХХ 011/ CH ХХ 012 /CH ХХ 811",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -403,7 +428,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.6,
       "TwoBusSupport": false,
-      "CompatibleChassis": "CH ХХ 011/ CH ХХ 012 /CH ХХ 811"
+      "CompatibleChassis": "CH ХХ 011/ CH ХХ 012 /CH ХХ 811",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -416,7 +442,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 2,
       "TwoBusSupport": true,
-      "CompatibleChassis": "CH ХХ 011/ CH ХХ 012 /CH ХХ 811"
+      "CompatibleChassis": "CH ХХ 011/ CH ХХ 012 /CH ХХ 811",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -429,7 +456,17 @@
       "HeightMm": 180,
       "PowerConsumptionW": 5,
       "TwoBusSupport": true,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": [
+        "AiNis4_20mA_2W",
+        "AiNis4_20mA_4W",
+        "AiIs4_20mA_2W",
+        "AiIs4_20mA_4W",
+        "AiRNis4_20mA_2W",
+        "AiRNis4_20mA_4W",
+        "AiRIs4_20mA_2W",
+        "AiRIs4_20mA_4W"
+      ]
     },
     {
       "Vendor": "REGUL",
@@ -442,7 +479,10 @@
       "HeightMm": 180,
       "PowerConsumptionW": 3,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": [
+        "AiRtdNis3W"
+      ]
     },
     {
       "Vendor": "REGUL",
@@ -455,7 +495,10 @@
       "HeightMm": 180,
       "PowerConsumptionW": 3,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": [
+        "AiRtdNis3W"
+      ]
     },
     {
       "Vendor": "REGUL",
@@ -468,7 +511,17 @@
       "HeightMm": 180,
       "PowerConsumptionW": 4.5,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": [
+        "AiNis4_20mA_2W",
+        "AiNis4_20mA_4W",
+        "AiIs4_20mA_2W",
+        "AiIs4_20mA_4W",
+        "AiRNis4_20mA_2W",
+        "AiRNis4_20mA_4W",
+        "AiRIs4_20mA_2W",
+        "AiRIs4_20mA_4W"
+      ]
     },
     {
       "Vendor": "REGUL",
@@ -481,7 +534,17 @@
       "HeightMm": 180,
       "PowerConsumptionW": 4.5,
       "TwoBusSupport": true,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": [
+        "AiNis4_20mA_2W",
+        "AiNis4_20mA_4W",
+        "AiIs4_20mA_2W",
+        "AiIs4_20mA_4W",
+        "AiRNis4_20mA_2W",
+        "AiRNis4_20mA_4W",
+        "AiRIs4_20mA_2W",
+        "AiRIs4_20mA_4W"
+      ]
     },
     {
       "Vendor": "REGUL",
@@ -494,7 +557,17 @@
       "HeightMm": 180,
       "PowerConsumptionW": 4.5,
       "TwoBusSupport": true,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": [
+        "AiNis4_20mA_2W",
+        "AiNis4_20mA_4W",
+        "AiIs4_20mA_2W",
+        "AiIs4_20mA_4W",
+        "AiRNis4_20mA_2W",
+        "AiRNis4_20mA_4W",
+        "AiRIs4_20mA_2W",
+        "AiRIs4_20mA_4W"
+      ]
     },
     {
       "Vendor": "REGUL",
@@ -507,7 +580,17 @@
       "HeightMm": 180,
       "PowerConsumptionW": 5,
       "TwoBusSupport": true,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": [
+        "AiNis4_20mA_2W",
+        "AiNis4_20mA_4W",
+        "AiIs4_20mA_2W",
+        "AiIs4_20mA_4W",
+        "AiRNis4_20mA_2W",
+        "AiRNis4_20mA_4W",
+        "AiRIs4_20mA_2W",
+        "AiRIs4_20mA_4W"
+      ]
     },
     {
       "Vendor": "REGUL",
@@ -520,7 +603,17 @@
       "HeightMm": 180,
       "PowerConsumptionW": 5,
       "TwoBusSupport": true,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": [
+        "AiNis4_20mA_2W",
+        "AiNis4_20mA_4W",
+        "AiIs4_20mA_2W",
+        "AiIs4_20mA_4W",
+        "AiRNis4_20mA_2W",
+        "AiRNis4_20mA_4W",
+        "AiRIs4_20mA_2W",
+        "AiRIs4_20mA_4W"
+      ]
     },
     {
       "Vendor": "REGUL",
@@ -533,7 +626,17 @@
       "HeightMm": 180,
       "PowerConsumptionW": 3,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": [
+        "AiNis4_20mA_2W",
+        "AiNis4_20mA_4W",
+        "AiIs4_20mA_2W",
+        "AiIs4_20mA_4W",
+        "AiRNis4_20mA_2W",
+        "AiRNis4_20mA_4W",
+        "AiRIs4_20mA_2W",
+        "AiRIs4_20mA_4W"
+      ]
     },
     {
       "Vendor": "REGUL",
@@ -546,7 +649,17 @@
       "HeightMm": 180,
       "PowerConsumptionW": 2,
       "TwoBusSupport": true,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": [
+        "AiNis4_20mA_2W",
+        "AiNis4_20mA_4W",
+        "AiIs4_20mA_2W",
+        "AiIs4_20mA_4W",
+        "AiRNis4_20mA_2W",
+        "AiRNis4_20mA_4W",
+        "AiRIs4_20mA_2W",
+        "AiRIs4_20mA_4W"
+      ]
     },
     {
       "Vendor": "REGUL",
@@ -559,7 +672,17 @@
       "HeightMm": 180,
       "PowerConsumptionW": 1.5,
       "TwoBusSupport": true,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": [
+        "AiNis4_20mA_2W",
+        "AiNis4_20mA_4W",
+        "AiIs4_20mA_2W",
+        "AiIs4_20mA_4W",
+        "AiRNis4_20mA_2W",
+        "AiRNis4_20mA_4W",
+        "AiRIs4_20mA_2W",
+        "AiRIs4_20mA_4W"
+      ]
     },
     {
       "Vendor": "REGUL",
@@ -572,7 +695,17 @@
       "HeightMm": 180,
       "PowerConsumptionW": 2.4,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": [
+        "AiNis4_20mA_2W",
+        "AiNis4_20mA_4W",
+        "AiIs4_20mA_2W",
+        "AiIs4_20mA_4W",
+        "AiRNis4_20mA_2W",
+        "AiRNis4_20mA_4W",
+        "AiRIs4_20mA_2W",
+        "AiRIs4_20mA_4W"
+      ]
     },
     {
       "Vendor": "REGUL",
@@ -585,7 +718,17 @@
       "HeightMm": 180,
       "PowerConsumptionW": 2.5,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": [
+        "AiNis4_20mA_2W",
+        "AiNis4_20mA_4W",
+        "AiIs4_20mA_2W",
+        "AiIs4_20mA_4W",
+        "AiRNis4_20mA_2W",
+        "AiRNis4_20mA_4W",
+        "AiRIs4_20mA_2W",
+        "AiRIs4_20mA_4W"
+      ]
     },
     {
       "Vendor": "REGUL",
@@ -598,7 +741,17 @@
       "HeightMm": 180,
       "PowerConsumptionW": 1,
       "TwoBusSupport": true,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": [
+        "AiNis4_20mA_2W",
+        "AiNis4_20mA_4W",
+        "AiIs4_20mA_2W",
+        "AiIs4_20mA_4W",
+        "AiRNis4_20mA_2W",
+        "AiRNis4_20mA_4W",
+        "AiRIs4_20mA_2W",
+        "AiRIs4_20mA_4W"
+      ]
     },
     {
       "Vendor": "REGUL",
@@ -611,7 +764,17 @@
       "HeightMm": 180,
       "PowerConsumptionW": 5,
       "TwoBusSupport": true,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": [
+        "AiNis4_20mA_2W",
+        "AiNis4_20mA_4W",
+        "AiIs4_20mA_2W",
+        "AiIs4_20mA_4W",
+        "AiRNis4_20mA_2W",
+        "AiRNis4_20mA_4W",
+        "AiRIs4_20mA_2W",
+        "AiRIs4_20mA_4W"
+      ]
     },
     {
       "Vendor": "REGUL",
@@ -624,7 +787,17 @@
       "HeightMm": 180,
       "PowerConsumptionW": 5.8,
       "TwoBusSupport": true,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": [
+        "AiNis4_20mA_2W",
+        "AiNis4_20mA_4W",
+        "AiIs4_20mA_2W",
+        "AiIs4_20mA_4W",
+        "AiRNis4_20mA_2W",
+        "AiRNis4_20mA_4W",
+        "AiRIs4_20mA_2W",
+        "AiRIs4_20mA_4W"
+      ]
     },
     {
       "Vendor": "REGUL",
@@ -637,7 +810,14 @@
       "HeightMm": 180,
       "PowerConsumptionW": 2.3,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": [
+        "AoIs0_10V",
+        "AoIs4_20mA",
+        "AoNis4_20mA",
+        "AoRIs4_20mA",
+        "AoRNis4_20mA"
+      ]
     },
     {
       "Vendor": "REGUL",
@@ -650,7 +830,14 @@
       "HeightMm": 180,
       "PowerConsumptionW": 4,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": [
+        "AoIs0_10V",
+        "AoIs4_20mA",
+        "AoNis4_20mA",
+        "AoRIs4_20mA",
+        "AoRNis4_20mA"
+      ]
     },
     {
       "Vendor": "REGUL",
@@ -663,7 +850,14 @@
       "HeightMm": 180,
       "PowerConsumptionW": 2.3,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": [
+        "AoIs0_10V",
+        "AoIs4_20mA",
+        "AoNis4_20mA",
+        "AoRIs4_20mA",
+        "AoRNis4_20mA"
+      ]
     },
     {
       "Vendor": "REGUL",
@@ -676,7 +870,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 2.8,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -689,7 +884,13 @@
       "HeightMm": 180,
       "PowerConsumptionW": 3.2,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": [
+        "DiIsNamur",
+        "DiNisDryContact",
+        "DiNis24VDC",
+        "DiNisMcc230VAC"
+      ]
     },
     {
       "Vendor": "REGUL",
@@ -702,7 +903,13 @@
       "HeightMm": 180,
       "PowerConsumptionW": 1,
       "TwoBusSupport": true,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": [
+        "DiIsNamur",
+        "DiNisDryContact",
+        "DiNis24VDC",
+        "DiNisMcc230VAC"
+      ]
     },
     {
       "Vendor": "REGUL",
@@ -715,7 +922,13 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.7,
       "TwoBusSupport": true,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": [
+        "DiIsNamur",
+        "DiNisDryContact",
+        "DiNis24VDC",
+        "DiNisMcc230VAC"
+      ]
     },
     {
       "Vendor": "REGUL",
@@ -728,7 +941,13 @@
       "HeightMm": 180,
       "PowerConsumptionW": 3.2,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": [
+        "DiIsNamur",
+        "DiNisDryContact",
+        "DiNis24VDC",
+        "DiNisMcc230VAC"
+      ]
     },
     {
       "Vendor": "REGUL",
@@ -741,7 +960,10 @@
       "HeightMm": 180,
       "PowerConsumptionW": 3.2,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": [
+        "DiNisMcc230VAC"
+      ]
     },
     {
       "Vendor": "REGUL",
@@ -754,7 +976,10 @@
       "HeightMm": 180,
       "PowerConsumptionW": 5.5,
       "TwoBusSupport": true,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": [
+        "DiIsNamur"
+      ]
     },
     {
       "Vendor": "REGUL",
@@ -767,7 +992,12 @@
       "HeightMm": 180,
       "PowerConsumptionW": 4.2,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": [
+        "DoNisDryContact",
+        "DoNis24VDC",
+        "DoNisMcc230VAC"
+      ]
     },
     {
       "Vendor": "REGUL",
@@ -780,7 +1010,12 @@
       "HeightMm": 180,
       "PowerConsumptionW": 2.5,
       "TwoBusSupport": true,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": [
+        "DoNisDryContact",
+        "DoNis24VDC",
+        "DoNisMcc230VAC"
+      ]
     },
     {
       "Vendor": "REGUL",
@@ -793,7 +1028,12 @@
       "HeightMm": 180,
       "PowerConsumptionW": 2.2,
       "TwoBusSupport": true,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": [
+        "DoNisDryContact",
+        "DoNis24VDC",
+        "DoNisMcc230VAC"
+      ]
     },
     {
       "Vendor": "REGUL",
@@ -806,7 +1046,10 @@
       "HeightMm": 180,
       "PowerConsumptionW": 7,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": [
+        "DoNisMcc230VAC"
+      ]
     },
     {
       "Vendor": "REGUL",
@@ -819,7 +1062,12 @@
       "HeightMm": 180,
       "PowerConsumptionW": 1.5,
       "TwoBusSupport": true,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": [
+        "DoNisDryContact",
+        "DoNis24VDC",
+        "DoNisMcc230VAC"
+      ]
     },
     {
       "Vendor": "REGUL",
@@ -832,7 +1080,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 3.8,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -845,7 +1094,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 3,
       "TwoBusSupport": true,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -858,7 +1108,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 4.4,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -871,7 +1122,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 4,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -884,7 +1136,8 @@
       "HeightMm": 130,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -897,7 +1150,8 @@
       "HeightMm": 130,
       "PowerConsumptionW": 1.5,
       "TwoBusSupport": true,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -910,7 +1164,8 @@
       "HeightMm": 130,
       "PowerConsumptionW": 1.5,
       "TwoBusSupport": true,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -923,7 +1178,8 @@
       "HeightMm": 130,
       "PowerConsumptionW": 1.95,
       "TwoBusSupport": true,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -936,7 +1192,8 @@
       "HeightMm": 130,
       "PowerConsumptionW": 1.95,
       "TwoBusSupport": true,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -949,7 +1206,8 @@
       "HeightMm": 130,
       "PowerConsumptionW": 2.3,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -962,7 +1220,8 @@
       "HeightMm": 130,
       "PowerConsumptionW": 2.3,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -975,7 +1234,8 @@
       "HeightMm": 127,
       "PowerConsumptionW": 2,
       "TwoBusSupport": true,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -988,7 +1248,8 @@
       "HeightMm": 127,
       "PowerConsumptionW": 2,
       "TwoBusSupport": true,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -1001,7 +1262,8 @@
       "HeightMm": 127,
       "PowerConsumptionW": 2,
       "TwoBusSupport": true,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -1014,7 +1276,8 @@
       "HeightMm": 127,
       "PowerConsumptionW": 2,
       "TwoBusSupport": true,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -1027,7 +1290,8 @@
       "HeightMm": 127,
       "PowerConsumptionW": 2.5,
       "TwoBusSupport": true,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -1040,7 +1304,8 @@
       "HeightMm": 127,
       "PowerConsumptionW": 2.5,
       "TwoBusSupport": true,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -1053,7 +1318,8 @@
       "HeightMm": 127,
       "PowerConsumptionW": 2.5,
       "TwoBusSupport": true,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -1066,7 +1332,8 @@
       "HeightMm": 127,
       "PowerConsumptionW": 2.5,
       "TwoBusSupport": true,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -1079,7 +1346,8 @@
       "HeightMm": 108,
       "PowerConsumptionW": 0.3,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -1092,7 +1360,8 @@
       "HeightMm": 108,
       "PowerConsumptionW": 0.4,
       "TwoBusSupport": true,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -1105,7 +1374,8 @@
       "HeightMm": 108,
       "PowerConsumptionW": 1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -1118,7 +1388,8 @@
       "HeightMm": 108,
       "PowerConsumptionW": 1,
       "TwoBusSupport": true,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -1131,7 +1402,8 @@
       "HeightMm": 108,
       "PowerConsumptionW": 1.8,
       "TwoBusSupport": true,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -1144,7 +1416,8 @@
       "HeightMm": 108,
       "PowerConsumptionW": 2,
       "TwoBusSupport": true,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -1157,7 +1430,8 @@
       "HeightMm": 108,
       "PowerConsumptionW": 2.5,
       "TwoBusSupport": true,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -1170,7 +1444,8 @@
       "HeightMm": 108,
       "PowerConsumptionW": 2.5,
       "TwoBusSupport": true,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -1183,7 +1458,8 @@
       "HeightMm": 108,
       "PowerConsumptionW": 0.7,
       "TwoBusSupport": true,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -1196,7 +1472,8 @@
       "HeightMm": 108,
       "PowerConsumptionW": 1.9,
       "TwoBusSupport": true,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -1209,7 +1486,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -1222,7 +1500,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -1235,7 +1514,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -1248,7 +1528,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -1261,7 +1542,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -1274,7 +1556,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -1287,7 +1570,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -1300,7 +1584,10 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": [
+        "DiIsNamur"
+      ]
     },
     {
       "Vendor": "АБАК",
@@ -1313,7 +1600,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -1326,7 +1614,17 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": [
+        "AiNis4_20mA_2W",
+        "AiNis4_20mA_4W",
+        "AiIs4_20mA_2W",
+        "AiIs4_20mA_4W",
+        "AiRNis4_20mA_2W",
+        "AiRNis4_20mA_4W",
+        "AiRIs4_20mA_2W",
+        "AiRIs4_20mA_4W"
+      ]
     },
     {
       "Vendor": "АБАК",
@@ -1339,7 +1637,14 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": [
+        "AoIs0_10V",
+        "AoIs4_20mA",
+        "AoNis4_20mA",
+        "AoRIs4_20mA",
+        "AoRNis4_20mA"
+      ]
     },
     {
       "Vendor": "АБАК",
@@ -1352,7 +1657,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -1365,7 +1671,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -1378,7 +1685,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -1391,7 +1699,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -1404,7 +1713,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -1417,7 +1727,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -1430,7 +1741,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -1443,7 +1755,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -1456,7 +1769,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -1469,7 +1783,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -1482,7 +1797,10 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": [
+        "DiIsNamur"
+      ]
     },
     {
       "Vendor": "АБАК",
@@ -1495,7 +1813,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -1508,20 +1827,24 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
       "FamilyId": "ПЛК K3",
       "PartNumber": "K3.AI.02.08.00",
-      "Category": "ai термосопротивлений",
+      "Category": "ai-rtd",
       "Description": "8 каналов, гальваническая изоляция от шины, горячая замена, резервированная системная шина",
       "Channels": 8,
       "WidthMm": 40,
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": [
+        "AiRtdNis3W"
+      ]
     },
     {
       "Vendor": "АБАК",
@@ -1534,7 +1857,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -1547,7 +1871,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -1560,7 +1885,14 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": [
+        "AoIs0_10V",
+        "AoIs4_20mA",
+        "AoNis4_20mA",
+        "AoRIs4_20mA",
+        "AoRNis4_20mA"
+      ]
     },
     {
       "Vendor": "АБАК",
@@ -1573,7 +1905,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -1586,7 +1919,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -1599,7 +1933,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -1612,7 +1947,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -1625,7 +1961,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -1638,7 +1975,14 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": [
+        "AoIs0_10V",
+        "AoIs4_20mA",
+        "AoNis4_20mA",
+        "AoRIs4_20mA",
+        "AoRNis4_20mA"
+      ]
     },
     {
       "Vendor": "АБАК",
@@ -1651,7 +1995,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -1664,7 +2009,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -1677,7 +2023,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -1690,7 +2037,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -1703,7 +2051,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -1716,7 +2065,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -1729,7 +2079,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -1742,7 +2093,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -1755,7 +2107,10 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": [
+        "DiIsNamur"
+      ]
     },
     {
       "Vendor": "АБАК",
@@ -1768,7 +2123,10 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": [
+        "DiIsNamur"
+      ]
     },
     {
       "Vendor": "АБАК",
@@ -1781,7 +2139,10 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": [
+        "DiIsNamur"
+      ]
     },
     {
       "Vendor": "АБАК",
@@ -1794,7 +2155,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -1807,7 +2169,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -1820,20 +2183,24 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
       "FamilyId": "ПЛК K3",
       "PartNumber": "K3.AI.12.08.00",
-      "Category": "ai термосопротивлений",
+      "Category": "ai-rtd",
       "Description": "8 каналов, гальваническая изоляция от шины, горячая замена, резервированная системная шина",
       "Channels": 8,
       "WidthMm": 40,
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": [
+        "AiRtdNis3W"
+      ]
     },
     {
       "Vendor": "АБАК",
@@ -1846,7 +2213,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -1859,7 +2227,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -1872,7 +2241,14 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": [
+        "AoIs0_10V",
+        "AoIs4_20mA",
+        "AoNis4_20mA",
+        "AoRIs4_20mA",
+        "AoRNis4_20mA"
+      ]
     },
     {
       "Vendor": "АБАК",
@@ -1885,7 +2261,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -1898,7 +2275,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -1911,7 +2289,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -1924,7 +2303,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -1937,7 +2317,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -1950,7 +2331,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -1963,7 +2345,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -1976,7 +2359,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -1989,7 +2373,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -2002,7 +2387,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -2015,7 +2401,10 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": [
+        "DiIsNamur"
+      ]
     },
     {
       "Vendor": "АБАК",
@@ -2028,7 +2417,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -2041,7 +2431,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -2054,7 +2445,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -2067,7 +2459,14 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": [
+        "AoIs0_10V",
+        "AoIs4_20mA",
+        "AoNis4_20mA",
+        "AoRIs4_20mA",
+        "AoRNis4_20mA"
+      ]
     },
     {
       "Vendor": "АБАК",
@@ -2080,7 +2479,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -2093,7 +2493,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -2106,7 +2507,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -2119,7 +2521,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -2132,7 +2535,10 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": [
+        "DiIsNamur"
+      ]
     },
     {
       "Vendor": "АБАК",
@@ -2145,7 +2551,10 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": [
+        "DiIsNamur"
+      ]
     },
     {
       "Vendor": "АБАК",
@@ -2158,7 +2567,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -2171,7 +2581,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -2184,7 +2595,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -2197,7 +2609,10 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": [
+        "DiIsNamur"
+      ]
     },
     {
       "Vendor": "АБАК",
@@ -2210,7 +2625,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -2223,7 +2639,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -2236,7 +2653,14 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": [
+        "AoIs0_10V",
+        "AoIs4_20mA",
+        "AoNis4_20mA",
+        "AoRIs4_20mA",
+        "AoRNis4_20mA"
+      ]
     },
     {
       "Vendor": "АБАК",
@@ -2249,7 +2673,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -2262,7 +2687,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -2275,7 +2701,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -2288,7 +2715,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -2301,7 +2729,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -2314,7 +2743,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -2327,7 +2757,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -2340,7 +2771,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -2353,7 +2785,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -2366,7 +2799,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -2379,7 +2813,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -2392,7 +2827,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -2405,7 +2841,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "АБАК",
@@ -2418,7 +2855,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -2431,7 +2869,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -2444,7 +2883,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -2457,7 +2897,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -2470,7 +2911,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -2483,7 +2925,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -2496,7 +2939,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -2509,7 +2953,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -2522,7 +2967,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -2535,7 +2981,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -2548,7 +2995,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -2561,7 +3009,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -2574,7 +3023,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -2587,7 +3037,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -2600,7 +3051,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -2613,7 +3065,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -2626,7 +3079,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -2639,7 +3093,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -2652,7 +3107,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -2665,7 +3121,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -2678,7 +3135,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -2691,7 +3149,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -2704,7 +3163,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -2717,7 +3177,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -2730,7 +3191,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -2743,7 +3205,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -2756,7 +3219,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -2769,7 +3233,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -2782,7 +3247,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -2795,7 +3261,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -2808,7 +3275,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -2821,7 +3289,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -2834,7 +3303,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -2847,7 +3317,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -2860,7 +3331,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -2873,7 +3345,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -2886,7 +3359,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -2899,7 +3373,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -2912,7 +3387,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -2925,7 +3401,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -2938,7 +3415,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -2951,7 +3429,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -2964,7 +3443,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -2977,7 +3457,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -2990,7 +3471,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -3003,7 +3485,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -3016,7 +3499,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -3029,7 +3513,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -3042,7 +3527,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -3055,7 +3541,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -3068,7 +3555,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -3081,7 +3569,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -3094,7 +3583,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -3107,7 +3597,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -3120,7 +3611,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -3133,7 +3625,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -3146,7 +3639,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -3159,7 +3653,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -3172,7 +3667,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -3185,7 +3681,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -3198,7 +3695,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -3211,7 +3709,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -3224,7 +3723,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -3237,7 +3737,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -3250,7 +3751,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -3263,7 +3765,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -3276,7 +3779,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -3289,7 +3793,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -3302,7 +3807,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -3315,7 +3821,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -3328,7 +3835,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -3341,7 +3849,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -3354,7 +3863,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "REGUL",
@@ -3367,7 +3877,8 @@
       "HeightMm": 180,
       "PowerConsumptionW": 0.1,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "Прософт",
@@ -3380,7 +3891,8 @@
       "HeightMm": 115,
       "PowerConsumptionW": 0.05,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "Прософт",
@@ -3393,7 +3905,8 @@
       "HeightMm": 115,
       "PowerConsumptionW": 0.05,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "Прософт",
@@ -3406,7 +3919,8 @@
       "HeightMm": 115,
       "PowerConsumptionW": 0.05,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "Прософт",
@@ -3419,7 +3933,8 @@
       "HeightMm": 115,
       "PowerConsumptionW": 0.05,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     },
     {
       "Vendor": "Прософт",
@@ -3432,7 +3947,8 @@
       "HeightMm": 115,
       "PowerConsumptionW": 0.05,
       "TwoBusSupport": false,
-      "CompatibleChassis": ""
+      "CompatibleChassis": "",
+      "SupportedSignals": []
     }
   ],
   "Barriers": [
