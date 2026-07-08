@@ -57,6 +57,7 @@ public class PlcComponentDto
     public double PowerConsumptionW { get; set; }
     public bool TwoBusSupport { get; set; }
     public string CompatibleChassis { get; set; } = "";
+    public List<string> SupportedSignals { get; set; } = new();
 }
 
 public class PlcChassisDto

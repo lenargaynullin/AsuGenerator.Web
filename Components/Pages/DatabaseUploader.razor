@@ -150,6 +150,19 @@
                         }
                     }
 
+                    // Найти столбец "supported_signals" по заголовку в первой строке
+                    int colSupported = -1;
+                    for (int col = 1; col <= modulesSheet.Dimension.End.Column; col++)
+                    {
+                        string header = modulesSheet.Cells[1, col].Text.Trim();
+                        if (header.Equals("supported_signals", StringComparison.OrdinalIgnoreCase))
+                        {
+                            colSupported = col;
+                            _parsedLogs.Add($"[OK] Столбец 'supported_signals' найден: колонка {col} ({ColIndexToLetter(col)})");
+                            break;
+                        }
+                    }
+
                     for (int row = 2; row <= modulesSheet.Dimension.End.Row; row++)
                     {
                         string moduleName = modulesSheet.Cells[row, 3].Text.Trim();
@@ -221,6 +234,16 @@
                             TwoBusSupport = modulesSheet.Cells[row, 14].Text.Contains("да"),
                             CompatibleChassis = modulesSheet.Cells[row, 12].Text.Trim()
                         };
+
+                        // Парсинг supported_signals из столбца (строка с типами сигналов через запятую)
+                        if (colSupported > 0)
+                        {
+                            comp.SupportedSignals = modulesSheet.Cells[row, colSupported].Text
+                                .Split(',', StringSplitOptions.RemoveEmptyEntries)
+                                .Select(s => s.Trim())
+                                .Where(s => !string.IsNullOrEmpty(s))
+                                .ToList();
+                        }
 
                         if (dbCategory == "rack")
                         {

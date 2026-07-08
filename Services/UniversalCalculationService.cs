@@ -202,81 +202,13 @@ public class UniversalCalculationService
     }
     /// <summary>
     /// Проверяет, совместим ли модуль с конкретным типом сигнала.
-    /// Анализирует Description и PartNumber модуля.
+    /// Использует поле SupportedSignals модуля.
     /// </summary>
     private bool IsModuleCompatible(string signalKey, PlcComponentDto module)
     {
-        var desc = (module.Description ?? "").ToLower();
-        var part = (module.PartNumber ?? "").ToLower();
-
-        return signalKey switch
-        {
-            // AI токовые — в описании должны быть "4" и "20" (4-20 мА)
-            "AI_NIS_2W" or "AI_NIS_4W" or "AI_IS_2W" or "AI_IS_4W"
-                or "AI_R_NIS_2W" or "AI_R_NIS_4W" or "AI_R_IS_2W" or "AI_R_IS_4W"
-                => desc.Contains("4") && desc.Contains("20"),
-
-            // AI RTD — термосопротивления
-            "AI_RTD_NIS_3W"
-                => desc.Contains("термосопротивлени") || desc.Contains("rtd") || desc.Contains("pt100"),
-
-            // AI термопары
-            "AI_TC"
-                => desc.Contains("термопар") || desc.Contains("tc"),
-
-            // AI частота
-            "AI_NIS_PL_3W" or "AI_IS_PL_3W"
-                => desc.Contains("частот") || desc.Contains("импульс") || desc.Contains("кГц"),
-
-            // AO токовые
-            "AO_NIS" or "AO_IS" or "AO_R_IS" or "AO_R_NIS"
-                => desc.Contains("4") && desc.Contains("20") && desc.Contains("вывод"),
-
-            // AO напряжение
-            "AO_NIS_V" or "AO_IS_V"
-                => desc.Contains("0") && desc.Contains("10") && desc.Contains("в"),
-
-            // DI NAMUR
-            "DI_IS_NAMUR"
-                => desc.Contains("namur"),
-
-            // DI сухой контакт
-            "DI_NIS_DRY"
-                => desc.Contains("сухой") || desc.Contains("контакт"),
-
-            // DI 24V
-            "DI_NIS_24V"
-                => desc.Contains("24") && desc.Contains("в") && desc.Contains("ввод"),
-
-            // DI VFG (частотный)
-            "DI_NIS_VFG"
-                => desc.Contains("частот") || desc.Contains("импульс") || desc.Contains("vfg"),
-
-            // DI MCC 230VAC
-            "DI_NIS_MCC_230VAC"
-                => desc.Contains("230") || desc.Contains("220") && desc.Contains("ac"),
-
-            // DI MCC 220VDC
-            "DI_NIS_MCC_220VDC"
-                => desc.Contains("220") && desc.Contains("dc"),
-
-            // DO VFC
-            "DO_NIS_VFC"
-                => desc.Contains("vfc") || desc.Contains("сухой"),
-
-            // DO 24V
-            "DO_NIS_24V"
-                => desc.Contains("24") && desc.Contains("вывод"),
-
-            // DO MCC
-            "DO_NIS_MCC_230VAC"
-                => desc.Contains("230") || desc.Contains("220") && desc.Contains("ac") && desc.Contains("вывод"),
-            "DO_NIS_MCC_220VDC"
-                => desc.Contains("220") && desc.Contains("dc") && desc.Contains("вывод"),
-
-            // По умолчанию — подходит
-            _ => true,
-        };
+        return module.SupportedSignals == null
+            || module.SupportedSignals.Count == 0
+            || module.SupportedSignals.Contains(signalKey, StringComparer.OrdinalIgnoreCase);
     }
     private decimal EstimateCost(string vendor, int totalModules, int racksCount)
     {
