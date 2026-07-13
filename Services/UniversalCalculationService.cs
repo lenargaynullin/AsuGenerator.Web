@@ -25,7 +25,7 @@ public class UniversalCalculationService
 {
     private readonly PlcBaseRoot _db;
 
-    // Маппинг типов сигналов (supported_signals) на категории модулей
+    // Маппинг типов сигналов (supported_signals) на категории модулей 
     private static readonly Dictionary<string, string> SignalToCategory = new(StringComparer.OrdinalIgnoreCase)
     {
         // Аналоговые входы (AI)
