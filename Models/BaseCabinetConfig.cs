@@ -4,8 +4,8 @@ public class BaseCabinetConfig
 {
     // Конструктивные
     public string MountType { get; set; } = "Навесной";
-    private string _ipRating = "IP54";
-    public string IpRating { get; set; } = "IP54";
+    private string _ipRating = "IP54"; // Дублирование
+    public string IpRating { get; set; } = "IP54"; // Дублирование
     public bool HasPlinth { get; set; }
     public string PowerCategory { get; set; } = "III";
     public string EarthingSystem { get; set; } = "TN-S";
