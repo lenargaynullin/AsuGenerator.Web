@@ -18,7 +18,7 @@ namespace AsuGenerator.Web.Services
             CabinetType cabinetType = CabinetType.SingleSided)
         {
             var result = new PlcCabinetCalculationResult();
-
+            // test
             // 1. Динамический расчет полезной геометрии монтажной панели
             int usefulWidthMm = cabinetWidthMm - 40 - 60 - 120;
             if (usefulWidthMm < 380) usefulWidthMm = 380;
