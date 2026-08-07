@@ -47,6 +47,14 @@ builder.Services.AddSingleton(sp =>
     return JsonSerializer.Deserialize<PlcBaseRoot>(jsonText) ?? new PlcBaseRoot();
 });
 
+// Каталог IEK и движок расчёта конфигуратора силовых шкафов (ВРУ, ЩС, ЩО)
+builder.Services.AddSingleton(sp =>
+{
+    var env = sp.GetRequiredService<IWebHostEnvironment>();
+    return new PowerCabinetCatalogLoader().Load(env);
+});
+builder.Services.AddScoped<PowerCabinetCalculator>();
+
 // Регистрация b2b фабрики управления шкафами
 
 // Регистрация стратегий конкретных шкафов

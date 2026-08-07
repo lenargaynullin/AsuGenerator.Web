@@ -1,0 +1,66 @@
+@using AsuGenerator.Web.Models
+@inject PowerCabinetCatalog Catalog
+
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            <MudIcon Icon="@Icons.Material.Filled.EditAttributes" Class="mr-2" />
+            Применить к выбранным автоматам
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudText Typo="Typo.body2" Class="mb-3">
+            Выбрано автоматов: <b>@(Candidates?.Count ?? 0)</b>. Задайте новые значения
+            (оставьте поля без изменений, чтобы не менять свойство).
+        </MudText>
+        <MudGrid Spacing="2">
+            <MudItem xs="12" sm="4">
+                <MudSelect T="int" Label="Полюса (0 — без изменений)" Variant="Variant.Outlined" Dense="true"
+                           Value="_poles" ValueChanged="@(v => _poles = v)" Margin="Margin.Dense">
+                    @foreach (var p in new[] { 0 }.Concat(Catalog.PoleOptions))
+                    {
+                        <MudSelectItem T="int" Value="@p">@(p == 0 ? "— без изменений —" : p + " P")</MudSelectItem>
+                    }
+                </MudSelect>
+            </MudItem>
+            <MudItem xs="12" sm="4">
+                <MudSelect T="int" Label="Номинал, А (0 — без изменений)" Variant="Variant.Outlined" Dense="true"
+                           Value="_amp" ValueChanged="@(v => _amp = v)" Margin="Margin.Dense">
+                    @foreach (var a in new[] { 0 }.Concat(Catalog.ModuleNominalCurrents))
+                    {
+                        <MudSelectItem T="int" Value="@a">@(a == 0 ? "— без изменений —" : a.ToString())</MudSelectItem>
+                    }
+                </MudSelect>
+            </MudItem>
+            <MudItem xs="12" sm="4">
+                <MudSelect T="string" Label="Кривая (— без изменений)" Variant="Variant.Outlined" Dense="true"
+                           Value="_curve" ValueChanged="@(v => _curve = v)" Margin="Margin.Dense">
+                    @foreach (var c in new[] { "" }.Concat(Catalog.Curves))
+                    {
+                        <MudSelectItem T="string" Value="@c">@(string.IsNullOrEmpty(c) ? "— без изменений —" : c)</MudSelectItem>
+                    }
+                </MudSelect>
+            </MudItem>
+        </MudGrid>
+    </DialogContent>
+    <DialogActions>
+        <MudButton Variant="Variant.Text" Color="Color.Default" OnClick="@(() => MudDialog.Cancel())">Отмена</MudButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Apply">Применить</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] IMudDialogInstance MudDialog { get; set; } = default!;
+    [Parameter] public string Title { get; set; } = "Применить к выбранным";
+    [Parameter] public List<BreakerRow>? Candidates { get; set; }
+
+    private int _poles;
+    private int _amp;
+    private string _curve = "";
+
+    private void Apply()
+    {
+        // Возвращаем кортеж: (полюса, номинал, кривая); 0/"" = без изменений
+        MudDialog.Close((_poles, _amp, _curve));
+    }
+}

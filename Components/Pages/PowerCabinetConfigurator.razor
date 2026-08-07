@@ -1,0 +1,537 @@
+@page "/power-configurator"
+@using AsuGenerator.Web.Models
+@using AsuGenerator.Web.Services
+@rendermode InteractiveServer
+
+@inject PowerCabinetCatalog Catalog
+@inject PowerCabinetCalculator Calc
+@inject IJSRuntime JS
+@inject ISnackbar Snackbar
+@inject IDialogService DialogService
+
+<PageTitle>Конфигуратор силовых шкафов (ВРУ, ЩС, ЩО) — ASU Generator</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-2 mb-2 px-2">
+
+    @* ===== Верхняя статус-панель ===== *@
+    <MudPaper Outlined="true" Class="pa-3 mb-3 d-flex justify-space-between align-center" Style="background-color: #1e293b; color: white;">
+        <div class="d-flex align-center gap-3">
+            <MudIcon Icon="@Icons.Material.Filled.Bolt" Color="Color.Warning" Size="Size.Large" />
+            <div>
+                <MudText Typo="Typo.h6"><b>Конфигуратор силовых шкафов</b></MudText>
+                <MudText Typo="Typo.caption" Style="color: #94a3b8;">
+                    ВРУ / ЩС / ЩО · Корпуса IEK · Автоматы ВА47-29 · Спецификация ГОСТ 21.110-2013
+                </MudText>
+            </div>
+        </div>
+        <div class="d-flex flex-wrap gap-1">
+            <MudButton Variant="Variant.Filled" Color="Color.Success" Size="Size.Small" StartIcon="@Icons.Material.Filled.ContentCopy" OnClick="CopyTsv" Disabled="@(_spec?.Count == 0)">
+                Копировать для Excel
+            </MudButton>
+            <MudButton Variant="Variant.Outlined" Color="Color.Info" Size="Size.Small" StartIcon="@Icons.Material.Filled.SaveAlt" OnClick="ExportCsv" Disabled="@(_spec?.Count == 0)">
+                CSV (UTF-8)
+            </MudButton>
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" StartIcon="@Icons.Material.Filled.TableChart" OnClick="ExportExcel" Disabled="@(_spec?.Count == 0)">
+                Excel (ГОСТ)
+            </MudButton>
+        </div>
+    </MudPaper>
+
+    <MudGrid Spacing="3">
+
+        @* ===== ЛЕВАЯ ПАНЕЛЬ: конструктив + ввод + таблица ===== *@
+        <MudItem xs="12" lg="7">
+
+            @* --- 1. Конструктив шкафа --- *@
+            <MudPaper Outlined="true" Class="pa-3 mb-3">
+                <MudText Typo="Typo.subtitle2" Color="Color.Primary" Class="mb-2"><b>1. КОНСТРУКТИВ ШКАФА</b></MudText>
+                <MudGrid Spacing="2">
+                    <MudItem xs="12" sm="4">
+                        <MudSelect T="string" Label="Тип" Variant="Variant.Outlined" Dense="true" Value="@_cfg.CabinetType" ValueChanged="@(s => OnCabinetTypeChanged(s))" Margin="Margin.Dense">
+                            @foreach (var t in Catalog.CabinetTypes)
+                            {
+                                <MudSelectItem T="string" Value="@t">@t</MudSelectItem>
+                            }
+                        </MudSelect>
+                    </MudItem>
+                    <MudItem xs="12" sm="4">
+                        <MudSelect T="string" Label="Степень защиты" Variant="Variant.Outlined" Dense="true" Value="@_cfg.IpRating" ValueChanged="@(s => OnIpChanged(s))" Margin="Margin.Dense">
+                            @foreach (var ip in Catalog.IpRatings)
+                            {
+                                <MudSelectItem T="string" Value="@ip">@ip</MudSelectItem>
+                            }
+                        </MudSelect>
+                    </MudItem>
+                    <MudItem xs="12" sm="4">
+                        <MudSelect T="Enclosure" Label="Корпус (ЩМП/ВРУ)" Variant="Variant.Outlined" Dense="true"
+                                   Value="_cfg.SelectedEnclosure" ValueChanged="@(v => OnEnclosureChanged(v))" Margin="Margin.Dense">
+                            @foreach (var e in AvailableEnclosures)
+                            {
+                                <MudSelectItem T="Enclosure" Value="@e">@e.Name — @e.Price.ToString("N0") ₽</MudSelectItem>
+                            }
+                        </MudSelect>
+                    </MudItem>
+                </MudGrid>
+                @if (_cfg.SelectedEnclosure is { } selEnc)
+                {
+                    <MudText Typo="Typo.body2" Class="mt-2" Style="color:#475569;">
+                        Выбран: <b>@selEnc.Article</b> · @selEnc.MountType · @selEnc.Dimensions мм · IP@selEnc.IpRating.Substring(2)
+                        · вместимость <b>@selEnc.ModuleCapacity</b> модулей · @selEnc.Price.ToString("N0") ₽
+                    </MudText>
+                }
+            </MudPaper>
+
+            @* --- 2. Вводной аппарат --- *@
+            <MudPaper Outlined="true" Class="pa-3 mb-3">
+                <MudText Typo="Typo.subtitle2" Color="Color.Primary" Class="mb-2"><b>2. ВВОДНОЙ АППАРАТ</b></MudText>
+                <MudGrid Spacing="2">
+                    <MudItem xs="12" sm="4">
+                        <MudSelect T="string" Label="Тип ввода" Variant="Variant.Outlined" Dense="true" Value="@_cfg.InputType" ValueChanged="@(s => OnInputTypeChanged(s))" Margin="Margin.Dense">
+                            @foreach (var it in Catalog.InputTypes)
+                            {
+                                <MudSelectItem T="string" Value="@it">@it</MudSelectItem>
+                            }
+                        </MudSelect>
+                    </MudItem>
+                    <MudItem xs="12" sm="4">
+                        <MudSelect T="string" Label="Номинал, А" Variant="Variant.Outlined" Dense="true" Value="@_cfg.InputCurrent" ValueChanged="@(s => OnInputCurrentChanged(s))" Margin="Margin.Dense">
+                            @foreach (var ic in Catalog.InputCurrents)
+                            {
+                                <MudSelectItem T="string" Value="@ic">@ic А</MudSelectItem>
+                            }
+                        </MudSelect>
+                    </MudItem>
+                    <MudItem xs="12" sm="4">
+                        <MudText Typo="Typo.body2" Class="pt-2">
+                            @if (_cfg.SelectedInputBreaker is { } ib2)
+                            {
+                                <span>Подобран: <b>@ib2.Article</b> · @ib2.Poles P · ввод ПуГВ <b>@ib2.RecommendedWireSection мм²</b></span>
+                            }
+                            else
+                            {
+                                <span style="color:#94a3b8;">Аппарат не найден для выбранных параметров</span>
+                            }
+                        </MudText>
+                    </MudItem>
+                </MudGrid>
+            </MudPaper>
+
+            @* --- 3. Таблица автоматических выключателей --- *@
+            <MudPaper Outlined="true" Class="pa-3 mb-3">
+                <div class="d-flex justify-space-between align-center mb-2">
+                    <MudText Typo="Typo.subtitle2" Color="Color.Primary"><b>3. АВТОМАТИЧЕСКИЕ ВЫКЛЮЧАТЕЛИ</b></MudText>
+                    <div class="d-flex gap-2">
+                        <MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small" StartIcon="@Icons.Material.Filled.Add" OnClick="AddRow">
+                            Добавить автомат
+                        </MudButton>
+                        <MudButton Variant="Variant.Outlined" Color="Color.Warning" Size="Size.Small" StartIcon="@Icons.Material.Filled.Edit" OnClick="ApplyToSelected" Disabled="@(!SelectedRows.Any())">
+                            Применить к выбранным
+                        </MudButton>
+                    </div>
+                </div>
+
+                <MudSimpleTable Dense="true" Hover="true" Outlined="true" Style="width:100%; table-layout: auto;">
+                    <thead>
+                        <tr style="background-color: var(--mud-palette-background-grey);">
+                            <th style="width:36px;"><MudCheckBox T="bool" Value="_allSelected" ValueChanged="@(v => ToggleAll(v))" /></th>
+                            <th>Полюса</th>
+                            <th>Номинал, А</th>
+                            <th>Кривая</th>
+                            <th style="width:80px;">Кол-во</th>
+                            <th style="width:150px;">Артикул IEK</th>
+                            <th>Обвязка</th>
+                            <th style="width:88px;"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var row in _cfg.BreakerRows)
+                        {
+                            var art = Calc.FindModuleBreaker(row.Poles, row.RatedCurrentA, row.Curve);
+                            var section = PowerCabinetCalculator.SectionForCurrent(row.RatedCurrentA);
+                            <tr>
+                                <td style="text-align:center;"><MudCheckBox T="bool" Value="@IsSelected(row)" ValueChanged="@(v => ToggleRow(row, v))" /></td>
+                                <td>
+                                    <MudSelect T="int" Dense="true" Variant="Variant.Outlined" Margin="Margin.Dense"
+                                               Value="@row.Poles" ValueChanged="@(v => { row.Poles = v; Recalc(); })">
+                                        @foreach (var p in Catalog.PoleOptions)
+                                        {
+                                            <MudSelectItem T="int" Value="@p">@p P</MudSelectItem>
+                                        }
+                                    </MudSelect>
+                                </td>
+                                <td>
+                                    <MudSelect T="int" Dense="true" Variant="Variant.Outlined" Margin="Margin.Dense"
+                                               Value="@row.RatedCurrentA" ValueChanged="@(v => { row.RatedCurrentA = v; Recalc(); })">
+                                        @foreach (var a in Catalog.ModuleNominalCurrents)
+                                        {
+                                            <MudSelectItem T="int" Value="@a">@a</MudSelectItem>
+                                        }
+                                    </MudSelect>
+                                </td>
+                                <td>
+                                    <MudSelect T="string" Dense="true" Variant="Variant.Outlined" Margin="Margin.Dense"
+                                               Value="@row.Curve" ValueChanged="@(v => { row.Curve = v; Recalc(); })">
+                                        @foreach (var c in Catalog.Curves)
+                                        {
+                                            <MudSelectItem T="string" Value="@c">@c</MudSelectItem>
+                                        }
+                                    </MudSelect>
+                                </td>
+                                <td>
+                                    <MudNumericField T="int" Dense="true" Variant="Variant.Outlined" Margin="Margin.Dense"
+                                                     Value="@row.Quantity" ValueChanged="@(v => { row.Quantity = v; Recalc(); })"
+                                                     Min="0" Max="999" Adornment="Adornment.End" HideSpinButtons="true" />
+                                </td>
+                                <td style="font-size:11px;font-weight:bold;">@(art?.Article ?? "—")</td>
+                                <td style="font-size:11px;color:#475569;">ПуГВ @FormatSection(section) мм²</td>
+                                <td style="text-align:center; white-space:nowrap;">
+                                    <MudIconButton Size="Size.Small" Icon="@Icons.Material.Filled.ContentCopy" OnClick="@(() => DuplicateRow(row))" Title="Дублировать строку" />
+                                    <MudIconButton Size="Size.Small" Icon="@Icons.Material.Filled.DeleteOutline" Color="Color.Error" OnClick="@(() => RemoveRow(row))" Title="Удалить" />
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </MudSimpleTable>
+            </MudPaper>
+
+
+        </MudItem>
+
+        @* ===== ПРАВАЯ ПАНЕЛЬ: спецификация ГОСТ 21.110-2013 ===== *@
+        <MudItem xs="12" lg="5">
+            <MudPaper Outlined="true" Class="pa-3 mb-3" Style="position: sticky; top: 12px;">
+                <MudText Typo="Typo.subtitle1" Color="Color.Primary" Class="mb-1">
+                    <b>СПЕЦИФИКАЦИЯ ГОСТ 21.110-2013</b>
+                </MudText>
+                <MudText Typo="Typo.caption" Style="color:#64748b;" Class="mb-2">
+                    Оборудование, изделия и материалы · Завод-изготовитель: IEK · Обновляется автоматически
+                </MudText>
+
+                @if (_spec is { Count: > 0 })
+                {
+                    <MudSimpleTable Dense="true" Hover="true" Outlined="true" Style="width:100%; font-size:12px;">
+                        <thead>
+                            <tr style="background-color: var(--mud-palette-background-grey);">
+                                <th style="width:34px;text-align:center;">Поз.</th>
+                                <th>Наименование и тех. характеристика</th>
+                                <th style="width:74px;">Артикул</th>
+                                <th style="width:44px;text-align:center;">Кол-во</th>
+                                <th style="width:34px;text-align:center;">Ед.</th>
+                                <th style="width:62px;text-align:right;">Цена, ₽</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var l in _spec)
+                            {
+                                <tr>
+                                    <td style="text-align:center;">@l.Pos</td>
+                                    <td style="white-space:normal; word-break:break-word;">
+                                        @l.Name
+                                        <div style="font-size:11px;color:#64748b;">@l.TypeMark · @l.Note</div>
+                                    </td>
+                                    <td style="font-size:11px;">@l.Article</td>
+                                    <td style="text-align:center;font-weight:bold;">@FormatQty(l.Quantity)</td>
+                                    <td style="text-align:center;">@l.Unit</td>
+                                    <td style="text-align:right;">@l.TotalPrice.ToString("N0")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </MudSimpleTable>
+
+                    <div class="d-flex justify-space-between align-center mt-3 pa-2"
+                         style="background-color:#1e293b;color:white;border-radius:4px;">
+                        <MudText Typo="Typo.body1"><b>ИТОГО стоимость оборудования IEK:</b></MudText>
+                        <MudText Typo="Typo.h6"><b>@_totalCost.ToString("N0") ₽</b></MudText>
+                    </div>
+                    <MudText Typo="Typo.caption" Class="mt-1" Style="color:#94a3b8;">
+                        Модулей (с полюсами ввода): <b>@_cfg.TotalModules</b> · DIN-реек: расчёт по мере добавления
+                    </MudText>
+                }
+                else
+                {
+                    <MudAlert Severity="Severity.Info" Variant="Variant.Outlined" Class="mt-2">
+                        Добавьте автоматы в левую таблицу — спецификация появится здесь автоматически.
+                    </MudAlert>
+                }
+            </MudPaper>
+        </MudItem>
+
+    </MudGrid>
+</MudContainer>
+
+
+@code {
+    private PowerCabinetConfig _cfg = new();
+    private List<SpecificationLine>? _spec;
+    private decimal _totalCost;
+    private readonly HashSet<Guid> _selected = new();
+    private bool _allSelected;
+
+    private IEnumerable<Enclosure> AvailableEnclosures => Catalog.Enclosures
+        .Where(e => e.CabinetType == _cfg.CabinetType)
+        .OrderBy(e => e.Price);
+
+    protected override void OnInitialized()
+    {
+        // Стартовые значения: первый корпус под тип/IP и вводной аппарат
+        Recalc();
+    }
+
+    private void OnCabinetTypeChanged(string value)
+    {
+        _cfg.CabinetType = value;
+        _cfg.SelectedEnclosure = AvailableEnclosures.FirstOrDefault();
+        Recalc();
+    }
+
+    private void OnIpChanged(string value)
+    {
+        _cfg.IpRating = value;
+        _cfg.SelectedEnclosure = AvailableEnclosures
+            .FirstOrDefault(e => e.IpRating == value) ?? AvailableEnclosures.FirstOrDefault();
+        Recalc();
+    }
+
+    private void OnEnclosureChanged(Enclosure? enc)
+    {
+        _cfg.SelectedEnclosure = enc;
+        Recalc();
+    }
+
+    private void OnInputTypeChanged(string value)
+    {
+        _cfg.InputType = value;
+        Recalc();
+    }
+
+    private void OnInputCurrentChanged(string value)
+    {
+        _cfg.InputCurrent = value;
+        Recalc();
+    }
+
+
+    private void Recalc()
+    {
+        if (_cfg.SelectedInputBreaker is null || _cfg.InputType != InputTypeOf(_cfg.SelectedInputBreaker) ||
+            _cfg.SelectedInputBreaker.RatedCurrentA.ToString() != _cfg.InputCurrent)
+        {
+            _cfg.SelectedInputBreaker = Calc.FindPowerBreaker(_cfg.InputType, _cfg.InputCurrent);
+        }
+
+        _spec = Calc.BuildSpecification(_cfg);
+        _totalCost = Calc.TotalCost(_cfg);
+    }
+
+    private static string InputTypeOf(PowerBreaker pb) => pb.Type;
+
+    private void AddRow()
+    {
+        var prev = _cfg.BreakerRows.LastOrDefault();
+        var row = new BreakerRow
+        {
+            Poles = prev?.Poles ?? 1,
+            RatedCurrentA = prev?.RatedCurrentA ?? 16,
+            Curve = prev?.Curve ?? "C",
+            Quantity = 1
+        };
+        _cfg.BreakerRows.Add(row); // копирует предыдущую строку
+        Recalc();
+    }
+
+    private void DuplicateRow(BreakerRow row)
+    {
+        var copy = new BreakerRow
+        {
+            Poles = row.Poles,
+            RatedCurrentA = row.RatedCurrentA,
+            Curve = row.Curve,
+            Quantity = row.Quantity
+        };
+        var idx = _cfg.BreakerRows.IndexOf(row);
+        _cfg.BreakerRows.Insert(idx + 1, copy);
+        Recalc();
+    }
+
+    private void RemoveRow(BreakerRow row)
+    {
+        _cfg.BreakerRows.Remove(row);
+        _selected.Remove(row.Id);
+        Recalc();
+    }
+
+    private bool IsSelected(BreakerRow row) => _selected.Contains(row.Id);
+
+    private void ToggleRow(BreakerRow row, bool value)
+    {
+        if (value) _selected.Add(row.Id); else _selected.Remove(row.Id);
+        Recalc();
+    }
+
+    private void ToggleAll(bool value)
+    {
+        _allSelected = value;
+        _selected.Clear();
+        if (value)
+            foreach (var r in _cfg.BreakerRows) _selected.Add(r.Id);
+        Recalc();
+    }
+
+    private IEnumerable<BreakerRow> SelectedRows =>
+        _cfg.BreakerRows.Where(IsSelected);
+
+    private async Task ApplyToSelected()
+    {
+        var sel = SelectedRows.ToList();
+        if (sel.Count == 0) return;
+
+        var parameters = new DialogParameters
+        {
+            ["Title"] = "Применить к выбранным автоматам",
+            ["Candidates"] = sel
+        };
+        var options = new DialogOptions { MaxWidth = MaxWidth.Small, FullWidth = true };
+        var dialog = await DialogService.ShowAsync<ApplyToSelectedDialog>("Применить к выбранным", parameters, options);
+        var result = await dialog.Result;
+        if (!result.Canceled && result.Data is (int poles, int amp, string curve))
+        {
+            foreach (var r in sel)
+            {
+                if (poles > 0) r.Poles = poles;
+                if (amp > 0) r.RatedCurrentA = amp;
+                if (!string.IsNullOrEmpty(curve)) r.Curve = curve;
+            }
+            Recalc();
+        }
+    }
+
+    private static string FormatSection(decimal s) =>
+        s == Math.Floor(s) ? ((int)s).ToString() : s.ToString("0.#");
+
+    private static string FormatQty(decimal q) =>
+        q == Math.Floor(q) ? ((int)q).ToString() : q.ToString("0.#");
+
+
+    // ================= Экспорт =================
+
+    private string BuildTsv(bool withBom = false)
+    {
+        var sb = new System.Text.StringBuilder();
+        if (withBom) sb.Append('\uFEFF'); // UTF-8 BOM
+        var header = new[] { "Поз.", "Наименование и техническая характеристика", "Тип, марка", "Артикул", "Завод-изг.", "Кол-во", "Ед.", "Примечание", "Цена, ₽" };
+        sb.AppendLine(string.Join('\t', header));
+        foreach (var l in _spec ?? new List<SpecificationLine>())
+        {
+            var cells = new[]
+            {
+                l.Pos.ToString(),
+                l.Name,
+                l.TypeMark,
+                l.Article,
+                l.Manufacturer,
+                FormatQty(l.Quantity),
+                l.Unit,
+                l.Note,
+                l.TotalPrice.ToString("0.##")
+            };
+            sb.AppendLine(string.Join('\t', cells));
+        }
+        return sb.ToString();
+    }
+
+    private async Task CopyTsv()
+    {
+        if (_spec is not { Count: > 0 }) return;
+        var ok = await JS.InvokeAsync<bool>("powerCabinet.copyText", BuildTsv());
+        Snackbar.Add(ok ? "Спецификация скопирована (TSV для Excel)" : "Не удалось скопировать", ok ? Severity.Success : Severity.Error);
+    }
+
+    private async Task ExportCsv()
+    {
+        if (_spec is not { Count: > 0 }) return;
+        var content = BuildTsv(withBom: true);
+        var mime = "text/csv;charset=utf-8";
+        var name = $"Спецификация_ВРУ_ЩС_ЩО_{DateTime.Now:yyyyMMdd_HHmm}.csv";
+        await JS.InvokeVoidAsync("powerCabinet.downloadFile", name, mime, content);
+        Snackbar.Add("CSV выгружен (UTF-8 с BOM)", Severity.Success);
+    }
+
+    private async Task ExportExcel()
+    {
+        if (_spec is not { Count: > 0 }) return;
+        var bytes = BuildExcel(_spec!);
+        var b64 = Convert.ToBase64String(bytes);
+        var name = $"Спецификация_ГОСТ21.110_{DateTime.Now:yyyyMMdd_HHmm}.xlsx";
+        await JS.InvokeVoidAsync("downloadFileFromBytes", name, b64);
+        Snackbar.Add("Excel по ГОСТ 21.110-2013 сформирован", Severity.Success);
+    }
+
+    private static byte[] BuildExcel(List<SpecificationLine> lines)
+    {
+        OfficeOpenXml.ExcelPackage.License.SetNonCommercialPersonal("AsuGeneratorSaaS");
+        using var package = new OfficeOpenXml.ExcelPackage();
+        var ws = package.Workbook.Worksheets.Add("Спецификация");
+        ws.Cells["A1"].Value = "СПЕЦИФИКАЦИЯ ОБОРУДОВАНИЯ, ИЗДЕЛИЙ И МАТЕРИАЛОВ";
+        ws.Cells["A1:I1"].Merge = true;
+        ws.Cells["A1"].Style.Font.Bold = true;
+        ws.Cells["A1"].Style.Font.Size = 12;
+        ws.Cells["A2"].Value = $"По ГОСТ 21.110-2013 · Изготовитель: IEK · {DateTime.Now:dd.MM.yyyy}";
+        ws.Cells["A2:I2"].Merge = true;
+
+        string[] headers = { "Поз.", "Наименование и техническая характеристика", "Тип, марка", "Артикул", "Завод-изг.", "Кол-во", "Ед.изм.", "Примечание", "Сумма, ₽" };
+        int hr = 4;
+        for (int i = 0; i < headers.Length; i++)
+        {
+            var cell = ws.Cells[hr, i + 1];
+            cell.Value = headers[i];
+            cell.Style.Font.Bold = true;
+            cell.Style.Font.Size = 10;
+            cell.Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+            cell.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+            cell.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+            cell.Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.LightGray);
+        }
+
+        int r = hr + 1;
+        foreach (var l in lines)
+        {
+            ws.Cells[r, 1].Value = l.Pos;
+            ws.Cells[r, 2].Value = l.Name;
+            ws.Cells[r, 3].Value = l.TypeMark;
+            ws.Cells[r, 4].Value = l.Article;
+            ws.Cells[r, 5].Value = l.Manufacturer;
+            ws.Cells[r, 6].Value = l.Quantity;
+            ws.Cells[r, 7].Value = l.Unit;
+            ws.Cells[r, 8].Value = l.Note;
+            ws.Cells[r, 9].Value = l.TotalPrice;
+            for (int i = 1; i <= headers.Length; i++)
+            {
+                var cell = ws.Cells[r, i];
+                cell.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                cell.Style.Font.Size = 10;
+                cell.Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
+                if (i is 1 or 6 or 9) cell.Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+            }
+            r++;
+        }
+
+        r++;
+        ws.Cells[r, 2].Value = "ИТОГО:";
+        ws.Cells[r, 2].Style.Font.Bold = true;
+        ws.Cells[r, 9].Value = lines.Sum(l => l.TotalPrice);
+        ws.Cells[r, 9].Style.Font.Bold = true;
+
+        ws.Column(1).Width = 6;
+        ws.Column(2).Width = 50;
+        ws.Column(3).Width = 18;
+        ws.Column(4).Width = 18;
+        ws.Column(5).Width = 12;
+        ws.Column(6).Width = 8;
+        ws.Column(7).Width = 8;
+        ws.Column(8).Width = 30;
+        ws.Column(9).Width = 14;
+
+        return package.GetAsByteArray();
+    }
+}
+

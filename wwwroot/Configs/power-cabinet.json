@@ -1,0 +1,1693 @@
+﻿{
+    "Enclosures":  [
+                       {
+                           "Article":  "ЩМП-1-24",
+                           "Series":  "ЩМП",
+                           "CabinetType":  "ЩС",
+                           "IpRating":  "IP31",
+                           "MountType":  "Навесной",
+                           "Dimensions":  "500x400x250",
+                           "HeightMm":  500,
+                           "WidthMm":  400,
+                           "DepthMm":  250,
+                           "ModuleCapacity":  24,
+                           "Price":  3600,
+                           "Name":  "Шкаф ЩМП-1 навесной IP31 500x400x250 мм, 24 модуля"
+                       },
+                       {
+                           "Article":  "ЩМП-1-24-54",
+                           "Series":  "ЩМП",
+                           "CabinetType":  "ЩС",
+                           "IpRating":  "IP54",
+                           "MountType":  "Навесной",
+                           "Dimensions":  "500x400x250",
+                           "HeightMm":  500,
+                           "WidthMm":  400,
+                           "DepthMm":  250,
+                           "ModuleCapacity":  24,
+                           "Price":  4300,
+                           "Name":  "Шкаф ЩМП-1 навесной IP54 500x400x250 мм, 24 модуля"
+                       },
+                       {
+                           "Article":  "ЩМП-1-36-54",
+                           "Series":  "ЩМП",
+                           "CabinetType":  "ЩС",
+                           "IpRating":  "IP54",
+                           "MountType":  "Навесной",
+                           "Dimensions":  "600x500x250",
+                           "HeightMm":  600,
+                           "WidthMm":  500,
+                           "DepthMm":  250,
+                           "ModuleCapacity":  36,
+                           "Price":  5100,
+                           "Name":  "Шкаф ЩМП-1 навесной IP54 600x500x250 мм, 36 модулей"
+                       },
+                       {
+                           "Article":  "ЩМП-2-48",
+                           "Series":  "ЩМП",
+                           "CabinetType":  "ЩС",
+                           "IpRating":  "IP31",
+                           "MountType":  "Напольный",
+                           "Dimensions":  "800x600x350",
+                           "HeightMm":  800,
+                           "WidthMm":  600,
+                           "DepthMm":  350,
+                           "ModuleCapacity":  48,
+                           "Price":  7200,
+                           "Name":  "Шкаф ЩМП-2 напольный IP31 800x600x350 мм, 48 модулей"
+                       },
+                       {
+                           "Article":  "ВРУ-3-54",
+                           "Series":  "ВРУ",
+                           "CabinetType":  "ВРУ",
+                           "IpRating":  "IP31",
+                           "MountType":  "Напольный",
+                           "Dimensions":  "1000x600x400",
+                           "HeightMm":  1000,
+                           "WidthMm":  600,
+                           "DepthMm":  400,
+                           "ModuleCapacity":  54,
+                           "Price":  9800,
+                           "Name":  "Шкаф ВРУ напольный IP31 1000x600x400 мм, 54 модуля"
+                       },
+                       {
+                           "Article":  "ВРУ-3-54-54",
+                           "Series":  "ВРУ",
+                           "CabinetType":  "ВРУ",
+                           "IpRating":  "IP54",
+                           "MountType":  "Напольный",
+                           "Dimensions":  "1000x600x400",
+                           "HeightMm":  1000,
+                           "WidthMm":  600,
+                           "DepthMm":  400,
+                           "ModuleCapacity":  54,
+                           "Price":  11600,
+                           "Name":  "Шкаф ВРУ напольный IP54 1000x600x400 мм, 54 модуля"
+                       },
+                       {
+                           "Article":  "ПР11-4-72",
+                           "Series":  "ПР11",
+                           "CabinetType":  "ВРУ",
+                           "IpRating":  "IP31",
+                           "MountType":  "Напольный",
+                           "Dimensions":  "1200x600x400",
+                           "HeightMm":  1200,
+                           "WidthMm":  600,
+                           "DepthMm":  400,
+                           "ModuleCapacity":  72,
+                           "Price":  12500,
+                           "Name":  "Шкаф ПР11 напольный IP31 1200x600x400 мм, 72 модуля"
+                       },
+                       {
+                           "Article":  "ЩРС-1-12",
+                           "Series":  "ЩРС",
+                           "CabinetType":  "ЩО",
+                           "IpRating":  "IP31",
+                           "MountType":  "Навесной",
+                           "Dimensions":  "400x300x200",
+                           "HeightMm":  400,
+                           "WidthMm":  300,
+                           "DepthMm":  200,
+                           "ModuleCapacity":  12,
+                           "Price":  2600,
+                           "Name":  "Шкаф ЩРС навесной IP31 400x300x200 мм, 12 модулей"
+                       }
+                   ],
+    "ModuleBreakers":  [
+                           {
+                               "Article":  "BA47-29-1B1",
+                               "Poles":  1,
+                               "RatedCurrentA":  1,
+                               "Curve":  "B",
+                               "WidthModules":  1,
+                               "Price":  114
+                           },
+                           {
+                               "Article":  "BA47-29-1C1",
+                               "Poles":  1,
+                               "RatedCurrentA":  1,
+                               "Curve":  "C",
+                               "WidthModules":  1,
+                               "Price":  120
+                           },
+                           {
+                               "Article":  "BA47-29-1D1",
+                               "Poles":  1,
+                               "RatedCurrentA":  1,
+                               "Curve":  "D",
+                               "WidthModules":  1,
+                               "Price":  138
+                           },
+                           {
+                               "Article":  "BA47-29-1B2",
+                               "Poles":  1,
+                               "RatedCurrentA":  2,
+                               "Curve":  "B",
+                               "WidthModules":  1,
+                               "Price":  109
+                           },
+                           {
+                               "Article":  "BA47-29-1C2",
+                               "Poles":  1,
+                               "RatedCurrentA":  2,
+                               "Curve":  "C",
+                               "WidthModules":  1,
+                               "Price":  115
+                           },
+                           {
+                               "Article":  "BA47-29-1D2",
+                               "Poles":  1,
+                               "RatedCurrentA":  2,
+                               "Curve":  "D",
+                               "WidthModules":  1,
+                               "Price":  132
+                           },
+                           {
+                               "Article":  "BA47-29-1B3",
+                               "Poles":  1,
+                               "RatedCurrentA":  3,
+                               "Curve":  "B",
+                               "WidthModules":  1,
+                               "Price":  106
+                           },
+                           {
+                               "Article":  "BA47-29-1C3",
+                               "Poles":  1,
+                               "RatedCurrentA":  3,
+                               "Curve":  "C",
+                               "WidthModules":  1,
+                               "Price":  112
+                           },
+                           {
+                               "Article":  "BA47-29-1D3",
+                               "Poles":  1,
+                               "RatedCurrentA":  3,
+                               "Curve":  "D",
+                               "WidthModules":  1,
+                               "Price":  129
+                           },
+                           {
+                               "Article":  "BA47-29-1B4",
+                               "Poles":  1,
+                               "RatedCurrentA":  4,
+                               "Curve":  "B",
+                               "WidthModules":  1,
+                               "Price":  104
+                           },
+                           {
+                               "Article":  "BA47-29-1C4",
+                               "Poles":  1,
+                               "RatedCurrentA":  4,
+                               "Curve":  "C",
+                               "WidthModules":  1,
+                               "Price":  110
+                           },
+                           {
+                               "Article":  "BA47-29-1D4",
+                               "Poles":  1,
+                               "RatedCurrentA":  4,
+                               "Curve":  "D",
+                               "WidthModules":  1,
+                               "Price":  126
+                           },
+                           {
+                               "Article":  "BA47-29-1B6",
+                               "Poles":  1,
+                               "RatedCurrentA":  6,
+                               "Curve":  "B",
+                               "WidthModules":  1,
+                               "Price":  100
+                           },
+                           {
+                               "Article":  "BA47-29-1C6",
+                               "Poles":  1,
+                               "RatedCurrentA":  6,
+                               "Curve":  "C",
+                               "WidthModules":  1,
+                               "Price":  105
+                           },
+                           {
+                               "Article":  "BA47-29-1D6",
+                               "Poles":  1,
+                               "RatedCurrentA":  6,
+                               "Curve":  "D",
+                               "WidthModules":  1,
+                               "Price":  121
+                           },
+                           {
+                               "Article":  "BA47-29-1B10",
+                               "Poles":  1,
+                               "RatedCurrentA":  10,
+                               "Curve":  "B",
+                               "WidthModules":  1,
+                               "Price":  95
+                           },
+                           {
+                               "Article":  "BA47-29-1C10",
+                               "Poles":  1,
+                               "RatedCurrentA":  10,
+                               "Curve":  "C",
+                               "WidthModules":  1,
+                               "Price":  100
+                           },
+                           {
+                               "Article":  "BA47-29-1D10",
+                               "Poles":  1,
+                               "RatedCurrentA":  10,
+                               "Curve":  "D",
+                               "WidthModules":  1,
+                               "Price":  115
+                           },
+                           {
+                               "Article":  "BA47-29-1B16",
+                               "Poles":  1,
+                               "RatedCurrentA":  16,
+                               "Curve":  "B",
+                               "WidthModules":  1,
+                               "Price":  93
+                           },
+                           {
+                               "Article":  "BA47-29-1C16",
+                               "Poles":  1,
+                               "RatedCurrentA":  16,
+                               "Curve":  "C",
+                               "WidthModules":  1,
+                               "Price":  98
+                           },
+                           {
+                               "Article":  "BA47-29-1D16",
+                               "Poles":  1,
+                               "RatedCurrentA":  16,
+                               "Curve":  "D",
+                               "WidthModules":  1,
+                               "Price":  113
+                           },
+                           {
+                               "Article":  "BA47-29-1B20",
+                               "Poles":  1,
+                               "RatedCurrentA":  20,
+                               "Curve":  "B",
+                               "WidthModules":  1,
+                               "Price":  100
+                           },
+                           {
+                               "Article":  "BA47-29-1C20",
+                               "Poles":  1,
+                               "RatedCurrentA":  20,
+                               "Curve":  "C",
+                               "WidthModules":  1,
+                               "Price":  105
+                           },
+                           {
+                               "Article":  "BA47-29-1D20",
+                               "Poles":  1,
+                               "RatedCurrentA":  20,
+                               "Curve":  "D",
+                               "WidthModules":  1,
+                               "Price":  121
+                           },
+                           {
+                               "Article":  "BA47-29-1B25",
+                               "Poles":  1,
+                               "RatedCurrentA":  25,
+                               "Curve":  "B",
+                               "WidthModules":  1,
+                               "Price":  104
+                           },
+                           {
+                               "Article":  "BA47-29-1C25",
+                               "Poles":  1,
+                               "RatedCurrentA":  25,
+                               "Curve":  "C",
+                               "WidthModules":  1,
+                               "Price":  110
+                           },
+                           {
+                               "Article":  "BA47-29-1D25",
+                               "Poles":  1,
+                               "RatedCurrentA":  25,
+                               "Curve":  "D",
+                               "WidthModules":  1,
+                               "Price":  126
+                           },
+                           {
+                               "Article":  "BA47-29-1B32",
+                               "Poles":  1,
+                               "RatedCurrentA":  32,
+                               "Curve":  "B",
+                               "WidthModules":  1,
+                               "Price":  114
+                           },
+                           {
+                               "Article":  "BA47-29-1C32",
+                               "Poles":  1,
+                               "RatedCurrentA":  32,
+                               "Curve":  "C",
+                               "WidthModules":  1,
+                               "Price":  120
+                           },
+                           {
+                               "Article":  "BA47-29-1D32",
+                               "Poles":  1,
+                               "RatedCurrentA":  32,
+                               "Curve":  "D",
+                               "WidthModules":  1,
+                               "Price":  138
+                           },
+                           {
+                               "Article":  "BA47-29-1B40",
+                               "Poles":  1,
+                               "RatedCurrentA":  40,
+                               "Curve":  "B",
+                               "WidthModules":  1,
+                               "Price":  128
+                           },
+                           {
+                               "Article":  "BA47-29-1C40",
+                               "Poles":  1,
+                               "RatedCurrentA":  40,
+                               "Curve":  "C",
+                               "WidthModules":  1,
+                               "Price":  135
+                           },
+                           {
+                               "Article":  "BA47-29-1D40",
+                               "Poles":  1,
+                               "RatedCurrentA":  40,
+                               "Curve":  "D",
+                               "WidthModules":  1,
+                               "Price":  155
+                           },
+                           {
+                               "Article":  "BA47-29-1B50",
+                               "Poles":  1,
+                               "RatedCurrentA":  50,
+                               "Curve":  "B",
+                               "WidthModules":  1,
+                               "Price":  138
+                           },
+                           {
+                               "Article":  "BA47-29-1C50",
+                               "Poles":  1,
+                               "RatedCurrentA":  50,
+                               "Curve":  "C",
+                               "WidthModules":  1,
+                               "Price":  145
+                           },
+                           {
+                               "Article":  "BA47-29-1D50",
+                               "Poles":  1,
+                               "RatedCurrentA":  50,
+                               "Curve":  "D",
+                               "WidthModules":  1,
+                               "Price":  167
+                           },
+                           {
+                               "Article":  "BA47-29-1B63",
+                               "Poles":  1,
+                               "RatedCurrentA":  63,
+                               "Curve":  "B",
+                               "WidthModules":  1,
+                               "Price":  157
+                           },
+                           {
+                               "Article":  "BA47-29-1C63",
+                               "Poles":  1,
+                               "RatedCurrentA":  63,
+                               "Curve":  "C",
+                               "WidthModules":  1,
+                               "Price":  165
+                           },
+                           {
+                               "Article":  "BA47-29-1D63",
+                               "Poles":  1,
+                               "RatedCurrentA":  63,
+                               "Curve":  "D",
+                               "WidthModules":  1,
+                               "Price":  190
+                           },
+                           {
+                               "Article":  "BA47-29-2B1",
+                               "Poles":  2,
+                               "RatedCurrentA":  1,
+                               "Curve":  "B",
+                               "WidthModules":  2,
+                               "Price":  228
+                           },
+                           {
+                               "Article":  "BA47-29-2C1",
+                               "Poles":  2,
+                               "RatedCurrentA":  1,
+                               "Curve":  "C",
+                               "WidthModules":  2,
+                               "Price":  240
+                           },
+                           {
+                               "Article":  "BA47-29-2D1",
+                               "Poles":  2,
+                               "RatedCurrentA":  1,
+                               "Curve":  "D",
+                               "WidthModules":  2,
+                               "Price":  276
+                           },
+                           {
+                               "Article":  "BA47-29-2B2",
+                               "Poles":  2,
+                               "RatedCurrentA":  2,
+                               "Curve":  "B",
+                               "WidthModules":  2,
+                               "Price":  218
+                           },
+                           {
+                               "Article":  "BA47-29-2C2",
+                               "Poles":  2,
+                               "RatedCurrentA":  2,
+                               "Curve":  "C",
+                               "WidthModules":  2,
+                               "Price":  230
+                           },
+                           {
+                               "Article":  "BA47-29-2D2",
+                               "Poles":  2,
+                               "RatedCurrentA":  2,
+                               "Curve":  "D",
+                               "WidthModules":  2,
+                               "Price":  264
+                           },
+                           {
+                               "Article":  "BA47-29-2B3",
+                               "Poles":  2,
+                               "RatedCurrentA":  3,
+                               "Curve":  "B",
+                               "WidthModules":  2,
+                               "Price":  213
+                           },
+                           {
+                               "Article":  "BA47-29-2C3",
+                               "Poles":  2,
+                               "RatedCurrentA":  3,
+                               "Curve":  "C",
+                               "WidthModules":  2,
+                               "Price":  224
+                           },
+                           {
+                               "Article":  "BA47-29-2D3",
+                               "Poles":  2,
+                               "RatedCurrentA":  3,
+                               "Curve":  "D",
+                               "WidthModules":  2,
+                               "Price":  258
+                           },
+                           {
+                               "Article":  "BA47-29-2B4",
+                               "Poles":  2,
+                               "RatedCurrentA":  4,
+                               "Curve":  "B",
+                               "WidthModules":  2,
+                               "Price":  209
+                           },
+                           {
+                               "Article":  "BA47-29-2C4",
+                               "Poles":  2,
+                               "RatedCurrentA":  4,
+                               "Curve":  "C",
+                               "WidthModules":  2,
+                               "Price":  220
+                           },
+                           {
+                               "Article":  "BA47-29-2D4",
+                               "Poles":  2,
+                               "RatedCurrentA":  4,
+                               "Curve":  "D",
+                               "WidthModules":  2,
+                               "Price":  253
+                           },
+                           {
+                               "Article":  "BA47-29-2B6",
+                               "Poles":  2,
+                               "RatedCurrentA":  6,
+                               "Curve":  "B",
+                               "WidthModules":  2,
+                               "Price":  200
+                           },
+                           {
+                               "Article":  "BA47-29-2C6",
+                               "Poles":  2,
+                               "RatedCurrentA":  6,
+                               "Curve":  "C",
+                               "WidthModules":  2,
+                               "Price":  210
+                           },
+                           {
+                               "Article":  "BA47-29-2D6",
+                               "Poles":  2,
+                               "RatedCurrentA":  6,
+                               "Curve":  "D",
+                               "WidthModules":  2,
+                               "Price":  241
+                           },
+                           {
+                               "Article":  "BA47-29-2B10",
+                               "Poles":  2,
+                               "RatedCurrentA":  10,
+                               "Curve":  "B",
+                               "WidthModules":  2,
+                               "Price":  190
+                           },
+                           {
+                               "Article":  "BA47-29-2C10",
+                               "Poles":  2,
+                               "RatedCurrentA":  10,
+                               "Curve":  "C",
+                               "WidthModules":  2,
+                               "Price":  200
+                           },
+                           {
+                               "Article":  "BA47-29-2D10",
+                               "Poles":  2,
+                               "RatedCurrentA":  10,
+                               "Curve":  "D",
+                               "WidthModules":  2,
+                               "Price":  230
+                           },
+                           {
+                               "Article":  "BA47-29-2B16",
+                               "Poles":  2,
+                               "RatedCurrentA":  16,
+                               "Curve":  "B",
+                               "WidthModules":  2,
+                               "Price":  186
+                           },
+                           {
+                               "Article":  "BA47-29-2C16",
+                               "Poles":  2,
+                               "RatedCurrentA":  16,
+                               "Curve":  "C",
+                               "WidthModules":  2,
+                               "Price":  196
+                           },
+                           {
+                               "Article":  "BA47-29-2D16",
+                               "Poles":  2,
+                               "RatedCurrentA":  16,
+                               "Curve":  "D",
+                               "WidthModules":  2,
+                               "Price":  225
+                           },
+                           {
+                               "Article":  "BA47-29-2B20",
+                               "Poles":  2,
+                               "RatedCurrentA":  20,
+                               "Curve":  "B",
+                               "WidthModules":  2,
+                               "Price":  200
+                           },
+                           {
+                               "Article":  "BA47-29-2C20",
+                               "Poles":  2,
+                               "RatedCurrentA":  20,
+                               "Curve":  "C",
+                               "WidthModules":  2,
+                               "Price":  210
+                           },
+                           {
+                               "Article":  "BA47-29-2D20",
+                               "Poles":  2,
+                               "RatedCurrentA":  20,
+                               "Curve":  "D",
+                               "WidthModules":  2,
+                               "Price":  241
+                           },
+                           {
+                               "Article":  "BA47-29-2B25",
+                               "Poles":  2,
+                               "RatedCurrentA":  25,
+                               "Curve":  "B",
+                               "WidthModules":  2,
+                               "Price":  209
+                           },
+                           {
+                               "Article":  "BA47-29-2C25",
+                               "Poles":  2,
+                               "RatedCurrentA":  25,
+                               "Curve":  "C",
+                               "WidthModules":  2,
+                               "Price":  220
+                           },
+                           {
+                               "Article":  "BA47-29-2D25",
+                               "Poles":  2,
+                               "RatedCurrentA":  25,
+                               "Curve":  "D",
+                               "WidthModules":  2,
+                               "Price":  253
+                           },
+                           {
+                               "Article":  "BA47-29-2B32",
+                               "Poles":  2,
+                               "RatedCurrentA":  32,
+                               "Curve":  "B",
+                               "WidthModules":  2,
+                               "Price":  228
+                           },
+                           {
+                               "Article":  "BA47-29-2C32",
+                               "Poles":  2,
+                               "RatedCurrentA":  32,
+                               "Curve":  "C",
+                               "WidthModules":  2,
+                               "Price":  240
+                           },
+                           {
+                               "Article":  "BA47-29-2D32",
+                               "Poles":  2,
+                               "RatedCurrentA":  32,
+                               "Curve":  "D",
+                               "WidthModules":  2,
+                               "Price":  276
+                           },
+                           {
+                               "Article":  "BA47-29-2B40",
+                               "Poles":  2,
+                               "RatedCurrentA":  40,
+                               "Curve":  "B",
+                               "WidthModules":  2,
+                               "Price":  256
+                           },
+                           {
+                               "Article":  "BA47-29-2C40",
+                               "Poles":  2,
+                               "RatedCurrentA":  40,
+                               "Curve":  "C",
+                               "WidthModules":  2,
+                               "Price":  270
+                           },
+                           {
+                               "Article":  "BA47-29-2D40",
+                               "Poles":  2,
+                               "RatedCurrentA":  40,
+                               "Curve":  "D",
+                               "WidthModules":  2,
+                               "Price":  310
+                           },
+                           {
+                               "Article":  "BA47-29-2B50",
+                               "Poles":  2,
+                               "RatedCurrentA":  50,
+                               "Curve":  "B",
+                               "WidthModules":  2,
+                               "Price":  276
+                           },
+                           {
+                               "Article":  "BA47-29-2C50",
+                               "Poles":  2,
+                               "RatedCurrentA":  50,
+                               "Curve":  "C",
+                               "WidthModules":  2,
+                               "Price":  290
+                           },
+                           {
+                               "Article":  "BA47-29-2D50",
+                               "Poles":  2,
+                               "RatedCurrentA":  50,
+                               "Curve":  "D",
+                               "WidthModules":  2,
+                               "Price":  334
+                           },
+                           {
+                               "Article":  "BA47-29-2B63",
+                               "Poles":  2,
+                               "RatedCurrentA":  63,
+                               "Curve":  "B",
+                               "WidthModules":  2,
+                               "Price":  314
+                           },
+                           {
+                               "Article":  "BA47-29-2C63",
+                               "Poles":  2,
+                               "RatedCurrentA":  63,
+                               "Curve":  "C",
+                               "WidthModules":  2,
+                               "Price":  330
+                           },
+                           {
+                               "Article":  "BA47-29-2D63",
+                               "Poles":  2,
+                               "RatedCurrentA":  63,
+                               "Curve":  "D",
+                               "WidthModules":  2,
+                               "Price":  379
+                           },
+                           {
+                               "Article":  "BA47-29-3B1",
+                               "Poles":  3,
+                               "RatedCurrentA":  1,
+                               "Curve":  "B",
+                               "WidthModules":  3,
+                               "Price":  342
+                           },
+                           {
+                               "Article":  "BA47-29-3C1",
+                               "Poles":  3,
+                               "RatedCurrentA":  1,
+                               "Curve":  "C",
+                               "WidthModules":  3,
+                               "Price":  360
+                           },
+                           {
+                               "Article":  "BA47-29-3D1",
+                               "Poles":  3,
+                               "RatedCurrentA":  1,
+                               "Curve":  "D",
+                               "WidthModules":  3,
+                               "Price":  414
+                           },
+                           {
+                               "Article":  "BA47-29-3B2",
+                               "Poles":  3,
+                               "RatedCurrentA":  2,
+                               "Curve":  "B",
+                               "WidthModules":  3,
+                               "Price":  328
+                           },
+                           {
+                               "Article":  "BA47-29-3C2",
+                               "Poles":  3,
+                               "RatedCurrentA":  2,
+                               "Curve":  "C",
+                               "WidthModules":  3,
+                               "Price":  345
+                           },
+                           {
+                               "Article":  "BA47-29-3D2",
+                               "Poles":  3,
+                               "RatedCurrentA":  2,
+                               "Curve":  "D",
+                               "WidthModules":  3,
+                               "Price":  397
+                           },
+                           {
+                               "Article":  "BA47-29-3B3",
+                               "Poles":  3,
+                               "RatedCurrentA":  3,
+                               "Curve":  "B",
+                               "WidthModules":  3,
+                               "Price":  319
+                           },
+                           {
+                               "Article":  "BA47-29-3C3",
+                               "Poles":  3,
+                               "RatedCurrentA":  3,
+                               "Curve":  "C",
+                               "WidthModules":  3,
+                               "Price":  336
+                           },
+                           {
+                               "Article":  "BA47-29-3D3",
+                               "Poles":  3,
+                               "RatedCurrentA":  3,
+                               "Curve":  "D",
+                               "WidthModules":  3,
+                               "Price":  386
+                           },
+                           {
+                               "Article":  "BA47-29-3B4",
+                               "Poles":  3,
+                               "RatedCurrentA":  4,
+                               "Curve":  "B",
+                               "WidthModules":  3,
+                               "Price":  314
+                           },
+                           {
+                               "Article":  "BA47-29-3C4",
+                               "Poles":  3,
+                               "RatedCurrentA":  4,
+                               "Curve":  "C",
+                               "WidthModules":  3,
+                               "Price":  330
+                           },
+                           {
+                               "Article":  "BA47-29-3D4",
+                               "Poles":  3,
+                               "RatedCurrentA":  4,
+                               "Curve":  "D",
+                               "WidthModules":  3,
+                               "Price":  379
+                           },
+                           {
+                               "Article":  "BA47-29-3B6",
+                               "Poles":  3,
+                               "RatedCurrentA":  6,
+                               "Curve":  "B",
+                               "WidthModules":  3,
+                               "Price":  299
+                           },
+                           {
+                               "Article":  "BA47-29-3C6",
+                               "Poles":  3,
+                               "RatedCurrentA":  6,
+                               "Curve":  "C",
+                               "WidthModules":  3,
+                               "Price":  315
+                           },
+                           {
+                               "Article":  "BA47-29-3D6",
+                               "Poles":  3,
+                               "RatedCurrentA":  6,
+                               "Curve":  "D",
+                               "WidthModules":  3,
+                               "Price":  362
+                           },
+                           {
+                               "Article":  "BA47-29-3B10",
+                               "Poles":  3,
+                               "RatedCurrentA":  10,
+                               "Curve":  "B",
+                               "WidthModules":  3,
+                               "Price":  285
+                           },
+                           {
+                               "Article":  "BA47-29-3C10",
+                               "Poles":  3,
+                               "RatedCurrentA":  10,
+                               "Curve":  "C",
+                               "WidthModules":  3,
+                               "Price":  300
+                           },
+                           {
+                               "Article":  "BA47-29-3D10",
+                               "Poles":  3,
+                               "RatedCurrentA":  10,
+                               "Curve":  "D",
+                               "WidthModules":  3,
+                               "Price":  345
+                           },
+                           {
+                               "Article":  "BA47-29-3B16",
+                               "Poles":  3,
+                               "RatedCurrentA":  16,
+                               "Curve":  "B",
+                               "WidthModules":  3,
+                               "Price":  279
+                           },
+                           {
+                               "Article":  "BA47-29-3C16",
+                               "Poles":  3,
+                               "RatedCurrentA":  16,
+                               "Curve":  "C",
+                               "WidthModules":  3,
+                               "Price":  294
+                           },
+                           {
+                               "Article":  "BA47-29-3D16",
+                               "Poles":  3,
+                               "RatedCurrentA":  16,
+                               "Curve":  "D",
+                               "WidthModules":  3,
+                               "Price":  338
+                           },
+                           {
+                               "Article":  "BA47-29-3B20",
+                               "Poles":  3,
+                               "RatedCurrentA":  20,
+                               "Curve":  "B",
+                               "WidthModules":  3,
+                               "Price":  299
+                           },
+                           {
+                               "Article":  "BA47-29-3C20",
+                               "Poles":  3,
+                               "RatedCurrentA":  20,
+                               "Curve":  "C",
+                               "WidthModules":  3,
+                               "Price":  315
+                           },
+                           {
+                               "Article":  "BA47-29-3D20",
+                               "Poles":  3,
+                               "RatedCurrentA":  20,
+                               "Curve":  "D",
+                               "WidthModules":  3,
+                               "Price":  362
+                           },
+                           {
+                               "Article":  "BA47-29-3B25",
+                               "Poles":  3,
+                               "RatedCurrentA":  25,
+                               "Curve":  "B",
+                               "WidthModules":  3,
+                               "Price":  314
+                           },
+                           {
+                               "Article":  "BA47-29-3C25",
+                               "Poles":  3,
+                               "RatedCurrentA":  25,
+                               "Curve":  "C",
+                               "WidthModules":  3,
+                               "Price":  330
+                           },
+                           {
+                               "Article":  "BA47-29-3D25",
+                               "Poles":  3,
+                               "RatedCurrentA":  25,
+                               "Curve":  "D",
+                               "WidthModules":  3,
+                               "Price":  379
+                           },
+                           {
+                               "Article":  "BA47-29-3B32",
+                               "Poles":  3,
+                               "RatedCurrentA":  32,
+                               "Curve":  "B",
+                               "WidthModules":  3,
+                               "Price":  342
+                           },
+                           {
+                               "Article":  "BA47-29-3C32",
+                               "Poles":  3,
+                               "RatedCurrentA":  32,
+                               "Curve":  "C",
+                               "WidthModules":  3,
+                               "Price":  360
+                           },
+                           {
+                               "Article":  "BA47-29-3D32",
+                               "Poles":  3,
+                               "RatedCurrentA":  32,
+                               "Curve":  "D",
+                               "WidthModules":  3,
+                               "Price":  414
+                           },
+                           {
+                               "Article":  "BA47-29-3B40",
+                               "Poles":  3,
+                               "RatedCurrentA":  40,
+                               "Curve":  "B",
+                               "WidthModules":  3,
+                               "Price":  385
+                           },
+                           {
+                               "Article":  "BA47-29-3C40",
+                               "Poles":  3,
+                               "RatedCurrentA":  40,
+                               "Curve":  "C",
+                               "WidthModules":  3,
+                               "Price":  405
+                           },
+                           {
+                               "Article":  "BA47-29-3D40",
+                               "Poles":  3,
+                               "RatedCurrentA":  40,
+                               "Curve":  "D",
+                               "WidthModules":  3,
+                               "Price":  466
+                           },
+                           {
+                               "Article":  "BA47-29-3B50",
+                               "Poles":  3,
+                               "RatedCurrentA":  50,
+                               "Curve":  "B",
+                               "WidthModules":  3,
+                               "Price":  413
+                           },
+                           {
+                               "Article":  "BA47-29-3C50",
+                               "Poles":  3,
+                               "RatedCurrentA":  50,
+                               "Curve":  "C",
+                               "WidthModules":  3,
+                               "Price":  435
+                           },
+                           {
+                               "Article":  "BA47-29-3D50",
+                               "Poles":  3,
+                               "RatedCurrentA":  50,
+                               "Curve":  "D",
+                               "WidthModules":  3,
+                               "Price":  500
+                           },
+                           {
+                               "Article":  "BA47-29-3B63",
+                               "Poles":  3,
+                               "RatedCurrentA":  63,
+                               "Curve":  "B",
+                               "WidthModules":  3,
+                               "Price":  470
+                           },
+                           {
+                               "Article":  "BA47-29-3C63",
+                               "Poles":  3,
+                               "RatedCurrentA":  63,
+                               "Curve":  "C",
+                               "WidthModules":  3,
+                               "Price":  495
+                           },
+                           {
+                               "Article":  "BA47-29-3D63",
+                               "Poles":  3,
+                               "RatedCurrentA":  63,
+                               "Curve":  "D",
+                               "WidthModules":  3,
+                               "Price":  569
+                           },
+                           {
+                               "Article":  "BA47-29-4B1",
+                               "Poles":  4,
+                               "RatedCurrentA":  1,
+                               "Curve":  "B",
+                               "WidthModules":  4,
+                               "Price":  456
+                           },
+                           {
+                               "Article":  "BA47-29-4C1",
+                               "Poles":  4,
+                               "RatedCurrentA":  1,
+                               "Curve":  "C",
+                               "WidthModules":  4,
+                               "Price":  480
+                           },
+                           {
+                               "Article":  "BA47-29-4D1",
+                               "Poles":  4,
+                               "RatedCurrentA":  1,
+                               "Curve":  "D",
+                               "WidthModules":  4,
+                               "Price":  552
+                           },
+                           {
+                               "Article":  "BA47-29-4B2",
+                               "Poles":  4,
+                               "RatedCurrentA":  2,
+                               "Curve":  "B",
+                               "WidthModules":  4,
+                               "Price":  437
+                           },
+                           {
+                               "Article":  "BA47-29-4C2",
+                               "Poles":  4,
+                               "RatedCurrentA":  2,
+                               "Curve":  "C",
+                               "WidthModules":  4,
+                               "Price":  460
+                           },
+                           {
+                               "Article":  "BA47-29-4D2",
+                               "Poles":  4,
+                               "RatedCurrentA":  2,
+                               "Curve":  "D",
+                               "WidthModules":  4,
+                               "Price":  529
+                           },
+                           {
+                               "Article":  "BA47-29-4B3",
+                               "Poles":  4,
+                               "RatedCurrentA":  3,
+                               "Curve":  "B",
+                               "WidthModules":  4,
+                               "Price":  426
+                           },
+                           {
+                               "Article":  "BA47-29-4C3",
+                               "Poles":  4,
+                               "RatedCurrentA":  3,
+                               "Curve":  "C",
+                               "WidthModules":  4,
+                               "Price":  448
+                           },
+                           {
+                               "Article":  "BA47-29-4D3",
+                               "Poles":  4,
+                               "RatedCurrentA":  3,
+                               "Curve":  "D",
+                               "WidthModules":  4,
+                               "Price":  515
+                           },
+                           {
+                               "Article":  "BA47-29-4B4",
+                               "Poles":  4,
+                               "RatedCurrentA":  4,
+                               "Curve":  "B",
+                               "WidthModules":  4,
+                               "Price":  418
+                           },
+                           {
+                               "Article":  "BA47-29-4C4",
+                               "Poles":  4,
+                               "RatedCurrentA":  4,
+                               "Curve":  "C",
+                               "WidthModules":  4,
+                               "Price":  440
+                           },
+                           {
+                               "Article":  "BA47-29-4D4",
+                               "Poles":  4,
+                               "RatedCurrentA":  4,
+                               "Curve":  "D",
+                               "WidthModules":  4,
+                               "Price":  506
+                           },
+                           {
+                               "Article":  "BA47-29-4B6",
+                               "Poles":  4,
+                               "RatedCurrentA":  6,
+                               "Curve":  "B",
+                               "WidthModules":  4,
+                               "Price":  399
+                           },
+                           {
+                               "Article":  "BA47-29-4C6",
+                               "Poles":  4,
+                               "RatedCurrentA":  6,
+                               "Curve":  "C",
+                               "WidthModules":  4,
+                               "Price":  420
+                           },
+                           {
+                               "Article":  "BA47-29-4D6",
+                               "Poles":  4,
+                               "RatedCurrentA":  6,
+                               "Curve":  "D",
+                               "WidthModules":  4,
+                               "Price":  483
+                           },
+                           {
+                               "Article":  "BA47-29-4B10",
+                               "Poles":  4,
+                               "RatedCurrentA":  10,
+                               "Curve":  "B",
+                               "WidthModules":  4,
+                               "Price":  380
+                           },
+                           {
+                               "Article":  "BA47-29-4C10",
+                               "Poles":  4,
+                               "RatedCurrentA":  10,
+                               "Curve":  "C",
+                               "WidthModules":  4,
+                               "Price":  400
+                           },
+                           {
+                               "Article":  "BA47-29-4D10",
+                               "Poles":  4,
+                               "RatedCurrentA":  10,
+                               "Curve":  "D",
+                               "WidthModules":  4,
+                               "Price":  460
+                           },
+                           {
+                               "Article":  "BA47-29-4B16",
+                               "Poles":  4,
+                               "RatedCurrentA":  16,
+                               "Curve":  "B",
+                               "WidthModules":  4,
+                               "Price":  372
+                           },
+                           {
+                               "Article":  "BA47-29-4C16",
+                               "Poles":  4,
+                               "RatedCurrentA":  16,
+                               "Curve":  "C",
+                               "WidthModules":  4,
+                               "Price":  392
+                           },
+                           {
+                               "Article":  "BA47-29-4D16",
+                               "Poles":  4,
+                               "RatedCurrentA":  16,
+                               "Curve":  "D",
+                               "WidthModules":  4,
+                               "Price":  451
+                           },
+                           {
+                               "Article":  "BA47-29-4B20",
+                               "Poles":  4,
+                               "RatedCurrentA":  20,
+                               "Curve":  "B",
+                               "WidthModules":  4,
+                               "Price":  399
+                           },
+                           {
+                               "Article":  "BA47-29-4C20",
+                               "Poles":  4,
+                               "RatedCurrentA":  20,
+                               "Curve":  "C",
+                               "WidthModules":  4,
+                               "Price":  420
+                           },
+                           {
+                               "Article":  "BA47-29-4D20",
+                               "Poles":  4,
+                               "RatedCurrentA":  20,
+                               "Curve":  "D",
+                               "WidthModules":  4,
+                               "Price":  483
+                           },
+                           {
+                               "Article":  "BA47-29-4B25",
+                               "Poles":  4,
+                               "RatedCurrentA":  25,
+                               "Curve":  "B",
+                               "WidthModules":  4,
+                               "Price":  418
+                           },
+                           {
+                               "Article":  "BA47-29-4C25",
+                               "Poles":  4,
+                               "RatedCurrentA":  25,
+                               "Curve":  "C",
+                               "WidthModules":  4,
+                               "Price":  440
+                           },
+                           {
+                               "Article":  "BA47-29-4D25",
+                               "Poles":  4,
+                               "RatedCurrentA":  25,
+                               "Curve":  "D",
+                               "WidthModules":  4,
+                               "Price":  506
+                           },
+                           {
+                               "Article":  "BA47-29-4B32",
+                               "Poles":  4,
+                               "RatedCurrentA":  32,
+                               "Curve":  "B",
+                               "WidthModules":  4,
+                               "Price":  456
+                           },
+                           {
+                               "Article":  "BA47-29-4C32",
+                               "Poles":  4,
+                               "RatedCurrentA":  32,
+                               "Curve":  "C",
+                               "WidthModules":  4,
+                               "Price":  480
+                           },
+                           {
+                               "Article":  "BA47-29-4D32",
+                               "Poles":  4,
+                               "RatedCurrentA":  32,
+                               "Curve":  "D",
+                               "WidthModules":  4,
+                               "Price":  552
+                           },
+                           {
+                               "Article":  "BA47-29-4B40",
+                               "Poles":  4,
+                               "RatedCurrentA":  40,
+                               "Curve":  "B",
+                               "WidthModules":  4,
+                               "Price":  513
+                           },
+                           {
+                               "Article":  "BA47-29-4C40",
+                               "Poles":  4,
+                               "RatedCurrentA":  40,
+                               "Curve":  "C",
+                               "WidthModules":  4,
+                               "Price":  540
+                           },
+                           {
+                               "Article":  "BA47-29-4D40",
+                               "Poles":  4,
+                               "RatedCurrentA":  40,
+                               "Curve":  "D",
+                               "WidthModules":  4,
+                               "Price":  621
+                           },
+                           {
+                               "Article":  "BA47-29-4B50",
+                               "Poles":  4,
+                               "RatedCurrentA":  50,
+                               "Curve":  "B",
+                               "WidthModules":  4,
+                               "Price":  551
+                           },
+                           {
+                               "Article":  "BA47-29-4C50",
+                               "Poles":  4,
+                               "RatedCurrentA":  50,
+                               "Curve":  "C",
+                               "WidthModules":  4,
+                               "Price":  580
+                           },
+                           {
+                               "Article":  "BA47-29-4D50",
+                               "Poles":  4,
+                               "RatedCurrentA":  50,
+                               "Curve":  "D",
+                               "WidthModules":  4,
+                               "Price":  667
+                           },
+                           {
+                               "Article":  "BA47-29-4B63",
+                               "Poles":  4,
+                               "RatedCurrentA":  63,
+                               "Curve":  "B",
+                               "WidthModules":  4,
+                               "Price":  627
+                           },
+                           {
+                               "Article":  "BA47-29-4C63",
+                               "Poles":  4,
+                               "RatedCurrentA":  63,
+                               "Curve":  "C",
+                               "WidthModules":  4,
+                               "Price":  660
+                           },
+                           {
+                               "Article":  "BA47-29-4D63",
+                               "Poles":  4,
+                               "RatedCurrentA":  63,
+                               "Curve":  "D",
+                               "WidthModules":  4,
+                               "Price":  759
+                           }
+                       ],
+    "PowerBreakers":  [
+                          {
+                              "Article":  "ВА88-32-3C63",
+                              "Type":  "ВА88",
+                              "RatedCurrentA":  63,
+                              "Poles":  3,
+                              "Curve":  "C",
+                              "RecommendedWireSection":  "16",
+                              "WidthModules":  3,
+                              "Price":  2800
+                          },
+                          {
+                              "Article":  "ВА88-32-3C100",
+                              "Type":  "ВА88",
+                              "RatedCurrentA":  100,
+                              "Poles":  3,
+                              "Curve":  "C",
+                              "RecommendedWireSection":  "35",
+                              "WidthModules":  3,
+                              "Price":  4200
+                          },
+                          {
+                              "Article":  "ВА88-32-3C160",
+                              "Type":  "ВА88",
+                              "RatedCurrentA":  160,
+                              "Poles":  3,
+                              "Curve":  "C",
+                              "RecommendedWireSection":  "70",
+                              "WidthModules":  4,
+                              "Price":  6500
+                          },
+                          {
+                              "Article":  "ВА88-32-3C250",
+                              "Type":  "ВА88",
+                              "RatedCurrentA":  250,
+                              "Poles":  3,
+                              "Curve":  "C",
+                              "RecommendedWireSection":  "120",
+                              "WidthModules":  4,
+                              "Price":  10800
+                          },
+                          {
+                              "Article":  "ВА88-32-3C400",
+                              "Type":  "ВА88",
+                              "RatedCurrentA":  400,
+                              "Poles":  3,
+                              "Curve":  "C",
+                              "RecommendedWireSection":  "185",
+                              "WidthModules":  4,
+                              "Price":  17800
+                          },
+                          {
+                              "Article":  "ВА88-32-3C630",
+                              "Type":  "ВА88",
+                              "RatedCurrentA":  630,
+                              "Poles":  3,
+                              "Curve":  "C",
+                              "RecommendedWireSection":  "240",
+                              "WidthModules":  4,
+                              "Price":  26500
+                          },
+                          {
+                              "Article":  "ВР32-31-3C63",
+                              "Type":  "ВР32",
+                              "RatedCurrentA":  63,
+                              "Poles":  3,
+                              "Curve":  "",
+                              "RecommendedWireSection":  "16",
+                              "WidthModules":  3,
+                              "Price":  1900
+                          },
+                          {
+                              "Article":  "ВР32-31-3C100",
+                              "Type":  "ВР32",
+                              "RatedCurrentA":  100,
+                              "Poles":  3,
+                              "Curve":  "",
+                              "RecommendedWireSection":  "35",
+                              "WidthModules":  3,
+                              "Price":  3100
+                          },
+                          {
+                              "Article":  "ВР32-31-3C160",
+                              "Type":  "ВР32",
+                              "RatedCurrentA":  160,
+                              "Poles":  3,
+                              "Curve":  "",
+                              "RecommendedWireSection":  "70",
+                              "WidthModules":  4,
+                              "Price":  4900
+                          },
+                          {
+                              "Article":  "ВР32-31-3C250",
+                              "Type":  "ВР32",
+                              "RatedCurrentA":  250,
+                              "Poles":  3,
+                              "Curve":  "",
+                              "RecommendedWireSection":  "120",
+                              "WidthModules":  4,
+                              "Price":  8200
+                          }
+                      ],
+    "Wires":  [
+                  {
+                      "Article":  "ПУГВ 1х1.5",
+                      "Name":  "Провод монтажный ПуГВ 1х1.5 ГОСТ 31947-2012",
+                      "SectionMm2":  1.5,
+                      "PricePerMeter":  12.5
+                  },
+                  {
+                      "Article":  "ПУГВ 1х2.5",
+                      "Name":  "Провод монтажный ПуГВ 1х2.5 ГОСТ 31947-2012",
+                      "SectionMm2":  2.5,
+                      "PricePerMeter":  19
+                  },
+                  {
+                      "Article":  "ПУГВ 1х4",
+                      "Name":  "Провод монтажный ПуГВ 1х4 ГОСТ 31947-2012",
+                      "SectionMm2":  4,
+                      "PricePerMeter":  30
+                  },
+                  {
+                      "Article":  "ПУГВ 1х6",
+                      "Name":  "Провод монтажный ПуГВ 1х6 ГОСТ 31947-2012",
+                      "SectionMm2":  6,
+                      "PricePerMeter":  44
+                  },
+                  {
+                      "Article":  "ПУГВ 1х10",
+                      "Name":  "Провод монтажный ПуГВ 1х10 ГОСТ 31947-2012",
+                      "SectionMm2":  10,
+                      "PricePerMeter":  72
+                  },
+                  {
+                      "Article":  "ПУГВ 1х16",
+                      "Name":  "Провод монтажный ПуГВ 1х16 ГОСТ 31947-2012",
+                      "SectionMm2":  16,
+                      "PricePerMeter":  112
+                  },
+                  {
+                      "Article":  "ПУГВ 1х25",
+                      "Name":  "Провод монтажный ПуГВ 1х25 ГОСТ 31947-2012",
+                      "SectionMm2":  25,
+                      "PricePerMeter":  175
+                  },
+                  {
+                      "Article":  "ПУГВ 1х35",
+                      "Name":  "Провод монтажный ПуГВ 1х35 ГОСТ 31947-2012",
+                      "SectionMm2":  35,
+                      "PricePerMeter":  238
+                  },
+                  {
+                      "Article":  "ПУГВ 1х50",
+                      "Name":  "Провод монтажный ПуГВ 1х50 ГОСТ 31947-2012",
+                      "SectionMm2":  50,
+                      "PricePerMeter":  335
+                  }
+              ],
+    "Ferrules":  [
+                     {
+                         "Article":  "НШВИ 1.5-8",
+                         "IsDouble":  false,
+                         "SectionMm2":  1.5,
+                         "Price":  2.1
+                     },
+                     {
+                         "Article":  "НШВИ 2.5-8",
+                         "IsDouble":  false,
+                         "SectionMm2":  2.5,
+                         "Price":  2.4
+                     },
+                     {
+                         "Article":  "НШВИ 4-12",
+                         "IsDouble":  false,
+                         "SectionMm2":  4,
+                         "Price":  3.6
+                     },
+                     {
+                         "Article":  "НШВИ 6-12",
+                         "IsDouble":  false,
+                         "SectionMm2":  6,
+                         "Price":  4.8
+                     },
+                     {
+                         "Article":  "НШВИ 10-13",
+                         "IsDouble":  false,
+                         "SectionMm2":  10,
+                         "Price":  7
+                     },
+                     {
+                         "Article":  "НШВИ 16-14",
+                         "IsDouble":  false,
+                         "SectionMm2":  16,
+                         "Price":  9.5
+                     },
+                     {
+                         "Article":  "НШВИ 25-16",
+                         "IsDouble":  false,
+                         "SectionMm2":  25,
+                         "Price":  14
+                     },
+                     {
+                         "Article":  "НШВИ 35-16",
+                         "IsDouble":  false,
+                         "SectionMm2":  35,
+                         "Price":  18
+                     },
+                     {
+                         "Article":  "НШВИ 50-20",
+                         "IsDouble":  false,
+                         "SectionMm2":  50,
+                         "Price":  26
+                     },
+                     {
+                         "Article":  "НШВИ(2) 1.5-8",
+                         "IsDouble":  true,
+                         "SectionMm2":  1.5,
+                         "Price":  3.1
+                     },
+                     {
+                         "Article":  "НШВИ(2) 2.5-8",
+                         "IsDouble":  true,
+                         "SectionMm2":  2.5,
+                         "Price":  3.6
+                     },
+                     {
+                         "Article":  "НШВИ(2) 4-12",
+                         "IsDouble":  true,
+                         "SectionMm2":  4,
+                         "Price":  5.4
+                     },
+                     {
+                         "Article":  "НШВИ(2) 6-12",
+                         "IsDouble":  true,
+                         "SectionMm2":  6,
+                         "Price":  7.2
+                     }
+                 ],
+    "DinAccessories":  [
+                           {
+                               "Article":  "ЗНИ-2",
+                               "Category":  "ЗНИ",
+                               "Name":  "Клемма нажимная изолированная ЗНИ 2.5мм2",
+                               "Unit":  "шт.",
+                               "Price":  6,
+                               "LengthM":  null
+                           },
+                           {
+                               "Article":  "ЗНИ-4",
+                               "Category":  "ЗНИ",
+                               "Name":  "Клемма нажимная изолированная ЗНИ 4мм2",
+                               "Unit":  "шт.",
+                               "Price":  8.5,
+                               "LengthM":  null
+                           },
+                           {
+                               "Article":  "DIN-35x7.5-1м",
+                               "Category":  "Рейка",
+                               "Name":  "DIN-рейка 35x7.5, 1 м, оцинкованная",
+                               "Unit":  "м",
+                               "Price":  180,
+                               "LengthM":  1
+                           },
+                           {
+                               "Article":  "KK-40x40-2м",
+                               "Category":  "Кабель-канал",
+                               "Name":  "Кабель-канал перфорированный 40x40, 2 м",
+                               "Unit":  "м",
+                               "Price":  320,
+                               "LengthM":  2
+                           },
+                           {
+                               "Article":  "KK-60x60-2м",
+                               "Category":  "Кабель-канал",
+                               "Name":  "Кабель-канал перфорированный 60x60, 2 м",
+                               "Unit":  "м",
+                               "Price":  520,
+                               "LengthM":  2
+                           }
+                       ],
+    "CabinetTypes":  [
+                         "ВРУ",
+                         "ЩС",
+                         "ЩО"
+                     ],
+    "IpRatings":  [
+                      "IP31",
+                      "IP54"
+                  ],
+    "InputCurrents":  [
+                          "63",
+                          "100",
+                          "160",
+                          "250",
+                          "400",
+                          "630"
+                      ],
+    "InputTypes":  [
+                       "ВА88",
+                       "ВР32"
+                   ],
+    "ModuleNominalCurrents":  [
+                                  1,
+                                  2,
+                                  3,
+                                  4,
+                                  6,
+                                  10,
+                                  16,
+                                  20,
+                                  25,
+                                  32,
+                                  40,
+                                  50,
+                                  63
+                              ],
+    "Curves":  [
+                   "B",
+                   "C",
+                   "D"
+               ],
+    "PoleOptions":  [
+                        1,
+                        2,
+                        3,
+                        4
+                    ]
+}
