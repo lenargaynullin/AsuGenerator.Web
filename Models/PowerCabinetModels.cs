@@ -161,7 +161,7 @@ public class PowerCabinetCatalog
     public string[] CabinetTypes { get; set; } = ["ВРУ", "ЩС", "ЩО"];
     public string[] IpRatings { get; set; } = ["IP31", "IP54"];
     public string[] InputCurrents { get; set; } = ["63", "100", "160", "250", "400", "630"];
-    public string[] InputTypes { get; set; } = ["ВА88", "ВР32"];
+    public string[] InputTypes { get; set; } = ["Автомат", "Рубильник"];
     public int[] ModuleNominalCurrents { get; set; } = [1, 2, 3, 4, 6, 10, 16, 20, 25, 32, 40, 50, 63];
     public string[] Curves { get; set; } = ["B", "C", "D"];
     public int[] PoleOptions { get; set; } = [1, 2, 3, 4];
@@ -176,7 +176,7 @@ public class PowerCabinetConfig
     public string IpRating { get; set; } = "IP31";
     public Enclosure? SelectedEnclosure { get; set; }
     public string InputCurrent { get; set; } = "63";
-    public string InputType { get; set; } = "ВА88";
+    public string InputType { get; set; } = "Рубильник";
     public PowerBreaker? SelectedInputBreaker { get; set; }
     public List<BreakerRow> BreakerRows { get; set; } = [];
 

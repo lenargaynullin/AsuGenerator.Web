@@ -6,22 +6,23 @@
 @inject IWebHostEnvironment Env
 @inject ISnackbar Snackbar
 
-<PageTitle>Массовый импорт прайс-листов из Excel</PageTitle>
+<PageTitle>Массовый импорт оборудования из Excel</PageTitle>
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-6 mb-8">
     <MudText Typo="Typo.h4" Color="Color.Primary" Class="mb-2"><b>🚀 Массовый импорт оборудования из Excel</b></MudText>
     <MudText Typo="Typo.body2" Color="Color.Secondary" Class="mb-6">
-        Скопируйте колонки из Excel (<b>Артикул | Наименование | Ед. изм. | Производитель | Группа</b>), вставьте их в поле ниже и нажмите «Распознать».
+        Скопируйте колонки из Excel (<b>Группа | Наименование | Тип, марка, артикул | Код продукции | Поставщик | Ед. изм. | Кол-во | Масса, кг | Примечание</b>), вставьте их в поле ниже и нажмите «Распознать».
     </MudText>
 
     <MudGrid>
-        @* ВЕРХНЯЯ КАРТОЧКА: ПОЛЕ ВСТАВКИ ИЗ БУФЕРА ОБМЕНА *@
+        @* ПОЛЕ ВСТАВКИ ИЗ БУФЕРА ОБМЕНА *@
         <MudItem xs="12">
             <MudCard Outlined="true" Class="pa-4" Style="background-color: white;">
                 <MudText Typo="Typo.subtitle1" Color="Color.Primary" Class="mb-2"><b>1. Вставьте скопированные строки из Excel сюда (Ctrl+V):</b></MudText>
 
-                <MudTextField T="string" @bind-Value="excelRawText" Label="Буфер обмена из Excel" Variant="Variant.Outlined" Lines="8" Placeholder="Вставьте сюда скопированные ячейки..." HelperText="Порядок столбцов в Excel должен быть: Артикул -> Наименование -> Ед.изм -> Группа изделия" />
-                
+                <MudTextField T="string" @bind-Value="excelRawText" Label="Буфер обмена из Excel" Variant="Variant.Outlined" Lines="8" Placeholder="Вставьте сюда скопированные ячейки..."
+                              HelperText="Порядок столбцов: Группа → Наименование → Тип/Марка/Артикул → Код → Поставщик → Ед.изм. → Кол-во → Масса → Примечание" />
+
                 <div class="d-flex gap-3 mt-4">
                     <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Analytics" OnClick="ParseExcelText">
                         Распознать строки
@@ -33,32 +34,40 @@
             </MudCard>
         </MudItem>
 
-        @* НИЖНЯЯ КАРТОЧКА: ПРЕДПРОСМОТР ТАБЛИЦЫ ПЕРЕД СОХРАНЕНИЕМ *@
+        @* ПРЕДПРОСМОТР ТАБЛИЦЫ *@
         @if (parsedItems != null && parsedItems.Any())
         {
             <MudItem xs="12">
                 <MudCard Outlined="true" Class="pa-4" Style="background-color: white;">
                     <MudText Typo="Typo.subtitle1" Color="Color.Success" Class="mb-3"><b>2. Предпросмотр распознанных изделий перед импортом:</b></MudText>
                     <div style="width: 100%; overflow-x: auto;">
-                        <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+                        <table style="width: 100%; border-collapse: collapse; font-size: 12px;">
                             <thead style="background-color: var(--mud-palette-background-grey); border-bottom: 2px solid var(--mud-palette-lines-default);">
                                 <tr>
-                                    <th style="padding: 6px; width: 120px;">Бренд</th>
-                                    <th style="padding: 6px; width: 150px;">Артикул</th>
-                                    <th style="padding: 6px;">Наименование</th>
-                                    <th style="padding: 6px; width: 80px; text-align: center;">Ед. изм.</th>
-                                    <th style="padding: 6px; width: 180px;">Группа (Тип)</th>
+                                    <th style="padding: 4px; width: 100px;">Группа</th>
+                                    <th style="padding: 4px;">Наименование</th>
+                                    <th style="padding: 4px; width: 130px;">Тип, марка, артикул</th>
+                                    <th style="padding: 4px; width: 70px;">Код</th>
+                                    <th style="padding: 4px; width: 100px;">Поставщик</th>
+                                    <th style="padding: 4px; width: 60px; text-align: center;">Ед.</th>
+                                    <th style="padding: 4px; width: 50px; text-align: center;">Кол-во</th>
+                                    <th style="padding: 4px; width: 50px; text-align: center;">Масса</th>
+                                    <th style="padding: 4px; width: 80px;">Прим.</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach (var item in parsedItems)
                                 {
                                     <tr style="border-bottom: 1px solid var(--mud-palette-lines-default);">
-                                        <td style="padding: 6px;"><MudChip T="string" Size="Size.Small" Color="Color.Primary">@item.Vendor</MudChip></td>
-                                        <td style="padding: 6px;"><b>@item.Article</b></td>
-                                        <td style="padding: 6px; color: var(--mud-palette-text-secondary);">@item.Name</td>
-                                        <td style="padding: 6px; text-align: center;">@item.Unit</td>
-                                        <td style="padding: 6px; font-style: italic; color: var(--mud-palette-info);">@item.TerminalType</td>
+                                        <td style="padding: 4px;"><MudChip T="string" Size="Size.Small" Color="Color.Primary">@item.TerminalType</MudChip></td>
+                                        <td style="padding: 4px; color: var(--mud-palette-text-secondary);">@item.Name</td>
+                                        <td style="padding: 4px;"><b>@item.Article</b></td>
+                                        <td style="padding: 4px; text-align: center;">—</td>
+                                        <td style="padding: 4px;">@item.Vendor</td>
+                                        <td style="padding: 4px; text-align: center;">@item.Unit</td>
+                                        <td style="padding: 4px; text-align: center;">1</td>
+                                        <td style="padding: 4px; text-align: center;">—</td>
+                                        <td style="padding: 4px;">—</td>
                                     </tr>
                                 }
                             </tbody>
@@ -74,12 +83,12 @@
     private string excelRawText = "";
     private List<UniversalCalculationEngine.JsonTerminalItem> parsedItems = new();
 
-    // 🧠 АЛГОРИТМ ПАРСИНГА СТРОК ДЛЯ 5 КОЛОНОК ИЗ EXCEL (Артикул | Наименование | Ед. изм. | Производитель | Группа)
+    // АЛГОРИТМ ПАРСИНГА СТРОК (9 колонок)
     private void ParseExcelText()
     {
         if (string.IsNullOrWhiteSpace(excelRawText))
         {
-            Snackbar.Add("Буфер обмена пуст! Скопируйте 5 колонок из Excel.", Severity.Warning);
+            Snackbar.Add("Буфер обмена пуст! Скопируйте данные из Excel.", Severity.Warning);
             return;
         }
 
@@ -87,53 +96,57 @@
         {
             parsedItems.Clear();
 
-            // Разрезаем текст на строки
-            var rows = excelRawText.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries);
+            var rows = excelRawText.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
+
+            // Убираем пустые строки в конце
+            rows = rows.Where(r => !string.IsNullOrWhiteSpace(r)).ToArray();
 
             foreach (var row in rows)
             {
-                // Разрезаем строку на ячейки по знаку табуляции
+                // Разделяем по табуляции, СОХРАНЯЯ пустые ячейки
                 var columns = row.Split('\t');
 
-                // Проверяем, чтобы в строке было скопировано достаточно колонок (минимум Артикул и Имя)
-                if (columns.Length >= 2)
+                // Если строка полностью пустая — пропускаем
+                if (columns.All(c => string.IsNullOrWhiteSpace(c))) continue;
+
+                // Безопасно читаем каждую колонку
+                string groupType = columns.Length > 0 ? columns[0].Trim() : "";
+                string name = columns.Length > 1 ? columns[1].Trim() : "";
+                string article = columns.Length > 2 ? columns[2].Trim() : "";
+                string code = columns.Length > 3 ? columns[3].Trim() : "";
+                string vendor = columns.Length > 4 ? columns[4].Trim() : "";
+                string unit = columns.Length > 5 ? columns[5].Trim() : "шт.";
+                string quantity = columns.Length > 6 ? columns[6].Trim() : "1";
+                string mass = columns.Length > 7 ? columns[7].Trim() : "";
+                string note = columns.Length > 8 ? columns[8].Trim() : "";
+
+                // Добавляем запись, если есть хотя бы наименование ИЛИ артикул
+                if (!string.IsNullOrEmpty(name) || !string.IsNullOrEmpty(article))
                 {
-                    string article = columns[0].Trim();
-                    string name = columns[1].Trim();
-
-                    // Читаем Ед. изм. (Колонка 3) или ставим дефолт
-                    string unit = columns.Length > 2 && !string.IsNullOrWhiteSpace(columns[2]) ? columns[2].Trim() : "шт.";
-
-                    // Читаем Производителя (Колонка 4) напрямую из ячейки Excel!
-                    string vendor = columns.Length > 3 && !string.IsNullOrWhiteSpace(columns[3]) ? columns[3].Trim() : "КЭАЗ";
-
-                    // Читаем Группу изделия (Колонка 5)
-                    string groupType = columns.Length > 4 && !string.IsNullOrWhiteSpace(columns[4]) ? columns[4].Trim() : "Клемма винтовая";
-
-                    if (!string.IsNullOrEmpty(article) && !string.IsNullOrEmpty(name))
+                    parsedItems.Add(new UniversalCalculationEngine.JsonTerminalItem
                     {
-                        parsedItems.Add(new UniversalCalculationEngine.JsonTerminalItem
-                        {
-                            Article = article,
-                            Name = name,
-                            Unit = unit,
-                            Vendor = vendor, // ТЕПЕРЬ БЕРЕТСЯ ИЗ EXCEL!
-                            TerminalType = groupType,
-                            WireSection = "2.5 мм²" // Поле для совместимости с калькулятором клемм
-                        });
-                    }
+                        Article = string.IsNullOrEmpty(article) ? "—" : article,
+                        Name = string.IsNullOrEmpty(name) ? "—" : name,
+                        Unit = string.IsNullOrEmpty(unit) ? "шт." : unit,
+                        Vendor = string.IsNullOrEmpty(vendor) ? "Не указан" : vendor,
+                        TerminalType = string.IsNullOrEmpty(groupType) ? "Прочее" : groupType,
+                        WireSection = "—"
+                    });
                 }
             }
 
             if (parsedItems.Any())
-                Snackbar.Add($"Успешно распознано {parsedItems.Count} строк! Проверьте предпросмотр ниже.", Severity.Success);
+                Snackbar.Add($"Успешно распознано {parsedItems.Count} строк!", Severity.Success);
             else
-                Snackbar.Add("Не удалось распознать строки. Убедитесь, что скопировали всю таблицу.", Severity.Error);
+                Snackbar.Add("Не удалось распознать строки. Проверьте, что данные разделены табуляцией.", Severity.Error);
         }
-        catch (Exception ex) { Snackbar.Add($"Ошибка парсинга: {ex.Message}", Severity.Error); }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Ошибка парсинга: {ex.Message}", Severity.Error);
+        }
     }
 
-    // 🚀 МАССОВАЯ ЗАПИСЬ ВСЕХ СТРОК В СЕРВЕРНЫЙ JSON-ФАЙЛ
+    // МАССОВАЯ ЗАПИСЬ В JSON-ФАЙЛ
     private async Task SaveAllToDatabase()
     {
         if (!parsedItems.Any()) return;
@@ -146,12 +159,29 @@
             if (File.Exists(path))
             {
                 string existingText = await File.ReadAllTextAsync(path);
-                existingList = JsonSerializer.Deserialize<List<UniversalCalculationEngine.JsonTerminalItem>>(existingText) ?? new();
+
+                // Если файл пустой или содержит только пробелы — создаём пустой список
+                if (!string.IsNullOrWhiteSpace(existingText))
+                {
+                    try
+                    {
+                        existingList = JsonSerializer.Deserialize<List<UniversalCalculationEngine.JsonTerminalItem>>(existingText) ?? new();
+                    }
+                    catch (JsonException)
+                    {
+                        // Файл повреждён или пуст — начинаем с чистого списка
+                        existingList = new();
+                    }
+                }
             }
 
             existingList.AddRange(parsedItems);
 
-            var options = new JsonSerializerOptions { WriteIndented = true, Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping };
+            var options = new JsonSerializerOptions
+            {
+                WriteIndented = true,
+                Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+            };
             await File.WriteAllTextAsync(path, JsonSerializer.Serialize(existingList, options));
 
             Snackbar.Add($"Грандиозно! Все {parsedItems.Count} позиций массово внесены в базу данных!", Severity.Success);
@@ -160,7 +190,9 @@
             parsedItems.Clear();
             StateHasChanged();
         }
-        catch (Exception ex) { Snackbar.Add($"Ошибка массовой записи: {ex.Message}", Severity.Error); }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Ошибка массовой записи: {ex.Message}", Severity.Error);
+        }
     }
 }
-

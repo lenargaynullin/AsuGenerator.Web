@@ -102,7 +102,15 @@
                         </MudSelect>
                     </MudItem>
                     <MudItem xs="12" sm="4">
-                        <MudText Typo="Typo.body2" Class="pt-2">
+                        <MudSelect T="string" Label="Отключающая способность, kA" Variant="Variant.Outlined" Dense="true" Value="@_cfg.InputCurrent" ValueChanged="@(s => OnInputCurrentChanged(s))" Margin="Margin.Dense">
+                            @foreach (var ic in Catalog.InputCurrents)
+                            {
+                                <MudSelectItem T="string" Value="@ic">@ic А</MudSelectItem>
+                            }
+                        </MudSelect>
+                    </MudItem>
+                    <MudItem xs="12" sm="4">
+                        <MudText Typo="Typo.body2" Class="mt-2" Style="color:#475569;">
                             @if (_cfg.SelectedInputBreaker is { } ib2)
                             {
                                 <span>Подобран: <b>@ib2.Article</b> · @ib2.Poles P · ввод ПуГВ <b>@ib2.RecommendedWireSection мм²</b></span>
@@ -138,8 +146,7 @@
                             <th>Номинал, А</th>
                             <th>Кривая</th>
                             <th style="width:80px;">Кол-во</th>
-                            <th style="width:150px;">Артикул IEK</th>
-                            <th>Обвязка</th>
+                            <th style="width:150px;">Артикул</th>
                             <th style="width:88px;"></th>
                         </tr>
                     </thead>
@@ -197,11 +204,11 @@
 
         </MudItem>
 
-        @* ===== ПРАВАЯ ПАНЕЛЬ: спецификация ГОСТ 21.110-2013 ===== *@
+        @* ===== ПРАВАЯ ПАНЕЛЬ: Cпецификация ===== *@
         <MudItem xs="12" lg="5">
             <MudPaper Outlined="true" Class="pa-3 mb-3" Style="position: sticky; top: 12px;">
                 <MudText Typo="Typo.subtitle1" Color="Color.Primary" Class="mb-1">
-                    <b>СПЕЦИФИКАЦИЯ ГОСТ 21.110-2013</b>
+                    <b>СПЕЦИФИКАЦИЯ</b>
                 </MudText>
                 <MudText Typo="Typo.caption" Style="color:#64748b;" Class="mb-2">
                     Оборудование, изделия и материалы · Завод-изготовитель: IEK · Обновляется автоматически
@@ -238,11 +245,6 @@
                         </tbody>
                     </MudSimpleTable>
 
-                    <div class="d-flex justify-space-between align-center mt-3 pa-2"
-                         style="background-color:#1e293b;color:white;border-radius:4px;">
-                        <MudText Typo="Typo.body1"><b>ИТОГО стоимость оборудования IEK:</b></MudText>
-                        <MudText Typo="Typo.h6"><b>@_totalCost.ToString("N0") ₽</b></MudText>
-                    </div>
                     <MudText Typo="Typo.caption" Class="mt-1" Style="color:#94a3b8;">
                         Модулей (с полюсами ввода): <b>@_cfg.TotalModules</b> · DIN-реек: расчёт по мере добавления
                     </MudText>

@@ -1,116 +1,170 @@
 ﻿{
     "Enclosures":  [
                        {
-                           "Article":  "ЩМП-1-24",
+                           "Article":  "YKM40-01-31",
                            "Series":  "ЩМП",
-                           "CabinetType":  "ЩС",
-                           "IpRating":  "IP31",
-                           "MountType":  "Навесной",
-                           "Dimensions":  "500x400x250",
-                           "HeightMm":  500,
-                           "WidthMm":  400,
-                           "DepthMm":  250,
-                           "ModuleCapacity":  24,
-                           "Price":  3600,
-                           "Name":  "Шкаф ЩМП-1 навесной IP31 500x400x250 мм, 24 модуля"
-                       },
-                       {
-                           "Article":  "ЩМП-1-24-54",
-                           "Series":  "ЩМП",
-                           "CabinetType":  "ЩС",
-                           "IpRating":  "IP54",
-                           "MountType":  "Навесной",
-                           "Dimensions":  "500x400x250",
-                           "HeightMm":  500,
-                           "WidthMm":  400,
-                           "DepthMm":  250,
-                           "ModuleCapacity":  24,
-                           "Price":  4300,
-                           "Name":  "Шкаф ЩМП-1 навесной IP54 500x400x250 мм, 24 модуля"
-                       },
-                       {
-                           "Article":  "ЩМП-1-36-54",
-                           "Series":  "ЩМП",
-                           "CabinetType":  "ЩС",
-                           "IpRating":  "IP54",
-                           "MountType":  "Навесной",
-                           "Dimensions":  "600x500x250",
-                           "HeightMm":  600,
-                           "WidthMm":  500,
-                           "DepthMm":  250,
-                           "ModuleCapacity":  36,
-                           "Price":  5100,
-                           "Name":  "Шкаф ЩМП-1 навесной IP54 600x500x250 мм, 36 модулей"
-                       },
-                       {
-                           "Article":  "ЩМП-2-48",
-                           "Series":  "ЩМП",
-                           "CabinetType":  "ЩС",
-                           "IpRating":  "IP31",
-                           "MountType":  "Напольный",
-                           "Dimensions":  "800x600x350",
-                           "HeightMm":  800,
-                           "WidthMm":  600,
-                           "DepthMm":  350,
-                           "ModuleCapacity":  48,
-                           "Price":  7200,
-                           "Name":  "Шкаф ЩМП-2 напольный IP31 800x600x350 мм, 48 модулей"
-                       },
-                       {
-                           "Article":  "ВРУ-3-54",
-                           "Series":  "ВРУ",
-                           "CabinetType":  "ВРУ",
-                           "IpRating":  "IP31",
-                           "MountType":  "Напольный",
-                           "Dimensions":  "1000x600x400",
-                           "HeightMm":  1000,
-                           "WidthMm":  600,
-                           "DepthMm":  400,
-                           "ModuleCapacity":  54,
-                           "Price":  9800,
-                           "Name":  "Шкаф ВРУ напольный IP31 1000x600x400 мм, 54 модуля"
-                       },
-                       {
-                           "Article":  "ВРУ-3-54-54",
-                           "Series":  "ВРУ",
-                           "CabinetType":  "ВРУ",
-                           "IpRating":  "IP54",
-                           "MountType":  "Напольный",
-                           "Dimensions":  "1000x600x400",
-                           "HeightMm":  1000,
-                           "WidthMm":  600,
-                           "DepthMm":  400,
-                           "ModuleCapacity":  54,
-                           "Price":  11600,
-                           "Name":  "Шкаф ВРУ напольный IP54 1000x600x400 мм, 54 модуля"
-                       },
-                       {
-                           "Article":  "ПР11-4-72",
-                           "Series":  "ПР11",
-                           "CabinetType":  "ВРУ",
-                           "IpRating":  "IP31",
-                           "MountType":  "Напольный",
-                           "Dimensions":  "1200x600x400",
-                           "HeightMm":  1200,
-                           "WidthMm":  600,
-                           "DepthMm":  400,
-                           "ModuleCapacity":  72,
-                           "Price":  12500,
-                           "Name":  "Шкаф ПР11 напольный IP31 1200x600x400 мм, 72 модуля"
-                       },
-                       {
-                           "Article":  "ЩРС-1-12",
-                           "Series":  "ЩРС",
-                           "CabinetType":  "ЩО",
                            "IpRating":  "IP31",
                            "MountType":  "Навесной",
                            "Dimensions":  "400x300x200",
                            "HeightMm":  400,
                            "WidthMm":  300,
                            "DepthMm":  200,
-                           "ModuleCapacity":  12,
-                           "Price":  2600,
-                           "Name":  "Шкаф ЩРС навесной IP31 400x300x200 мм, 12 модулей"
+                           "Name":  "ЩМП-1-0 36 УХЛ3 IP31 400x300x200 ИЭК"
+                       },
+                       {
+                           "Article":  "YKM40-02-31",
+                           "Series":  "ЩМП",
+                           "IpRating":  "IP31",
+                           "MountType":  "Навесной",
+                           "Dimensions":  "500x400x220",
+                           "HeightMm":  500,
+                           "WidthMm":  400,
+                           "DepthMm":  220,
+                           "Name":  "ЩМП-2-0 36 УХЛ3 IP31 500x400x220 ИЭК"
+                       },
+					   
+                       {
+                           "Article":  "YKM40-03-31",
+                           "Series":  "ЩМП",
+                           "IpRating":  "IP31",
+                           "MountType":  "Навесной",
+                           "Dimensions":  "650x500x220",
+                           "HeightMm":  650,
+                           "WidthMm":  500,
+                           "DepthMm":  220,
+                           "Name":  "ЩМП-3-0 36 УХЛ3 IP31 650x500x220 ИЭК"
+                       },
+					   {
+                           "Article":  "YKM40-04-31",
+                           "Series":  "ЩМП",
+                           "IpRating":  "IP31",
+                           "MountType":  "Навесной",
+                           "Dimensions":  "800x650x250",
+                           "HeightMm":  800,
+                           "WidthMm":  650,
+                           "DepthMm":  250,
+                           "Name":  "ЩМП-4-0 36 УХЛ3 IP31 800x650x250 ИЭК"
+                       },
+					   {
+                           "Article":  "YKM40-05-31",
+                           "Series":  "ЩМП",
+                           "IpRating":  "IP31",
+                           "MountType":  "Навесной",
+                           "Dimensions":  "1000x650x300",
+                           "HeightMm":  1000,
+                           "WidthMm":  650,
+                           "DepthMm":  300,
+                           "Name":  "ЩМП-5-0 36 УХЛ3 IP31 1000x650x300 ИЭК"
+                       },
+					   {
+                           "Article":  "YKM40-06-31",
+                           "Series":  "ЩМП",
+                           "IpRating":  "IP31",
+                           "MountType":  "Навесной",
+                           "Dimensions":  "1200x750x300",
+                           "HeightMm":  1200,
+                           "WidthMm":  750,
+                           "DepthMm":  300,
+                           "Name":  "ЩМП-6-0 36 УХЛ3 IP31 1200x750x300 ИЭК"
+                       },
+					   {
+                           "Article":  "YKM40-07-31",
+                           "Series":  "ЩМП",
+                           "IpRating":  "IP31",
+                           "MountType":  "Навесной",
+                           "Dimensions":  "1320x750x300",
+                           "HeightMm":  1320,
+                           "WidthMm":  750,
+                           "DepthMm":  300,
+                           "Name":  "ЩМП-7-0 36 УХЛ3 IP31 1320x750x300 ИЭК"
+                       },
+					   {
+                           "Article":  "MKM14-N-12-31-Z",
+                           "Series":  "ЩРН",
+                           "IpRating":  "IP31",
+                           "MountType":  "Навесной",
+                           "Dimensions":  "265х310х120",
+                           "HeightMm":  265,
+                           "WidthMm":  310,
+                           "DepthMm":  120,
+                           "Name":  "ЩРН-12з-1 36 УХЛ3 IP31 ИЭК (265х310х120)"
+                       },
+					   {
+                           "Article":  "MKM14-N-18-31-Z",
+                           "Series":  "ЩРН",
+                           "IpRating":  "IP31",
+                           "MountType":  "Навесной",
+                           "Dimensions":  "265х440х120",
+                           "HeightMm":  265,
+                           "WidthMm":  440,
+                           "DepthMm":  120,
+                           "Name":  "ЩРН-18з-1 36 УХЛ3 IP31 ИЭК (265х440х120)"
+                       },
+					   {
+                           "Article":  "MKM14-N-24-31-Z",
+                           "Series":  "ЩРН",
+                           "IpRating":  "IP31",
+                           "MountType":  "Навесной",
+                           "Dimensions":  "395×310×120",
+                           "HeightMm":  395,
+                           "WidthMm":  310,
+                           "DepthMm":  120,
+                           "Name":  "ЩРН-24з-1 36 УХЛ3 IP31 ИЭК (395х310х120)"
+                       },
+					   {
+                           "Article":  "MKM14-N-36-31-Z",
+                           "Series":  "ЩРН",
+                           "IpRating":  "IP31",
+                           "MountType":  "Навесной",
+                           "Dimensions":  "540×310×120",
+                           "HeightMm":  540,
+                           "WidthMm":  310,
+                           "DepthMm":  120,
+                           "Name":  "ЩРН-36з-1 36 УХЛ3 IP31 ИЭК (540х310х120)"
+                       },
+					   {
+                           "Article":  "MKM14-N-48-31-Z",
+                           "Series":  "ЩРН",
+                           "IpRating":  "IP31",
+                           "MountType":  "Навесной",
+                           "Dimensions":  "620×310×120",
+                           "HeightMm":  620,
+                           "WidthMm":  310,
+                           "DepthMm":  120,
+                           "Name":  "ЩРН-48з-1 36 УХЛ3 IP31 ИЭК (620х310х120)"
+                       },
+					   {
+                           "Article":  "MKM14-N-54-31-Z",
+                           "Series":  "ЩРН",
+                           "IpRating":  "IP31",
+                           "MountType":  "Навесной",
+                           "Dimensions":  "540х440х120",
+                           "HeightMm":  540,
+                           "WidthMm":  440,
+                           "DepthMm":  120,
+                           "Name":  "ЩРН-54з-1 36 УХЛ3 IP31 ИЭК (540х440х120)"
+                       },
+					   {
+                           "Article":  "MKM14-N-72-31-Z",
+                           "Series":  "ЩРН",
+                           "IpRating":  "IP31",
+                           "MountType":  "Навесной",
+                           "Dimensions":  "540х600х120",
+                           "HeightMm":  540,
+                           "WidthMm":  600,
+                           "DepthMm":  120,
+                           "Name":  "ЩРН-72з-1 36 УХЛ3 IP31 ИЭК (540х600х120)"
+                       },
+                       {
+                           "Article":  "esb3023",
+                           "Series":  "ВРУ",
+                           "IpRating":  "IP31",
+                           "MountType":  "Напольный",
+                           "Dimensions":  "2000x600x600",
+                           "HeightMm":  2000,
+                           "WidthMm":  600,
+                           "DepthMm":  600,
+                           "Name":  "Корпус сборный ВРУ-std 2000х600х600 IP31 ESB"
                        }
                    ],
     "ModuleBreakers":  [
@@ -1366,7 +1420,7 @@
     "PowerBreakers":  [
                           {
                               "Article":  "ВА88-32-3C63",
-                              "Type":  "ВА88",
+                              "Type":  "Автомат",
                               "RatedCurrentA":  63,
                               "Poles":  3,
                               "Curve":  "C",
@@ -1376,7 +1430,7 @@
                           },
                           {
                               "Article":  "ВА88-32-3C100",
-                              "Type":  "ВА88",
+                              "Type":  "Автомат",
                               "RatedCurrentA":  100,
                               "Poles":  3,
                               "Curve":  "C",
@@ -1386,7 +1440,7 @@
                           },
                           {
                               "Article":  "ВА88-32-3C160",
-                              "Type":  "ВА88",
+                              "Type":  "Автомат",
                               "RatedCurrentA":  160,
                               "Poles":  3,
                               "Curve":  "C",
@@ -1396,7 +1450,7 @@
                           },
                           {
                               "Article":  "ВА88-32-3C250",
-                              "Type":  "ВА88",
+                              "Type":  "Автомат",
                               "RatedCurrentA":  250,
                               "Poles":  3,
                               "Curve":  "C",
@@ -1406,7 +1460,7 @@
                           },
                           {
                               "Article":  "ВА88-32-3C400",
-                              "Type":  "ВА88",
+                              "Type":  "Автомат",
                               "RatedCurrentA":  400,
                               "Poles":  3,
                               "Curve":  "C",
@@ -1416,7 +1470,7 @@
                           },
                           {
                               "Article":  "ВА88-32-3C630",
-                              "Type":  "ВА88",
+                              "Type":  "Автомат",
                               "RatedCurrentA":  630,
                               "Poles":  3,
                               "Curve":  "C",
@@ -1426,7 +1480,7 @@
                           },
                           {
                               "Article":  "ВР32-31-3C63",
-                              "Type":  "ВР32",
+                              "Type":  "Рубильник",
                               "RatedCurrentA":  63,
                               "Poles":  3,
                               "Curve":  "",
@@ -1436,7 +1490,7 @@
                           },
                           {
                               "Article":  "ВР32-31-3C100",
-                              "Type":  "ВР32",
+                              "Type":  "Рубильник",
                               "RatedCurrentA":  100,
                               "Poles":  3,
                               "Curve":  "",
@@ -1446,7 +1500,7 @@
                           },
                           {
                               "Article":  "ВР32-31-3C160",
-                              "Type":  "ВР32",
+                              "Type":  "Рубильник",
                               "RatedCurrentA":  160,
                               "Poles":  3,
                               "Curve":  "",
@@ -1456,7 +1510,7 @@
                           },
                           {
                               "Article":  "ВР32-31-3C250",
-                              "Type":  "ВР32",
+                              "Type":  "Рубильник",
                               "RatedCurrentA":  250,
                               "Poles":  3,
                               "Curve":  "",
@@ -1661,8 +1715,8 @@
                           "630"
                       ],
     "InputTypes":  [
-                       "ВА88",
-                       "ВР32"
+                       "Автомат",
+                       "Рубильник"
                    ],
     "ModuleNominalCurrents":  [
                                   1,

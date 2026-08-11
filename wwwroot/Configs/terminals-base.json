@@ -1,148 +1,6258 @@
 [
-    {
-        "Vendor": "IEK",
-        "TerminalType": "Клемма винтовая",
-        "WireSection": "2.5 мм²",
-        "Article": "YZN10-002-K03",
-        "Name": "Зажим наборный ЗНИ-2,5мм2 (JXB24А) серый"
-    },
-    {
-        "Vendor": "IEK",
-        "TerminalType": "Клемма винтовая",
-        "WireSection": "4 мм²",
-        "Article": "YZN10-004-K03",
-        "Name": "Зажим наборный ЗНИ-4мм2 (JXB35А) серый"
-    },
-    {
-        "Vendor": "IEK",
-        "TerminalType": "Клемма винтовая",
-        "WireSection": "6 мм²",
-        "Article": "YZN10-006-K03",
-        "Name": "Зажим наборный ЗНИ-6мм2 (JXB50А) серый"
-    },
-    {
-        "Vendor": "IEK",
-        "TerminalType": "Клемма винтовая",
-        "WireSection": "10 мм²",
-        "Article": "YZN10-010-K03",
-        "Name": "Зажим наборный ЗНИ-10мм2 (JXB70А) серый"
-    },
-    {
-        "Vendor": "IEK",
-        "TerminalType": "Клемма винтовая",
-        "WireSection": "16 мм²",
-        "Article": "YZN10-016-K03",
-        "Name": "Зажим наборный ЗНИ-16мм2 (JXB100) серый"
-    },
-    {
-        "Vendor": "IEK",
-        "TerminalType": "Клемма винтовая",
-        "WireSection": "35 мм²",
-        "Article": "YZN10-035-K03",
-        "Name": "Зажим наборный ЗНИ-35мм2 (JXB125А) серый"
-    },
-    {
-        "Vendor": "IEK",
-        "TerminalType": "Клемма винтовая",
-        "WireSection": "70 мм²",
-        "Article": "YZN10-070-K03",
-        "Name": "Зажим наборный ЗНИ-70мм2 (JXB250А) серый"
-    },
-    {
-        "Vendor": "IEK",
-        "TerminalType": "Клемма винтовая",
-        "WireSection": "95 мм²",
-        "Article": "YZN10-095-K03",
-        "Name": "Зажим наборный ЗНИ-95мм2 (JXB330А) серый"
-    },
-    {
-        "Vendor": "IEK",
-        "TerminalType": "Крышка",
-        "WireSection": "4-6 мм²",
-        "Article": "YZN10D-ZGL-006-K03",
-        "Name": "Заглушка для ЗНИ4-6мм2 (JXB35-50А) серая"
-    },
-    {
-        "Vendor": "IEK",
-        "TerminalType": "Крышка",
-        "WireSection": "10 мм²",
-        "Article": "YZN10D-ZGL-010-K03",
-        "Name": "Заглушка для ЗНИ-10мм2 (JXB70A) серая"
-    },
-    {
-        "Vendor": "IEK",
-        "TerminalType": "Крышка",
-        "WireSection": "16 мм²",
-        "Article": "YZN10D-ZGL-016-K03",
-        "Name": "Заглушка для ЗНИ-16мм2 (JXB100A) серая"
-    },
-    {
-        "Vendor": "IEK",
-        "TerminalType": "Крышка",
-        "WireSection": "35 мм²",
-        "Article": "YZN10D-ZGL-035-K03",
-        "Name": "Заглушка для ЗНИ-35мм2 (JXB125A) серая"
-    },
-    {
-        "Vendor": "IEK",
-        "TerminalType": "Концевой стопор",
-        "Article": "YZN11DF-003-K03",
-        "Name": "Концевой стопор на DIN-рейку"
-    },
-    {
-        "Vendor": "IEK",
-        "TerminalType": "Клемма PE",
-        "WireSection": "4 мм²",
-        "Article": "YZN20-004-K52",
-        "Name": "Зажим наборный ЗНИ-4PEN 4мм2 (JXB-земля)"
-    },
-    {
-        "Vendor": "IEK",
-        "TerminalType": "Клемма PE",
-        "WireSection": "6 мм²",
-        "Article": "YZN20-006-K52",
-        "Name": "Зажим наборный ЗНИ-6PEN 6мм2 (JXB-земля)"
-    },
-    {
-        "Vendor": "IEK",
-        "TerminalType": "Клемма PE",
-        "WireSection": "10 мм²",
-        "Article": "YZN20-010-K52",
-        "Name": "Зажим наборный ЗНИ-10PEN 10мм2 (JXB-земля)"
-    },
-    {
-        "Vendor": "IEK",
-        "TerminalType": "Клемма PE",
-        "WireSection": "16 мм²",
-        "Article": "YZN20-016-K52",
-        "Name": "Зажим наборный ЗНИ-16PEN 16мм2 (JXB-земля)"
-    },
-    {
-        "Vendor": "IEK",
-        "TerminalType": "Клемма PE",
-        "WireSection": "35 мм²",
-        "Article": "YZN20-035-K52",
-        "Name": "Зажим наборный ЗНИ-35PEN 35мм2 (JXB-земля)"
-    },
-    {
-        "Vendor": "IEK",
-        "TerminalType": "Клемма PE",
-        "WireSection": "70 мм²",
-        "Article": "YZN20-070-K52",
-        "Name": "Зажим наборный ЗНИ-70PEN 70мм2 (JXB-земля)"
-    },
-    {
-        "Vendor": "IEK",
-        "TerminalType": "Клемма PE",
-        "WireSection": "70 мм²",
-        "Article": "YZN20-070-K52",
-        "Name": "Зажим наборный ЗНИ-70PEN 70мм2 (JXB-земля)"
-    },
-    {
-        "Vendor": "IEK",
-        "TerminalType": "Клемма винтовая с держателем предохранителя",
-        "WireSection": "4 мм²",
-        "Article": "YZN30-004F-K02",
-        "Name": "Клемма винтовая КВИ-4-П с держателем предохранителя 5х20 серая"
-    }
+  {
+    "Vendor": "ESB",
+    "TerminalType": "Корпус",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Корпус сварной ВРУ-eco П.Ц. 1700х700х400 (Бокс Ш3-ПЦ) IP31 ESB",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "ESB",
+    "TerminalType": "Корпус",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Бокс Ш3 (1700х700х400) IP31",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "ESB",
+    "TerminalType": "Корпус",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Корпус сборный ВРУ-std 2000х600х600 IP31 ESB",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "ESB",
+    "TerminalType": "Корпус",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ЩМП-eco (1-0) 395х310х220 IP31 ESB",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "ESB",
+    "TerminalType": "Корпус",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ЩМП-eco (2-0) 500х400х220 IP31 ESB",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "ESB",
+    "TerminalType": "Корпус",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ЩМП-eco (3-0) 650х500х220 IP31 ESB",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "ESB",
+    "TerminalType": "Корпус",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ЩМП-eco (4-0) 800х650х250 IP31 ESB",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "ESB",
+    "TerminalType": "Корпус",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ЩМП-eco (1-0) 395х310х220 IP54 ESB",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "ESB",
+    "TerminalType": "Корпус",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ЩМП-eco (2-0) 500х400х220 IP54 ESB",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "ESB",
+    "TerminalType": "Корпус",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ЩМП-eco (3-0) 650х500х220 IP54 ESB",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "ESB",
+    "TerminalType": "Корпус",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ЩМП-eco (4-0) 800х650х250 IP54 ESB",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "ESB",
+    "TerminalType": "Корпус",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ЩМП-eco (5-0) 1000х650х300 IP54 ESB",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "ESB",
+    "TerminalType": "Корпус",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ЩМП-eco (6-0) 1200х750х300 IP54 ESB",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "ESB",
+    "TerminalType": "Конструктив",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Планка крепления аппаратуры (680х80) Ш3,Ш1",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "ESB",
+    "TerminalType": "Конструктив",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Спец.планка L=680",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "ESB",
+    "TerminalType": "Конструктив",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Кожух рубильника защитный для ВРУ-eco 100А",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "ESB",
+    "TerminalType": "Конструктив",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Кожух рубильника защитный для ВРУ-eco 250А",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "ESB",
+    "TerminalType": "Конструктив",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Кожух рубильника защитный для ВРУ-eco 400А",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "ESB",
+    "TerminalType": "Конструктив",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Кожух рубильника защитный для ВРУ-eco 630А",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Корпус",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ЩМП-1-0 36 УХЛ3 IP31 395x310x220 ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Корпус",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ЩМП-2-0 36 УХЛ3 IP31 500x400x220 ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Корпус",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ЩМП-3-0 36 УХЛ3 IP31 650x500x220 ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Корпус",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ЩМП-4-0 36 УХЛ3 IP31 800x650x250 ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Корпус",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ЩМП-5-0 36 УХЛ3 IP31 1000x650x300 ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Корпус",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ЩМП-6-0 36 УХЛ3 IP31 1200x750x300 ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Корпус",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ЩМП-7-0 36 УХЛ3 IP31 1320x750x300 ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Корпус",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ЩМП-2-0 74 У2 IP54 500x400x220 ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Корпус",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ЩРН-12з-0 74 У2 IP54 ИЭК (240x330x120)",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Корпус",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ЩРн-18з-0 У2 IP54",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Корпус",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ЩРН-24з-0 74 У2 IP54 ИЭК (410х330х120)",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Корпус",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ЩРН-36з-0 74 У2 IP54 ИЭК (540x330x120)",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Корпус",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ЩРН-48з-0 74 У2 IP54 ИЭК (670х330х120)",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Корпус",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ЩРн-54 (540х440х120мм) IP54 IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Корпус",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ЩРН-12з-1 36 УХЛ3 IP31 ИЭК (265х310х120)",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Корпус",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ЩРН-24з-1 36 УХЛ3 IP31 ИЭК (395х310х120)",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Корпус",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ЩРН-36з-1 36 УХЛ3 IP31 ИЭК (540х310х120)",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Корпус",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ЩРН-54з-1 36 УХЛ3 IP31 ИЭК (540х440х120)",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Корпус",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ЩРН-72з-1 36 УХЛ3 IP31 ИЭК (540х600х120)",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Корпус",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ЩРв-12з-3 36 УХЛ3 IP31 TREND (265х310х120мм) ниша(230х275х125)",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Корпус",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ЩРв-18з-3 36 УХЛ3 IP31 TREND",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Корпус",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ЩРВ-36з-1 41 IP31 UNIVERSAL ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Корпус",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ЩРв-36 (1х36) 630х365х130мм IP31 белый (одна дверь) IEK TITAN 5",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-100 1Р 100А 10кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-100 1Р 10А 10кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-100 1Р 16А 10кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-100 1Р 20А 10кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-100 1Р 25А 10кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-100 1Р 32А 10кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-100 1Р 35А 10кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-100 1Р 40А 10кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-100 1Р 50А 10кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-100 1Р 63А 10кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-100 1Р 6А 10кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-100 1Р 80А 10кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-100 2Р 100А 10кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-100 2Р 10А 10кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-100 2Р 16А 10кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-100 2Р 20А 10кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-100 2Р 25А 10кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-100 2Р 32А 10кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-100 2Р 35А 10кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-100 2Р 40А 10кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-100 2Р 50А 10кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-100 2Р 63А 10кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-100 2Р 80А 10кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-100 3Р 100А 10кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-100 3Р 10А 10кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-100 3Р 16А 10кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-100 3Р 20А 10кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-100 3Р 25А 10кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-100 3Р 32А 10кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-100 3Р 35А 10кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-100 3Р 40А 10кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-100 3Р 50А 10кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-100 3Р 63А 10кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-100 3Р 6А 10кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-100 3Р 80А 10кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-100 4Р 100А 10кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-100 4Р 10А 10кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-100 4Р 16А 10кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-100 4Р 20А 10кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-100 4Р 25А 10кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-100 4Р 32А 10кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-100 4Р 35А 10кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-100 4Р 40А 10кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-100 4Р 50А 10кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-100 4Р 63А 10кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-100 4Р 6А 10кА х-ка D IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-100 4Р 6А 10кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-100 4Р 80А 10кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 1Р 1А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 1Р 2А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 1Р 3А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 1Р 4А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 1Р 5А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 1Р 6А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 1Р 8А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 1Р 10А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 1Р 13А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 1Р 16А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 1Р 20А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 1Р 25А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 1Р 32А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 1Р 40А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 1Р 50А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 1Р 63А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 1Р 0,5А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 1Р 1,6А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 1Р 2.5А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 2Р 1А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 2Р 2А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 2Р 3А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 2Р 4А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 2Р 5А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 2Р 6А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 2Р 8А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 2Р 10А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 2Р 13А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 2Р 16А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 2Р 20А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 2Р 25А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 2Р 32А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 2Р 40А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 2Р 50А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 2Р 63А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 3Р 1А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 3Р 2А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 3Р 3А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 3Р 4А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 3Р 5А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 3Р 6А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 3Р 8А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 3Р 10А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 3Р 13А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 3Р 16А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 3Р 20А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 3Р 25А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 3Р 32А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 3Р 40А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 3Р 50А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 3Р 63А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 4Р 1А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 4Р 2А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 4Р 3А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 4Р 4А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 4Р 5А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 4Р 6А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 4Р 8А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 4Р 10А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 4Р 13А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 4Р 16А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 4Р 20А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 4Р 25А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 4Р 32А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 4Р 40А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 4Р 50А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВА47-29 4Р 63А 4,5кА х-ка С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 1Р 10А 6кА B IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 1Р 10А 6кА D IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 1Р 10А 6кА С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 1Р 16А 6кА B IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 1Р 16А 6кА D IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 1Р 16А 6кА С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 1Р 1А 6кА B IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 1Р 1А 6кА D IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 1Р 1А 6кА С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 1Р 20А 6кА B IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 1Р 20А 6кА D IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 1Р 20А 6кА С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 1Р 25А 6кА B IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 1Р 25А 6кА D IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 1Р 25А 6кА С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 1Р 2А 6кА B IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 1Р 2А 6кА D IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 1Р 2А 6кА С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 1Р 32А 6кА B IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 1Р 32А 6кА D IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 1Р 32А 6кА С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 1Р 3А 6кА B IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 1Р 3А 6кА D IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 1Р 3А 6кА С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 1Р 40А 6кА B IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 1Р 40А 6кА D IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 1Р 40А 6кА С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 1Р 4А 6кА B IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 1Р 4А 6кА D IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 1Р 4А 6кА С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 1Р 50А 6кА B IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 1Р 50А 6кА D IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 1Р 50А 6кА С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 1Р 5А 6кА B IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 1Р 5А 6кА D IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 1Р 5А 6кА С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 1Р 63А 6кА B IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 1Р 63А 6кА D IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 1Р 63А 6кА С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 1Р 6А 6кА B IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 1Р 6А 6кА D IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 1Р 6А 6кА С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 2Р 10А 6кА B IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 2Р 10А 6кА D IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 2Р 10А 6кА С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 2Р 16А 6кА B IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 2Р 16А 6кА D IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 2Р 16А 6кА С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 2Р 1А 6кА B IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 2Р 1А 6кА D IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 2Р 1А 6кА С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 2Р 20А 6кА B IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 2Р 20А 6кА D IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 2Р 20А 6кА С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 2Р 25А 6кА B IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 2Р 25А 6кА D IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 2Р 25А 6кА С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 2Р 2А 6кА B IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 2Р 2А 6кА D IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 2Р 2А 6кА С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 2Р 32А 6кА B IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 2Р 32А 6кА D IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 2Р 32А 6кА С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 2Р 3А 6кА B IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 2Р 3А 6кА D IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 2Р 3А 6кА С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 2Р 40А 6кА B IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 2Р 40А 6кА D IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 2Р 40А 6кА С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 2Р 4А 6кА B IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 2Р 4А 6кА D IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 2Р 4А 6кА С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 2Р 50А 6кА B IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 2Р 50А 6кА D IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 2Р 50А 6кА С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 2Р 5А 6кА B IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 2Р 5А 6кА D IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 2Р 5А 6кА С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 2Р 63А 6кА B IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 2Р 63А 6кА D IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 2Р 63А 6кА С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 2Р 6А 6кА B IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 2Р 6А 6кА D IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 2Р 6А 6кА С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 3Р 10А 6кА B IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 3Р 10А 6кА D IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 3Р 10А 6кА С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 3Р 16А 6кА B IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 3Р 16А 6кА D IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 3Р 16А 6кА С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 3Р 1А 6кА B IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 3Р 1А 6кА D IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 3Р 1А 6кА С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 3Р 20А 6кА B IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 3Р 20А 6кА D IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 3Р 20А 6кА С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 3Р 25А 6кА B IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 3Р 25А 6кА D IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 3Р 25А 6кА С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 3Р 2А 6кА B IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 3Р 2А 6кА D IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 3Р 2А 6кА С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 3Р 32А 6кА B IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 3Р 32А 6кА D IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 3Р 32А 6кА С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 3Р 3А 6кА B IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 3Р 3А 6кА D IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 3Р 3А 6кА С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 3Р 40А 6кА B IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 3Р 40А 6кА D IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 3Р 40А 6кА С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 3Р 4А 6кА B IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 3Р 4А 6кА D IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 3Р 4А 6кА С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 3Р 50А 6кА B IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 3Р 50А 6кА D IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 3Р 50А 6кА С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 3Р 5А 6кА B IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 3Р 5А 6кА D IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 3Р 5А 6кА С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 3Р 63А 6кА B IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 3Р 63А 6кА D IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 3Р 63А 6кА С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 3Р 6А 6кА B IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 3Р 6А 6кА D IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 3Р 6А 6кА С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 4Р 10А 6кА B IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 4Р 10А 6кА D IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 4Р 10А 6кА С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 4Р 16А 6кА B IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 4Р 16А 6кА D IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 4Р 16А 6кА С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 4Р 1А 6кА B IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 4Р 1А 6кА D IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 4Р 1А 6кА С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 4Р 20А 6кА B IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 4Р 20А 6кА D IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 4Р 20А 6кА С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 4Р 25А 6кА B IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 4Р 25А 6кА D IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 4Р 25А 6кА С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 4Р 2А 6кА B IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 4Р 2А 6кА D IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 4Р 2А 6кА С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 4Р 32А 6кА B IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 4Р 32А 6кА D IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 4Р 32А 6кА С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 4Р 3А 6кА B IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 4Р 3А 6кА D IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 4Р 3А 6кА С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 4Р 40А 6кА B IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 4Р 40А 6кА D IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 4Р 40А 6кА С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 4Р 4А 6кА B IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 4Р 4А 6кА D IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 4Р 4А 6кА С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 4Р 50А 6кА B IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 4Р 50А 6кА D IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 4Р 50А 6кА С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 4Р 5А 6кА B IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 4Р 5А 6кА D IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 4Р 5А 6кА С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 4Р 63А 6кА B IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 4Р 63А 6кА D IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 4Р 63А 6кА С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 4Р 6А 6кА B IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 4Р 6А 6кА D IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Автомат",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Выкл. авт. ВА47-60M 4Р 6А 6кА С IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Выключатель нагрузки",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВН-32 1Р 20А IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Выключатель нагрузки",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВН-32 1Р 25А IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Выключатель нагрузки",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВН-32 1Р 32А IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Выключатель нагрузки",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВН-32 1Р 40А IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Выключатель нагрузки",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВН-32 1Р 63А IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Выключатель нагрузки",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВН-32 1Р 100А IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Выключатель нагрузки",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВН-32 2Р 20А IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Выключатель нагрузки",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВН-32 2Р 25А IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Выключатель нагрузки",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВН-32 2Р 32А IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Выключатель нагрузки",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВН-32 2Р 40А IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Выключатель нагрузки",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВН-32 2Р 63А IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Выключатель нагрузки",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВН-32 2Р 100А IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Выключатель нагрузки",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВН-32 2Р 125А IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Выключатель нагрузки",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВН-32 3Р 20А IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Выключатель нагрузки",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВН-32 3Р 25А IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Выключатель нагрузки",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВН-32 3Р 32А IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Выключатель нагрузки",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВН-32 3Р 40А IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Выключатель нагрузки",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВН-32 3Р 63А IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Выключатель нагрузки",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВН-32 3Р 100А IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Выключатель нагрузки",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВН-32 3Р 125А IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Выключатель нагрузки",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВН-32 4Р 20А IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Выключатель нагрузки",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВН-32 4Р 25А IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Выключатель нагрузки",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВН-32 4Р 32А IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Выключатель нагрузки",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВН-32 4Р 40А IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Выключатель нагрузки",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВН-32 4Р 63А IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Выключатель нагрузки",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВН-32 4Р 100А IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВД1-63 4P 40А 30мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ 32 2P B25 10мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ 32 2P C10 30мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ 32 2P C16 30мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ 32 2P C20 30мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ 32 2P C25 30мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ 32 2P C32 30мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ 32 2P C40 100мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ 32 2P C40 30мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ 32 2P C6 30мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ 32 C50 100мА ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ 32 C63 100мА ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ 32МL С10 10мА KARAT",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ 32МL С16 10мА KARAT",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ 32МL С6 10мА KARAT",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ 34 4P C10 30мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ 34 4P C16 10мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ 34 4P C16 30мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ 34 4P C20 30мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ 34 4P C25 30мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ 34 4P C32 30мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ 34 4P C40 100мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ 34 4P C50 100мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ 34 4P C50 30мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ 34 4P C6 10мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ 34 4P C63 30мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ 34 C16 100мА ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ 34 C25 100мА ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ 34 C32 100мА ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ 34 C40 300мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ 34 C50 300мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ 34 C63 100мА(Электронный)",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ 34 C63 300мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ32EM 1P C16 30мА тип AC",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ32EM 1P C20 30мА тип AC",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ32EM 1P C32 30мА тип AC",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ32EM 1P+N C16 30мА тип A IEK KARAT",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ32EM 1P+N C20 30мА тип A IEK KARAT",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ32EM 1P+N C25 30мА тип A IEK KARAT",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ32EM 1P+N C32 30мА тип A IEK KARAT",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ32EM C10 30мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ32EM C16 30мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ32EM C20 30мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ32EM C25 30мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ32EM C32 30мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ32EM C40 30мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ32EM C50 100мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ-32M C32 30мА(Электронный)",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ32ML тип A С10 30мА KARAT IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ32ML тип A С16 30мА KARAT IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ32ML тип A С20 30мА KARAT IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ32ML тип A С25 30мА KARAT IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ32ML тип A С32 30мА KARAT IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ32ML тип A С6 30мА KARAT IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ32М В10 30мА ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ32М В16 30мА ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ32М С10 30мА ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ32М С16 10мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ32М С16 30мА ИЭК (СНЯТ)",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ32М С20 30мА ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ32М С25 10мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ32М С25 30мА ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ32М С32 100мА(Электронный) ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ32М С6 30мА ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ32МL В10 30мА KARAT",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ32МL В16 30мА KARAT",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ32МL С10 30мА KARAT IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ32МL С16 30мА KARAT IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ32МL С20 30мА KARAT IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ32МL С25 30мА KARAT IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ32МL С32 30мА KARAT IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ32МL С6 30мА KARAT IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ34 C16 300мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ34 C25 300мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "АВДТ",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "АВДТ 32 2P B16 10мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "УЗО",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВД1-63 2P 16А 30мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "УЗО",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВД1-63 2P 100А 100мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "УЗО",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВД1-63 2P 16А 30мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "УЗО",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВД1-63 2P 25А 100мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "УЗО",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВД1-63 2P 25А 10мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "УЗО",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВД1-63 2P 25А 300мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "УЗО",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВД1-63 2P 25А 30мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "УЗО",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВД1-63 2P 32А 100мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "УЗО",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВД1-63 2P 32А 30мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "УЗО",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВД1-63 2P 40А 300мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "УЗО",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВД1-63 2P 40А 30мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "УЗО",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВД1-63 2P 50А 30мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "УЗО",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВД1-63 2P 63А 300мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "УЗО",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВД1-63 2P 63А 30мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "УЗО",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВД1-63 2P 80А 300мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "УЗО",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВД1-63 2Р 16А 100мА ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "УЗО",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВД1-63 2Р 16А 10мА ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "УЗО",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВД1-63 2Р 16А 30мА тип А(Электромеханическое)",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "УЗО",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВД1-63 2Р 25А 30мА А IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "УЗО",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВД1-63 2Р 40А 100мА ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "УЗО",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВД1-63 2Р 40А 30мА тип А(Электромеханическое)",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "УЗО",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВД1-63 2Р 50А 300мА ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "УЗО",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВД1-63 2Р 63А 100мА ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "УЗО",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВД1-63 4P 100А 100мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "УЗО",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВД1-63 4P 100А 300мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "УЗО",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВД1-63 4P 100А 30мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "УЗО",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВД1-63 4P 16А 30мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "УЗО",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВД1-63 4P 25А 300мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "УЗО",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВД1-63 4P 25А 30мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "УЗО",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВД1-63 4P 32А 100мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "УЗО",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВД1-63 4P 32А 300мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "УЗО",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВД1-63 4P 32А 30мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "УЗО",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВД1-63 4P 40А 100мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "УЗО",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВД1-63 4P 40А 300мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "УЗО",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВД1-63 4P 40А 30мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "УЗО",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВД1-63 4P 50А 100мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "УЗО",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВД1-63 4P 50А 30мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "УЗО",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВД1-63 4P 63А 100мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "УЗО",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВД1-63 4P 63А 300мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "УЗО",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВД1-63 4P 63А 30мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "УЗО",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВД1-63 4P 80А 300мА IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "УЗО",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВД1-63 4Р 16А 30мА тип А(Электромеханическое)",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "УЗО",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВД1-63 4Р 25А 100мА ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "УЗО",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВД1-63 4Р 25А 300мА ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "УЗО",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВД1-63 4Р 50А 300мА ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "УЗО",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВД1-63 4Р 63А 100мА ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "УЗО",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВД1-63 4Р 63А 300мА ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "УЗО",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ВД1-63 4Р 80А 30мА",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "УЗО",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "УЗО KARAT ВД3-63 4P 100А 100мА 6кА тип AC IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Контактор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "!КМИ-10910 9А 110В/АС3 1NO IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Контактор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "!КМИ-11210 12А 24В 1НО ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Контактор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "КМИ-10910 9А 230В 1НО ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Контактор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "КМИ-10910 9А 24В/АС3 1НО ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Контактор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "КМИ-10911 9А 230В 1НЗ ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Контактор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "КМИ-11210 12А 230В 1НО ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Контактор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "КМИ-11210 12А 400В 1НО ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Контактор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "КМИ-11810 18А 230В 1НО ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Контактор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "КМИ-11810 18А 24В/АС3 1НО ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Контактор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "КМИ-11810 18А 400В 1НО ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Контактор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "КМИ-22510 25А 230В 1НО ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Контактор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "КМИ-22511 25А 230В/АС3 1НЗ",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Контактор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "КМИ22560 25А в оболочке 220В/АС3 IP54 IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Контактор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "КМИ-23210 32А 230В 1НО ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Контактор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "КМИ-34012 40А 230В 1НО 1НЗ IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Контактор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "КМИ-35012 50А 230В 1НО 1НЗ IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Контактор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "КМИ-46512 65А 230В 1НО 1НЗ IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Контактор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "КМИ-48012 80А 230В 1НО 1НЗ IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Контактор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "КМИ-48012 80А 400В 1НО 1НЗ IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Контактор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "КМИ-48012 95А 400В 1НО 1НЗ IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Контактор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "КМИ-49512 95А 230В 1НО 1НЗ ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Контактор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "КМИe-10910 9А 230В 1НО ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Контактор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "КМИe-11210 12А 230В 1НО ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Контактор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "КМИe-11810 18А 230В 1НО ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Контактор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "КМИe-22510 25А 230В 1НО ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Контактор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "КМИe-34012 40А 230В 1НО 1НЗ IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Контактор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "КМИe-46512 65А 230В 1НО 1НЗ IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Контактор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "КМИe-48012 80А 230В 1НО 1НЗ IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Контактор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "КМИe-49512 95А 230В 1НО 1НЗ ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Контактор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "КМИе-10911 9А 230В/АС3 1НЗ",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Контактор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "КМИе-23210 32А 230В 1НО ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Контактор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "КМИп-11810 18А 24В/АС3 1НО ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Контактор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Контактор КМИ-49532 реверс 95А 230В/АС3 2НО 2НЗ",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Контактор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Контактор КТИ-7800 800А 230В/АС3",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Контактор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Контактор КТИе-5150 150А 230В/АС3 GENERICA",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Контактор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Контактор модульный KMR 63А 230В AC 2НО 2НЗ",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Контактор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Контактор модульный КМ63-11M AC",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Контактор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "КТИ-5115 115А 230В/АС3 IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Контактор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "КТИ-51153 реверсивный 115А 230В/АС3 IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Контактор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "КТИ-5150 150А 230В/АС3 IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Контактор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "КТИ-51503 реверсивный 150А 230В/АС3 IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Контактор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "КТИ-5185 185А 230В/АС3 IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Контактор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "КТИ-51853 реверсивный 185А 230В/АС3 IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Контактор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "КТИ-51853 реверсивный 185А 400В/АС3 IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Контактор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "КТИ-5225 225А 230В/АС3 IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Контактор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "КТИ-52253 реверсивный 225А 230В/АС3 IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Контактор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "КТИ-5265 265А 230В/АС3 IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Контактор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "КТИ-52653 реверсивный 265А 230В/АС3 IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Контактор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "КТИ-5330 330А 230В/АС3 IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Контактор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "КТИ-53303 реверсивный 330А 230В/АС3 IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Контактор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "КТИ-6400 400А 230В/АС3 IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Контактор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "КТИ-64003 реверсивный 400А 230В/АС3 IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Контактор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "КТИ-6500 500А 230В/АС3 IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Контактор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "КТИ-65003 реверсивный 500А 230В/АС3 IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Контактор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "КТИ-7630 630А 230В/АС3 IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Контактор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "КТИ-76303 реверсивный 630А 230В/АС3 IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Контактор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "КТИе-5200 200А 230В/АС3",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Контактор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "КТИе-5250 250А 230В/АС3",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Доп. Контакт контактора",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ПКИ-11  1з+1р ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "УЗИП",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ОПС1-С 4Р 20-40 кА ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Тепловое реле",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "РТИ-1301 0,1-0,16 ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Тепловое реле",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "РТИ-1302 0,16-0,25 ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Тепловое реле",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "РТИ-1303 0,25-0,4 ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Тепловое реле",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "РТИ-1304 0,4-0,63 ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Тепловое реле",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "РТИ-1305 0,63-1,0 ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Тепловое реле",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "РТИ-1306 1,0-1,6 ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Тепловое реле",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "РТИ-1307 1,6-2,5 ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Тепловое реле",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "РТИ-1308 2,5-4,0 ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Тепловое реле",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "РТИ-1310 4-6 ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Тепловое реле",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "РТИ-1312 5,5-8 ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Тепловое реле",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "РТИ-1314 7-10 ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Тепловое реле",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "РТИ-1316 9-13 ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Тепловое реле",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "РТИ-1321 12-18А ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Тепловое реле",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "РТИ-1322 17-25А ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Тепловое реле",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "РТИ-2355 28-36А ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Тепловое реле",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "РТИ-3353 23-32А ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Тепловое реле",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "РТИ-3355 30-40А ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Тепловое реле",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "РТИ-3357 37-50А ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Тепловое реле",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "РТИ-3359 48-65А ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Тепловое реле",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "РТИ-3363 63-80А IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Тепловое реле",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "РТИ-3365 80-93А IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Тепловое реле",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "РТИ-5369 55-80А ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Тепловое реле",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "РТИ-5370 63-90А ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Тепловое реле",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "РТИ-5371 90-120А ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Тепловое реле",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "РТИ-5375 120-150А ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Тепловое реле",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "РТИ-5376 150-180А ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Тепловое реле",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "РТИ-6376 125-200А ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Контактор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "КМ20-40М 20А 4НО 230В ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Контактор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "КМ20-20М 20А 2НО 230В ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Реле времени",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Таймер ТЭ15 цифровой 16А 230В на DIN-рейку IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Лампа",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Лампа AD22DS(LED)матрица d22мм зеленый 230В IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Лампа",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Лампа AD22DS(LED)матрица d22мм желтый 230В IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Лампа",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Лампа AD22DS(LED)матрица d22мм красный 230В IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Переключатель",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Переключатель LAY5-BD33 3 позиции I-0-II стандартная ручка",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Переключатель",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Переключатель LAY5-BD25 2 позиции I-0 стандартная ручк",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Переключатель",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Блок контактный 1з для серии LAY5",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Переключатель",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Блок контактный 1р для серии LAY5",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Клемма",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Клемма винтовая КВИ-6мм2 серая",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Клемма",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Клемма винтовая КВИ-2,5мм2 серая",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Клемма",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Заглушка для КВИ-2,5мм2 серая",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "TDM",
+    "TerminalType": "Клеммная колодка",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Клеммная колодка ТВ-1506 ТДМ",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "EKF",
+    "TerminalType": "Кросс модуль",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Шина нулевая в корпусе 2х15  (10шт) EKF",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "EKF",
+    "TerminalType": "Кросс модуль",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Шина нулевая в корпусе 2х11  (10шт) EKF",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "EKF",
+    "TerminalType": "Кросс модуль",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Шина нулевая в корпусе 2х7  (10шт) EKF",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "EKF",
+    "TerminalType": "Кросс модуль",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Шина нулевая в корпусе 4х15  (5шт) EKF",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "EKF",
+    "TerminalType": "Кросс модуль",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Шина нулевая в корпусе 4х11  (5шт) EKF",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "EKF",
+    "TerminalType": "Кросс модуль",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Шина нулевая в корпусе 4х7  (10шт) EKF",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "EKF",
+    "TerminalType": "Контактор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Контактор модульный КМ 25А 4NО (3 мод.) EKF",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "EKF",
+    "TerminalType": "Контактор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Контактор модульный КМ 20А 2NО (2 мод.) EKF",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "EKF",
+    "TerminalType": "Реле времени",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Таймер электронный многофункциональный ТМ-24 PROxima",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "EKF",
+    "TerminalType": "Лампа",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Лампа Светодиодная матрица AD16-22HS зеленая EKF",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "EKF",
+    "TerminalType": "Лампа",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Лампа Светодиодная матрица AD16-22HS желтая EKF",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Шина",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Шина соединительная PIN 3-фазная 100А 36 устройств шаг 27мм (4шт) ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Шина",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Шина соединительная PIN 2-фазная 100А 36 модулей шаг 27мм (5шт) ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Шина",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Шина соединительная PIN 1-фазная 100А 37 модулей шаг 27мм (5шт) ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "EKF",
+    "TerminalType": "Шина",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Шина соединительная PIN 3-фазная 100А 54 модуля (10шт) EKF",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "EKF",
+    "TerminalType": "Шина",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Шина соединительная типа PIN для 3-ф нагр. 63А 54 мод. EKF",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "EKF",
+    "TerminalType": "Шина",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Шина соединительная типа PIN 2-фазная 63А 54 модуля EKF",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "EKF",
+    "TerminalType": "Шина",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Шина соединительная типа PIN 1-фазная 63А 54 модуля EKF",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Шина",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Шина медная 3х10",
+    "Unit": "м"
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Шина",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Шина медная 3х15 (210 А)",
+    "Unit": "м"
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Шина",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Шина медная 3х20 (250 А)",
+    "Unit": "м"
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Шина",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Шина медная 3х25",
+    "Unit": "м"
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Шина",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Шина медная 3х30 (400А)",
+    "Unit": "м"
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Шина",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Шина медная 4х30 (475 А)",
+    "Unit": "м"
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Шина",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Шина медная 4х40 (625 А)",
+    "Unit": "м"
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Шина",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Шина медная 4х50 (774 А)",
+    "Unit": "м"
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Шина",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Шина медная 4х60 (924 A)",
+    "Unit": "м"
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Шина",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Шина медная 50х10",
+    "Unit": "м"
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Шина",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Шина медная 5х20 (400 А)",
+    "Unit": "м"
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Шина",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Шина медная 5х25",
+    "Unit": "м"
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Шина",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Шина медная 5х30 (539 А)",
+    "Unit": "м"
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Шина",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Шина медная 5х40 (700 A)",
+    "Unit": "м"
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Шина",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Шина медная 5х50 (860 A)",
+    "Unit": "м"
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Шина",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Шина медная 5х80 (1345А)",
+    "Unit": "м"
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Шина",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Шина медная 6х30 (590А)",
+    "Unit": "м"
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Шина",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Шина медная 6х40 (765 A)",
+    "Unit": "м"
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Шина",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Шина медная 6х50 (955 A)",
+    "Unit": "м"
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Шина",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Шина медная 6х60 (1125 A)",
+    "Unit": "м"
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Шина",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Шина медная 6х80 (1480 A)",
+    "Unit": "м"
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Шина",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Шина медная 7х30 (630 А)",
+    "Unit": "м"
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Шина",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Шина медная 7х40 (821 A)",
+    "Unit": "м"
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Шина",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Шина медная 8х40 (888 A)",
+    "Unit": "м"
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Шина",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Шина медная 8х50 (1091 A)",
+    "Unit": "м"
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Шина",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Шина медная 8х60 (1320 A)",
+    "Unit": "м"
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Шина",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Шина медная 8х80 (1690 A)",
+    "Unit": "м"
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Шина",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Шина медная 10х100 (2310 A)",
+    "Unit": "м"
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Шина",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Шина медная 10х120 (2650 A)",
+    "Unit": "м"
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Шина",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Шина медная 10х150",
+    "Unit": "м"
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Шина",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Шина медная 10х180",
+    "Unit": "м"
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Шина",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Шина медная 10х200",
+    "Unit": "м"
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Шина",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Шина медная 10х30 (748 А)",
+    "Unit": "м"
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Шина",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Шина медная 10х40 (1030 А)",
+    "Unit": "м"
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Шина",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Шина медная 10х50 (1265 А)",
+    "Unit": "м"
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Шина",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Шина медная 10х60 (1475 A)",
+    "Unit": "м"
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Шина",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Шина медная 10х70 (1704 A)",
+    "Unit": "м"
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Шина",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Шина медная 10х80 (1900 A)",
+    "Unit": "м"
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Шина",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Шина медная 12,5х40 (1086 A)",
+    "Unit": "м"
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Шина",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Шина медная 12,5х50 (1325 A)",
+    "Unit": "м"
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Шина",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Шина медная 12,5х60 (1700 A)",
+    "Unit": "м"
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Шина",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Шина медная 12х100 (2680 A)",
+    "Unit": "м"
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Шина",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Шина медная 12х50 (1293 A)",
+    "Unit": "м"
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Шина",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Изолятор лесенка ИЛ4-50 (М6) силовой с болтом ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Шина",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Изолятор лесенка ИЛ4-40 (М8) силовой с болтом ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Шина",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Изолятор лесенка ИЛ4-30 (М6) силовой с болтом ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Шина",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Изолятор лесенка ИЛ4-20 (М6) силовой с болтом ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "EKF",
+    "TerminalType": "Шина",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Изолятор шинный Лесенка 300А 6кВ EKF",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "EKF",
+    "TerminalType": "Шина",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Изолятор шинный Лесенка 450А 9кВ EKF",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "EKF",
+    "TerminalType": "Шина",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Изолятор шинный Лесенка 600А 12кВ EKF",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "EKF",
+    "TerminalType": "Шина",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Изолятор шинный Лесенка 700А 15кВ EKF",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "EKF",
+    "TerminalType": "Шина",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Изолятор шинный Лесенка 900А 18кВ EKF",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Изолятор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Изолятор SM25 (М6) силовой с болтом  (10шт) ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Изолятор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Изолятор SM30 (М8) силовой с болтом  (10шт) ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Изолятор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Изолятор SM35 (М8) силовой с болтом  (10шт) ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Изолятор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Изолятор SM40 (М8) силовой с болтом  (10шт) ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Изолятор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Изолятор SM45 (М8) силовой с болтом  (10шт) ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Изолятор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Изолятор SM51 (М8) силовой с болтом  (10шт) ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Изолятор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Изолятор SM60 (М8) силовой с болтом  (10шт) ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Изолятор",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Изолятор SM76 (М10) силовой с болтом  (10шт) ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Экотех",
+    "TerminalType": "УЗДП",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "УЗДП-С1-63А-1-2 Экотех",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Экотех",
+    "TerminalType": "УЗДП",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "УЗДП-С1-40-1-2 Экотех",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Экотех",
+    "TerminalType": "УЗДП",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "УЗДП-С1-32-1-2 Экотех",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Экотех",
+    "TerminalType": "УЗДП",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "УЗДП-С1-25-1-2 Экотех",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Экотех",
+    "TerminalType": "УЗДП",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "УЗДП-С1-16-1-2 Экотех",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Провод",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "провод ПуГВ нг(А)LS 0,75мм2 белый",
+    "Unit": "м"
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Провод",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "провод ПуГВ нг(А)LS 2,5мм2 белый",
+    "Unit": "м"
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Провод",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "провод ПуГВ нг(А)LS 2,5мм2 черный",
+    "Unit": "м"
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Провод",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "провод ПуГВ нг(А)LS 4мм2 белый",
+    "Unit": "м"
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Провод",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "провод ПуГВ нг(А)LS 6мм2 черный",
+    "Unit": "м"
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Провод",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "провод ПуГВ нг(А)LS 6мм2 черный",
+    "Unit": "м"
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Провод",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "провод ПуГВ нг(А)LS 10мм2 черный",
+    "Unit": "м"
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Провод",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "провод ПуГВ нг(А)LS 16мм2 черный",
+    "Unit": "м"
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Провод",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "провод ПуГВ нг(А)LS 25мм2 белый",
+    "Unit": "м"
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Провод",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "провод ПуГВ нг(А)LS 35мм2 белый",
+    "Unit": "м"
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Провод",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "провод ПуГВ нг(А)LS 50мм2 белый",
+    "Unit": "м"
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Провод",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "провод ПуГВ нг(А)LS 70мм2 белый",
+    "Unit": "м"
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Провод",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "провод ПуГВ нг(А)LS 95мм2 черный",
+    "Unit": "м"
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Провод",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "провод ПуГВ нг(А)LS 120мм2 белый",
+    "Unit": "м"
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Провод",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "провод ПуГВ нг(А)LS 185мм2 белый",
+    "Unit": "м"
+  },
+  {
+    "Vendor": "КВТ",
+    "TerminalType": "Наконечники",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ТМЛ 2,5-6-2,6",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "КВТ",
+    "TerminalType": "Наконечники",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ТМЛ 4-6-3 (КВТ)",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "КВТ",
+    "TerminalType": "Наконечники",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ТМЛ 6-6-4 (КВТ)",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "КВТ",
+    "TerminalType": "Наконечники",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ТМЛ 6-6-4 (КВТ)",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "КВТ",
+    "TerminalType": "Наконечники",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ТМЛ 10–8–5 (КВТ)",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "КВТ",
+    "TerminalType": "Наконечники",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ТМЛ 16-8-6 (КВТ)",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "КВТ",
+    "TerminalType": "Наконечники",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ТМЛ 25–8–7 (КВТ)",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "КВТ",
+    "TerminalType": "Наконечники",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ТМЛ 35–8–9 (КВТ)",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "КВТ",
+    "TerminalType": "Наконечники",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ТМЛ 50–10–11 (КВТ)",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "КВТ",
+    "TerminalType": "Наконечники",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ТМЛ 70–10–13 (КВТ)",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "КВТ",
+    "TerminalType": "Наконечники",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ТМЛ 95–10–15 (КВТ)",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "КВТ",
+    "TerminalType": "Наконечники",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ТМЛ 120–12–17 (КВТ)",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "КВТ",
+    "TerminalType": "Наконечники",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ТМЛ 185–16–21",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Наконечники",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Е 0,5-08",
+    "Unit": "упак."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Наконечники",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Е 0,75-08",
+    "Unit": "упак."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Наконечники",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Е 1,0-08",
+    "Unit": "упак."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Наконечники",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Е 1,5-08",
+    "Unit": "упак."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Наконечники",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Е 2,5-12",
+    "Unit": "упак."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Наконечники",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Е 2,5-12",
+    "Unit": "упак."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Наконечники",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Е 4,0-12",
+    "Unit": "упак."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Наконечники",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Е 6,0-12",
+    "Unit": "упак."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Наконечники",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Е 10-14",
+    "Unit": "упак."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Наконечники",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Е 16-12",
+    "Unit": "упак."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Наконечники",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Е 25",
+    "Unit": "упак."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Наконечники",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Е 35-16",
+    "Unit": "упак."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Наконечники",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Е 50-20",
+    "Unit": "упак."
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Огнезащита",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Пиростикер АСT Амулет 10",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Огнезащита",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Пиростикер АСT Амулет 20",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Огнезащита",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Пиростикер АСT Амулет 30",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Огнезащита",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Пиростикер АСТ Амулет 50",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Огнезащита",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ФОГ Шнур 100",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Огнезащита",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ФОГ Шнур 200",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Огнезащита",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ФОГ Шнур 300",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Огнезащита",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ФОГ Шнур 500",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Огнезащита",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ФОГ Шнур 750 (STEG CORD)",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Не указан",
+    "TerminalType": "Огнезащита",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "ФОГ Шнур 1000 (STEG CORD)",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Меркурий",
+    "TerminalType": "Счетчик",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Меркурий 234 ARTM2-00 (D)PBR.R",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Меркурий",
+    "TerminalType": "Счетчик",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Меркурий 234 ARTMX2-01 (D)POBR.R",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Меркурий",
+    "TerminalType": "Счетчик",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Меркурий 234 ARTMX2-02 (D)PBR.R",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Меркурий",
+    "TerminalType": "Счетчик",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Меркурий 234 ARTMX2-02 (D)POBR.R",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Меркурий",
+    "TerminalType": "Счетчик",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Меркурий 234 ARTMX2-03 (D)PBR.R",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Меркурий",
+    "TerminalType": "Счетчик",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Меркурий 234 ARTM2-00 (D)PBR.R",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Меркурий",
+    "TerminalType": "Счетчик",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Меркурий 234 ARTM2-03 (D)PBR.R",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Меркурий",
+    "TerminalType": "Счетчик",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Меркурий 234 ARTMX2-01 (D)POBR.L2",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Меркурий",
+    "TerminalType": "Счетчик",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Меркурий 234 ARTMX2-02 (D)POBR.L2",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Меркурий",
+    "TerminalType": "Счетчик",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Меркурий 234 ARTMX2-02 (D)PBR.L2",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Меркурий",
+    "TerminalType": "Счетчик",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Меркурий 234 ARTMX2-03 (D)PBR.L2",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Меркурий",
+    "TerminalType": "Счетчик",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Меркурий 234 ARTM2-00 (D)PBR.G",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Меркурий",
+    "TerminalType": "Счетчик",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Меркурий 234 ARTMX2-01 (D)PBR.G",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Меркурий",
+    "TerminalType": "Счетчик",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Меркурий 234 ARTMX2-01 (D)POBR.G",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Меркурий",
+    "TerminalType": "Счетчик",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Меркурий 234 ARTMX2-02 (D)POBR.G",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Меркурий",
+    "TerminalType": "Счетчик",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Меркурий 234 ARTMX2-02 (D)PBR.G",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Меркурий",
+    "TerminalType": "Счетчик",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Меркурий 234 ARTMX2-03 (D)PBR.G",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Меркурий",
+    "TerminalType": "Счетчик",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Меркурий 234 ARTM2-00 (D)PBR.G",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Меркурий",
+    "TerminalType": "Счетчик",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Меркурий 234 ARTM2-03 (D)PBR.G",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Меркурий",
+    "TerminalType": "Счетчик",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Меркурий 234 ARTM-00 (D)PBR.G1",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Меркурий",
+    "TerminalType": "Счетчик",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Меркурий 234 ARTMX2-01 (D)PBR.G1",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Меркурий",
+    "TerminalType": "Счетчик",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Меркурий 234 ARTMX2-01 (D)POBR.G1",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Меркурий",
+    "TerminalType": "Счетчик",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Меркурий 234 ARTMX2-02 (D)POBR.G1",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Меркурий",
+    "TerminalType": "Счетчик",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Меркурий 234 ARTMX2-02 (D)PBR.G1",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Меркурий",
+    "TerminalType": "Счетчик",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Меркурий 234 ARTMX2-03 (D)PBR.G1",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Меркурий",
+    "TerminalType": "Счетчик",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Меркурий 234 ARTM2-00 (D)PBR.G1",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Меркурий",
+    "TerminalType": "Счетчик",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Меркурий 234 ARTM2-03 (D)PBR.G1",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Меркурий",
+    "TerminalType": "Счетчик",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Меркурий 234 ARTM2-00 (D)PBR.G5",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Меркурий",
+    "TerminalType": "Счетчик",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Меркурий 234 ARTMX2-01 (D)PBR.G5",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Меркурий",
+    "TerminalType": "Счетчик",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Меркурий 234 ARTMX2-01 (D)POBR.G5",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Меркурий",
+    "TerminalType": "Счетчик",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Меркурий 234 ARTMX2-02 (D)POBR.G5",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Меркурий",
+    "TerminalType": "Счетчик",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Меркурий 234 ARTMX2-02 (D)PBR.G5",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Меркурий",
+    "TerminalType": "Счетчик",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Меркурий 234 ARTMX2-03 (D)PBR.G5",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Меркурий",
+    "TerminalType": "Счетчик",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Меркурий 234 ARTM2-00 (D)PBR.G5",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Меркурий",
+    "TerminalType": "Счетчик",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Меркурий 234 ARTM2-03 (D)PBR.G5",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Меркурий",
+    "TerminalType": "Счетчик",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Меркурий 234 ARTM2-00 (D)PBR.G7",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Меркурий",
+    "TerminalType": "Счетчик",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Меркурий 234 ARTMX2-01 (D)PBR.G7",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Меркурий",
+    "TerminalType": "Счетчик",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Меркурий 234 ARTMX2-01 (D)POBR.G7",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Меркурий",
+    "TerminalType": "Счетчик",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Меркурий 234 ARTMX2-02 (D)PBR.G7",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Меркурий",
+    "TerminalType": "Счетчик",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Меркурий 234 ARTMX2-02 (D)POBR.G7",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Меркурий",
+    "TerminalType": "Счетчик",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Меркурий 234 ARTMX2-03 (D)PBR.G7",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Меркурий",
+    "TerminalType": "Счетчик",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Меркурий 234 ARTM2-00 (D)PBR.G7",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Меркурий",
+    "TerminalType": "Счетчик",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Меркурий 234 ARTM2-03 (D)PBR.G7",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Меркурий",
+    "TerminalType": "Счетчик",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Меркурий 234 ARTMX2-01 (D)PBR.F04",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Меркурий",
+    "TerminalType": "Счетчик",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Меркурий 234 ARTMX2-01 (D)POBR.F04",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Меркурий",
+    "TerminalType": "Счетчик",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Меркурий 234 ARTMX2-02 (D)POBR.F04",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Меркурий",
+    "TerminalType": "Счетчик",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Меркурий 234 ARTMX2-02 (D)PBR.F04",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Меркурий",
+    "TerminalType": "Счетчик",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Меркурий 234 ARTMX2-03 (D)PBR.F04",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "Меркурий",
+    "TerminalType": "Счетчик",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Меркурий 234 ARTM2-03 (D)PBR.F04",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Гермоввод",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Сальник MG 12 диаметр проводника 4-7мм IP68  (40шт) ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Гермоввод",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Сальник MG 16 диаметр проводника 6-10мм IP68  (40шт) ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Гермоввод",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Сальник MG 20 диаметр проводника 10-14мм IP68  (40шт) ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Гермоввод",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Сальник MG 20 диаметр проводника 8,5-14мм IP68 IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Гермоввод",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Сальник MG 25 диаметр проводника 13-18мм IP68  (24шт) ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Гермоввод",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Сальник MG 25 диаметр проводника 13-18мм IP68 IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Гермоввод",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Сальник MG 32 диаметр проводника 16-24мм IP68  (15шт) ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Гермоввод",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Сальник MG 32 диаметр проводника 18-25мм IP68 IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Гермоввод",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Сальник MG 40 диаметр проводника 24-32мм IP68 IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Гермоввод",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Сальник MG 50 диаметр проводника 31-41мм IP68 IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Гермоввод",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Сальник MG 50 диаметр проводника 33-41мм IP68  (6шт) ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Гермоввод",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Сальник MG 63 диаметр проводника 35-45мм IP68 IEK",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Гермоввод",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Сальник MG 63 диаметр проводника 44-54мм IP68  ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Гермоввод",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Сальник PG7 диаметр проводника 5-6мм IP54  (20шт) ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Гермоввод",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Сальник PG9 диаметр проводника 6-7мм IP54  (20шт) ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Гермоввод",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Сальник PG 11 диаметр проводника 7-9мм IP54  (20шт) ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Гермоввод",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Сальник PG 13.5 диаметр проводника 7-11мм IP54  (20шт) ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Гермоввод",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Сальник PG 16 диаметр проводника 9-13мм IP54  (20шт) ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Гермоввод",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Сальник PG 21 диаметр проводника 15-18мм IP54  (20шт) ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Гермоввод",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Сальник PG 29 диаметр проводника 18-24мм IP54  (20шт) ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Гермоввод",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Сальник PG 36 диаметр проводника 24-32мм IP54  (20шт) ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Гермоввод",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Сальник PG 42 диаметр проводника 30-40мм IP54  (20шт) ИЭК",
+    "Unit": "шт."
+  },
+  {
+    "Vendor": "IEK",
+    "TerminalType": "Гермоввод",
+    "WireSection": "—",
+    "Article": "—",
+    "Name": "Сальник PG 48 диаметр проводника 36-44мм IP54  (20шт) ИЭК",
+    "Unit": "шт."
+  }
 ]
