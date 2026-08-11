@@ -15,6 +15,34 @@
     </MudText>
 
     <MudGrid>
+        @* ВЫБОР БАЗЫ ДАННЫХ *@
+        <MudItem xs="12">
+            <MudCard Outlined="true" Class="pa-4 mb-4" Style="background-color: white;">
+                <MudText Typo="Typo.subtitle1" Color="Color.Primary" Class="mb-2"><b>0. Выберите целевую базу данных:</b></MudText>
+                <MudGrid Spacing="2">
+                    <MudItem xs="12" sm="6">
+                        <MudSelect T="string"
+                                   Label="Файл базы данных"
+                                   Variant="Variant.Outlined"
+                                   Dense="true"
+                                   Value="@_selectedDatabase"
+                                   ValueChanged="@(v => OnDatabaseChanged(v))"
+                                   Margin="Margin.Dense">
+                            @foreach (var db in _availableDatabases)
+                            {
+                                <MudSelectItem T="string" Value="@db">@db</MudSelectItem>
+                            }
+                        </MudSelect>
+                    </MudItem>
+                    <MudItem xs="12" sm="6">
+                        <MudText Typo="Typo.body2" Class="mt-2" Style="color:#475569;">
+                            Записей в базе: <b>@_existingCount</b>
+                        </MudText>
+                    </MudItem>
+                </MudGrid>
+            </MudCard>
+        </MudItem>
+
         @* ПОЛЕ ВСТАВКИ ИЗ БУФЕРА ОБМЕНА *@
         <MudItem xs="12">
             <MudCard Outlined="true" Class="pa-4" Style="background-color: white;">
@@ -28,7 +56,7 @@
                         Распознать строки
                     </MudButton>
                     <MudButton Variant="Variant.Filled" Color="Color.Success" StartIcon="@Icons.Material.Filled.CloudUpload" Disabled="@(!parsedItems.Any())" OnClick="SaveAllToDatabase">
-                        Внести в базу данных (@parsedItems.Count строк)
+                        Внести в базу данных «@_selectedDatabase» (@parsedItems.Count строк)
                     </MudButton>
                 </div>
             </MudCard>
@@ -82,6 +110,66 @@
 @code {
     private string excelRawText = "";
     private List<UniversalCalculationEngine.JsonTerminalItem> parsedItems = new();
+    private string _selectedDatabase = "terminals-base.json";
+    private List<string> _availableDatabases = new();
+    private int _existingCount;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Сканируем папку Configs на наличие JSON-файлов
+        string configDir = Path.Combine(Env.WebRootPath, "Configs");
+        if (Directory.Exists(configDir))
+        {
+            _availableDatabases = Directory.GetFiles(configDir, "*.json")
+                .Select(Path.GetFileName)
+                .Where(f => f != null)
+                .Cast<string>()
+                .ToList();
+        }
+
+        if (!_availableDatabases.Contains(_selectedDatabase) && _availableDatabases.Any())
+        {
+            _selectedDatabase = _availableDatabases.First();
+        }
+
+        await RefreshExistingCount();
+    }
+
+    private async Task OnDatabaseChanged(string databaseFileName)
+    {
+        _selectedDatabase = databaseFileName;
+        await RefreshExistingCount();
+    }
+
+    private async Task RefreshExistingCount()
+    {
+        string path = Path.Combine(Env.WebRootPath, "Configs", _selectedDatabase);
+        if (File.Exists(path))
+        {
+            string json = await File.ReadAllTextAsync(path);
+            if (!string.IsNullOrWhiteSpace(json))
+            {
+                try
+                {
+                    var items = JsonSerializer.Deserialize<List<UniversalCalculationEngine.JsonTerminalItem>>(json);
+                    _existingCount = items?.Count ?? 0;
+                }
+                catch
+                {
+                    _existingCount = 0;
+                }
+            }
+            else
+            {
+                _existingCount = 0;
+            }
+        }
+        else
+        {
+            _existingCount = 0;
+        }
+        StateHasChanged();
+    }
 
     // АЛГОРИТМ ПАРСИНГА СТРОК (9 колонок)
     private void ParseExcelText()
@@ -97,30 +185,42 @@
             parsedItems.Clear();
 
             var rows = excelRawText.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
-
-            // Убираем пустые строки в конце
             rows = rows.Where(r => !string.IsNullOrWhiteSpace(r)).ToArray();
 
             foreach (var row in rows)
             {
-                // Разделяем по табуляции, СОХРАНЯЯ пустые ячейки
                 var columns = row.Split('\t');
 
-                // Если строка полностью пустая — пропускаем
                 if (columns.All(c => string.IsNullOrWhiteSpace(c))) continue;
 
-                // Безопасно читаем каждую колонку
+                // Колонка 1 — Группа
                 string groupType = columns.Length > 0 ? columns[0].Trim() : "";
+                // Колонка 2 — Наименование
                 string name = columns.Length > 1 ? columns[1].Trim() : "";
-                string article = columns.Length > 2 ? columns[2].Trim() : "";
-                string code = columns.Length > 3 ? columns[3].Trim() : "";
+                // Колонка 3 — Тип, марка (может быть пустым)
+                string typeMark = columns.Length > 2 ? columns[2].Trim() : "";
+                // Колонка 4 — Код продукции (АРТИКУЛ!)
+                string article = columns.Length > 3 ? columns[3].Trim() : "";
+                // Колонка 5 — Поставщик
                 string vendor = columns.Length > 4 ? columns[4].Trim() : "";
+
+                // Если в колонке "Тип, марка" пусто, а в "Код продукции" есть значение —
+                // используем Код продукции как артикул
+                if (string.IsNullOrEmpty(typeMark) && !string.IsNullOrEmpty(article))
+                {
+                    typeMark = article;
+                }
+                // Если артикул пустой, но есть тип/марка — используем его как артикул
+                else if (string.IsNullOrEmpty(article) && !string.IsNullOrEmpty(typeMark))
+                {
+                    article = typeMark;
+                }
+
                 string unit = columns.Length > 5 ? columns[5].Trim() : "шт.";
                 string quantity = columns.Length > 6 ? columns[6].Trim() : "1";
                 string mass = columns.Length > 7 ? columns[7].Trim() : "";
                 string note = columns.Length > 8 ? columns[8].Trim() : "";
 
-                // Добавляем запись, если есть хотя бы наименование ИЛИ артикул
                 if (!string.IsNullOrEmpty(name) || !string.IsNullOrEmpty(article))
                 {
                     parsedItems.Add(new UniversalCalculationEngine.JsonTerminalItem
@@ -138,7 +238,7 @@
             if (parsedItems.Any())
                 Snackbar.Add($"Успешно распознано {parsedItems.Count} строк!", Severity.Success);
             else
-                Snackbar.Add("Не удалось распознать строки. Проверьте, что данные разделены табуляцией.", Severity.Error);
+                Snackbar.Add("Не удалось распознать строки.", Severity.Error);
         }
         catch (Exception ex)
         {
@@ -146,21 +246,20 @@
         }
     }
 
-    // МАССОВАЯ ЗАПИСЬ В JSON-ФАЙЛ
+    // МАССОВАЯ ЗАПИСЬ В ВЫБРАННЫЙ JSON-ФАЙЛ
     private async Task SaveAllToDatabase()
     {
         if (!parsedItems.Any()) return;
 
         try
         {
-            string path = Path.Combine(Env.WebRootPath, "Configs", "terminals-base.json");
+            string path = Path.Combine(Env.WebRootPath, "Configs", _selectedDatabase);
             List<UniversalCalculationEngine.JsonTerminalItem> existingList = new();
 
             if (File.Exists(path))
             {
                 string existingText = await File.ReadAllTextAsync(path);
 
-                // Если файл пустой или содержит только пробелы — создаём пустой список
                 if (!string.IsNullOrWhiteSpace(existingText))
                 {
                     try
@@ -169,7 +268,6 @@
                     }
                     catch (JsonException)
                     {
-                        // Файл повреждён или пуст — начинаем с чистого списка
                         existingList = new();
                     }
                 }
@@ -184,10 +282,11 @@
             };
             await File.WriteAllTextAsync(path, JsonSerializer.Serialize(existingList, options));
 
-            Snackbar.Add($"Грандиозно! Все {parsedItems.Count} позиций массово внесены в базу данных!", Severity.Success);
+            Snackbar.Add($"Грандиозно! Все {parsedItems.Count} позиций внесены в «{_selectedDatabase}»!", Severity.Success);
 
             excelRawText = "";
             parsedItems.Clear();
+            await RefreshExistingCount();
             StateHasChanged();
         }
         catch (Exception ex)

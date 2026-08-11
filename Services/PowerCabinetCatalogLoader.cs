@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Text.Json;
 using AsuGenerator.Web.Models;
+using Microsoft.Extensions.Logging;
 
 namespace AsuGenerator.Web.Services;
 
@@ -17,7 +18,18 @@ public class PowerCabinetCatalogLoader
             return new PowerCabinetCatalog();
 
         var json = File.ReadAllText(jsonPath);
-        var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-        return JsonSerializer.Deserialize<PowerCabinetCatalog>(json, options) ?? new PowerCabinetCatalog();
+
+        if (string.IsNullOrWhiteSpace(json))
+            return new PowerCabinetCatalog();
+
+        try
+        {
+            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+            return JsonSerializer.Deserialize<PowerCabinetCatalog>(json, options) ?? new PowerCabinetCatalog();
+        }
+        catch (JsonException)
+        {
+            return new PowerCabinetCatalog();
+        }
     }
 }

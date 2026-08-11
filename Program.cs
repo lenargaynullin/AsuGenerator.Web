@@ -22,8 +22,10 @@ builder.Services.Configure<Microsoft.AspNetCore.SignalR.HubOptions>(options =>
 });
 
 
-
-
+builder.Services.AddScoped<EquipmentDatabase>();
+builder.Services.AddScoped<PowerCabinetCalculator>();
+builder.Services.AddScoped<PowerCabinetCatalog>();
+builder.Services.AddScoped<AsuGenerator.Web.Services.EquipmentDatabase>();
 builder.Services.AddMudServices();
 builder.Services.AddScoped<AsuGenerator.Web.Services.ExcelParserService>();
 builder.Services.AddScoped<AsuGenerator.Web.Services.CalculationEngine>();

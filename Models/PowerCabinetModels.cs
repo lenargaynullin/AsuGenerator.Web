@@ -40,7 +40,11 @@ public class BreakerRow
     /// Ключ агрегации: одинаковые (Полюса, Ток, Кривая) дают один артикул IEK
     /// и должны схлопнуться в одну строку финальной спецификации.
     /// </summary>
-    public string CollapseKey => $"{Poles}P|{RatedCurrentA}A|{Curve}";
+    public int KA { get; set; } = 6;              // Отключающая способность, кА
+    public bool HasRelease { get; set; }           // Расцепитель (Да/Нет)
+    public bool HasDiff { get; set; }              // ДИФ (Да/Нет)
+
+    public string CollapseKey => $"{Poles}P|{RatedCurrentA}A|{Curve}|{KA}kA|{HasRelease}|{HasDiff}";
 }
 
 /// <summary>
@@ -68,6 +72,8 @@ public class Enclosure
 public class ModuleBreaker
 {
     public string Article { get; set; } = "";
+    public string Name { get; set; } = "";
+    public string Manufacturer { get; set; } = "";
     public int Poles { get; set; }
     public int RatedCurrentA { get; set; }
     public string Curve { get; set; } = "C";
@@ -184,5 +190,14 @@ public class PowerCabinetConfig
         (SelectedInputBreaker?.WidthModules ?? 0) + BreakerRows.Sum(r => r.Poles * r.Quantity);
 
     public decimal? EnclosurePrice => SelectedEnclosure?.Price;
+}
+public class EquipmentItem
+{
+    public string Article { get; set; } = "";
+    public string Name { get; set; } = "";
+    public string Unit { get; set; } = "шт.";
+    public string Vendor { get; set; } = "";
+    public string TerminalType { get; set; } = "";  // Группа
+    public string WireSection { get; set; } = "";
 }
 

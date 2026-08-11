@@ -7,23 +7,59 @@ namespace AsuGenerator.Web.Services;
 
 /// <summary>
 /// Движок логики конфигуратора силовых шкафов:
-/// автоподбор артикулов IEK, расчёт обвязки (ПуГВ, НШВИ, DIN-модули)
+/// автоподбор артикулов из базы equipment-base.json (fallback — каталог),
+/// расчёт обвязки (ПуГВ, НШВИ, DIN-модули)
 /// и агрегация в спецификацию ГОСТ 21.110-2013.
 /// </summary>
 public class PowerCabinetCalculator
 {
     private readonly PowerCabinetCatalog _catalog;
+    private readonly EquipmentDatabase _equipmentDb;
     private const decimal WirePerPoleM = 0.4m;      // 0.4 м провода на полюс
     private const decimal FerrulePerPoles = 2.5m;   // наконечники = полюса × 2.5
     private const decimal ReservePercent = 1.20m;   // +20% запаса модулей
 
-    public PowerCabinetCalculator(PowerCabinetCatalog catalog) => _catalog = catalog;
+    public PowerCabinetCalculator(PowerCabinetCatalog catalog, EquipmentDatabase equipmentDb)
+    {
+        _catalog = catalog;
+        _equipmentDb = equipmentDb;
+    }
 
-    /// <summary>Автоподбор артикула модульного автомата ВА47-29.</summary>
-    public ModuleBreaker? FindModuleBreaker(int poles, int currentA, string curve) =>
-        _catalog.ModuleBreakers.FirstOrDefault(b =>
+    /// <summary>Автоподбор артикула модульного автомата — сначала из базы, потом из каталога.</summary>
+    public ModuleBreaker? FindModuleBreaker(int poles, int currentA, string curve)
+    {
+        // 1. Ищем в загруженной базе
+        var match = _equipmentDb.Items
+            .Where(i =>
+                i.TerminalType.Equals("Автомат", StringComparison.OrdinalIgnoreCase) ||
+                i.TerminalType.Contains("Автомат", StringComparison.OrdinalIgnoreCase) ||
+                i.TerminalType.Contains("Выключатель", StringComparison.OrdinalIgnoreCase))
+            .FirstOrDefault(i =>
+                (i.Name.Contains($"{poles}P", StringComparison.OrdinalIgnoreCase) ||
+                 i.Name.Contains($"{poles}Р", StringComparison.OrdinalIgnoreCase)) &&
+                i.Name.Contains($"{currentA}А", StringComparison.OrdinalIgnoreCase) &&
+                (i.Name.Contains($"х-ка {curve}", StringComparison.OrdinalIgnoreCase) ||
+                 i.Name.Contains($"{curve} ", StringComparison.OrdinalIgnoreCase)));
+
+        if (match != null)
+        {
+            return new ModuleBreaker
+            {
+                Article = match.Article,
+                Name = match.Name,
+                Poles = poles,
+                RatedCurrentA = currentA,
+                Curve = curve,
+                Manufacturer = match.Vendor,
+                Price = 0
+            };
+        }
+
+        // 2. Fallback: старый поиск в каталоге
+        return _catalog.ModuleBreakers.FirstOrDefault(b =>
             b.Poles == poles && b.RatedCurrentA == currentA &&
             string.Equals(b.Curve, curve, StringComparison.OrdinalIgnoreCase));
+    }
 
     /// <summary>Автоподбор вводного аппарата (ВА88/ВР32).</summary>
     public PowerBreaker? FindPowerBreaker(string type, string currentStr)
@@ -53,8 +89,6 @@ public class PowerCabinetCalculator
 
     private static string SectionFmt(decimal s) =>
         s == Math.Floor(s) ? ((int)s).ToString() : s.ToString("0.#");
-
-    private static string FerFmt(decimal s) => SectionFmt(s);
 
     /// <summary>
     /// Полный расчёт сессии: корпус + ввод + автоматы + обвязка ->
@@ -111,13 +145,25 @@ public class PowerCabinetCalculator
             var totalQty = group.Sum(r => r.Quantity);
             var section = SectionForCurrent(row.RatedCurrentA);
 
+            // Определяем, из базы или из каталога подобран артикул
+            bool fromDatabase = breaker != null &&
+                                _equipmentDb.Items.Any(i => i.Article == breaker.Article);
+
+            string typeMark = fromDatabase
+                ? $"IEK {breaker!.Name}"                          // Наименование из базы
+                : $"ВА47-29 {row.Poles}P {row.RatedCurrentA}А {row.Curve}";  // Fallback
+
+            string name = fromDatabase
+                ? breaker!.Name                                    // Наименование из базы
+                : $"Выключатель автоматический модульный {row.Poles}P {row.RatedCurrentA}А, характеристика {row.Curve}, 6 кА";
+
             lines.Add(new SpecificationLine
             {
                 Pos = pos++,
-                Name = $"Выключатель автоматический модульный {row.Poles}P {row.RatedCurrentA}А, характеристика {row.Curve}, 6 кА",
-                TypeMark = $"ВА47-29 {row.Poles}P {row.RatedCurrentA}А {row.Curve}",
+                Name = name,
+                TypeMark = typeMark,
                 Article = breaker?.Article ?? "—",
-                Manufacturer = "IEK",
+                Manufacturer = breaker?.Manufacturer ?? "IEK",
                 Quantity = totalQty,
                 Unit = "шт.",
                 Note = $"Обвязка: ПуГВ {SectionFmt(section)} мм²",
@@ -139,7 +185,7 @@ public class PowerCabinetCalculator
         {
             var wire = FindWire(kv.Key);
             if (wire is null) continue;
-            var meters = Math.Ceiling(kv.Value * 10m) / 10m; // округляем до 0.1 м
+            var meters = Math.Ceiling(kv.Value * 10m) / 10m;
             lines.Add(new SpecificationLine
             {
                 Pos = pos++,
@@ -171,7 +217,7 @@ public class PowerCabinetCalculator
             lines.Add(new SpecificationLine
             {
                 Pos = pos++,
-                Name = $"Наконечник кабельный изолированный {FerFmt(kv.Key)} мм² (НШВИ)",
+                Name = $"Наконечник кабельный изолированный {SectionFmt(kv.Key)} мм² (НШВИ)",
                 TypeMark = "НШВИ",
                 Article = fer.Article,
                 Manufacturer = "IEK",
@@ -233,4 +279,3 @@ public class PowerCabinetCalculator
     public decimal TotalCost(PowerCabinetConfig cfg) =>
         BuildSpecification(cfg).Sum(l => l.TotalPrice);
 }
-

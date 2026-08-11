@@ -3,6 +3,7 @@
 @using System.Text.Json
 @inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment Env
 @inject ISnackbar Snackbar
+@inject AsuGenerator.Web.Services.EquipmentDatabase EquipmentDb
 
 <MudDialog>
     <TitleContent>
@@ -20,15 +21,17 @@
                       Immediate="true" />
 
         <div style="max-height: 400px; overflow-y: auto;">
-            <MudTable Items="@FilteredComponents()" Dense="true" Hover="true" Bordered="true" Striped="true" T="PlcComponentDto" OnRowClick="@RowClick">
+            <MudTable Items="@FilteredComponents()" Dense="true" Hover="true" Bordered="true" Striped="true" T="EquipmentItem" OnRowClick="@RowClick">
                 <HeaderContent>
                     <MudTh>Артикул</MudTh>
                     <MudTh>Наименование / Описание</MudTh>
+                    <MudTh>Поставщик</MudTh>
                     <MudTh Style="width: 80px;">Действие</MudTh>
                 </HeaderContent>
                 <RowTemplate>
-                    <MudTd Style="font-family: monospace; font-size: 12px;"><b>@context.PartNumber</b></MudTd>
-                    <MudTd Style="font-size: 12px;">@context.Description</MudTd>
+                    <MudTd Style="font-family: monospace; font-size: 12px;"><b>@context.Article</b></MudTd>
+                    <MudTd Style="font-size: 12px;">@context.Name</MudTd>
+                    <MudTd Style="font-size: 11px;">@context.Vendor</MudTd>
                     <MudTd Class="text-center">
                         <MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small" OnClick="@(() => SelectComponent(context))">
                             Выбрать
@@ -38,7 +41,6 @@
             </MudTable>
         </div>
     </DialogContent>
-    @* ИСПРАВЛЕНО: Заменено с DialogFooter на DialogActions в соответствии со стандартами MudBlazor v7 *@
     <DialogActions>
         <MudButton OnClick="Cancel" Variant="Variant.Text">Отмена</MudButton>
     </DialogActions>
@@ -49,49 +51,44 @@
     [Parameter] public string TargetType { get; set; } = "";
 
     private string _searchQuery = "";
-    private List<PlcComponentDto> _allDbComponents = new();
+    private List<EquipmentItem> _allDbComponents = new();
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            string jsonPath = Path.Combine(Env.WebRootPath, "Configs", "plc-base.json");
-            if (File.Exists(jsonPath))
-            {
-                string jsonText = await File.ReadAllTextAsync(jsonPath);
-                var root = JsonSerializer.Deserialize<PlcBaseRoot>(jsonText, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-                if (root != null) _allDbComponents = root.Components;
-            }
+            await EquipmentDb.LoadAsync(Env.WebRootPath, "terminals-base.json");
+            _allDbComponents = EquipmentDb.Items;
         }
         catch (Exception ex)
         {
-            Snackbar.Add($"Ошибка чтения базы ПЛК: {ex.Message}", Severity.Error);
+            Snackbar.Add($"Ошибка чтения базы оборудования: {ex.Message}", Severity.Error);
         }
     }
 
-    private IEnumerable<PlcComponentDto> FilteredComponents()
+    private IEnumerable<EquipmentItem> FilteredComponents()
     {
         var query = _allDbComponents.AsEnumerable();
 
         if (!string.IsNullOrEmpty(TargetType))
         {
-            string categoryFilter = TargetType.ToLower();
-            query = query.Where(c => c.Category.Contains(categoryFilter, StringComparison.OrdinalIgnoreCase) ||
-                                     c.Description.Contains(categoryFilter, StringComparison.OrdinalIgnoreCase));
+            string groupFilter = TargetType.ToLower();
+            query = query.Where(c => c.TerminalType.Contains(groupFilter, StringComparison.OrdinalIgnoreCase) ||
+                                     c.Name.Contains(groupFilter, StringComparison.OrdinalIgnoreCase));
         }
 
         if (!string.IsNullOrWhiteSpace(_searchQuery))
         {
-            query = query.Where(c => c.PartNumber.Contains(_searchQuery, StringComparison.OrdinalIgnoreCase) ||
-                                     c.Description.Contains(_searchQuery, StringComparison.OrdinalIgnoreCase));
+            query = query.Where(c => c.Article.Contains(_searchQuery, StringComparison.OrdinalIgnoreCase) ||
+                                     c.Name.Contains(_searchQuery, StringComparison.OrdinalIgnoreCase));
         }
 
         return query;
     }
 
-    private void RowClick(TableRowClickEventArgs<PlcComponentDto> args) => SelectComponent(args.Item);
+    private void RowClick(TableRowClickEventArgs<EquipmentItem> args) => SelectComponent(args.Item);
 
-    private void SelectComponent(PlcComponentDto component)
+    private void SelectComponent(EquipmentItem component)
     {
         MudDialog.Close(DialogResult.Ok(component));
     }
