@@ -39,7 +39,7 @@
         </div>
     </MudPaper>
 
-    @* --- 0. Выбор базы данных НА ВСЮ ШИРИНУ --- *@
+    @* --- 0. Выбор базы данных --- *@
     <MudPaper Outlined="true" Class="pa-3 mb-3" Style="width: 100%;">
         <MudText Typo="Typo.subtitle2" Color="Color.Primary" Class="mb-2"><b>0. БАЗА ДАННЫХ ОБОРУДОВАНИЯ</b></MudText>
         <div style="display: flex; gap: 16px; align-items: center;">
@@ -65,21 +65,23 @@
         </div>
     </MudPaper>
 
-    @* --- 1+2. Конструктив шкафа + Вводной аппарат НА ВСЮ ШИРИНУ --- *@
+    @* --- 1+2. Конструктив шкафа + Вводной аппарат --- *@
     <div style="display: flex; gap: 16px; flex-wrap: wrap; width: 100%;">
         <MudPaper Outlined="true" Class="pa-3 mb-3" Style="flex: 1; min-width: 300px;">
             <MudText Typo="Typo.subtitle2" Color="Color.Primary" Class="mb-2"><b>1. КОНСТРУКТИВ ШКАФА</b></MudText>
             <div style="display: flex; gap: 8px; flex-wrap: wrap;">
                 <div style="flex: 1; min-width: 120px;">
-                    <MudSelect T="string" Label="Тип" Variant="Variant.Outlined" Dense="true" Value="@_cfg.CabinetType" ValueChanged="@(s => OnCabinetTypeChanged(s))" Margin="Margin.Dense">
-                        @foreach (var t in Catalog.CabinetTypes)
+                    <MudSelect T="string" Label="Тип монтажа" Variant="Variant.Outlined" Dense="true"
+                               Value="@_cfg.MountType" ValueChanged="@(s => OnMountTypeChanged(s))" Margin="Margin.Dense">
+                        @foreach (var mt in Catalog.MountTypes)
                         {
-                            <MudSelectItem T="string" Value="@t">@t</MudSelectItem>
+                            <MudSelectItem T="string" Value="@mt">@mt</MudSelectItem>
                         }
                     </MudSelect>
                 </div>
                 <div style="flex: 1; min-width: 120px;">
-                    <MudSelect T="string" Label="Степень защиты" Variant="Variant.Outlined" Dense="true" Value="@_cfg.IpRating" ValueChanged="@(s => OnIpChanged(s))" Margin="Margin.Dense">
+                    <MudSelect T="string" Label="Степень защиты" Variant="Variant.Outlined" Dense="true"
+                               Value="@_cfg.IpRating" ValueChanged="@(s => OnIpChanged(s))" Margin="Margin.Dense">
                         @foreach (var ip in Catalog.IpRatings)
                         {
                             <MudSelectItem T="string" Value="@ip">@ip</MudSelectItem>
@@ -87,11 +89,11 @@
                     </MudSelect>
                 </div>
                 <div style="flex: 2; min-width: 200px;">
-                    <MudSelect T="Enclosure" Label="Корпус (ЩМП/ВРУ)" Variant="Variant.Outlined" Dense="true"
+                    <MudSelect T="Enclosure" Label="Габариты шкафа" Variant="Variant.Outlined" Dense="true"
                                Value="_cfg.SelectedEnclosure" ValueChanged="@(v => OnEnclosureChanged(v))" Margin="Margin.Dense">
                         @foreach (var e in AvailableEnclosures)
                         {
-                            <MudSelectItem T="Enclosure" Value="@e">@e.Name — @e.Price.ToString("N0") ₽</MudSelectItem>
+                            <MudSelectItem T="Enclosure" Value="@e">@e.Dimensions мм — @e.Price.ToString("N0") ₽</MudSelectItem>
                         }
                     </MudSelect>
                 </div>
@@ -99,7 +101,7 @@
             @if (_cfg.SelectedEnclosure is { } selEnc)
             {
                 <MudText Typo="Typo.body2" Class="mt-2" Style="color:#475569;">
-                    Выбран: <b>@selEnc.Article</b> · @selEnc.MountType · @selEnc.Dimensions мм · IP@selEnc.IpRating.Substring(2)
+                    Выбран: <b>@selEnc.Article</b> · @selEnc.MountType · @selEnc.Dimensions мм · IP@(selEnc.IpRating?.Substring(2) ?? "—")
                     · вместимость <b>@selEnc.ModuleCapacity</b> модулей · @selEnc.Price.ToString("N0") ₽
                 </MudText>
             }
@@ -138,106 +140,102 @@
         </MudPaper>
     </div>
 
-    @* --- 3. Таблица автоматов НА ВСЮ ШИРИНУ --- *@
+    @* --- 3. Таблица автоматов --- *@
     <MudPaper Outlined="true" Class="pa-3 mb-3" Style="width: 100%;">
         <div class="d-flex justify-space-between align-center mb-2">
             <MudText Typo="Typo.subtitle2" Color="Color.Primary"><b>3. АВТОМАТИЧЕСКИЕ ВЫКЛЮЧАТЕЛИ</b></MudText>
             <div class="d-flex gap-2">
                 <MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small" StartIcon="@Icons.Material.Filled.Add" OnClick="AddRow">Добавить</MudButton>
-                <MudButton Variant="Variant.Outlined" Color="Color.Warning" Size="Size.Small" StartIcon="@Icons.Material.Filled.Edit" OnClick="ApplyToSelected" Disabled="@(!SelectedRows.Any())">Применить к выбранным</MudButton>
+                <MudButton Variant="Variant.Outlined" Color="Color.Error" Size="Size.Small" StartIcon="@Icons.Material.Filled.DeleteOutline" OnClick="RemoveSelectedRows">Удалить</MudButton>
             </div>
-            <MudButton Variant="Variant.Outlined" Color="Color.Error" Size="Size.Small" OnClick="DiagnoseDb">
-                🔍 Диагностика базы
-            </MudButton>
         </div>
 
-        <div style="width: 100%; overflow-x: auto;">
-            <MudSimpleTable Dense="true" Hover="true" Outlined="true" Style="width:100%; table-layout: auto; min-width: 1100px;">
-                <thead>
-                    <tr style="background-color: var(--mud-palette-background-grey);">
-                        <th style="width:36px;"><MudCheckBox T="bool" Value="_allSelected" ValueChanged="@(v => ToggleAll(v))" /></th>
-                        <th>Полюса</th>
-                        <th>Номинал, А</th>
-                        <th>Кривая</th>
-                        <th>kA</th>
-                        <th>Расцепитель</th>
-                        <th>ДИФ</th>
-                        <th style="width:80px;">Кол-во</th>
-                        <th style="width:180px;">Артикул</th>
-                        <th style="width:100px;">Провод</th>
-                        <th style="width:88px;"></th>
+        <MudSimpleTable Dense="true" Hover="true" Outlined="true" Style="width:100%; table-layout: auto;">
+            <thead>
+                <tr style="background-color: var(--mud-palette-background-grey);">
+                    <th style="width:36px;"></th>
+                    <th>Полюса</th>
+                    <th>Номинал, А</th>
+                    <th>Кривая</th>
+                    <th>kA</th>
+                    <th>Расцепитель</th>
+                    <th>ДИФ</th>
+                    <th style="width:80px;">Кол-во</th>
+                    <th style="width:160px;">Артикул</th>
+                    <th style="width:100px;">Провод</th>
+                    <th style="width:50px;"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var row in _cfg.BreakerRows)
+                {
+                    var art = Calc.FindModuleBreaker(row.Poles, row.RatedCurrentA, row.Curve);
+                    var section = PowerCabinetCalculator.SectionForCurrent(row.RatedCurrentA);
+                    <tr>
+                        <td style="text-align:center;">
+                            <MudCheckBox T="bool" Value="@IsSelected(row)" ValueChanged="@(v => ToggleRow(row, v))" Dense="true" />
+                        </td>
+                        <td>
+                            <MudSelect T="int" Dense="true" Variant="Variant.Outlined" Margin="Margin.Dense"
+                                       Value="@row.Poles" ValueChanged="@(v => { row.Poles = v; Recalc(); })">
+                                <MudSelectItem T="int" Value="1">1P</MudSelectItem>
+                                <MudSelectItem T="int" Value="2">2P</MudSelectItem>
+                                <MudSelectItem T="int" Value="3">3P</MudSelectItem>
+                                <MudSelectItem T="int" Value="4">4P</MudSelectItem>
+                            </MudSelect>
+                        </td>
+                        <td>
+                            <MudSelect T="int" Dense="true" Variant="Variant.Outlined" Margin="Margin.Dense"
+                                       Value="@row.RatedCurrentA" ValueChanged="@(v => { row.RatedCurrentA = v; Recalc(); })">
+                                @foreach (var a in Catalog.ModuleNominalCurrents)
+                                {
+                                    <MudSelectItem T="int" Value="@a">@a</MudSelectItem>
+                                }
+                            </MudSelect>
+                        </td>
+                        <td>
+                            <MudSelect T="string" Dense="true" Variant="Variant.Outlined" Margin="Margin.Dense"
+                                       Value="@row.Curve" ValueChanged="@(v => { row.Curve = v; Recalc(); })">
+                                @foreach (var c in Catalog.Curves)
+                                {
+                                    <MudSelectItem T="string" Value="@c">@c</MudSelectItem>
+                                }
+                            </MudSelect>
+                        </td>
+                        <td>
+                            <MudSelect T="int" Dense="true" Variant="Variant.Outlined" Margin="Margin.Dense"
+                                       Value="@row.KA" ValueChanged="@(v => { row.KA = v; Recalc(); })">
+                                <MudSelectItem T="int" Value="4">4</MudSelectItem>
+                                <MudSelectItem T="int" Value="6">6</MudSelectItem>
+                                <MudSelectItem T="int" Value="10">10</MudSelectItem>
+                                <MudSelectItem T="int" Value="15">15</MudSelectItem>
+                                <MudSelectItem T="int" Value="25">25</MudSelectItem>
+                                <MudSelectItem T="int" Value="35">35</MudSelectItem>
+                            </MudSelect>
+                        </td>
+                        <td style="text-align:center;">
+                            <MudCheckBox T="bool" Value="@row.HasRelease" ValueChanged="@(v => { row.HasRelease = v; Recalc(); })" Dense="true" />
+                        </td>
+                        <td style="text-align:center;">
+                            <MudCheckBox T="bool" Value="@row.HasDiff" ValueChanged="@(v => { row.HasDiff = v; Recalc(); })" Dense="true" />
+                        </td>
+                        <td>
+                            <MudNumericField T="int" Dense="true" Variant="Variant.Outlined" Margin="Margin.Dense"
+                                             Value="@row.Quantity" ValueChanged="@(v => { row.Quantity = v; Recalc(); })"
+                                             Min="0" Max="999" HideSpinButtons="true" />
+                        </td>
+                        <td style="font-size:11px;font-weight:bold;">@(art?.Article ?? "—")</td>
+                        <td style="font-size:11px;color:#475569;">ПуГВ @FormatSection(section) мм²</td>
+                        <td>
+                            <MudIconButton Size="Size.Small" Icon="@Icons.Material.Filled.DeleteOutline" Color="Color.Error" OnClick="@(() => RemoveRow(row))" />
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    @foreach (var row in _cfg.BreakerRows)
-                    {
-                        var art = Calc.FindModuleBreaker(row.Poles, row.RatedCurrentA, row.Curve);
-                        var section = PowerCabinetCalculator.SectionForCurrent(row.RatedCurrentA);
-                        <tr>
-                            <td style="text-align:center;"><MudCheckBox T="bool" Value="@IsSelected(row)" ValueChanged="@(v => ToggleRow(row, v))" /></td>
-                            <td>
-                                <MudSelect T="int" Dense="true" Variant="Variant.Outlined" Margin="Margin.Dense"
-                                           Value="@row.Poles" ValueChanged="@(v => { row.Poles = v; Recalc(); })">
-                                    @foreach (var p in Catalog.PoleOptions)
-                                    {
-                                        <MudSelectItem T="int" Value="@p">@p P</MudSelectItem>
-                                    }
-                                </MudSelect>
-                            </td>
-                            <td>
-                                <MudSelect T="int" Dense="true" Variant="Variant.Outlined" Margin="Margin.Dense"
-                                           Value="@row.RatedCurrentA" ValueChanged="@(v => { row.RatedCurrentA = v; Recalc(); })">
-                                    @foreach (var a in Catalog.ModuleNominalCurrents)
-                                    {
-                                        <MudSelectItem T="int" Value="@a">@a</MudSelectItem>
-                                    }
-                                </MudSelect>
-                            </td>
-                            <td>
-                                <MudSelect T="string" Dense="true" Variant="Variant.Outlined" Margin="Margin.Dense"
-                                           Value="@row.Curve" ValueChanged="@(v => { row.Curve = v; Recalc(); })">
-                                    @foreach (var c in Catalog.Curves)
-                                    {
-                                        <MudSelectItem T="string" Value="@c">@c</MudSelectItem>
-                                    }
-                                </MudSelect>
-                            </td>
-                            <td>
-                                <MudSelect T="int" Dense="true" Variant="Variant.Outlined" Margin="Margin.Dense"
-                                           Value="@row.KA" ValueChanged="@(v => { row.KA = v; Recalc(); })">
-                                    <MudSelectItem T="int" Value="4">4</MudSelectItem>
-                                    <MudSelectItem T="int" Value="6">6</MudSelectItem>
-                                    <MudSelectItem T="int" Value="10">10</MudSelectItem>
-                                    <MudSelectItem T="int" Value="15">15</MudSelectItem>
-                                    <MudSelectItem T="int" Value="25">25</MudSelectItem>
-                                    <MudSelectItem T="int" Value="35">35</MudSelectItem>
-                                </MudSelect>
-                            </td>
-                            <td style="text-align:center;">
-                                <MudCheckBox T="bool" Value="@row.HasRelease" ValueChanged="@(v => { row.HasRelease = v; Recalc(); })" />
-                            </td>
-                            <td style="text-align:center;">
-                                <MudCheckBox T="bool" Value="@row.HasDiff" ValueChanged="@(v => { row.HasDiff = v; Recalc(); })" />
-                            </td>
-                            <td>
-                                <MudNumericField T="int" Dense="true" Variant="Variant.Outlined" Margin="Margin.Dense"
-                                                 Value="@row.Quantity" ValueChanged="@(v => { row.Quantity = v; Recalc(); })"
-                                                 Min="0" Max="999" HideSpinButtons="true" />
-                            </td>
-                            <td style="font-size:11px;font-weight:bold;">@(art?.Article ?? "—")</td>
-                            <td style="font-size:11px;color:#475569;">ПуГВ @FormatSection(section) мм²</td>
-                            <td style="text-align:center; white-space:nowrap;">
-                                <MudIconButton Size="Size.Small" Icon="@Icons.Material.Filled.ContentCopy" OnClick="@(() => DuplicateRow(row))" />
-                                <MudIconButton Size="Size.Small" Icon="@Icons.Material.Filled.DeleteOutline" Color="Color.Error" OnClick="@(() => RemoveRow(row))" />
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </MudSimpleTable>
-        </div>
+                }
+            </tbody>
+        </MudSimpleTable>
     </MudPaper>
 
-    @* --- 4. Спецификация НА ВСЮ ШИРИНУ --- *@
+    @* --- 4. Спецификация --- *@
     <MudPaper Outlined="true" Class="pa-3 mb-3" Style="width: 100%;">
         <MudText Typo="Typo.subtitle1" Color="Color.Primary" Class="mb-1"><b>СПЕЦИФИКАЦИЯ</b></MudText>
         <MudText Typo="Typo.caption" Style="color:#64748b;" Class="mb-2">Оборудование, изделия и материалы · Обновляется автоматически</MudText>
@@ -291,6 +289,7 @@
 
 
 @code {
+    private HashSet<BreakerRow> _selectedHashSet = new();
     private PowerCabinetConfig _cfg = new();
     private List<SpecificationLine>? _spec;
     private decimal _totalCost;
@@ -330,10 +329,9 @@
         StateHasChanged();
     }
 
-    private void OnCabinetTypeChanged(string value)
+    private void OnMountTypeChanged(string value)
     {
-        _cfg.CabinetType = value;
-        _cfg.SelectedEnclosure = AvailableEnclosures.FirstOrDefault();
+        _cfg.MountType = value;
         Recalc();
     }
 
@@ -394,27 +392,21 @@
         Recalc();
     }
 
-    private void DuplicateRow(BreakerRow row)
-    {
-        var copy = new BreakerRow
-        {
-            Poles = row.Poles,
-            RatedCurrentA = row.RatedCurrentA,
-            Curve = row.Curve,
-            Quantity = row.Quantity,
-            KA = row.KA,
-            HasRelease = row.HasRelease,
-            HasDiff = row.HasDiff
-        };
-        var idx = _cfg.BreakerRows.IndexOf(row);
-        _cfg.BreakerRows.Insert(idx + 1, copy);
-        Recalc();
-    }
-
     private void RemoveRow(BreakerRow row)
     {
         _cfg.BreakerRows.Remove(row);
         _selected.Remove(row.Id);
+        Recalc();
+    }
+
+    private void RemoveSelectedRows()
+    {
+        var toRemove = _cfg.BreakerRows.Where(IsSelected).ToList();
+        foreach (var row in toRemove)
+        {
+            _cfg.BreakerRows.Remove(row);
+            _selected.Remove(row.Id);
+        }
         Recalc();
     }
 
@@ -423,44 +415,9 @@
     private void ToggleRow(BreakerRow row, bool value)
     {
         if (value) _selected.Add(row.Id); else _selected.Remove(row.Id);
-        Recalc();
-    }
-
-    private void ToggleAll(bool value)
-    {
-        _allSelected = value;
-        _selected.Clear();
-        if (value)
-            foreach (var r in _cfg.BreakerRows) _selected.Add(r.Id);
-        Recalc();
     }
 
     private IEnumerable<BreakerRow> SelectedRows => _cfg.BreakerRows.Where(IsSelected);
-
-    private async Task ApplyToSelected()
-    {
-        var sel = SelectedRows.ToList();
-        if (sel.Count == 0) return;
-
-        var parameters = new DialogParameters
-        {
-            ["Title"] = "Применить к выбранным автоматам",
-            ["Candidates"] = sel
-        };
-        var options = new DialogOptions { MaxWidth = MaxWidth.Small, FullWidth = true };
-        var dialog = await DialogService.ShowAsync<ApplyToSelectedDialog>("Применить к выбранным", parameters, options);
-        var result = await dialog.Result;
-        if (!result.Canceled && result.Data is (int poles, int amp, string curve))
-        {
-            foreach (var r in sel)
-            {
-                if (poles > 0) r.Poles = poles;
-                if (amp > 0) r.RatedCurrentA = amp;
-                if (!string.IsNullOrEmpty(curve)) r.Curve = curve;
-            }
-            Recalc();
-        }
-    }
 
     private static string FormatSection(decimal s) =>
         s == Math.Floor(s) ? ((int)s).ToString() : s.ToString("0.#");
@@ -588,18 +545,5 @@
         ws.Column(9).Width = 14;
 
         return package.GetAsByteArray();
-    }
-    private void DiagnoseDb()
-    {
-        var allItems = EquipmentDb.Items;
-        var automats = allItems.Where(i => i.TerminalType.Contains("Автомат", StringComparison.OrdinalIgnoreCase)).ToList();
-
-        Snackbar.Add($"Всего в базе: {allItems.Count}. Автоматов: {automats.Count}.", Severity.Info);
-
-        if (automats.Any())
-        {
-            var sample = automats.First();
-            Snackbar.Add($"Пример: Name='{sample.Name}', Article='{sample.Article}'", Severity.Info);
-        }
     }
 }

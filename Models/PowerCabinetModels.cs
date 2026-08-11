@@ -171,6 +171,11 @@ public class PowerCabinetCatalog
     public int[] ModuleNominalCurrents { get; set; } = [1, 2, 3, 4, 6, 10, 16, 20, 25, 32, 40, 50, 63];
     public string[] Curves { get; set; } = ["B", "C", "D"];
     public int[] PoleOptions { get; set; } = [1, 2, 3, 4];
+    public List<string> MountTypes { get; set; } = new()
+{
+    "Навесной",
+    "Напольный"
+};
 }
 
 /// <summary>
@@ -190,6 +195,7 @@ public class PowerCabinetConfig
         (SelectedInputBreaker?.WidthModules ?? 0) + BreakerRows.Sum(r => r.Poles * r.Quantity);
 
     public decimal? EnclosurePrice => SelectedEnclosure?.Price;
+    public string MountType { get; set; } = "Навесной";
 }
 public class EquipmentItem
 {

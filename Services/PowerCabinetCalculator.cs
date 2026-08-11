@@ -28,7 +28,6 @@ public class PowerCabinetCalculator
     /// <summary>Автоподбор артикула модульного автомата — сначала из базы, потом из каталога.</summary>
     public ModuleBreaker? FindModuleBreaker(int poles, int currentA, string curve)
     {
-        // 1. Ищем в загруженной базе
         var match = _equipmentDb.Items
             .Where(i =>
                 i.TerminalType.Equals("Автомат", StringComparison.OrdinalIgnoreCase) ||
@@ -38,8 +37,10 @@ public class PowerCabinetCalculator
                 (i.Name.Contains($"{poles}P", StringComparison.OrdinalIgnoreCase) ||
                  i.Name.Contains($"{poles}Р", StringComparison.OrdinalIgnoreCase)) &&
                 i.Name.Contains($"{currentA}А", StringComparison.OrdinalIgnoreCase) &&
-                (i.Name.Contains($"х-ка {curve}", StringComparison.OrdinalIgnoreCase) ||
-                 i.Name.Contains($"{curve} ", StringComparison.OrdinalIgnoreCase)));
+                (i.Name.Contains(" С ", StringComparison.OrdinalIgnoreCase) ||
+                 i.Name.Contains(" C ", StringComparison.OrdinalIgnoreCase) ||
+                 i.Name.EndsWith(" С", StringComparison.OrdinalIgnoreCase) ||
+                 i.Name.EndsWith(" C", StringComparison.OrdinalIgnoreCase)));
 
         if (match != null)
         {
@@ -55,7 +56,6 @@ public class PowerCabinetCalculator
             };
         }
 
-        // 2. Fallback: старый поиск в каталоге
         return _catalog.ModuleBreakers.FirstOrDefault(b =>
             b.Poles == poles && b.RatedCurrentA == currentA &&
             string.Equals(b.Curve, curve, StringComparison.OrdinalIgnoreCase));
